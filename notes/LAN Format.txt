@@ -1,0 +1,8 @@
+Language file format...
+    Imported as a straight text file, Line returns between phrases
+    No line return at end of file
+
+4 byte integer...		How many lines in file
+For each line in file
+  4 byte integer		  Offset from start of file to line in data
+?? unsigned chars		Block of text data

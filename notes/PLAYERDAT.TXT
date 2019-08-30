@@ -1,0 +1,53 @@
+Used as a lookup table for each class's appearance
+	80 bytes per class...
+		12 padding (use for name)
+		2 skin colors (one for 8 heads & parts, one for second 8 heads & parts...)
+			0 White
+			1 Tan (Limits hair colors)
+			2 Black (Limits hair colors)
+			3 Tan w/ Red hair (Limits hair colors)
+			4 Blue (Limits hair colors)
+		1 tunic type
+			0 Two color
+			1 Collar'd
+			2 Open Vest
+			3 Halter Top
+		1 pants type
+			0 Skirted
+			1 Pants
+			2 Sweat Pants
+			3 Healer Skirt
+			4 Wizard Robe
+		16 head types
+			0 Bald
+			1 Half-Bald
+			2 Politician
+			3 Messy
+			4 Long sided
+			5 Vampire
+			6 Hattable
+			7 Hattable
+			8 Female Bun
+			9 Female Long
+			10 Female Pigtails
+			11 Afro
+		16 hair textures
+			0 Fuzzy
+			1 Straight
+			2 Curly
+		16 mouth types
+			0 Clean
+			1 Full Beard
+			2 Big Mustache
+			3 Shiny Mustache
+			4 English Mustache
+			5 Scruff
+			6 Small Mustache
+			7 Hubbin
+			8 Elf
+			9 Sideburns
+		16 hat types
+			0 Wizard Cone
+			1 Wizard Floppy
+			2 Mystic Gem
+			3 Mystic Feather

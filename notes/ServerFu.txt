@@ -1,0 +1,238 @@
+PACKET_TYPE_REQUEST_SHARD_LIST
+	unsigned short		executable_version
+	unsigned short		data_version
+	unsigned char		continent
+	unsigned char		direction
+
+
+PACKET_TYPE_REPLY_SHARD_LIST
+	unsigned int		shard_valid_flags (32 of 'em...  26 used...)
+	unsigned int		ip_address_of_whoever_requested (used since I don't know how to ask the machine what its own IP address is...)
+	for every valid shard
+		unsigned int	map_server_ip_address
+
+
+PACKET_TYPE_REQUEST_PLAYER_COUNT
+
+
+PACKET_TYPE_REPLY_PLAYER_COUNT
+	unsigned short		number_of_players
+
+
+PACKET_TYPE_REPLY_VERSION_ERROR
+	unsigned short		required_executable_version
+	unsigned short		required_data_version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PACKET_TYPE_REQUEST_JOIN (Sent to server)
+	unsigned short		executable_version
+	unsigned short		data_version
+	unsigned char		continent
+	unsigned char		direction
+	unsigned char		letter
+	unsigned char		number_of_players
+	20 bytes		password (optional...  Check packet size to determine if included...)
+	
+
+PACKET_TYPE_COMMAND_JOIN (only accepted if received from main_server or one of the machines already in the game...) (Handle 16 of these simultaneously...) (May be sent by main server to joiner to initiate a new game...)
+	unsigned char		continent
+	unsigned char		direction
+	unsigned char		letter
+	unsigned char		password_okay if 213
+	unsigned int		ip_address_of_joiner
+	unsigned int		(game_seed if sent to joining machine, otherwise not in packet...)
+
+
+PACKET_TYPE_REPLY_JOIN_OKAY
+	unsigned int		sun_time
+
+
+PACKET_TYPE_REQUEST_IP_LIST (Machine sends to machine in game to find other machines in game...)
+	unsigned char		list_portion (0 is 0-63, 1 is 64-127, 2 is 128-191, etc)
+
+
+PACKET_TYPE_REPLY_IP_LIST
+	unsigned char		list_portion
+	for up to 64 machines...  (number determined by packet size...)
+		unsigned char		room x
+		unsigned char		room y
+		unsigned char		room z
+		unsigned char		password_okay if 213
+		unsigned int		ip_address
+
+
+
+...
+Ensure that if I know a machine is in the game, that machine knows I am in the game...
+Ensure that if I leave the game, I tell everyone I know...
+Have a way to find machines that have dropped...  Tell everyone and tell the main server...
+Must handle local games exactly like network game, without packet transfers...
+....
+Machine sends join request to server
+Server checks password and sends join command to one of the machines in the game
+Machine in the game sends a join command to the machine (repeated) (local password level determined here...)
+Machine rogers it with a reply_roger and waits around (abort join process if not received in 10 seconds...)
+Machine in the game sends join command to all others in game (repeated manually) (handle up to 16 independent joins simultaneously...)
+Others in game roger with a reply_roger
+Machine in the game sends join command to the main server (repeated)
+Main server rogers it with a reply_roger and updates its records
+Machine in the game sends a reply_join_okay to the machine (repeated)
+Machine asks Machine in game for up to 16 ip lists (64 ips per list) (repeated)
+Machine is now in the game
+...
+Machine generates map
+Machine lets players setup their characters
+Join button works like entering a room from side...  Ask all others in area for position...  Random xy starting location on overworld...
+Escape key pops up exit game window
+Machine must heartbeat the ip directly above itself (wrap to lowest on end) every minute or so...
+    Failure to heartbeat for 3 minutes straight results in the above ip telling everyone that machine has gone down...  Others (including mainserver) only trust if it comes from the ip right above...
+...
+Machine generates room
+blah, blah, blah
+blah, blah, blah
+blah, blah, blah
+blah, blah, blah
+blah, blah, blah
+...
+
+
+
+PACKET_TYPE_REPORT_MACHINE_DOWN
+	unsigned char		continent
+	unsigned char		direction
+	unsigned char		letter
+	unsigned int		ip_address (main server removes machine from list after getting report from machine itself, or from next higher ip address...  heartbeat...)
+	unsigned short		minutes in game (only included if ip_address == 0.0.0.0 and sent to main server...)
+
+
+PACKET_TYPE_HEARTBEAT
+
+
+
+PACKET_TYPE_REPORT_POSITION (broadcast to all other players, 1 time, no repeat)
+	unsigned char		room x
+	unsigned char		room y
+	unsigned char		room z
+
+
+PACKET_TYPE_REQUEST_ROOM_JOIN
+	unsigned char		room x
+	unsigned char		room y
+	unsigned char		room z
+
+
+
+
+
+
+
+
+
+...
+Client sends REQUEST_ROOM_JOIN to all machines in nearby area when entering a new room...
+If a machine is hosting the requested room, it backs up all of its character data and stuff
+  and sends a REPLY_ROOM_JOIN
+Client sends a REQUEST_ALL_ROOM_DATA...  Packet must be received within 3 seconds or
+  the room server ends handling...  Client times out after 6 seconds...
+Room server sends a single packet each frame, with a whole character's (or particle's)
+  data in it...
+Client rogers each one...
+Room server resends any that hasn't been roger'd (up to 10 times max...)
+  Room server times out if it hasn't received a packet from the other machine for
+  3 seconds...  Client times out after 6 seconds...
+
+
+
+...
+
+
+
+
+
+
+
+PACKET_TYPE_REPLY_ROOM_JOIN
+	unsigned char		room x
+	unsigned char		room y
+	unsigned char		room z
+
+
+
+PACKET_TYPE_REQUEST_ALL_ROOM_DATA
+
+
+
+
+PACKET_TYPE_REPORT_ROOM_CHARACTER
+	unsigned short		character number
+	// Lots of data...
+
+
+PACKET_TYPE_REPORT_ROOM_PARTICLE
+	unsigned short		particle number
+	// Lots of data
+
+
+PACKET_TYPE_REPORT_ROOM_ORDERS
+	unsigned int		time that these orders should be run
+	unsigned short		16 bits for which players have orders in this packet...
+	For each bit that was set
+		??? bytes		Actual order for character...  Can range from 2-6 bytes...  Size can be determined from first byte...
+
+
+PACKET_TYPE_WELCOME_TO_ROOM
+	unsigned int		main_game_frame for which transferred characters are valid (this is the frame on which the client begins operation)
+
+
+
+PACKET_TYPE_REPORT_ROOM_PLAYERS
+	for each of MAX_PLAYER...
+		unsigned int		IP_address (may have several with same address) (may also be 0)
+		unsigned short		character_index_controlled_by_player
+
+
+PACKET_TYPE_REPLY_ROOM_PLAYERS
+
+
+
+
+
+
+
+
+PACKET_TYPE_REPORT_NEW_ROOM_PLAYER
+	???
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,266 @@
+Supercool Room Format (.SRF)
+============================
+    Built by room editor...
+    .SRF files are just templates...
+    Map data for room is used to generate final geometry (wall profile, door positions, objects to spawn)
+    Uses sdf-endian style numbers
+    32 generic room textures (several versions of each subset (like Wall & Wall Cap) that can be mixed and matched randomly)
+      Floor Subset
+        Floor
+        Floor Trim (between floor and something like sand)
+      Wall Subset
+        Wall
+        Wall Cap (At top of wall connecting it to floor)
+      Pillar Subset
+        Pillar
+        Pillar Cap
+        Wall Trim (at base of walls)
+        Wall Trim Cap (at base of walls)
+      Pier Subset
+        Pier Floor
+        Pier Trim
+        Pier Post
+        Rail
+      Outdoor Subset (same for all)
+        Grass
+        Dirt
+        Grass -> Dirt Trim
+        Grass Trim (Paperdoll transparency)
+        Sand
+        Cliff
+        Cliff Cap
+        Graveyard Fence
+      Water Subset
+        #31 is water texture (animated)
+
+
+
+
+
+
+
+
+
+
+
+
+    Header (96 byte header)
+0    32 byte	(string) Room Name (0 for none)
+32    1 byte	(unsigned char) Room Flags (Cave type room/not) (Outdoor type room/not) (trap types)
+33    1 byte	(unsigned char) Water Type (Water, Lava, Sand) (Backdrop info too???  Windows out of tower...  Airship...)
+34    1 byte    (unsigned char) Water Level (scale to -50.0 to 50.0) (-50.0 is off for all intents and purposes)
+35    1 byte    (unsigned char) Room Metal Box Item - ITEM_NONE for random...
+36    1 byte	(unsigned char) Random monster type A
+37    1 byte	(unsigned char) Random monster type B
+38    1 byte	(unsigned char) Random monster type C
+39    1 byte	(unsigned char) Random monster type D
+40    4 byte	(unsigned int) Offset (from start of file) to vertex data
+44    4 byte	(unsigned int) Offset (from start of file) to texvertex data
+48    4 byte	(unsigned int) Offset (from start of file) to triangle data (floor & interior walls)
+52    4 byte	(unsigned int) Offset (from start of file) to exterior wall data
+56    4 byte	(unsigned int) Offset (from start of file) to texture data
+60    4 byte	(unsigned int) Offset (from start of file) to heightmap data
+64    4 byte	(unsigned int) Offset (from start of file) to waypoint data
+68    4 byte	(unsigned int) Offset (from start of file) to bridge data (not added to heightmap or room geometry...  Special collider & drawer)
+72    4 byte	(unsigned int) Offset (from start of file) to minimap data
+76    4 byte	(unsigned int) Offset (from start of file) to object-group data
+80    4 byte	(unsigned int) Offset (from start of file) to volumetric edge-line data (for pretty shadows)
+84    4 byte	(unsigned int) Offset (from start of file) to unused data
+88    4 byte	(unsigned int) Offset (from start of file) to unused data
+92    4 byte	(unsigned int) Offset (from start of file) to unused data
+
+
+    Vertex Data
+      2 byte	(unsigned short) Number of vertices
+      For each vertex
+        2 byte	(signed short) X location
+        2 byte	(signed short) Y location
+        2 byte	(signed short) Z location
+
+    Tex Vertex Data
+      2 byte	(unsigned short) Number of tex vertices
+      For each tex vertex
+        2 byte	(signed short) X location
+        2 byte	(signed short) Y location
+
+    Triangle Data
+      For each of 32 textures
+        2 byte	(unsigned short) Number of interior triangles (not strips)
+        For each interior triangle
+          2 byte(unsigned short) Vertex 0
+          2 byte(unsigned short) Tex Vertex 0
+          2 byte(unsigned short) Vertex 1
+          2 byte(unsigned short) Tex Vertex 1
+          2 byte(unsigned short) Vertex 2
+          2 byte(unsigned short) Tex Vertex 2
+
+    Exterior Wall Data
+      2 byte	(unsigned short) Vertices in exterior wall
+      For each vertex in exterior wall
+        2 byte	(unsigned short) Base vertex
+        1 byte  (unsigned char) Door flags (Doorable/not) (Entrance/not) (Not Really A Wall flag (for little sliver connections...))
+
+    Texture Data
+      For each of 32 textures
+        1 byte	(unsigned char) Texture flags
+      For each of 32 textures
+        8 byte	(string) Texture name (no extension or termination) (some names are interpretted...)
+
+    Heightmap Data
+      None
+
+    Waypoint Data
+      1 byte	(unsigned char) Number of waypoints
+      1 byte	(unsigned char) Padding
+      For each waypoint
+        2 byte  (signed short) X location
+        2 byte  (signed short) Y location
+      For each waypoint
+        For each waypoint
+          1 byte(unsigned char) Waypoint to visit next in order to get from first waypoint to second
+      2 byte	(unsigned short) Number of waypoint lines
+      For each waypoint line
+        1 byte	(unsigned char) Waypoint 0
+        1 byte	(unsigned char) Waypoint 1
+
+    Bridge Data
+      1 byte	(unsigned char) Number of bridges...
+      1 byte	(unsigned char) Bridge flags (random, log/rope, wood-plank/rope, reinforced-plank/chain...  Wide/Narrow planks...  Hardcoded...  1 type per room)
+      For each bridge...
+        2 byte  (signed short) X location (start)
+        2 byte  (signed short) Y location (auto z)
+        2 byte  (signed short) X location (end)
+        2 byte  (signed short) Y location (auto z)
+
+    Minimap Data (generated on save) (Uses only vertices in exterior wall...)
+      2 byte	(unsigned short) Number of triangles in minimap
+      For each triangle
+        2 byte	(unsigned short) Vertex 0
+        2 byte	(unsigned short) Vertex 1
+        2 byte	(unsigned short) Vertex 2
+
+    Object-Group Data
+      2 byte	(unsigned short) Number of groups...
+      For each group
+        2 byte	(unsigned short) Number of objects in group...
+        For each object in group
+          13byte(string) Object name ("CRANDOM.RUN" for a random monster, "CPORTAL.RUN" for a portal, "P???????" for a Particle (generally effect spawners & such)..., "????.DDD" for a DDD plop into room geometry...)
+          1 byte(unsigned char) Percent chance of spawning (0-15) (high 4 bits), Subtype type number (0-15) (low 4 bits) (actually gets interpretted a little bit... pretty complicated actually)..................  Used as texture types for DDD Plop
+          1 byte(unsigned char) Team...................  Used as texture types for DDD Plop
+          1 byte(unsigned char) Facing
+          2 byte(signed short) X location
+          2 byte(signed short) Y location
+          2 byte(signed short) Z location
+
+    Volumetric Edge-Line Data
+      None
+
+
+
+Uncompressed Room Format
+========================
+    Loaded into memory somewhere, so only one active at a time
+    1024x1024 heightmap (unsigned shorts) (16 samples per square foot) (no bounds check, just do an & to keep 0 to 1023)
+    Uses system endian numbers
+    Also has an 8 byte (64-bit) block of update flags (for open'd doors, cut bridges, etc. over network)
+    Also has several textures (from map data) and trim types and such that gradually change from room to room...
+    Exterior walls get converted into triangle data, with pillars/trim/wavey-trim stuff goin' on...
+    All triangle geometry is made into strips...
+
+
+    Header
+      Same as .SRF
+
+    Vertex Data
+      2 byte	(unsigned short) Number of vertices (should be more than compressed file) (vertices are not shared between textures in final uncompressed form...  So we don't get smooth shading where we shouldn't)
+      For each vertex
+        4 byte	(float) X location
+        4 byte	(float) Y location
+        4 byte	(float) Z location
+        4 byte	(float) X normal
+        4 byte	(float) Y normal
+        4 byte	(float) Z normal
+        1 byte	(unsigned char lighting multiplier) (for dark areas like pits) (also for random variety...  Maybe for set position torches too???)
+        1 byte	(unsigned char lighting value) (final value used for RGB)
+
+    Tex Vertex Data
+      2 byte	(unsigned short) Number of tex vertices
+      For each tex vertex
+        4 byte	(float) X location
+        4 byte	(float) Y location
+        4 byte	(float) X normal
+        4 byte	(float) Y normal
+        4 byte	(float) Z normal
+        1 byte	(unsigned char lighting multiplier) (for dark areas like pits) (also for random variety...  Maybe for set position torches too???)
+        1 byte	(unsigned char lighting value) (final value used for RGB)
+
+    Triangle Data
+      For each of 32 textures (each texture can be written/not written into heightmap...)
+        2 byte	(unsigned short) Number of triangle strips
+        For each interior triangle strip
+          2 byte(unsigned short) Number of vertices in strip
+          For each vertex in strip
+            2 byte(unsigned short) Vertex
+            2 byte(unsigned short) Tex Vertex
+
+    Exterior Wall Data
+      None...  (Triangles should all be in triangle data at this point...) (Trim geometry should also be in triangle data...)
+
+    Texture Data
+      For each of 32 textures (each texture can be written/not written into heightmap...)
+        4 byte	(unsigned int) Graphics card texture number (from RGB file)
+        1 byte	(unsigned char) Texture flags
+        3 byte  (unsigned char) Padding
+
+    Heightmap Data
+      For each of 1024 Y values (quarter feet)
+        For each of 1024 X values (quarter feet)
+          2 byte(signed short) Highest floor Z
+
+    Waypoint Data
+      1 byte	(unsigned char) Number of waypoints
+      1 byte	(unsigned char) Padding
+      For each waypoint
+        4 byte  (float) X location
+        4 byte  (float) Y location
+      For each waypoint
+        For each waypoint
+          1 byte(unsigned char) Waypoint to visit next in order to get from first waypoint to second
+
+    Bridge Data
+      1 byte	(unsigned char) Number of bridges...
+      1 byte	(unsigned char) Type of bridge (log/rope, wood-plank/rope, reinforced-plank/chain...  Hardcoded...  1 type per room)
+      For each bridge...
+        1 byte	(unsigned char) Number of planks on bridge (should auto-scale to fit 'em all with a standard spacing amount...)
+        1 byte	(unsigned char) 8-bits of chopped-rope flags (1 bit per rope) copied from update flags...  (Bridges are first things in update flags block...) (Bridge snaps in half if all cut (no more collisions)) (Bridge flips on side if half cut (no more collisions))
+        For each pair of ropes/chains...  (always four pairs)
+          4 byte(float) X location (first rope's attachment to bridge)
+          4 byte(float) Y location
+          4 byte(float) Z location
+          4 byte(float) X location (first rope's attachment to ceiling)
+          4 byte(float) Y location
+          4 byte(float) Z location
+          4 byte(float) first rope's length
+          4 byte(float) X location (second rope's attachment to bridge)
+          4 byte(float) Y location
+          4 byte(float) Z location
+          4 byte(float) X location (second rope's attachment to ceiling)
+          4 byte(float) Y location
+          4 byte(float) Z location
+          4 byte(float) second rope's length
+        For each plank...
+          28 byte (12 value float matrix with xyz) Plank position
+
+    Minimap Data
+      None
+
+    Object-Group Data
+      None (Should have spawned already)
+
+    Volumetric Edge-Line Data
+      2 byte	(unsigned short) Number of edge lines
+      For each edge line
+        2 byte	(unsigned short) Line vertex A
+        2 byte	(unsigned short) Line vertex B
+        2 byte	(unsigned short) Check vertex C
+        2 byte	(unsigned short) Check vertex D

@@ -1,0 +1,19 @@
+16 byte string            - "32 INSTRUMENTS  " (Up to 256 instruments)
+For each instrument...
+  8 byte sound file name  - "_DRUM4  ........"
+  1 byte null terminator  - "........0......."
+  1 byte tempo            - ".........9......" (Instrument 0 only...)
+  1 byte intro time       - "..........A....." (Instrument 0 only...)
+  1 byte fade out time    - "............C..." (For looped instruments) (FF means infinite loop...  Only done first time through file)
+  3 byte loop start       - ".............DEF" (For looped instruments)
+16 byte string            - "810 NOTES       "
+For each note to play in order...
+  2 byte time (4096 sec)  - "01.............."
+  2 byte duration (4096)  - "..23............" 
+  1 byte instrument       - "....4..........."
+  1 byte volume           - ".....5.........."
+  1 byte pitch            - "......6........."
+  1 byte pan              - ".......7........"
+
+
+About 3840 notes in a 3 minute track...  About 30k excluding samples

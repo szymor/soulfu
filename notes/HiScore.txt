@@ -1,0 +1,8 @@
+HiScore.DAT Format
+==================
+
+100 entries, each 20 bytes long...
+Byte 0-15	Character Name (null terminated)
+Byte 16-17	Score
+Byte 18		Class
+Byte 19		Badge Flags (top bit used for top bit of eqcol01 - Jive Elf...)

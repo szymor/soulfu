@@ -1,0 +1,97 @@
+Floor Texture List
+==================
+Fl00	Mud Floor (Yellow & Blue)
+=Br00	Mud Border (128x16)
+Fl01	Grass Floor (Green & Bluish)
+=Br01	Grass Border (128x16)
+Fl02	Carpet Floor (Purple)
+=Br02	Carpet Border (128x16)
+Fl03	Cave Floor (Brown & Red)
+NEED	Cave Floor Border (just a ragged edge thing)
+Fl04	Fossil Floor (Cyan)
+Fl05	Hardwood Floor (Brown)
+Br05	Hardwood Border (128x16)
+Flr06	Plank Floor (Bluish)
+Br06	Plank Border (128x16)
+Fl07	Pebble Floor (Grey & Red)
+Fl08	Random Triangle Floor (Magenta & Green)
+Fl09	Random Stone Floor (Blue & Orange)
+Fl10	Hex Tile Floor (Grey-Red)
+Fl11	Complexagon Tile Floor (Grey-Blue & White-Yellow)
+Fl12	Square Tile Floor (Cyan & Red)
+Fl13	Brick Paved Floor (Yuck-Green)
+NEED	Brick Paved Border (128x16)
+Fl14	Brick Weave Floor (Yellow & Grey-Green)
+Br14	Brick Weave Border (128x16)
+Fl15	Fancy Floor (Grey-Blue)
+
+Wall Texture List
+=================
+=Wl00	Pallisade Wall
+Wl01	Rough Stone Wall (Grey-Blue & Grey-Brown)
+Cp01	Rough Stone Cap (256x32)
+Wl02	Block Stone Wall (Purple & Green)
+Cp02	Block Stone Cap (256x16)
+Wl03	Uniform Stone Wall (Blue & Red)
+Cp03	Uniform Stone Cap (256x32)
+Wl04	Palace Brick Wall (Brown & Purple)
+Cp04	Palace Brick Cap (256x32)
+Wl05	Dry Stone Wall (Brown & Green)
+Cp05	Dry Stone Cap (256x32)
+Tm05	Dry Stone Trim (256x32)
+Wl06	Mortar Stone Wall (Magenta & Blue)
+Cp06	Mortar Stone Cap (256x32)
+Wl07	Random Stone Wall (Blue & Red)
+Cp07	Random Stone Cap (256x32)
+
+
+Texture Set .DAT File Format
+============================
+Each set should have
+	A name...
+	Wall Type & Cap & Trim & Model
+	RGB values for door
+	Main Floor Type
+	Secondary Floor Type (rarely used) (sometimes for a cut away area)
+	Lawn/Carpet type (& border)
+	Cave/Mud type (& border)
+	Wood/Brick type (& border)
+	Fence type
+	Pavement type
+
+
+
+
+Castle
+======
+Wall		MpWl03a
+WallCap		MpCp03a
+Floor		MpFl09a (random stones blue)
+Lawn		MpFl02a (carpet)
+Wood		MpFl05a (hardwood)
+
+
+
+Sewers
+======
+Wall		MpWl05a
+WallCap		MpCp05a
+Floor		MpFl13a
+DoorRGB		192,144,96???
+Use Ledge Height of 5 for hardplopping waterways...
+Use Water Level of -10...
+
+
+Sewer-Dungeon Transition Area
+=============================
+Wall		MpWl05a
+WallCap		MpCp05a
+Floor		MpFl07a
+
+
+
+
+???
+===
+Wall		MpWl01a
+DoorRGB		164,184,204

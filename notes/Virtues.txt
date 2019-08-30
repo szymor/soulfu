@@ -1,0 +1,77 @@
+Virtue Modifier List
+====================
+
+
+Compassion
+==========
++5 for giving Tripe to an enemy monster (in PDROP.Event)
++5 for giving Tripe to a friendly pet (in PDROP.Event) (and ITRIPE.Something) (if they need it)
++5 for giving a super healing potion to a friendly pet (in ISHEAL.Effect)
++5 for giving a healing potion to a friendly pet (in IHEAL.Effect)
++2 for giving a kiss to another player (Healer only) (in PHEART.Event)
+Increases for giving food to beggars
+Increases for completing certain quests (deliver love letters between towns, return Annigal doll to girl, lead child out of dungeon)
+**Unable to get new helpers once badge is attained (in GENERIC.MaxHelpers())**
+
+
+Dilligence
+==========
++1 for each room revealed on Automap (in MAPGEN.SetCurrentRoom)
++1 for breaking crates & stuff (in CCRATE.SRC, CBARREL.SRC, CCHEST.SRC, CSTATUE.SRC)
++2 for opening chest (in CCHEST.SRC)
++? for casting Mapping depending on number of rooms revealed (in IMAPPING.RevealEffect)
+-1 for entering a previously explored room if below 100 dilligence (in MAPGEN.SetCurrentRoom)
+-1 for for each breakable left in a room (in CDOOR.SRC)
+**Only given half of all experience gains once badge is attained (in EXPERI.C)**
+
+
+Honor
+=====
++1 for knocking an enemy down (in STANDARD.DamageAction)
+-5 for hitting an enemy in the back (in PATTACK.Event)
+-10 for hitting an enemy who's knocked out (in STANDARD.DamageAction)
+-10 for backstabbing an enemy with a dagger (in PATTACK.Event)
+**Unable to hit guys on ground or backstab once badge is attained (in PATTACK.Event?)**
+
+Faith
+=====
++5 for praying when hungry (fasting) (flashing red)
++1 for praying when not hungry
+-1 every 34 seconds for wielding an unholy weapon (in STANDARD.WeaponRefresh)
+-10 for eating Meat (in IMEAT.Effect)
+-25 for eating Porc (in IPORC.Effect)
+-25 for casting Animate Dead (in IANIMATE.Effect)
+**Unholy weapons drain food even quicker once badge is attained (in STANDARD.WeaponRefresh)**
+**Unable to eat Porc once badge is attained (in IPORC.Event)**
+**Unable to eat Meat once badge is attained (in IMEAT.Event)**
+**Unable to cast Animate Dead once badge is attained (in IANIMATE.Effect)**
+
+Courage
+=======
++? for killing an enemy while yourself hurt and not carrying a Wunnup's Cup (in STANDARD.GiveExperience)
+-20 for drinking a Healing Potion (in IHEAL.Effect)
+-20 for drinking a Super Healing Potion (in ISHEAL.Effect)
+-100 for using a Wunnup's Cup (in WSTATUS.Refresh)
+**Unable to use Wunnup's Cup once badge is attained (in ???)**
+**Unable to use Healing Potions once badge is attained (in IHEAL.Effect)**
+**Unable to use Super Healing Potions once badge is attained (in ISHEAL.Effect)**
+
+
+
+
+
+
+
+
+
+
+Stat Effects
+============
+Strength	Damage bonus, Allows use of better weapons and armor, Longer
+		range with bows
+Dexterity	Quicker movement, Better jumping, Less delay between attacks,
+		Allows use of better weapons, Easier aiming of ranged attacks,
+		Faster animation (attacks go off quicker), Higher chance of
+		critical hits
+Intelligence	Experience bonus, Allows use of better spell orbs, Use for
+		tinkering with G'nome, Increases maximum number of helpers

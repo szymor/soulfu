@@ -1,0 +1,163 @@
+File format for config.dat...
+
+Byte                  Value
+--------------------------------------------------------------
+000-009			Random values
+010,011,012,013,014	Password chunk 1
+015			Random values
+
+016-025			Random values
+026,027,028,029,030	Password chunk 2
+031			Random values
+
+032-041			Random values
+042,043,044,045,046	Password chunk 3
+047			Random values
+
+048-057			Random values
+058,059,060,061,062	Password chunk 4
+063			Random values
+
+064			Scaling
+065			Sound volume
+066			Music volume
+067			Language
+068			Screen size
+069			RGB bits
+070			Z buffer bits
+071			Stencil Buffer'd Shadows
+072			Window/Fullscreen
+073			Pop up the test timer if TRUE
+
+074-097			Unused
+
+098			Mip Map Active (0 is default)
+099			Water Layers Active (1 is default)
+100			Cartoon Line mode (3 is default)
+101			Fast and Ugly mode (0 is default)
+102			Flip speaker pan (0 is default)
+
+112-127			Player 1 name (locked if non null)
+128			Player 1 EQCOL01
+129			Player 1 EQCOL23
+130			Player 1 Monster Mode
+131			Player 1 UNUSED
+132			Player 1 UNUSED
+133			Player 1 UNUSED
+134			Player 1 Random seed
+135			Player 1 Voice pitch
+136			Player 1 Class (0 is random)
+
+144-159			Player 2 name (locked if non null)
+160			Player 2 EQCOL01
+161			Player 2 EQCOL23
+162			Player 2 Monster Mode
+163			Player 2 UNUSED
+164			Player 2 UNUSED
+165			Player 2 UNUSED
+166			Player 2 Random seed
+167			Player 2 Voice pitch
+168			Player 2 Class (0 is random)
+
+176-191			Player 3 name (locked if non null)
+192			Player 3 EQCOL01
+193			Player 3 EQCOL23
+194			Player 3 Monster Mode
+195			Player 3 UNUSED
+196			Player 3 UNUSED
+197			Player 3 UNUSED
+198			Player 3 Random seed
+199			Player 3 Voice pitch
+200			Player 3 Class (0 is random)
+
+208-223			Player 4 name (locked if non null)
+224			Player 4 EQCOL01
+225			Player 4 EQCOL23
+226			Player 4 Monster Mode
+227			Player 4 UNUSED
+228			Player 4 UNUSED
+229			Player 4 UNUSED
+230			Player 4 Random seed
+231			Player 4 Voice pitch
+232			Player 4 Class (0 is random)
+
+233-255			Unused
+
+256-257			Player 1 Keyboard Attack Left
+258-259			Player 1 Keyboard Attack Right
+260-261			Player 1 Keyboard Action Left
+262-263			Player 1 Keyboard Action Right
+264-265			Player 1 Keyboard Items
+266-267			Player 1 Keyboard Move Up
+268-269			Player 1 Keyboard Move Down
+270-271			Player 1 Keyboard Move Left
+272-273			Player 1 Keyboard Move Right
+274			Player 1 Joystick Attack Left
+275			Player 1 Joystick Attack Right
+276			Player 1 Joystick Action Left
+277			Player 1 Joystick Action Right
+278			Player 1 Joystick Items
+279			Player 1 Device
+280-283			Player 1 Joystick Camera Controls
+284			Player 1 Mouse-Shop
+285-287			Unused
+
+288-289			Player 2 Keyboard Attack Left
+290-291			Player 2 Keyboard Attack Right
+292-293			Player 2 Keyboard Action Left
+294-295			Player 2 Keyboard Action Right
+296-297			Player 2 Keyboard Items
+298-299			Player 2 Keyboard Move Up
+300-301			Player 2 Keyboard Move Down
+302-303			Player 2 Keyboard Move Left
+304-305			Player 2 Keyboard Move Right
+306			Player 2 Joystick Attack Left
+307			Player 2 Joystick Attack Right
+308			Player 2 Joystick Action Left
+309			Player 2 Joystick Action Right
+310			Player 2 Joystick Items
+311			Player 2 Device
+312-315			Player 2 Joystick Camera controls
+316			Player 2 Mouse-Shop
+317-319			Unused
+
+320-321			Player 3 Keyboard Attack Left
+322-323			Player 3 Keyboard Attack Right
+324-325			Player 3 Keyboard Action Left
+326-327			Player 3 Keyboard Action Right
+328-329			Player 3 Keyboard Items
+330-331			Player 3 Keyboard Move Up
+332-333			Player 3 Keyboard Move Down
+334-335			Player 3 Keyboard Move Left
+336-337			Player 3 Keyboard Move Right
+338			Player 3 Joystick Attack Left
+339			Player 3 Joystick Attack Right
+340			Player 3 Joystick Action Left
+341			Player 3 Joystick Action Right
+342			Player 3 Joystick Items
+343			Player 3 Device
+344-347			Player 3 Joystick Camera Controls
+348			Player 3 Mouse-Shop
+349-351			Unused
+
+352-353			Player 4 Keyboard Attack Left
+354-355			Player 4 Keyboard Attack Right
+356-357			Player 4 Keyboard Action Left
+358-359			Player 4 Keyboard Action Right
+360-361			Player 4 Keyboard Items
+362-363			Player 4 Keyboard Move Up
+364-365			Player 4 Keyboard Move Down
+366-367			Player 4 Keyboard Move Left
+368-369			Player 4 Keyboard Move Right
+370			Player 4 Joystick Attack Left
+371			Player 4 Joystick Attack Right
+372			Player 4 Joystick Action Left
+373			Player 4 Joystick Action Right
+374			Player 4 Joystick Items
+375			Player 4 Device
+376-379			Player 4 Joystick Camera Controls
+380			Player 4 Mouse-Shop
+381-383			Unused
+
+384-2383		HiScore Data (100 entries, 20 bytes each)
+

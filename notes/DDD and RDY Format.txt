@@ -1,0 +1,163 @@
+Each model file can have several base models
+  Use base models when actual shape of object is changing
+  Use bone animation when object is bending
+
+Segmented models must use bone structure of base model...
+  Fingers in hands should be controlled by main model, not hand model...
+
+
+DDD Format
+  Header
+    Scaling (unsigned short)
+    Flags (unsigned short, Silhouette, External bone frames, Attachments (x14))
+    Padding zero (unsigned char)
+    Number of Base Models (unsigned char)
+    Number of Bone Frames (unsigned short)
+    For each shadow texture (4 of 'em)
+      Shadow texture index (unsigned char)
+    Name of bone frame file (8 chars, only if external bone frames flag is set) (files must be cross checked to make sure number of bones and other things match) (will need to do tricky stuff if DDD is replaced in file transfer...) (Smart enough to not export in DEVTOOL mode)
+  Base Models
+    Number of vertices (unsigned short)
+    Number of texture vertices (unsigned short)
+    Number of Joints (unsigned short)
+    Number of Bones (unsigned short)
+    For each vertex
+      Vertex Coordinates (3 signed shorts)
+      Vertex Bone Bindings (2 unsigned chars)
+      Vertex Bone Weighting (1 unsigned char, how far along bones, topmost bit is anchor flag)
+    For each texture vertex
+      Texture Vertex Coordinates (2 signed shorts)
+    For each texture (4 of 'em)
+      Rendering mode (unsigned char...  Off==00, On==other)
+      if rendering mode != off
+        Flags(unsigned char...  Solid/Light==0 or 1, Color/White==0 or 2, Cull/DrawBackfaces==0 or 4, Simple/Enviro==0 or 8, None/Positional==0 or 16, Normal/Forced Lines==0 or 32)
+        Alpha (unsigned char)
+        Number of 3 point triangles (unsigned short)
+        For each triangle
+          For each of 3...
+            Vertex (unsigned short)
+            Texture vertex (unsigned short)
+    For each joint
+      Size of joint for collisions (unsigned char)
+    For each bone
+      Bone ID (unsigned char)
+      Bone Joints (2 unsigned shorts)
+  Bone Frames
+    Action Name (unsigned char)
+    Action modifier flags (unsigned char...  footsound, get, drop, defend)
+    Base Model (unsigned char)
+    XY movement offset (2 signed shorts)
+    For each bone in base model
+      Bone forward normal (3 signed shorts)
+    For each joint in base model
+      Joint coordinates (3 signed shorts)
+    For each shadow texture (4 of 'em)
+      alpha (unsigned char)
+      For each vertex (4 of 'em)
+        Coordinates (2 unsigned shorts)
+
+
+
+RDY Format
+  Header
+    Flags (unsigned short, Silhouette, External bone frames, Attachments (x14))
+    Number of Detail Levels (unsigned char)
+    Number of Base Models (unsigned char)
+    Number of Bone Frames (unsigned short)
+    Action Index (64 unsigned shorts)
+    For each shadow texture (4 of 'em)
+      Shadow texture index (unsigned char)
+    For each detail level
+      For each base model
+        Pointer to Base Model (unsigned int)
+        Pointer to Texture Vertices (unsigned int)
+        Pointer to Triangle Lists (unsigned int)
+        Pointer to Joints (unsigned int)
+        Pointer to Bones (unsigned int)
+    For each bone frame...
+      Offset to bone frames (unsigned int) (I think this is really a pointer, not an offset...)
+  Base Models
+    Number of vertices (unsigned short)
+    Number of texture vertices (unsigned short)
+    Number of Joints (unsigned short)
+    Number of Bones (unsigned short)
+    For each vertex
+      Vertex Coordinates (3 floats)
+      Vertex Bone Bindings (2 unsigned chars)
+      Vertex Bone Weighting (1 unsigned char, how far along bones, topmost bit is anchor flag)
+      Vertex Normal Info (3 floats)
+      Vertex Bone height percent (2 floats)
+      Vertex Bone forward offset (2 floats)
+      Vertex Bone side offset (2 floats)
+      Vertex Normal height, front, and side scalars (3 floats)
+      Padding (1 byte...  Brings entry size for vertex to 64 bytes) (Maybe use for light value for room models...) (Used as hidden flag in modeler...)
+    For each texture vertex
+      Texture Vertex Coordinates (2 floats)
+    For each texture (4 of 'em)
+      Rendering mode (unsigned char...  Off==00, On==other)
+      if rendering mode != off
+        Flags(unsigned char...  Solid/Light==0 or 1, Color/White==0 or 2, Cull/DrawBackfaces==0 or 4, Simple/Enviro==0 or 8, None/Positional==0 or 16, Don't Zoom/Zoom enviromap==0 or 32, Silhouette/NoSilhouette==0 or 64)
+        Alpha (unsigned char)
+        Number of triangle strips (unsigned short)
+        For each triangle strip
+          Number of vertices (unsigned short)
+          For each vertex
+            Vertex (unsigned short)
+            Texture vertex (unsigned short)
+        Number of triangle fans (unsigned short)
+        For each triangle fan
+          Number of vertices (unsigned short)
+          For each vertex
+            Vertex (unsigned short)
+            Texture vertex (unsigned short)
+    For each joint
+      Size of joint for collisions (float)
+    For each bone
+      Bone ID (unsigned char)
+      Bone Joints (2 unsigned shorts)
+      Bone Length (float)
+    Number of cartoon lines (unsigned short)
+    For each cartoon line
+      Vertices to draw line between (2 unsigned shorts)
+      Vertices to check which side of line they're on (2 unsigned shorts)
+  Bone Frames (May be in another RDY file)
+    Action Name (unsigned char)
+    Frame Event flags (unsigned char...  1/2/4/8 for frame events (with script callback...  1 is footstep), 16==Left, 32==Right, 64==Block, 128 == Combat (shield flipped))
+    Base Model (unsigned char)
+    XY movement offset (2 floats)
+    For each bone in base model
+      Bone forward normal (3 floats)
+      Bone side normal (3 floats)
+    For each joint in base model
+      Joint coordinates (3 floats)
+    For each shadow texture (4 of 'em)
+      alpha (unsigned char)
+      if alpha > 0
+        For each vertex (4 of 'em)
+          Coordinates (2 floats)
+
+
+
+
+
+SDF_FILE_IS_RDY
+  DDD files turn into RDY files on call to UpdateFiles(), On start too...
+  Native system format for shorts and ints
+  Coordinate shorts turn into floats
+  Otherwise, format is exactly the same...  Except for that other stuff...
+
+
+SDF_FILE_IS_TILE
+  TILE prefixed DDD files (like TILEGRS0.DDD) get turned into TIL files, and
+  are used for drawing layered, tiled terrain without seams.  Generated after
+  RDY file is generated, and use same triangle stripping as RDY...
+
+
+Export RDY file as DDD...  Highest detail level...  For modeler...
+  Reimport for SDF Save...
+
+
+Flag for static or dynamic detail level in game...
+  Dynamic should be partwise...
+  NOT A FLAG!!!  Do a gradualness slider...  Affects distance for each level...
+

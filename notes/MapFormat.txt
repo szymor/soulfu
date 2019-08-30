@@ -1,0 +1,31 @@
+unsigned short num_map_room = 0;
+map_room_data[MAX_MAP_ROOM][40];
+Each room can have a maximum of 5 doors in it...
+Limit SRF to a maximum of 64 objects per object group...
+
+
+Map Room Data
+=============
+0	4 byte		Pointer to .SRF file
+4	2 byte		X location
+6	2 byte		Y location
+8	2 byte		Rotation
+10	1 byte		Random Seed
+11	1 byte		Texture & Wall set
+12	1 byte		Level (Depth) (affects which rooms show on map)
+13	1 byte		Room Flags (Flag_Dual_Level for stairs)
+14	2 byte		Door 0's destination room
+16	2 byte		Door 1's destination room
+18	2 byte		Door 2's destination room
+20	2 byte		Door 3's destination room
+22	2 byte		Door 4's destination room
+24	1 byte		Door 0's wall number
+25	1 byte		Door 1's wall number
+26	1 byte		Door 2's wall number
+27	1 byte		Door 3's wall number
+28	1 byte		Door 4's wall number
+29	1 byte		Door open'd flags
+30      1 byte		Room Difficulty (used to determine monster types to spawn for CRANDOM) (0 is top of list in Monster Table, 255 is bottom) (also used to set subtype for non-CRANDOM monsters with Captain & stuff...)
+31      1 byte		Room Area Type (used to determine which monster types to spawn for CRANDOM) (Corresponds to Area Name in Monster Table)
+32	8 byte		Defeated Character flags (use one of the unused bytes not accessible to script to remember number) (for if character has been defeated/open'd) (Poof'd after spawning to keep random stuff same over 'net) (Open'd chests disappear upon re-entry of room) (mounts that have been driven out of room also count as defeated)
+40

@@ -1,0 +1,269 @@
+Master To Do List
+-----------------
+Do all decorations and textures...
+	(NEED TEXTURE) Hanging spices in kitchen (PFLUFF)
+	Decal...
+		(NEED TEXTURE) Tapestries (decal - see through from behind)
+		(NEED TEXTURE) Wall chain things (decal)
+	Floor Decal Hardplopper...
+		(NEED TEXTURE) Sewer Drains
+		(NEED TEXTURE) Floor Cracks
+	(NEED TEXTURE) Stove00
+	(NEED TEXTURE) Winch for well
+	(NEED TEXTURE) Chair00
+	(NEED) Throne
+	(NEED) Sewer Wall Drain
+	(NEED TEXTURE) Stilt Huts
+	(NEED TEXTURE) Large ribcage
+	(NEED TEXTURE) Large bone
+	(NEED TEXTURE) Ramp
+	(NEED TEXTURE) Tombstone
+	(NEED TEXTURE) Tombstone
+	(NEED TEXTURE) Mine metalwork bridge
+	(NEED TEXTURE) Mine Cart
+	(NEED TEXTURE) Hoist
+	(NEED TEXTURE) Tanke stopper (Jack00.DDD)
+Finish Remaining Rooms...
+	Place PFluffs...
+	MinesST0.SRF	(NEED) Cliff with track leading to edge, Hoist too?
+	AbyssBS0.SRF	(NEED) Boss Room (Watcher & Eyebats, 2 Random Dragons, Spork Wraithes, Liche King & Skultons, Bone Mage Tankers)
+	Use Boss000 as AbyssBS1
+Rework STANDARD.AIScript()...
+	MUST NOT FALL in pits/lava/water...  (very annoying with helpers in instant-death pits)
+	Hey! from ITalk should call all helpers to player
+	Maybe do a similar piecewise standard AI - with things like STANDARD.AIObeyOrders(), STANDARD.AIWander(), STANDARD.AIUseMagic() etc...
+	AIScript shouldn't stand on top of guys (carrion, wuff, others)
+	Helpers should pick up hearts if they need 'em
+	Dismount if mount is entangled (check event timer if stun'd)
+	Make sure all monster ai scripts check if special case equipment slot is ITEM_NONE before pushing button (otherwise we'll get 'em using tripe & stuff inadvertantly)
+	Make able to use all spells (in any slot)
+	Make able to use bows
+	Make able to use shields
+	Make able to use jump (and jump attacks to knock off mounts)
+	Make able to walk around friends like Porc
+	Make able to detect enemies (shout like Porc)
+	Make able to ride mounts (STANDARD.AIRider()) (Should dismount if far under water)
+	Make able to obey simple orders (Come Here, Retreat, Attack - based on ITalk)
+	Make able to give it some parameters (range, line of sight, etc)
+	Rewrite Porc AI to use STANDARD.AiScript()
+		AIScript for Porc shouldn't get stuck on doors & stuff (easy to see how dumb they are as helpers)
+		Does Porc AI mess up when knocked off mount
+		Porc needs to stop attacking mount after enemy dismounts
+		Porc needs to mount monsters
+Random stuff
+	Make mailbox accept letter & give compassion (.npcitem)
+	Make Carrion fly script override any slot with ITEM_JUMP...
+		Carrion fly aborts with invalid item press (weapon in left hand, talk, etc), but doesn't stop hover...
+	Tranch should use standard AI script (to fix no target problem)
+	Wuff...
+		Wuff in crouch will block rats and other bumps...
+			Need to check for block flag in STANDARD.BumpDamageEvent() instead of just block action...
+		Limit Wuff Breath (timer)
+		Wuff gets stuck in crouch if dismounted while holding button...  Seems to jump really far for enemies too...
+	Karts & Tankes & Copter should smoke and flame when nearly destroyed (gets progressively worse) (explode when poof'd)
+	Gonne should aim up & down SLIGHTLY...  Don't allow it to go > 30ft height or something...
+	Make tanke break barrels and any other platform they land on...
+	Tanke sometimes keeps moving after dismount (other mounts too?)
+        Rowboat platform should work when nobody is rowing (kitten falls through because it can't ride)
+	Rowboat shouldn't get beached on barrels...
+	Pretty Shadow problem in SewerST0...
+	LOCKED UP!!!  COMPLETELY!!!  WITH G'NOME & PRETTY SHADOWS IN SEWER009.SRF
+	(Sound on Jack's computer pops constantly)
+	(Running fullscreen then tabbing out can cause fast forward thing...)
+	(Joysticks got confused...  Had one player set to joy 1 and one on joy 2...  I couldn't move my character, other joystick moved both of 'em...)
+Finish all Monsters...
+	Snake (animate, swim, confusion bite, quick knock down like slimes)
+	Watcher (Make it work) (eyebat type zaps for short range point defense & main eye zapper)
+	Ogre/Ogre Shaman (Animations & Club models)
+	G'nomish Copter (Missiles, Impish variant, Textures)
+
+	Simple spell cast animation for all - just in case we're morphed...
+	Lumpkin (AI should run away when any nearby lumpkin is defeated)
+	Dragon (spell cast animation...  Make 'em use spells too...  Teleport, Missile, etc...)
+	Whelp (spell cast animation, swim anim)
+	Kitten (swim anim)
+	Flying Weapon (fix stupid sound it makes)
+	Rat (swim anim)
+	Lizzerman (swim anim, double jump)
+	Spork Wraithe (spell cast anim - make blue ones use lightning...)
+	Zombi (dead man's float anim)
+	Skulton (bow usage, spell cast)
+Make all items work...
+	All Book text (in translatable way - block text function)
+NPC Chat (talk action), No window...  Just play sound file and add a message...  Short quips (message may span multiple lines, but only one string in StringLanguage) (Message window does line breakups)...  Cue'd by player saying Hey! (using talk action center'd) near 'em...
+	Most NPC's should give advice/flavor
+	Some NPC's should give quests (no quest window or anything) (just say something like "I lost my dolly!"...  If player gives her a Doll item she says "My dolly!  You found my dolly!" and sets flag to not spawn in room any more) (and stuff like that)
+	Some NPC's should give items (one time type of deal - then flag as defeated)
+	Some NPC's should ask for items (drag & drop onto 'em to satisfy) (Beggar...)
+	Characters should have a .npcitem that specifies the item type they'll take...
+	Otherwise only allow giving items to players & pets
+RECORD ALL VOICES, Remaster, Slap 'em in with talk action
+	Only do Hey! voice for each character (and automatic sounds - hits & hungry)
+	Home Sweet home voice for G'nome and D'warf on Town enter (Particle in town that checks for local player of class on entrance)...
+	Shop voices (each shop a different voice)
+	Should have special voice for Jive Elf...
+RECORD ALL SOUNDS, Lots of combat & magic sounds
+	Scootch sound for pushables...
+	Eat sounds
+	Add all sound & voices to game
+	Foot sounds are in generic...
+        Make Buzzer & Button Sounds only happen if occuring for local player...
+Translation Stuff...
+	Do 5 main languages...
+	Autoexport all non-File strings to a text file...
+	Write scripted book layout functions (so the books are built dynamically) (define an xy block, limit number of pages...)
+	Write scripted window layout function...
+	Rewrite books (combine & condense) (make sure everything is up to date) (make sure virtues & experience are fully discussed)
+	Delete old books...
+	Get all bubble text & fortune cookie text written...
+	Do translations
+Final polish
+	FINISH THE MANUAL!!!
+	Make all music work
+	Make sure all important sin() and cos() and atan() functions have been replaced...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===========================================================================
+Post Release Stuff...
+	AbyssBM0.SRF	(NEED) Black Market Shop (Welcome to ze Black Market) (Yes...  Master...)
+	(NEED TEXTURE) Black Market Turtle Shop
+	Message Board supporting game (one that is secure)
+	Maybe put on the-underdogs as mirror...  SimTel and others too...
+	Add an Introduction button to the main menu (simple scrolling text - langable - maybe fade in drawings and do voice...)
+	Fishin' Pole (Use like weapon...  Bash attack...  Particle chain with weaponrefresh...  Must walk back and forth to reel in (no anim)) (Only catches fish at fishin' holes...  Marked with a sign...) (Use to pull Pirahna out of water too...)
+	Multiple talk options & orders to helpers
+	Spears & Tridents for CLizzer (one throw only)...
+	Iceball (iceberg platforms in water & lavaberg platforms in lava - different texture)
+	Twist timer
+		Do disorientation effect on critical blunt hit & snake bite...
+		Reverses gotoxy...
+		Particle stars around head...
+		Should go away on room exit (so should petrify)
+		STANDARD function to set it (like poison & petrify) (and to spawn particles)
+	Maybe use Dynamite later as a quest item (in Caves, G'nomes in town provide it to blow something up???)
+	Sheep (special Battle Ram variant that's rideable) (Battle Ram charges like Whelp - but slower) (maybe Battle Ram has a lance and is only as a helper decoration???)
+	(NEED) Readable sign (character) (value from string table based on subtype)
+	Add a Custom Language flag to the main menu...  Redo all flags to have transparency...
+		Custom language should import a file named custom.txt on startup (as custom.lan internally)
+		Custom language should also import =CUSTOM.PCX (ascii letters) (maybe put hex values in unused ones...)
+	Well room should have a PCLIMBER particle for climbing up rope...
+	The Gurmmeroff (HUGE rat-like boss monster) (animated as two characters) (too big for doors) (end boss...  maybe have to pray or talk to it to defeat?)
+	Maybe 5 unique towns...  One for each virtue...
+		Honor		Castle Town
+		Courage		Dwarven Enclave (somewhere underground - randomly attacked by Porcs)
+		Faith		Desert Town
+		Dilligence	Wizard's Tower
+		Compassion	Forest Commune (monsters & people live together) (hubbin burrows & elven trees & swamp shacks for monsters)
+	Ideas for empty item slots...
+		Dynamite seems utterly useless...  Maybe replace with a tote'd MiniGonne (require high int to use)...
+		Maybe G'nomish Rocket Launcher (seekers like copter)
+		Maybe more quest-type items...
+		Spork of Power...  Quest item - Attracts Spork Wraithes...
+		Empty & Charged wands - Charged randomly becomes empty after using...  Could have several charged types that all become the same empty type...  Maybe use Enchant/FBrand/IBrand on 'em...  Maybe empty rarely 1/100 does a random effect - and poofs itself...
+		Maybe WereWuff ability...  Just call polymorph function on self (or disenchant if morph flag is set)
+		5th level spells...  Super powerful stuff...
+			Maybe just 1 or 2...
+	Extra Monsters...
+		Hay Wagon (need a Battle Ram to pull it) (take it to town for money)
+		Swamp Monster
+		Ratling (maybe reuse carrion animations)
+Work on door model...
+	*Open Passage
+	*Wood Door
+	Castle Door (square border thing - non interchangeable) (will open without a key - closes behind you)
+	*Shutter Door
+	Cave Passage (for Caves and Mines) (replace boss door? or maybe a particle that changes passage type per room?)
+	Do colors right...
+	Secret Wall Door (use room's texture) (set brightness according to facing) (maybe 4 textures at different alpha levels to give a cross-faded transition...) (SHOULD show on map like other doors...  Otherwise players might think the game screwed up...)
+	Cracked Wall Door (like secret wall but with a big crack) (use dynamite to open) (doesn't show exit on map unless open'd)
+More Monsters...
+	Dark Spot (wisp variant)
+	Faerie (wisp variant)
+	Pirahna (PIRAHNA.DDD, anims, twitch on ground) (use fishin' pole to pull out of water...)
+New Textures...
+	NEED	Cave Floor Border (just a ragged edge thing)
+	NEED	Brick Paved Border (128x16)
+	HAVE	Sewer Drain Decal
+	HAVE	Shingle Roof
+	NEED	Mine Kart Tracks
+Scripted camera overide...
+	Usually on entrance to new room...
+	Able to spawn dragon in a pit, Camera turns to face pit, then zooms in, then peers over edge as dragon rises up, then swirls around and back to players...  Game doesn't pause (just make sure all baddies are defeated...) (and stop particle-character collisions temporarily, stop player/helper inputs...)
+	Maybe do a PCamera that focuses on nearest character - Runs as soon as room is enter'd - Do along with PPlot to play desired plot text/voice (use facing???  use room name???)...
+		Maybe PCamera1,2,3,4,5 that tracks to the next...
+	Should be able to do plot events using it too...
+	Should be able to do conversation sequences using it...
+	CameraPosition() script function...
+		Give it xyz position
+		Give it xyz look at
+		Give it a duration
+Network code
+	Do standard event for EVENT_NETWORK_UPDATE
+		Parse actions better (jump, shield, etc...)
+		Maybe only use facing if at gotoxy (and on spawn and certain actions)...
+		Alpha isn't right (ghosts/zombis)
+		Work out problems with monsters...
+			Roachie
+			Carrion
+			Crates&stuff
+			Tankes
+			Karts
+	Poof any character that should've been sent that wasn't (for sender IP)...
+	Only allow characters to mount pets (owned by a local player)
+	Need to figger out how to do character swaps...
+		Maybe remote says "Hey, I wanna take this character over..."
+		Other replies "Okay, here's it's stats"
+		Remote then replies "Okay, I'm taking it over now"
+	Should probably check stuff like game_active or whatever when getting update packets...
+	network_build_room_number_packet()
+	PACKET_TYPE_ROOM_NUMBER
+		Give room # (remotes nearby should flag as a network neighbor)
+	network_update_remote_is_neighbor()
+	Fix the things I flagged as STUPID in runsrc.c
+	TCP/IP transfers for communicating with server (getting host list & joining & leaving game...  Host list is TXT file stored on server that gets updated every time somebody joins...)
+	CGI server script (or maybe there's a better way???)
+	Local machine should store URL of mainserver...  www.AaronBishopGames.com/serverfu.cgi...  Main server cgi should be able to update local machine's main server address...  Should hand server something like ?j=1 to specify game to join...  Server only returns 4 IP addresses in that game...
+	Manual IP typer inner window
+	Maybe bunch all of the following into a "Hey this happen'd on my machine" packet
+		Need something for enchants...
+		Make 'tween character item transfers safer (don't give to enemies/barrels/chests...  Allow script to know who it came from?  SCRIPT_FLAG for no items...  Or maybe flags for which item types character can handle...), Make able to transfer items 'tween characters over network...
+		Chests?
+		Particles...  May need to do something in script when particle first spawned to tell it to transfer...
+	should be careful that we don't get our own computer in the remote list (that could cause all sorts of feedback trouble...)
+
+
+
+
+
+
+
+
+Quests That I Could Actually Do
+===============================
+Kill a specific (named) boss monster (generic)
+Clear all monsters in several specific rooms
+Give a certain item to somebody
+Paladin's Quest
+	Master all virtues
+	Pass through fires of the abyss (sign saying only the righteous shall pass)
+	Must defeat Ultimate Guardian (don't attack it or else...  Special effects if done correctly)
+	Earn Full set of Paladin's Armor (currently called Ancient Armor)
+Find the Hidden City
+D'warven Miners trapped in cave in...
+Defend the D'warven Keep from invaders...
+Free prisoners from jail/cookpot/mines...
+I lost my dolly quest...  Need to find an Annigal dolly and give back to little girl (healer-like NPC with Small Player bone structure)
+

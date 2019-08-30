@@ -1,0 +1,16 @@
+Header Block
+  2 byte		(unsigned short) Number of Symbols
+  For each Symbol
+    4 byte		(unsigned int) Offset from start of file to Symbol Data
+
+
+Symbol Data Block
+  1 byte		(unsigned char) Number of Points
+  For each Point
+    1 byte		(unsigned char) X position
+    1 byte		(unsigned char) Y position
+  1 byte		(unsigned char) Number of Triangles
+  For each Triangle
+    1 byte              (unsigned char) First point
+    1 byte		(unsigned char) Second point
+    1 byte		(unsigned char) Third point

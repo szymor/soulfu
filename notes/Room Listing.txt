@@ -1,0 +1,200 @@
+Room Listing
+============
+Chest types... (0 = Random, 1 = Untrapped, 2 = Trapped/Mimic, 3 = Metal)
+Trap types...  (0 = Spawn, 1 = Arrow, 2 = Flame, 3 = Morph, 4 = Statue, 5 = Barrel Ghouls, 6 = Gronnade, 7 = Portal Spawn, 8 = Countdown Spawn)
+Shutter types... (0 = Shut until all defeated, 1 = Shut after trap sprung)
+
+
+
+First Abyss Tileset
+	MPFL03B
+	MPWL03B
+	MPCP08B
+	MPWL08B
+	MPWL08B
+	MPCP08B
+	MPWL08B
+	MPFL12B
+
+
+Town...
+	Town000.SRF	Pallisade wall with non-working door, Castle model & working portcullis, Where all the shops are, Setup sorta like old town, Player gate in center, Little bridge across moat, Portcullis door can only be open'd by talking to guard
+	Town001.SRF	Entrance Hall, Just a fluff room
+	Town002.SRF	Throne Room, Where the King is, Fountains
+	Town003.SRF	Banquet Hall, Just a fluff room (NEED A BIG TABLE MODEL) (NEED CHAIR/THRONE CHARACTERS)
+	Town004.SRF	Training Room, Squires & Apprentices fighting in pairs, Master Trainer can be approached like a shop to buy helpers
+	Town005.SRF	Kitchen, Chef NPC complains about food shortages, Spices hang from ceiling
+	Town006.SRF	Barracks, Single beds for troops, Chests
+	Town007.SRF	Side Tower, Just a fluff room
+	TownST0.SRF	Store Room with stairs down, Grittier rock wall texture with wooden support beams, Stair to cellar area...
+	TownVR0.SRF	Shrine of Honor
+	NPC characters (CNPC.src, Chef outfit)
+		Lord - Love letter (gives one if you don't have)...  G'nomish post office...
+		Chef - Food is scarce nowadays
+		Guard - Be careful of rats in cellar (other sayings too) (one who says about Shrine of Honor...  opens passage to it?)
+		Master Trainer - Acts like a shop for squires
+		Girl - Johnny took my dolly and won't give it back! (get compassion for giving it to her)
+		Boy - I hid Suzie's doll in the cellar!
+		Peasant - Make sure you have plenty of keys
+		Beggar - Asks for food (get compassion for giving it to him)
+		Pet Seller - Acts like a shop for pets...
+Cellar...
+	Cellr000.SRF	Cell Block, See some monsters, All invincible & protected by bars (invisible wall with particles that make invincible...)
+	Cellr001.SRF	Keg room with lower storage area
+	Cellr002.SRF	Keg room with wooden floor area
+	Cellr003.SRF	Small cross-shaped room
+	Cellr004.SRF	Small room
+	Cellr005.SRF	Medium room with small ledge
+	Cellr006.SRF	Large room with tranch drop
+	Cellr007.SRF	Well room (NEED SIGN - No Swimming) (NEED WINCH)
+	Cellr008.SRF	Servant's quarters (with fireplace and beds) (wooden floor area) (Pet shop)
+	Cellr009.SRF	Boss Antechamber - Two empty cells and a portcullis door triggered by a button...
+	CellrBS0.SRF	Boss Room - Rat Pack guarding metal box with Annigal Doll - Shutter door with button to open again...
+	CellrBS1.SRF	Boss Room - Zombi Pack trap with Ghouls in barrels...
+	CellrST0.SRF	Sewer Antechamber
+Sewer...
+	Sewer000.SRF	Hall
+	Sewer001.SRF	Hall
+	Sewer002.SRF	Hall
+	Sewer003.SRF	Hall with curvie room
+	Sewer004.SRF	Hall
+	Sewer005.SRF	Hall
+	Sewer006.SRF	Hall
+	Sewer007.SRF	Hall
+	Sewer008.SRF	Lake room
+	Sewer009.SRF	Shutter room with button up stairs
+	Sewer010.SRF	Carrion ledge
+	Sewer011.SRF	Medium dead end room with water and chests
+	Sewer012.SRF	Large room
+	Sewer013.SRF	Circular pond with chests on platform in center
+	Sewer014.SRF	Large room
+	Sewer015.SRF	Medium room
+	Sewer016.SRF	Dead end shutter room
+	SewerST0.SRF	Deep crack that leads to next level...  Bat trap on passage...
+	SewerBS0.SRF	Boss Room - Lizzermen with flooded room and funky stilt huts
+	SewerBS1.SRF	Boss Room - Goblins on Wuffs - or a skulton trap
+Caves...
+	Caves000.SRF	Cavern
+	Caves001.SRF	Cavern with water
+	Caves002.SRF	Cavern
+	Caves003.SRF	Cave Hall
+	Caves004.SRF	Crescent Cavern with water
+	Caves005.SRF	Large Cavern with dividing river
+	Caves006.SRF	Small Cavern
+	Caves007.SRF	Cavern
+	Caves008.SRF	Cavern with ledge & chests
+	Caves009.SRF	Cavern with mud spot
+	Caves010.SRF	Cavern
+	Caves011.SRF	Cavern with fence dividing in halves
+	Caves012.SRF	Large Cavern
+	Caves013.SRF	Cave Tunnel
+	Caves014.SRF	Cave Tunnel
+	Caves015.SRF	Underground Lake with lots of chests on pillars
+	Caves016.SRF	Cavern with Tranch Pens
+	CavesVR0.SRF	Shrine of Faith
+	CavesST0.SRF	Stair down and entrance to 
+	CavesTN0.SRF	G'nomish Village (with G'noma 100 track & Shops)
+	CavesBS0.SRF	Boss Room - Porcish Stronghold (NEED MONSTER ENTER TRAP - Big Porcs & Whelp when button is pressed) (NEED FLAGS)
+	CavesBS1.SRF	Boss Room - Ogre (use ribcages & bones)
+	NPC characters (CNPC.src, Chef outfit)
+		G'nome	Be careful, the water's pretty deep...
+		G'nome	Racecar spelled backwards is Racecar...
+		Lap timer & race waypoints...
+		Others...
+	G'nomish Shop Voices
+		Alright!  A customer!
+Upper Dungeon...
+	Upper000.SRF	Circular with pond and chest - shutter doors and all monsters must be defeated...
+	Upper001.SRF	Circular with 2 platforms - shutter doors and all monsters must be defeated...
+	Upper002.SRF	Circular with pillars and a band of porcs...
+	Upper003.SRF	Circular with large platform - trap of zombis & carrion mages on chest
+	Upper004.SRF	Oval with 2 ponds and a pack of ninjas as a trap
+	Upper005.SRF	Oval with pillars (or not) and arrow traps or bat trap
+	Upper006.SRF	Small square with Ghost Trap
+	Upper007.SRF	Small square with corner platforms
+	Upper008.SRF	Medium rectangle with zombi trap that shutters in...
+	Upper009.SRF	Medium rectangle with side platform - Single shutter door that opens if all enemies defeated...
+	Upper010.SRF	Medium rectangle with secret passage - Lumpkins shutter in...
+	Upper011.SRF	Medium rectangle with lots of treasure - Porcs & Ghouls fighting amongst themselves...
+	Upper012.SRF	Tiny square with Carrion Morph & Statue trap
+	Upper013.SRF	Tiny square treasure room (tranch drop)
+	Upper014.SRF	Hallway with a bunch of Porc Statues...
+	Upper015.SRF	Hallway T-Section with monsters...
+	Upper016.SRF	Hallway T-Section with platform (Entrance to Upper Dungeon)
+	Upper017.SRF	Rectangle shutter trap with pit & bridge
+	Upper018.SRF	Rectangle shutter trap with lower area & statues
+	UpperVR0.SRF	Shrine of Courage
+	UpperST0.SRF	Stairway down
+	UpperBS0.SRF	Boss Room - Black Dragon with water
+	UpperBS1.SRF	Boss Room - Blue Dragon with pit
+	UpperBS2.SRF	Boss Room - Noggindorf & Lots of Zombis & Carrion Mages...  Crypt lookin' room
+	Voices
+		(NEED) Noggindorf - Ah, yes...  You will make a fine addition to my...  Collection...
+Lower Dungeon
+	Lower000.SRF	Sand pit with 4 chests and a mummy trap 
+	Lower001.SRF	Pyramid with a button on top and a bunch of mummies...  Some arrow traps too...
+	Lower002.SRF	Pathways through sand with lots of traps...
+	Lower003.SRF	Simple fight room with a gronnade trap in the corner...
+	Lower004.SRF	Corner platform room with random monsters
+	Lower005.SRF	Simple fight room with statues and platforms
+	Lower006.SRF	Simple fight room with three subrooms
+	Lower007.SRF	Simple fight room with pillar platforms
+	Lower008.SRF	Dead End room with a nasty tranch & mummy trap...
+	Lower009.SRF	Dead End with obelisk portal for Warlocks...  Teleport in and shutter when trap is sprung...
+	Lower010.SRF	Dead End, Fall into sand directly on entrance (pushed by shutter), Mummies...
+	Lower011.SRF	Simple fight room with obelisks in pits and a roachie trap
+	Lower012.SRF	Simple fight room with mud - must defeat all monsters 
+	Lower013.SRF	Simple fight hallway with mud - must defeat all monsters 
+	Lower014.SRF	Chess Room
+	LowerVR0.SRF	Shrine of Compassion (heart shaped room)
+	LowerST0.SRF	Stairway down
+	LowerBS0.SRF	Green Dragon & Sand...
+	LowerBS1.SRF	Medusa & Snakes (lots of statues)
+D'warven Mines
+	Random D'warven Helpers
+	Mines000.SRF	Room with lava pit to the side
+	Mines001.SRF	Room with two lava rivers (divilkins jump out)
+	Mines002.SRF	Room with a snaking passageway
+	Mines003.SRF	Room with two lava pools and lava falls
+	Mines004.SRF	Room with wide to narrow path through lava
+	Mines005.SRF	Room with an island in lava with bridges connecting it
+	Mines006.SRF	Room with a lava river and a bridge 
+	Mines007.SRF	Simple fight room 
+	Mines008.SRF	Y Fork room
+	Mines009.SRF	Room with terraced pit and small lava pool
+	Mines010.SRF	Room with narrow twisty path through lava
+	Mines011.SRF	Room with 6 branched mine track (MAKE IT HAVE 6 BRANCHES TO TRACK!)
+	Mines012.SRF	Room with a large boulder pile in the center
+	MinesVR0.SRF	Shrine of Dilligence...  Maze pathways over lava...
+	MinesBS0.SRF	Red Dragon - Room with large lava pool in center 
+	MinesBS1.SRF	Impkins on Tankes - Room with breached wall/gate...
+	MinesTN0.SRF	D'warven Outpost...  Non-Minish (different textures)... 3 d'warf shops (general & armor & weapon) + helper shop (wuff & d'warf)
+	MinesST0.SRF	Stairs down (on other side of outpost)
+	Voices
+		(NEED) Something for D'warves to say when reinforcements come into Impkin room
+The Abyss
+	Lots of pits...
+	Goes on for many levels by reusing rooms but not monsters (AREA_ABYSS_1, AREA_ABYSS_2, etc.) (maybe use texture sets here...)
+	Try to use both stone work walls & cavern walls
+		Need a few more rock wall colors...
+		Blue with blue fish floor...  FL04A
+		Dark Purple with dark purple floor...
+	Abyss000.SRF	Entrance room with cavern look and a Black Dragon trap...  (ONE TIME ONLY!  DO NOT RECYCLE!)
+	Abyss001.SRF	Room with pit in center and one cave side
+	Abyss002.SRF	Room with pit in center and two cave sides
+	Abyss003.SRF	Room with dividing chasm
+	Abyss004.SRF	Simple fight room
+	Abyss005.SRF	Simple fight room 
+	Abyss006.SRF	Room with three areas divided by pits
+	Abyss007.SRF	Room with chasm and small ledge on other side
+	Abyss008.SRF	Room with two parallel chasms
+	Abyss009.SRF	Room with pit in the center and several spawn traps...  Dragon miniboss...
+	Abyss010.SRF	Room with two tiny pits
+	Abyss011.SRF	Room with central pit with a large platform in pit
+	Abyss012.SRF	Dead end trap room with large wall pit, Bats or Ogres
+	Abyss013.SRF	Dead end trap room with pusher and spiral ramp 
+	Abyss014.SRF	Room with pit and narrow ledges to walk around 
+	AbyssBM0.SRF	Black Market Shop (Welcome to ze Black Market) (Yes...  Master...)
+	AbyssBS0.SRF	Boss Room (Watcher & Eyebats, 2 Random Dragons, Spork Wraithes, Liche King & Skultons)
+	AbyssST0.SRF	Generic Stair down
+

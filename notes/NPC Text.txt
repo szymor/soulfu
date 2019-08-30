@@ -1,0 +1,5 @@
+NPC Text
+========
+
+Something about getting double jump ability at 30 DEX.
+NPC Trainer character that fights you - Gives you spin attack or something if you win...

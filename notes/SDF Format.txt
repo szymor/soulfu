@@ -1,0 +1,12 @@
+16 byte string            - "----------------"
+16 byte string            - "SOULFU DATA FILE"
+16 byte string            - "25 files        "
+16 byte string            - "----------------"
+For each file...
+  4 byte position         - "0123............" (pointer while in memory, offset on disk...)
+  1 byte flags/file type  - "....4..........."
+  3 byte file size        - ".....567........"
+  8 byte filename        - ".........SANDTROL"
+16 byte string            - "----------------"
+For each file data...
+  "size" bytes of data

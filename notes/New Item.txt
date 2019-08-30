@@ -1,0 +1,180 @@
+Item Numbers
+============
+
+Slot 0 is for ITEM_NONE
+Slots 1 to 63 are for General items (Potions, Spell books, Talk, Jump, Shield, etc.)
+Slots 64 to 127 are for Armor items (Helm, Platemail, etc.)
+	Low 2 bits give magic type (No Magic, +1 Fire, +1 Ice, +1 Volt) (count by 4's)
+	Armor Types...
+		======================DEdge===DBash===Magic Types============
+		Shield			1	1	1 Volt
+		Mirror Shield		2	2	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		Leather Hood		1	0	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		Chain Helm		2	0	1 Volt
+		Light Helm		3	1	1 Volt
+		Heavy Helm		3	2	2 Volt
+		Ancient Helm		3	2	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		======================DEdge===DBash===Magic Types============
+		Leather Cuirass		1	0	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		Chain Shirt		2	0	1 Volt
+		Light Platemail		3	1	1 Volt
+		Heavy Platemail		3	2	2 Volt
+		Ancient Armor		3	2	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		======================DEdge===DBash===Magic Types============
+		Leather Pants		1	0	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		Chain Lowers		2	0	1 Volt
+		Light Leggings		3	1	1 Volt
+		Heavy Leggings		3	2	2 Volt
+		Ancient Leggings	3	2	1 Many (Double enchant bonus...  +2 Fire instead of +1 Fire...)
+		======================DEdge===DBash===Other==================
+Slots 128 to 255 are for Weapon items...
+	Low 3 bits give magic type (No Magic, +Fire, +Ice, +Volt, +Poison, +Petrify, +Holy, +Unholy) (count by 8's)
+	12 weapon types (high 5 bits...  Highest bit is always 1...  So really just 4 bits...)
+		======================DEdge===DBash===DWound============
+		Dagger			0-2	0	1 (quick thrust)
+		Short Sword		1-3	0	1 (quick thrust)
+		Sword			1-4	0	1 (chop)
+		Great Sword		1-5	0	1 (REGISTER) (chop)
+		Obsidian Blade		1-6	0	1 (REGISTER) (chop)
+		Dragon Sword		1-7	0	1 (REGISTER) (chop)
+
+		Hammer			0	0-2	1
+		Pick			1-1	0	1-3
+		Hatchet			2-2	0	1-3
+		Mace			0	3-6	1
+		Broad Axe		4-5	0	1-3 (REGISTER)
+		War Hammer		0	5-8	1   (REGISTER)
+		Bow			1-3	0	1
+		Long Bow		2-4	0	1
+		Gonne			2-4	0	1-3
+		Gronnade		0	0	3 (REGISTER) (+3-5 fire damage)
+		======================DEdge===DBash===DWound============
+	4 unused weapon slots (32 item slots total) are used for spells and other items...
+	Standard enchantment modifiers...
+		Fire		+ 2, -> Fire
+		Ice		+ 2, -> Ice
+		Volt		+ 1, -> Volt
+		Stone		+ Petrify
+		Poison		+ Poison
+		Holy		+ 1 Wound, Increases faith
+		Unholy		+ Drain, Decreases faith (or hits if out)
+
+
+
+Equipment Stat Requirements		Str	Dex	Int
+===========================		===	===	===
+Leather (Helm, Armor, Legs)		0	0	0
+Chain (Helm, Armor, Legs)		15	0	0
+Light (Helm, Armor, Legs)		20	0	0
+Heavy (Helm, Armor, Legs)		25	0	0
+Ancient (Helm, Armor, Legs)		30	0	0
+
+Dagger					0	0	0
+Short Sword				0	10	0
+Sword					0	15	0
+Obsidian Blade				0	20	0
+Great Sword				0	25	0
+Dragon Sword				0	30	0
+Hammer					0	0	0
+Mattock					10	0	0
+Mace					15	0	0
+Hatchet					20	0	0
+Morning Star				25	0	0
+Broad Axe				30	0	0
+Shield					20	0	0
+
+Unseeing				0	0	10
+Shock					0	0	10
+Burn					0	0	10
+Freeze					0	0	10
+
+Unlock					0	0	15
+Storm Brand				0	0	15
+Flame Brand				0	0	15
+Ice Brand				0	0	15
+
+Magic Jump				0	0	20
+Poison Cloud				0	0	20
+Lightning Bolt				0	0	20
+Missile					0	0	20
+
+Teleport				0	0	25
+Petrify					0	0	25
+Null Magic				0	0	25
+Minor Summons				0	0	25
+
+The Unseen				0	0	30
+Fireball				0	0	30
+Iceball					0	0	30
+Levitate (weapon mimics...)		0	0	30
+
+Toxic Rain				0	0	35
+Drain Mana				0	0	35
+Charm					0	0	35
+Major Summons				0	0	35
+
+
+
+		
+
+New Item List
+=============
+
+
+Filename	Item Name		Notes
+========	=========		=====
+IDAGGER		Dagger
+ISSWORD		Short Sword
+ISWORD		Sword
+IOSWORD		Obsidian Blade
+IGSWORD		Great Sword
+IDSWORD		Dragon Sword
+IHAMMER		Hammer
+IMACE		Mace
+IMSTAR		Morning Star
+IPICK		Mattock
+IHATCHT		Hatchet
+IBAXE		Broad Axe
+
+
+
+
+
+IHELMA-E	Helm types
+IBODYA-E	Body armor types
+ILEGSA-E	Leg armor types
+
+
+
+
+
+
+
+
+IORB		Spell Orb		(24 Variants) Spell type done with overlay like magic weapons...
+
+ISHIELD		Shield
+
+IGONNE		Shotgonne
+IBOW		Reflex Bow
+
+IQUIVER		Quiver of Arrows	10 versions giving ammo...  Need both action slots filled to use bow...
+IELVEN		Elven Arrows		10 versions giving ammo...  Need both action slots filled to use bow...
+IAMMO		Box of Ammo		10 versions giving ammo...  Need both action slots filled to use gonne...
+IHEAMMO		High Explosive Ammo	10 versions giving ammo...  Need both action slots filled to use gonne...
+
+IHEAL		Healing Potion (mix with Kiss to get super healing potion)
+IMANA		Mana Potion (mix with Kiss to get super mana potion)
+ISHEAL		Super Healing Potion
+ISMANA		Super Mana Potion
+
+IFOOD		Food Ration
+IMEAT		Monster Meat (4 variants...  Preserved, Fresh, Good, Edible...  All same image)
+IRMEAT		Rotten Monster Meat
+IPORC		Porc Meat (4 variants...  Preserved, Fresh, Good, Edible...  All same image)
+IRPORC		Rotten Monster Porc
+
+ISALT		Preserve
+IJUMP		Jump
+ITALK		Talk
+IKISS		Kiss
