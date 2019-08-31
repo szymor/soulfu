@@ -889,14 +889,14 @@ unsigned char mip_map_active = FALSE;
 unsigned char fast_and_ugly_active = FALSE;
 unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] =
 {
-  {320, 200},
-  {320, 240},
-  {640, 400},
   {640, 480},
   {800, 600},
   {1024, 768},
+  {1280, 720},
   {1280, 1024},
-  {1600, 1200}
+  {1366, 768},
+  {1600, 1200},
+  {1920, 1080}
 };
 int screen_x=400;                       // The x screen size
 int screen_y=300;                       // The y screen size

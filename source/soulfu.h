@@ -544,14 +544,7 @@ SF_EXTERN unsigned char fast_and_ugly_active ; // = FALSE;
 
 
 #define MAX_SCREEN_SIZES 8
-SF_EXTERN unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] ; /* // = {{320, 200},
-                                                       {320, 240},
-                                                       {640, 400},
-                                                       {640, 480},
-                                                       {800, 600},
-                                                       {1024, 768},
-                                                       {1280, 1024},
-                                                       {1600, 1200}}; */
+SF_EXTERN unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] ;
 
 SF_EXTERN int screen_x; // =400;                       // The x screen size
 SF_EXTERN int screen_y; // =300;                       // The y screen size

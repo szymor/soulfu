@@ -4,6 +4,11 @@ TARGET = soulfu
 SRC = source/soulfu.c
 OBJ = $(SRC:.c=.o)
 LIB = -lm -lSDL -lSDL_net -lGL -logg -ljpeg -lvorbis
+FLAGS = -m32 -g
+
+ifdef DEVTOOL
+FLAGS += -DDEVTOOL
+endif
 
 all: $(TARGET)
 
@@ -11,7 +16,7 @@ clean:
 	rm -rf $(TARGET) $(OBJ)
 
 $(TARGET): $(OBJ)
-	gcc -m32 -g -o $@ -Isource $(LIB) $(OBJ)
+	gcc $(FLAGS) -o $@ -Isource $(LIB) $(OBJ)
 
 %.o: %.c
-	gcc -m32 -g -c -o $@ -Isource $(LIB) $<
+	gcc $(FLAGS) -c -o $@ -Isource $(LIB) $<
