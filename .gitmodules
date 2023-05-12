@@ -1,0 +1,9 @@
+[submodule "ssc"]
+	path = ssc
+	url = https://github.com/szymor/soulfu-script-compiler.git
+[submodule "sdp"]
+	path = sdp
+	url = https://github.com/szymor/soulfu-data-packer.git
+[submodule "slc"]
+	path = slc
+	url = https://github.com/szymor/soulfu-lan-converter.git
