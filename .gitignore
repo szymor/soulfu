@@ -1,4 +1,5 @@
 LOGFILE.TXT
 soulfu
 source/soulfu.o
-backup.sdf
+*.sdf
+*.RUN
