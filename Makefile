@@ -1,4 +1,4 @@
-.PHONY: all clean pack scripts
+.PHONY: all clean pack
 
 SDP = sdp/sdp
 SLC = slc/slc
@@ -16,17 +16,15 @@ ifdef DEVTOOL
 FLAGS += -DDEVTOOL
 endif
 
-all: $(TARGET)
+all: $(TARGET) $(DATAFILE)
 
 clean:
-	rm -rf $(TARGET) $(OBJ)
+	rm -rf $(TARGET) $(OBJ) $(DATAFILE)
 
 pack: $(DATAFILE)
 
-scripts: | $(DATADIR) $(SSC)
+$(DATAFILE): | $(DATADIR) $(SDP)
 	$(SSC) -c -i $(DATADIR)
-
-$(DATAFILE): scripts | $(DATADIR) $(SDP)
 	$(SDP) -p -i $(DATADIR) -o $(DATAFILE)
 
 $(SDP): | sdp
