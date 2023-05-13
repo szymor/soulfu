@@ -25,7 +25,7 @@ pack: $(DATAFILE)
 
 $(DATAFILE): | $(DATADIR) $(SDP)
 	$(SSC) -c -i $(DATADIR)
-	$(SDP) -p -i $(DATADIR) -o $(DATAFILE)
+	$(SDP) -p -n -i $(DATADIR) -o $(DATAFILE)
 
 $(SDP): | sdp
 	make -C sdp
