@@ -1,5 +1,5 @@
-#define CHEAT (SystemGet(SYS_KEYDOWN, 282, 0))  // F1
-#define SHOW_STAT_SUM TRUE
+#define CHEAT FALSE // (SystemGet(SYS_KEYDOWN, 282, 0))  // F1
+#define SHOW_STAT_SUM FALSE
 
 
 #define rand_seed      self.stat03l
@@ -23,7 +23,10 @@
 #define num_class      self.stat16l
 #define monster_mode   self.stat16h        
 #define frame          self.stat17w
+#define slot           self.stat18w
+
 #define character_name self.string1
+
 
 #define ACTION_TO_PLAY ACTION_STAND
 #define ALTERNATE_ACTION ACTION_JUMP
@@ -102,73 +105,19 @@ UnspaceString(int string_to_unspace)
 
 //-----------------------------------------------------------------------
 Spawn()
-  int self, file, offset
+  int self
   self = FindSelf()
-  file = "FILE:CONFIG.DAT"
   player = self.z
-  offset = (player<<5)+112
   team = TEAM_GOOD
   petrify = 0
-  monster_mode = FALSE
-
-
-  // Check for paying customers...
-  num_class = 2
-  if(SystemGet(SYS_PAYINGCUSTOMER, 0, 0))
-    num_class = 8
-
-
-  if(SystemGet(SYS_DEVTOOL, 0, 0))
-    monster_mode = FileReadByte(file, 18+offset)
-    if(monster_mode)
-      num_class = MAX_MONSTER_CLASS
-
-
-
-
-  // Read settings from the config file...
-  name_lock = TRUE
-  StringClear(character_name)
-  StringAppend(character_name, file+offset, 16)
-  if(StringLength(character_name) == 0)
-    name_lock = FALSE
-
-
-  // Continue reading config...
-  class_list  = FileReadByte(file, 24+offset)
-  if(class_list > num_class)
-    class_list = 0
-  class_lock = FALSE
-  if(class_list != 0)
-    // Load color values and class and stuff...
-    class_lock = TRUE
-    class_list  = (class_list - 1) << 8
-    self.eqcol01 = FileReadByte(file, 16+offset)
-    self.eqcol23 = FileReadByte(file, 17+offset)
-    rand_seed   = FileReadByte(file, 22+offset)
-  else
-    // Give us a random character...
-    class_list = (RollDice(1, num_class) - 1) << 8
-    self.eqcol01 = RollDice(1, 256)
-    self.eqcol23 = RollDice(1, 256)
-    rand_seed   = RollDice(1, 256)
-    // Make minority types occur one fourth of the time...
-    if(RollDice(1, 100) < 50)
-      self.eqcol01 = self.eqcol01 & 127
-  if(name_lock == FALSE)
-    // Give us a random name...
-    ClassRandomName(character_name, class_list>>8)
-
-
-
+  
   // Set up the preview model...
   camx = RollDice(1, 200)
   frame = 0
-
-
+  
   // Fill in defaults
   hits = 0
-  mana = 0
+  mana = 50
   strength = 0
   dexterity = 0
   intelligence = 0
@@ -355,72 +304,46 @@ int MonsterSetup(int class, int getscript)
 
 //-----------------------------------------------------------------------
 Event()
-  int self, child, class, index, scriptfile, temp
-  float x, y, z
-
+  int self, child
 
   self = FindSelf()
-  x = 0.0
-  y = 0.0
-  z = 0.0
-  SystemSet(SYS_RANDOMSEED, 0, 0, rand_seed)
-  child = 0
-  class = class_list>>8
-
-
-
-  if(monster_mode)
-    scriptfile = MonsterSetup(class, TRUE)
-  else
-    scriptfile = ClassSetup(class, TRUE)
-  SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_CLASS, class)
+  
+  SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_CLASS, self.class)
   SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, self.team)
   SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, self.eqcol01)
 
-
-  child = Spawn(CHARACTER, x, y, z, scriptfile)
-  if(child)
-    child.eqcol23 = self.eqcol23
-    index = FindIndex(child)
-    SystemSet(SYS_CHARFASTFUNCTION, index, 0, FAST_FUNCTION_MODELSETUP)
-
-
-    StringClear(child.name)
-    UnspaceString(character_name)
-    if(StringGetValue(character_name, 0) == 0)
-      // No name was enter'd...
-      ClassRandomName(child.name, class)
-    else
-      // Give the desired name to the newly spawn'd character...
-      StringAppend(child.name, character_name, 16)
-
-
-    // Let the player control this character...
-    SystemSet(SYS_LOCALPLAYER, player, 0, FindIndex(child))
-
+  // Let the player control this character...
+  child = SystemGet(SYS_LOCALPLAYER, player, 0)
+  SystemSet(SYS_LOCALPLAYER, player, 0, child)
 
 
 //-----------------------------------------------------------------------
 Refresh()
-  int    i, self, file, offset, old_seed, child
-  int    class_string, class, class_name, old_class
+  int    i, self, child
+  int    class_string, class, class_name
   int    openfile, scriptfile
   int    first_frame, max_frame
   int    skip
-  int    slider_value
   int    read_offset, read_value
   int    action, weapon_frame
+  int    player_character
 
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
+  
+  // Find the player's character
+  player_character = SystemGet(SYS_LOCALPLAYER, player, 0)
+  if(player_character)
+    SystemSet(SYS_RESPAWNCHARACTER, 0, 0, player_character)
+    child = FindByIndex(player_character)
+  
+  monster_mode = SystemGet(SYS_CHARACTERSCRIPTFILE, 0, player_character) != "FILE:CPLAYER.RUN"
 
-
-
-
-  // Build the string for the class drop down box...
-  class = class_list>>8
-  old_class = class
+   // Build the string for the class drop down box...
+  class = 0
+  if(child)
+    class = child.class
   class_string = String(1)
   if(monster_mode)
     // We're allowing the user to pick monster types...
@@ -467,37 +390,27 @@ Refresh()
       i++
 
 
-
-
   // Title bar
   StringClear(String(0))
   StringAppend(String(0), StringLanguage(3), 256)
   StringAppendNumber(String(0), player+1, 256)
   TitleBar(TRUE, 0.0, -5.5, String(0))
 
-
-
   // Main window
   WindowBorder(FALSE, -10.0, -5.5, 20, 11, BORDER_FULL)
 
 
-
   // Setup the preview model...
-  self.eqhelm = ITEM_NONE
-  self.eqbody = ITEM_NONE
-  self.eqlegs = ITEM_NONE
-  self.eqleft = ITEM_NONE
-  self.eqright = ITEM_NONE
-  self.class = class
-  if(monster_mode)
-    openfile = MonsterSetup(class, FALSE)
-    scriptfile = MonsterSetup(class, TRUE)
-  else
-    openfile = ClassSetup(class, FALSE)
-    scriptfile = ClassSetup(class, TRUE)
-
-
-
+  if(child)
+    self.eqcol01 = child.eqcol01
+    self.eqcol23 = child.eqcol23
+    self.eqhelm = child.eqhelm
+    self.eqbody = child.eqbody
+    self.eqlegs = child.eqlegs
+    self.eqleft = child.eqleft
+    self.eqright = child.eqright
+    self.class = child.class
+  
   // Find the name of the selected class (by searching the drop down box string)
   i = 0
   class_name = class_string
@@ -518,9 +431,22 @@ Refresh()
     if(read_value == ',' || read_value == 0)
       StringSetValue(class_name, i, 0)
     i++
-
   
-
+  // Check for character type
+  openfile = 0
+  scriptfile = 0
+  
+  if(player_character)
+    if(!monster_mode)
+      // Character is human, load normal model
+      openfile = ClassSetup(class, FALSE)
+      scriptfile = ClassSetup(class, TRUE)
+    // Character is monster, load the appropriate monster model
+    else
+      openfile = MonsterSetup(class, FALSE)
+      scriptfile = MonsterSetup(class, TRUE)
+    
+    
 
 
   // Animate the model...
@@ -545,7 +471,6 @@ Refresh()
       frame = first_frame
 
 
-
   // Preview window
   WindowBorder(FALSE, 0.0, -2.5, 10, 8, BORDER_FULL)
   Window3DStart(0.0, 0.0, 10.0, 8.0, FALSE)
@@ -568,10 +493,6 @@ Refresh()
   Window3DModel(WIN_3D_MODEL, MODEL_LEFT2_FILE, weapon_frame, 255)
   Window3DModel(WIN_3D_MODEL, MODEL_RIGHT2_FILE, weapon_frame, 255)
 
-
-
-
-
   Window3DEnd()
   skip = SystemGet(SYS_MAINFRAMESKIP, 0, 0)
   while(skip > 0)
@@ -581,90 +502,23 @@ Refresh()
     skip--
 
 
-
   // Go back to the main window...
   WindowBorder(FALSE, -10.0, -5.5, 20, 11, BORDER_NONE)
 
 
 
-  // Random name button
-  button1 = ButtonImage(button1, 16.0, 0.0, 2.0, 1.0, "?")
-  if(button1 == 255)
-    if(name_lock == FALSE && monster_mode == FALSE)
-      ClassRandomName(character_name, class)
-      ButtonSound()
-    else
-      BuzzerSound()
-
-
-
-  // Name lock
-  StringSetValue(String(0), 1, 0)
-  if(name_lock)
-    StringSetValue(String(0), 0, 254)
-  else
-    StringSetValue(String(0), 0, 240)
-  button2 = ButtonImage(button2, 18.0, 0.0, 2.0, 1.0, String(0))
-  if(button2 == 255)
-    name_lock = (name_lock + 1) & 1
-    ButtonSound()
-
-
-  // Randomize class button
-  button3 = ButtonImage(button3, 16.0, 1.0, 2.0, 1.0, "?")
-  if(button3 == 255)
-    if(class_lock == FALSE)
-      self.eqcol01 = RollDice(1, 256)
-      self.eqcol23 = RollDice(1, 256)
-      rand_seed   = RollDice(1, 256)
-      // Make minority types occur one fourth of the time...
-      if(RollDice(1, 100) < 50)
-        self.eqcol01 = self.eqcol01 & 127
-      ButtonSound()
-    else
-      BuzzerSound()
-
-
-  // Class lock
-  if(class_lock)
-    StringSetValue(String(0), 0, 254)
-  else
-    StringSetValue(String(0), 0, 240)
-  button4 = ButtonImage(button4, 18.0, 1.0, 2.0, 1.0, String(0))
-  if(button4 == 255)
-    class_lock = (class_lock + 1) & 1
-    ButtonSound()
-
-
-
-  // Preview stats based on random seed...
-  old_seed = SystemGet(SYS_RANDOMSEED, 0, 0)
-  SystemSet(SYS_RANDOMSEED, 0, 0, rand_seed)
-  hits = 0
-  mana = 0
-  strength = 0
-  dexterity = 0
-  intelligence = 0
-  SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, self.team)
-  SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, self.eqcol01)
-  if(!monster_mode)
-    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_CLASS, class)
-  child = Spawn(CHARACTER, 0.0, 0.0, 0.0, scriptfile)
+  // Preview stats
   if(child)
-    // Using self.target overwrites self.int2425, which isn't used so it's okay...
-    self.target = FindIndex(child)
     hits = child.hitsmax
     mana = child.manamax
     strength = child.str
     dexterity = child.dex
     intelligence = child.int
-    GoPoof(POOF_TARGET_STUCK_PARTICLES)
-    GoPoof(POOF_TARGET)  
-  PreviewString(hits, 50, 0.0, 6.0)
-  PreviewString(mana, 51, 0.0, 7.0)
-  PreviewString(strength, 55, 0.0, 8.0)
-  PreviewString(dexterity, 56, 0.0, 9.0)
-  PreviewString(intelligence, 57, 0.0, 10.0)
+    PreviewString(hits, 50, 0.0, 6.0)
+    PreviewString(mana, 51, 0.0, 7.0)
+    PreviewString(strength, 55, 0.0, 8.0)
+    PreviewString(dexterity, 56, 0.0, 9.0)
+    PreviewString(intelligence, 57, 0.0, 10.0)
   if(SystemGet(SYS_DEVTOOL, 0, 0) && CHEAT && SHOW_STAT_SUM)
     StringClear(String(0))
     StringAppendNumber(String(0), hits+mana+strength+dexterity+intelligence, 256)
@@ -672,106 +526,16 @@ Refresh()
     StringClear(String(0))
 
 
-  // Name input...
-  if(name_lock)
+  // Show character name
+  if(child)
+    StringClear(character_name)
+    StringAppend(character_name, child+144, 16)
     WindowString(WHITE, 0.0, 0.0, character_name)
-  else
-    WindowInput(0.0, 0.0, 16, character_name, -1)
-  CorrectString(character_name)
+    CorrectString(character_name)
 
 
-
-  // Show preview stats and sliders...
-  if(class_lock)
+    // Show class name
     WindowString(WHITE, 0.0, 1.0, class_name)
-  else
-    slider_value = self.eqcol01 & 240
-    slider_value = WindowSlider(0.0, 2.0, 9, 1, slider_value)
-    if(class == 17)
-      // Chest mimic...
-      slider_value = 64
-    self.eqcol01 = (self.eqcol01&15) + (slider_value&240)
-
-
-    slider_value = (self.eqcol01&15) << 4
-    slider_value = WindowSlider(0.0, 3.0, 9, 1, slider_value)
-    self.eqcol01 = (self.eqcol01&240) + (slider_value>>4)
-
-    slider_value = self.eqcol23 & 240
-    slider_value = WindowSlider(0.0, 4.0, 9, 1, slider_value)
-    self.eqcol23 = (self.eqcol23&15) + (slider_value&240)
-
-    slider_value = (self.eqcol23&15) << 4
-    slider_value = WindowSlider(0.0, 5.0, 9, 1, slider_value)
-    self.eqcol23 = (self.eqcol23&240) + (slider_value>>4)
-
-
-    unroll_button = ButtonImageVertical(unroll_button, 8.0, 6.0, 1.0, 2.5, "<")
-    if(unroll_button == 255)
-      rand_seed--
-      ButtonSound()
-    roll_button = ButtonImageVertical(roll_button, 8.0, 8.5, 1.0, 2.5, ">")
-    if(roll_button == 255)
-      rand_seed++
-      ButtonSound()
-
-
-    // Class selection thing...
-    class_list = WindowMiniList(0.0, 1.0, 16, num_class, class_list, class_string)
-
-
-
-  // Restore the random seed...
-  SystemSet(SYS_RANDOMSEED, 0, 0, old_seed)
-
-
-
-  // Give a new random name if class was changed...
-  class = class_list>>8
-  if(class != old_class)
-    if(name_lock == FALSE && monster_mode == FALSE)
-      ClassRandomName(character_name, class)
-  if(class >= num_class)
-    class = num_class-1
-    class_list = class<<8
-
-
-
-  // Save the settings...
-  file = "FILE:CONFIG.DAT"
-  offset = (player<<5) + 112
-  if(name_lock)
-    StringClear(file+offset)
-    StringAppend(file+offset, character_name, 16)
-  else
-    StringClear(file+offset)
-  if(class_lock)
-    FileWriteByte(file, offset+16, self.eqcol01)
-    FileWriteByte(file, offset+17, self.eqcol23)
-    FileWriteByte(file, offset+18, monster_mode)
-    FileWriteByte(file, offset+22, rand_seed)
-    FileWriteByte(file, offset+24, (class_list>>8)+1)
-  else
-    FileWriteByte(file, offset+18, 0)
-    FileWriteByte(file, offset+24, 0)
-
-
-
-
-  // Team select cheat & monster cheat...
-  if(SystemGet(SYS_DEVTOOL, 0, 0) && CHEAT)
-    if(team == TEAM_GOOD)
-      if(ButtonImage(0, -0.5, -2.5, 6.0, 2.0, "Good") == 255)
-        team = TEAM_MONSTER
-    else
-      if(ButtonImage(0, -0.5, -2.5, 6.0, 2.0, "Mons") == 255)
-        team = TEAM_GOOD
-    if(monster_mode)
-      if(ButtonImage(0, 14.5, -2.5, 6.0, 2.0, "Mons") == 255)
-        monster_mode = FALSE
-    else
-      if(ButtonImage(0, 14.5, -2.5, 6.0, 2.0, "Human") == 255)
-        monster_mode = TRUE
 
 
 //-----------------------------------------------------------------------

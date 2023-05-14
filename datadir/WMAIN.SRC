@@ -7,6 +7,7 @@
 #define button5 self.stat02h
 #define button6 self.stat03l
 #define button7 self.stat16h
+#define button8 self.stat18l
 
 #define flag1   self.stat03h
 #define flag2   self.stat04l
@@ -94,6 +95,7 @@ Spawn()
   button5 = 0
   button6 = 0
   button7 = 0
+  button8 = 0
   flag1 = 0
   flag2 = 0
   flag3 = 0
@@ -162,6 +164,32 @@ Refresh()
       BuzzerSound()
       no_players = TRUE
       ResetTickers()
+  if(button8 == 250)
+    StopMusic()
+    i = NumberOfLocalPlayers()
+    if(i > 0)
+      ButtonSound()
+      GoPoof(POOF_ALL_OTHER_WINDOWS)
+      MAPGEN.Setup()
+      SystemSet(SYS_JOINGAME, 255, 255, 255)
+      if(SystemGet(SYS_LOAD, 1, 0))
+        SystemSet(SYS_LOAD, 1, 0, 0)
+        if(SystemGet(SYS_LOCALPLAYER, 0, 0) != 65535)
+          Spawn(WINDOW, 100.0, 80.0, 0.0, "FILE:WLOAD.RUN")
+        if(SystemGet(SYS_LOCALPLAYER, 1, 0) != 65535)
+          Spawn(WINDOW, 300.0, 80.0, 1.0, "FILE:WLOAD.RUN")
+        if(SystemGet(SYS_LOCALPLAYER, 2, 0) != 65535)
+          Spawn(WINDOW, 100.0, 210.0, 2.0, "FILE:WLOAD.RUN")
+        if(SystemGet(SYS_LOCALPLAYER, 3, 0) != 65535)
+          Spawn(WINDOW, 300.0, 210.0, 3.0, "FILE:WLOAD.RUN")
+      if(!SystemGet(SYS_LOAD, 1, 0))
+        GoPoof(POOF_ALL_OTHER_WINDOWS)
+      Spawn(WINDOW, 200.0, 280.0, 1.0, "FILE:WLOADER.RUN")
+      GoPoof(POOF_SELF)
+    else
+      BuzzerSound()
+      no_players = TRUE
+      ResetTickers()
   if(button2 == 250)
     StopMusic()
     i = NumberOfLocalPlayers()
@@ -224,43 +252,44 @@ Refresh()
 
 
   // Webpage address...
-  WindowBorder(FALSE, -12.0, 12.3, 24, 1, BORDER_LOW_TITLE)
+  WindowBorder(FALSE, -12.0, 14.3, 24, 1, BORDER_LOW_TITLE)
   WindowString(WHITE, 0.0, 0.1, "www.AaronBishopGames.com")
 
 
   // Copyright notice
-  WindowBorder(FALSE, -15.0, 9.5, 30, 2, BORDER_BOX)
+  WindowBorder(FALSE, -15.0, 11.5, 30, 2, BORDER_BOX)
   WindowString(WHITE, 0.0, 0.0, "\127 Copyright 2007, Aaron Bishop")
   WindowString(WHITE, 15.0-(0.5*StringLength(StringLanguage(62))), 1.0, StringLanguage(62))
 
 
   // Main window
-  WindowBorder(FALSE, -8.0, -7.0, 16, 14, BORDER_FULL)
+  WindowBorder(FALSE, -8.0, -7.0, 16, 16, BORDER_FULL)
 
 
   // Button images
   button1 = ButtonImage(button1, 0.0, 0.0, 16.0, 2.0, StringLanguage(15))   // Local Game
-  button2 = ButtonImage(button2, 0.0, 2.0, 16.0, 2.0, StringLanguage(16))   // Network Game
-  button3 = ButtonImage(button3, 0.0, 4.0, 16.0, 2.0, StringLanguage(2))    // Settings
-  button4 = ButtonImage(button4, 0.0, 6.0, 16.0, 2.0, StringLanguage(17))   // Controls
+  button8 = ButtonImage(button8, 0.0, 2.0, 16.0, 2.0, "Load Game")          // Load Game
+  button2 = ButtonImage(button2, 0.0, 4.0, 16.0, 2.0, StringLanguage(16))   // Network Game
+  button3 = ButtonImage(button3, 0.0, 6.0, 16.0, 2.0, StringLanguage(2))    // Settings
+  button4 = ButtonImage(button4, 0.0, 8.0, 16.0, 2.0, StringLanguage(17))   // Controls
   if(SystemGet(SYS_DEVTOOL, 0, 0) && CHEAT)
-    button5 = ButtonImage(button5, 0.0, 8.0, 16.0, 2.0, "Tools")
+    button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Tools")
   else
     if(SystemGet(SYS_PAYINGCUSTOMER, 0, 0))
-      button5 = ButtonImage(button5, 0.0, 8.0, 16.0, 2.0, "Thanks") // Thanks!
+      button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Thanks") // Thanks!
     else
       if(timer & 128)
         if(timer & 64)
-          button5 = ButtonImage(button5, 0.0, 8.0, 16.0, 2.0, "Want More?!")      // Want More?
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Want More?!")      // Want More?
         else
-          button5 = ButtonImage(button5, 0.0, 8.0, 16.0, 2.0, "Be Nice!")          // Be Nice!
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Be Nice!")          // Be Nice!
       else
         if(timer & 64)
-          button5 = ButtonImage(button5, 0.0, 8.0, 16.0, 2.0, "It's Free!")  // It's Free!
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "It's Free!")  // It's Free!
         else
-          button5 = ButtonImage(button5, 0.0, 8.0, 16.0, 2.0, "Be Nice!")        // Be Nice!
-  button6 = ButtonImage(button6, 0.0,10.0, 16.0, 2.0, "High Scores")          // High Scores
-  button7 = ButtonImage(button7, 0.0,12.0, 16.0, 2.0, StringLanguage(19))   // Quit
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Be Nice!")        // Be Nice!
+  button6 = ButtonImage(button6, 0.0,12.0, 16.0, 2.0, "High Scores")          // High Scores
+  button7 = ButtonImage(button7, 0.0,14.0, 16.0, 2.0, StringLanguage(19))   // Quit
 
 
   // Language Flags

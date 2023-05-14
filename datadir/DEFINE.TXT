@@ -456,6 +456,8 @@
 #define SYS_CAMERAZOOM              224
 #define SYS_CAMERASPIN              225
 #define SYS_ROOMRESTOCK             226
+#define SYS_SAVE                    227
+#define SYS_LOAD                    228
 #define SYS_MODELCHECKHACK          255
 
 
@@ -1368,4 +1370,3 @@
 #define ITEM_GOODIES_COINS    4
 #define ITEM_GOODIES_BADDIES  8
 #define ITEM_GOODIES_ALL      255
-

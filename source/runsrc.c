@@ -262,6 +262,8 @@ int emacs_return_count = 0;
 #define SYS_CAMERAZOOM              224
 #define SYS_CAMERASPIN              225
 #define SYS_ROOMRESTOCK             226
+#define SYS_SAVE                    227
+#define SYS_LOAD                    228
 #define SYS_MODELCHECKHACK          255
 
 
@@ -411,6 +413,13 @@ char unused_file_name[16] = "-UNUSED-";
 
 int global_keep_item = 0;
 
+////Xuln's Saving System////
+FILE* savefile;
+FILE* loadfile;
+FILE* savelog;
+int x, size, slot, file_index, str_length, number_of_particles;
+unsigned int srf_file_pointer;
+unsigned char file[15], file_name[13], file_name2[9];
 
 //-----------------------------------------------------------------------------------------------
 // <ZZ> Little function wrapper for doing an enchantment...  Assumes that all of the global
@@ -900,7 +909,7 @@ void script_matrix_good_bone(unsigned char bone, unsigned char* data_start, unsi
     // Front normal...
     script_matrix[3] = *((float*) data);  data+=4;
     script_matrix[4] = *((float*) data);  data+=4;
-    script_matrix[5] = *((float*) data);  data+=4; 
+    script_matrix[5] = *((float*) data);  data+=4;
 
 
     // Side normal...
@@ -957,7 +966,7 @@ void script_matrix_from_bone(unsigned char bone_name)
         // Front normal...
         script_matrix[3] = *((float*) data);  data+=4;
         script_matrix[4] = *((float*) data);  data+=4;
-        script_matrix[5] = *((float*) data);  data+=4; 
+        script_matrix[5] = *((float*) data);  data+=4;
 
 
         // Side normal...
@@ -1060,7 +1069,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;
@@ -1165,7 +1174,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;
@@ -1223,7 +1232,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;
@@ -2493,7 +2502,7 @@ log_message("ERROR:  SYS_PLAYERCONTROLHANDLED Called...");
 
                                 script_temp_i = room_select_list[2];
                                 script_temp_k = (int) room_select_data[2];
-                                
+
                                 room_select_num = 0;
                                 room_srf_autotexture((unsigned char*) j);
                                 room_select_add((unsigned short) i, (unsigned char*) k, 3);
@@ -2695,7 +2704,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         case SYS_GNOMIFYJOINT:
                             // Moves a joint around by a specified amount...  m has joint number and percentage stacked in it...
                             script_temp_i = (unsigned short) (((unsigned int)m)&65535);  // joint number
-                            script_temp_j = (unsigned short) (((unsigned int)m)>>16);    // percentage 
+                            script_temp_j = (unsigned short) (((unsigned int)m)>>16);    // percentage
                             render_gnomify_affect_joint((unsigned char*) j, (unsigned short) k, (unsigned short) script_temp_i, (unsigned char) script_temp_j);
                             break;
                         case SYS_JOINTFROMVERTEX:
@@ -3025,7 +3034,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         }
                         break;
                     case SYS_RESERVECHARACTER:
-                        // Makes a character able to be respawned... 
+                        // Makes a character able to be respawned...
                         // m is the character index...
                         // j is TRUE to reserve the character, FALSE to unreserve it...
                         if(m < MAX_CHARACTER && m >= 0)
@@ -3157,6 +3166,347 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                             }
                         }
                         break;
+
+                    ////Xuln's Saving System////
+                    case SYS_SAVE:
+                        // Saves the map and character data in the specified save slot
+                        //  j is the slot number
+                        slot = j;
+                        sprintf(file,"SAVE%d.DAT",slot);
+                        savefile = fopen(file, "wb");
+                        savelog = fopen("SAVELOG.TXT", "w");
+                        if(savefile)
+                        {
+                            fprintf(savelog,"\n\n------------\n");
+                            fprintf(savelog,"***SAVING***\n");
+                            fprintf(savelog,"------------\n");
+                            fprintf(savelog,"SLOT: %d\n\n", slot);
+
+                            // Save number of rooms
+                            fputc(num_map_room, savefile);
+                            fprintf(savelog,"Num Map Room: %d\n", num_map_room);
+
+                            // Save current room
+                            fputc(map_current_room, savefile);
+                            fprintf(savelog,"Current Room: %d\n\n", map_current_room);
+                            size += 2;
+
+                            // Save Map
+                            repeat(i, num_map_room)
+                            {
+                                fprintf(savelog,"Saving room %d:\n", i);
+                                file_index = sdf_find_index_by_data((*((unsigned char**) (map_room_data[i]))));
+                                if(file_index != 65535)
+                                {
+                                    fprintf(savelog,"   SRF FILE INDEX: %d\n", file_index);
+                                    if(sdf_get_filename(file_index, file_name, NULL))
+                                    {
+                                        fprintf(savelog,"   SRF FILE NAME: %s\n", file_name);
+                                        fwrite(file_name, 1, 8, savefile);
+                                        size += 8;
+                                    }
+                                    else
+                                    {
+                                        fprintf(savelog,"   ERROR: Filename not found!\n");
+                                        repeat(x, 8)
+                                        {
+                                            fputc('\0', savefile);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    fprintf(savelog,"   ERROR: Index not found!\n");
+                                    repeat(x, 8)
+                                    {
+                                        fputc('\0', savefile);
+                                    }
+                                }
+                                fwrite(map_room_data[i]+4, 1, 36, savefile);
+                                fprintf(savelog,"   Wrote room %d to file\n\n", i);
+                                size += 36;
+                            }
+
+                            // Save Characters
+                            fprintf(savelog,"\nSaving Characters:\n");
+                            fwrite(local_player_character, sizeof(local_player_character), MAX_LOCAL_PLAYER, savefile);
+                            fprintf(savelog,"   Player 1 Index: %3d\n", local_player_character[0]);
+                            fprintf(savelog,"   Player 2 Index: %3d\n", local_player_character[1]);
+                            fprintf(savelog,"   Player 3 Index: %3d\n", local_player_character[2]);
+                            fprintf(savelog,"   Player 4 Index: %3d\n\n", local_player_character[3]);
+                            repeat(i, MAX_CHARACTER)
+                            {
+                                fwrite(main_character_script_name[i], 1, 8, savefile);
+                                fputc(main_character_on[i], savefile);
+                                fputc(main_character_reserve_on[i], savefile);
+                                fwrite(main_character_data[i], 1, 255, savefile);
+                                fprintf(savelog,"   Character %3d, Script Name: %8s, On: %d, Reserve: %d\n", i, main_character_script_name[i], main_character_on[i], main_character_reserve_on[i]);
+                                size += 265;
+                            }
+
+                            // Save Particles
+                            fprintf(savelog,"\nSaving Particles:\n");
+                            repeat(i, MAX_PARTICLE)
+                            {
+                                if(main_particle_script_start[i] != NULL) {obj_get_script_name(main_particle_script_start[i], main_particle_script_name[i]);}
+                                fwrite(main_particle_script_name[i], 1, 8, savefile);
+                                fputc(main_particle_on[i], savefile);
+                                fwrite(main_particle_data[i], 1, PARTICLE_SIZE, savefile);
+
+                                // Convert file pointers to filenames
+                                k = 44;
+                                repeat(j, 2)
+                                {
+                                    if(*((unsigned int*) (main_particle_data[i]+k)) != 0)
+                                    {
+                                        file_index = sdf_find_index_by_data((*((unsigned char**) (main_particle_data[i]+k))));
+                                        if(file_index != 65535)
+                                        {
+                                            //fprintf(savelog,"   IMAGE%d FILE INDEX: %d\n", j+1, file_index);
+                                            if(sdf_get_filename(file_index, file_name, NULL))
+                                            {
+                                                //fprintf(savelog,"   IMAGE%d FILE NAME: %s\n", j+1, file_name);
+                                                fwrite(file_name, 1, 8, savefile);
+                                                size += 8;
+                                            }
+                                            else
+                                            {
+                                                //fprintf(savelog,"   ERROR: Image%d filename not found!\n", j+1);
+                                                repeat(x, 8)
+                                                {
+                                                    fputc('\0', savefile);
+                                                }
+                                                // Clear string
+                                                str_length = strlen(file_name);
+                                                repeat(x, str_length)
+                                                {
+                                                file_name[x] = '\0';
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if(j == 1)
+                                            {
+                                                //fprintf(savelog,"   Image2 index was not found... Don't worry that's normal (Most particles don't use image2)\n");
+                                            }
+                                            else
+                                            {
+                                                //fprintf(savelog,"   ERROR: Image1 index not found!\n");
+                                            }
+                                            repeat(x, 8)
+                                            {
+                                                fputc('\0', savefile);
+                                            }
+                                            // Clear string
+                                            str_length = strlen(file_name);
+                                            repeat(x, str_length)
+                                            {
+                                                file_name[x] = '\0';
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        repeat(x, 8)
+                                        {
+                                            fputc('\0', savefile);
+                                        }
+                                        // Clear string
+                                        str_length = strlen(file_name);
+                                        repeat(x, str_length)
+                                        {
+                                            file_name[x] = '\0';
+                                        }
+
+                                    }
+                                    if(j == 0) {strcpy(file_name2, file_name);}
+                                    k += 24;
+                                }
+
+                                fprintf(savelog,"   Particle %4d, Script Name: %8s, On: %d, Image1: %8s, Image2: %8s\n", i, main_particle_script_name[i], main_particle_on[i], file_name2, file_name);
+                                size += sizeof(main_particle_data[i]) + 9;
+                            }
+
+                            // Save Extra Stuff
+                            fwrite(camera_rotation_xy, sizeof(short), 1, savefile);
+                            fprintf(savelog,"\nCamera Spin: %d\n", camera_rotation_xy[X]);
+
+                            // The End
+                            fclose(savefile);
+                            fclose(savelog);
+                            log_message("INFO:   Saving game to Slot %d...", slot);
+                            log_message("INFO:   Wrote %d bytes to SAVE%d.DAT", size, slot);
+                        }
+                        else
+                        {
+                            log_message("ERROR:  Couldn't open SAVE%d.DAT", slot);
+                        }
+                        break;
+
+                    case SYS_LOAD:
+                        // Loads the map and character data in the specified save slot
+                        //  j is the slot number
+                        slot = j;
+                        sprintf(file,"SAVE%d.DAT",slot);
+                        loadfile = fopen(file, "rb");
+                        savelog = fopen("SAVELOG.TXT", "w");
+                        if(loadfile)
+                        {
+                            fprintf(savelog,"\n\n------------\n");
+                            fprintf(savelog,"***LOADING***\n");
+                            fprintf(savelog,"------------\n");
+                            fprintf(savelog,"SLOT: %d\n\n", slot);
+
+                            // Load Number of Rooms
+                            num_map_room = fgetc(loadfile);
+                            fprintf(savelog,"Num Map Room: %d\n", num_map_room);
+
+                            // Load Current Room
+                            map_current_room = fgetc(loadfile);
+                            fprintf(savelog,"Current Room: %d\n\n", map_current_room);
+
+                            // Load Map
+                            repeat(i, num_map_room)
+                            {
+                                fprintf(savelog,"Loading room %d:\n", i);
+
+                                // Clear string
+                                str_length = strlen(file_name);
+                                repeat(x, str_length)
+                                {
+                                    file_name[x] = '\0';
+                                }
+
+                                // Read SRF filename
+                                fread(file_name, 1, 8, loadfile);
+                                if(file_name[0] != '\0')
+                                {
+                                    strcat(file_name, ".SRF");
+                                    fprintf(savelog,"   SRF FILE NAME: %s\n", file_name);
+                                    srf_file_pointer = (unsigned int) sdf_find_index(file_name);
+                                    srf_file_pointer = sdf_read_unsigned_int((unsigned char*) srf_file_pointer);
+                                    (*((unsigned char**) (map_room_data[i]+0))) = (unsigned char*) srf_file_pointer;
+                                    file_index = sdf_find_index_by_data((*((unsigned char**) (map_room_data[i]+0))));
+                                    if(file_index != 65535)
+                                    {
+                                        fprintf(savelog,"   SRF FILE INDEX: %d\n", file_index);
+                                    }
+                                    else
+                                    {
+                                        fprintf(savelog,"   No index found for the specified filename.\n");
+                                    }
+                                }
+                                fread(map_room_data[i]+4, 1, 36, loadfile);
+                            }
+
+                            // Load Characters
+                            fprintf(savelog,"\nLoading Characters:\n");
+                            fread(local_player_character, sizeof(local_player_character), MAX_LOCAL_PLAYER, loadfile);
+                            fprintf(savelog,"   Player 1 Index: %3d\n", local_player_character[0]);
+                            fprintf(savelog,"   Player 2 Index: %3d\n", local_player_character[1]);
+                            fprintf(savelog,"   Player 3 Index: %3d\n", local_player_character[2]);
+                            fprintf(savelog,"   Player 4 Index: %3d\n\n", local_player_character[3]);
+                            repeat(i, MAX_CHARACTER)
+                            {
+                                fread(main_character_script_name[i], 1, 8, loadfile);
+                                main_character_on[i] = fgetc(loadfile);
+                                main_character_reserve_on[i] = fgetc(loadfile);
+                                fread(main_character_data[i], 1, 255, loadfile);
+                                fprintf(savelog,"   Character %d, Script Name: %s, On: %d, Reserve: %d\n", i, main_character_script_name[i], main_character_on[i], main_character_reserve_on[i]);
+
+                                // Find the script start file pointer
+                                index = sdf_find_filetype(main_character_script_name[i], SDF_FILE_IS_RUN);
+                                if(index)
+                                {
+                                    main_character_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                                }
+
+                                // Clear out model assigns...
+                                x = 256;
+                                while(x < 616)
+                                {
+                                    *((unsigned char**)(main_character_data[i]+x)) = NULL;
+                                    x+=24;
+                                }
+
+                                // Setup Model
+                                call_address = current_object_data;
+                                script_temp_i = current_object_item;
+                                looking_for_fast_function = TRUE;
+                                fast_run_script(main_character_script_start[i], FAST_FUNCTION_MODELSETUP, main_character_data[i]);
+                                current_object_data = call_address;
+                                current_object_item = script_temp_i;
+                            }
+
+                            // Load Particles
+                            fprintf(savelog,"\nLoading Particles:\n");
+                            repeat(i,MAX_PARTICLE)
+                            {
+                                fread(main_particle_script_name[i], 1, 8, loadfile);
+                                main_particle_on[i] = fgetc(loadfile);
+                                fread(main_particle_data[i], 1, PARTICLE_SIZE, loadfile);
+
+                                // Clear strings
+                                str_length = strlen(file_name);
+                                repeat(x, str_length)
+                                {
+                                    file_name[x] = '\0';
+                                }
+                                str_length = strlen(file_name2);
+                                repeat(x, str_length)
+                                {
+                                    file_name2[x] = '\0';
+                                }
+
+                                // Load image1
+                                fread(file_name, 1, 8, loadfile);
+                                if(file_name[0] != '\0')
+                                {
+                                    index = sdf_find_filetype(file_name, SDF_FILE_IS_RGB);
+                                    if(index)
+                                    {
+                                        *((unsigned int**) (main_particle_data[i]+44)) = (unsigned int*) sdf_read_unsigned_int(index);
+                                    }
+                                }
+
+                                // Load image2
+                                fread(file_name2, 1, 8, loadfile);
+                                if(file_name2[0] != '\0')
+                                {
+                                    index = sdf_find_filetype(file_name2, SDF_FILE_IS_RGB);
+                                    if(index)
+                                    {
+                                        *((unsigned int**) (main_particle_data[i]+68)) = (unsigned int*) sdf_read_unsigned_int(index);
+                                    }
+                                }
+
+                                fprintf(savelog,"   Particle %4d, Script Name: %8s, On: %d, Image1: %8s, Image2: %8s\n", i, main_particle_script_name[i], main_particle_on[i], file_name, file_name2);
+
+                                // Find the script start file pointer
+                                index = sdf_find_filetype(main_particle_script_name[i], SDF_FILE_IS_RUN);
+                                if(index)
+                                {
+                                    main_particle_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                                }
+                            }
+
+                            // Load Extra Stuff
+                            fread(camera_rotation_xy, sizeof(short), 1, loadfile);
+                            fprintf(savelog,"   Camera Spin: %hd\n", camera_rotation_xy[X]);
+
+                            // Finish Up
+                            fclose(loadfile);
+                            fclose(savelog);
+                            log_message("INFO:   Loading game from Slot %d", slot);
+                        }
+                        else
+                        {
+                            log_message("ERROR:  Couldn't open SAVE%d.DAT", slot);
+                        }
+                        break;
+                    ////End of Xuln's Saving System////
+
                     case SYS_MODELCHECKHACK:
 #ifdef DEVTOOL
                         log_message("INFO:   Model Check Hack...");
@@ -4157,6 +4507,24 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                         // Returns the current camera spin...
                         i = (int) camera_rotation_xy[X];
                         break;
+                    case SYS_LOAD:
+                        // Check if a file corresponding to the specified load slot exists...
+                        slot = j;
+                        sprintf(file,"SAVE%d.DAT",j);
+                        loadfile = fopen(file, "rb");
+
+                        if(loadfile)
+                        {
+                            log_message("INFO:   SAVE%d.DAT is a valid savefile", slot);
+                            fclose(loadfile);
+                            i = TRUE;
+                        }
+                        else
+                        {
+                            log_message("INFO:   Couldn't open SAVE%d.DAT", slot);
+                            i = FALSE;
+                        }
+                        break;
                     default:
                         i = TRUE;
                         break;
@@ -4194,7 +4562,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;
@@ -4272,7 +4640,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;
@@ -4330,7 +4698,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;
@@ -4598,7 +4966,7 @@ log_message("ERROR:   StringSanitize()");
                     number_string[m] = (j%10)+'0';  j = j/10;
                     m++;
                 }
- 
+
 
                 // Append the number string to the string...
                 if(opcode) { number_string[m] = opcode;  m++;  }
@@ -7046,7 +7414,7 @@ push_int_stack(TRUE);
                     case 160:
                         // It's a property...  Get our memory address from the variable...
                         arg_address = (unsigned char*) int_variable[opcode&(MAX_VARIABLE-1)];
-                        
+
                         // Then get the property number from the extension...
                         opcode = *address;
                         address++;

@@ -1,9 +1,9 @@
+#define CHEAT FALSE //SystemGet(SYS_KEYDOWN, 99, 0)
 #define mode          self.stat00l
 #define timer         self.stat01w
 #define escape_mode   self.stat02l
 #define button_one    self.stat02h
 #define button_two    self.stat03l
-
 
 #define KEYESCAPE  27
 
@@ -25,7 +25,7 @@ DrawBlack(int alpha)
 
 //-----------------------------------------------------------------------
 Refresh()
-  int    self, alpha, scaling, skip
+  int    self, alpha, scaling, skip, curroom, roomflags, save_window
 
 
 
@@ -117,15 +117,24 @@ Refresh()
         Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
         SystemSet(SYS_LEAVEGAME, 0, 0, 0)
         GoPoof(POOF_SELF)
-      if(button_two == 250)
-        ButtonSound()
-        escape_mode = FALSE
+      curroom = MAPGEN.GetCurrentRoom()
+      roomflags = MAPGEN.GetRoomFlags(curroom)
+      if((roomflags & MAP_ROOM_FLAG_TOWN) || CHEAT)
+        if(button_two == 250)
+          Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WSAVE.RUN")
+          ButtonSound()
+          escape_mode = FALSE
+      else
+        if(button_two == 250)
+          BuzzerSound()
 
-        
       WindowBorder(FALSE, -10.0, -2.0, 20, 4, BORDER_FULL)
       CenterString(WHITE, 10.0, 0.5, "Really quit?")
       button_one = ButtonImage(button_one, 0.0, 2.0,10.0, 2.0, StringLanguage(19))
-      button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, StringLanguage(21))
+      if((roomflags & MAP_ROOM_FLAG_TOWN) || CHEAT)
+        button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, "Save Game")
+      else
+        button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, "Cant Save")
     else
       button_one = 0
       button_two = 0

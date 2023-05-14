@@ -1,0 +1,119 @@
+#define button_one    self.stat02l
+#define button_two    self.stat02h
+#define slot          self.stat00w
+#define slot_load     self.stat00l
+
+//-----------------------------------------------------------------------
+Spawn()
+  int self
+  self = FindSelf()
+  button_one = 0
+  button_two = 0
+  slot = 0
+  slot_load = 0
+
+//-----------------------------------------------------------------------
+Refresh()
+  int self
+  int player, binding, child, num_player, old_slot, room
+  float ypos, xpos, xadd
+
+
+  // Allow us to save data in the window's properties...
+  self = FindSelf()
+
+  // Slot window
+  WindowBorder(FALSE, -4.0, -35.0, 9, 1, BORDER_FULL)
+  old_slot = slot_load
+  slot = WindowMiniList(0.5, 0.0, 8, 12, slot, "Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12")
+  slot_load = slot>>8
+  
+  if(slot_load != old_slot)
+    if(SystemGet(SYS_LOAD, slot_load+1, 0))
+      SystemSet(SYS_LOAD, slot_load+1, 0, 0)
+      GoPoof(POOF_ALL_OTHER_WINDOWS)
+      if(SystemGet(SYS_LOCALPLAYER, 0, 0) != 65535)
+        Spawn(WINDOW, 100.0, 80.0, 0.0, "FILE:WLOAD.RUN")
+      if(SystemGet(SYS_LOCALPLAYER, 1, 0) != 65535)
+        Spawn(WINDOW, 300.0, 80.0, 1.0, "FILE:WLOAD.RUN")
+      if(SystemGet(SYS_LOCALPLAYER, 2, 0) != 65535)
+        Spawn(WINDOW, 100.0, 210.0, 2.0, "FILE:WLOAD.RUN")
+      if(SystemGet(SYS_LOCALPLAYER, 3, 0) != 65535)
+        Spawn(WINDOW, 300.0, 210.0, 3.0, "FILE:WLOAD.RUN")
+    if(!SystemGet(SYS_LOAD, slot_load+1, 0))
+      GoPoof(POOF_ALL_OTHER_WINDOWS)
+      
+            
+  // Button actions
+  if(button_one == 250)
+    ButtonSound()
+    GoPoof(POOF_ALL_OTHER_WINDOWS)
+    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    SystemSet(SYS_LEAVEGAME, 0, 0, 0)
+    GoPoof(POOF_SELF)
+  if(button_two == 250)
+    // Check if the load file exists first
+    if(SystemGet(SYS_LOAD, slot_load+1, 0))
+      room = MAPGEN.GetCurrentRoom()
+      GoPoof(WARN_ALL_OTHER_WINDOWS)
+      GoPoof(POOF_ALL_OTHER_WINDOWS)
+      SystemSet(SYS_CAMERARESET, 0, 0, 0)
+      SystemSet(SYS_STARTGAME, 0, 0, 0)
+      SystemSet(SYS_MESSAGERESET, 0, 0, 0)
+
+      // Load the game
+      MAPGEN.SetCurrentRoom(room)
+      SystemSet(SYS_LOAD, slot_load+1, 0, 0)
+
+      // Make a message window...
+      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMESSAGE.RUN")
+
+
+      // Count local players...
+      num_player = 0
+      player = 0
+      while(player < 4)
+        self.binding = SystemGet(SYS_LOCALPLAYER, player, 0)
+        if(self.binding != 65535)
+          num_player++
+        player++
+
+
+      // Make a status window for each player character...
+      if(num_player > 0)
+        ypos = 300.0 - (3.0 * ((SystemGet(SYS_WINDOWSCALE, 0, 0) / 600.0) + 6.0))
+        xadd = 400.0 / num_player
+        xpos = xadd*0.5
+        player = 0
+        while(player < 4)
+          self.binding = SystemGet(SYS_LOCALPLAYER, player, 0)
+          if(self.binding != 65535)
+            child = Spawn(WINDOW, xpos, ypos, player, "FILE:WSTATUS.RUN")
+            xpos = xpos + xadd
+          player++
+
+
+      SystemSet(SYS_CAMERARESET, 0, 0, 0)
+
+      // Make a fader window...
+      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WFADER.RUN")
+
+      // Poof this window...
+      ButtonSound()
+      GoPoof(POOF_SELF)
+    
+    // The load file doesn't exist, complain... 
+    else
+      BuzzerSound()
+  
+
+  // Button window
+  WindowBorder(FALSE, -18.0, -1.0, 36, 2, BORDER_FULL)
+
+  // Button images
+  button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, "Main Menu")
+  button_two = ButtonImage(button_two, 18.0, 0.0, 18.0, 2.0, "Load Game")
+  
+
+
+//-----------------------------------------------------------------------

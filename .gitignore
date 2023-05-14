@@ -3,3 +3,5 @@ soulfu
 source/soulfu.o
 *.sdf
 *.RUN
+SAVELOG.TXT
+SAVE*.DAT

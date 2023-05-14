@@ -1,0 +1,71 @@
+#define CHEAT FALSE //SystemGet(SYS_KEYDOWN, 99, 0)
+#define button_one    self.stat02h
+#define button_two    self.stat03l
+#define slot          self.stat00w
+#define slot_save     self.stat12l
+  
+#define KEYESCAPE  27
+
+//-----------------------------------------------------------------------
+Spawn()
+  int self
+  self = FindSelf()
+  button_one = 0
+  button_two = 0
+  slot = 0
+  slot_save = 0
+  
+  
+//-----------------------------------------------------------------------
+Refresh()
+  int self, curroom, srf_file, twset, target, i, fader
+  
+  self = FindSelf()
+  slot_save = slot>>8
+ 
+  if(SystemGet(SYS_KEYPRESSED, KEYESCAPE, 0))
+    fader = FindWindow(65535,"FILE:WFADER.RUN")
+    fader.stat02l = TRUE
+    GoPoof(POOF_SELF)
+  
+  //Save Characters Button
+  curroom = MAPGEN.GetCurrentRoom()
+  if((MAPGEN.GetRoomFlags(curroom) & MAP_ROOM_FLAG_TOWN) || CHEAT)
+    if(button_one == 250)
+      ButtonSound()
+      //Save Game
+      SystemSet(SYS_SAVE,slot_save+1,0,0)
+  else
+    GoPoof(POOF_SELF)
+  
+  
+  //Continue Button
+  if(button_two == 250)
+    ButtonSound()
+    if(CHEAT)
+      //Load Game
+      if(SystemGet(SYS_LOAD, slot_save+1, 0))
+        SystemSet(SYS_LOAD,slot_save+1,0,0)
+        curroom = MAPGEN.GetCurrentRoom()
+        MAPGEN.SetCurrentRoom(curroom)
+        SystemSet(SYS_LOAD,slot_save+1,0,0)
+        GoPoof(POOF_SELF)
+      else
+        BuzzerSound()
+    else
+      GoPoof(POOF_SELF)
+  
+  //Window Setup
+  TitleBar(TRUE, 1.0, -8.0, "Save Game")        
+  WindowBorder(FALSE, -5.0, -8.0, 12, 19, BORDER_FULL)
+  button_one = ButtonImage(button_one,1.0, 15.0, 10.0, 2.0, "Save Game")
+  if(CHEAT)
+    button_two = ButtonImage(button_two,1.0, 17.0, 10.0, 2.0, "Load Game")
+  else
+    button_two = ButtonImage(button_two,1.0, 17.0, 10.0, 2.0, "Continue")
+  
+  //Setup Slot
+  slot = WindowMiniList(2.0, 0.5, 8, 12, slot, "Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12")
+
+
+//-----------------------------------------------------------------------
