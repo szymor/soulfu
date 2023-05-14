@@ -6,6 +6,12 @@ SoulFu is a 3D action role-playing hack and slash dungeon crawler made by Aaron 
 ## Why is the subtitle so gloomy?
 Well, the game seems to be forgotten among developers. I decided to make some effort to change status quo and wanted to show it by adding the unofficial "Back From The Dead" subtitle. I hope my work will be a seed of further development of the game.
 
+## How to contribute?
+1. Fork the repository.
+2. Implement your idea. If you implement more than one feature, it is a good practice to create a separate branch for each feature.
+3. Create a new pull request.
+4. If I like the changes, I will merge them. If not... well, don't worry. You can develop your fork of SoulFu on your own :)
+
 ## Building the game
 Clone the repository:
 ```
@@ -24,7 +30,7 @@ make
   + script compiler.
 + A few mods have been merged:
   + Sky Box by MiR 2008,
-  + Arena by ???.
+  + Arena by bravebebe.
 
 ## What will be done?
 I do not promise anything. The project is done in my free time. I have some ideas, though:
