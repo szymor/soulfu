@@ -22,7 +22,8 @@ make
   + data packer/unpacker,
   + language file converter,
   + script compiler.
-
++ A few mods have been merged:
+  + Arena by ???.
 
 ## What will be done?
 I do not promise anything. The project is done in my free time. I have some ideas, though:

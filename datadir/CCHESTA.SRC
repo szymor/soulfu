@@ -1,0 +1,495 @@
+#define EXPLOSION_SMOKE_COLOR (128)
+#define POISON_SMOKE_COLOR (192<<8)
+
+
+
+//-----------------------------------------------------------------------
+int ButtonEvent()
+  int self, event, color, subtype
+  float modifier
+
+
+  if(STANDARD.RestrictedButtonEvent())
+    return TRUE
+
+
+
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+  event = self.event & 7
+  if((self.event & 8))
+    ButtonHandled()
+    return 0
+  else
+    if(event == BUTTON_LEFT || event == BUTTON_RIGHT)
+      if((self.action == ACTION_STAND || self.action == ACTION_WALK) && self.rrtimer == 0)
+        if(self.flags & CHAR_ON_GROUND)
+          self.setimer = 30  // Time that bump damage is active
+          self.rrtimer = 60  // Time before next attack
+          self.sflags = self.sflags | SCRIPT_BUMP_DAMAGE
+          self.action = ACTION_BASH_LEFT
+          self.daction = ACTION_STAND
+          modifier = 0.7 + (self.dex * 0.02)
+          self.vx = (self.frontx * modifier)
+          self.vy = (self.fronty * modifier)
+          self.vz = 0.6
+          ButtonHandled()
+          color = WHITE
+          subtype = self.eqcol01>>6
+          color = 8677689
+          PBLUR.Effect(color, 4.0, 1.0, 255, 2.5)
+      return 0
+
+//-----------------------------------------------------------------------
+int AIScript()
+  int self, subtype
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+
+
+  if(subtype == 1)
+    // Mimic AI script...
+    if(self.aistate == 255)
+      // Try to stay hidden...
+      self.gotox = self.x
+      self.gotoy = self.y
+      if(self.eflags & ENCHANT_FLAG_LEVITATE)
+        if(!(self.flags & CHAR_HOVER_ON))
+          self.flags = self.flags | CHAR_HOVER_ON
+          PLEVITAT.Effect(self)
+        self.hoverz = RoomWaterLevel()
+        if(self.hoverz < self.floorz)
+          self.hoverz = self.floorz
+        self.hoverz = self.hoverz+6.0
+      self.aitimer = 5
+
+
+      // Follow owner if owner is outside of 10ft radius...
+    else
+      // Behave like a normal enemy...
+      self.flags = self.flags & (65535-CHAR_HOVER_ON)
+      STANDARD.AIScript()
+  else
+    // Normal chest AI script...
+    self.gotox = self.x
+    self.gotoy = self.y
+    if(self.eflags & ENCHANT_FLAG_LEVITATE)
+      if(!(self.flags & CHAR_HOVER_ON))
+        self.flags = self.flags | CHAR_HOVER_ON
+        PLEVITAT.Effect(self)
+      self.hoverz = RoomWaterLevel()
+      if(self.hoverz < self.floorz)
+        self.hoverz = self.floorz
+      self.hoverz = self.hoverz+6.0
+    self.aitimer = 3
+
+
+//-----------------------------------------------------------------------
+int ModelSetup()
+  int self, subtype, broken
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+  broken = self.eqcol01 & 32
+
+
+  ModelClear()
+  ModelAssign(self+MODEL_BASE_FILE, "FILE:CHEST.RDY")
+  ModelAssign(self+MODEL_BASE_TEX0, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_TEX1, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_TEX2, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_TEX3, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_COLOR, WHITE)
+
+
+  if(broken)
+    // Broken Chest
+    ModelAssign(self+MODEL_BASE_FILE, "FILE:CHESTBK.RDY")
+    ModelAssign(self+MODEL_BASE_TEX0, "FILE:=CHESTBK.RGB")
+    ModelAssign(self+MODEL_BASE_TEX1, "FILE:WHITE.RGB")
+    ModelAssign(self+MODEL_BASE_TEX2, "FILE:=MPLOCK.RGB")
+    ModelAssign(self+MODEL_BASE_TEX3, "FILE:=MPHINGE.RGB")
+    ModelAssign(self+MODEL_BASE_COLOR, WHITE)
+    return TRUE
+
+
+
+  if(subtype == 0 || subtype == 1 || subtype == 2)
+    // Basic chest model
+    ModelAssign(self+MODEL_CHEST_FILE, "FILE:CHESTNRM.RDY")
+    ModelAssign(self+MODEL_CHEST_TEX0, "FILE:CYELLOW.RGB")
+    ModelAssign(self+MODEL_CHEST_TEX1, "FILE:MPSHADCH.RGB")
+    ModelAssign(self+MODEL_CHEST_TEX2, "FILE:=MPLOCK.RGB")
+    ModelAssign(self+MODEL_CHEST_TEX3, "FILE:=MPHINGE.RGB")
+    ModelAssign(self+MODEL_CHEST_COLOR, WHITE)
+
+
+    if(subtype == 1)
+      // Mimic's tongue & stuff
+      ModelAssign(self+MODEL_HEAD_FILE, "FILE:CHESTMIM.RDY")
+      ModelAssign(self+MODEL_HEAD_TEX0, "FILE:RED.RGB")
+      ModelAssign(self+MODEL_HEAD_TEX1, "FILE:CWHITE.RGB")
+      ModelAssign(self+MODEL_HEAD_TEX2, "FILE:=MPMIMIC.RGB")
+      ModelAssign(self+MODEL_HEAD_TEX3, "FILE:WHITE.RGB")
+      ModelAssign(self+MODEL_HEAD_COLOR, WHITE)
+
+
+  if(subtype == 3)
+    // Special Chest
+    ModelAssign(self+MODEL_CHEST_FILE, "FILE:CHESTSPC.RDY")
+    ModelAssign(self+MODEL_CHEST_TEX0, "FILE:STEEL.RGB")
+    ModelAssign(self+MODEL_CHEST_TEX1, "FILE:MPSHADBX.RGB")
+    ModelAssign(self+MODEL_CHEST_TEX2, "FILE:=MPLOCK2.RGB")
+    ModelAssign(self+MODEL_CHEST_TEX3, "FILE:WHITE.RGB")
+    ModelAssign(self+MODEL_CHEST_COLOR, WHITE)
+
+
+//-----------------------------------------------------------------------
+int UnlockEffect(int self, int target, int cost_key)
+  int item, level, metal_box_item
+  int subtype
+
+
+
+  subtype = self.eqcol01 >> 6
+  if((target.keys > 0 || cost_key == FALSE) && target.team == TEAM_GOOD && target.aitimer == 0)
+    level = self.misc5
+
+    // Randomly get better treasure when lucky...
+    if(SystemGet(SYS_LUCK, 0, 0))
+      if(RollDice(1, 2) == 1)
+        level++
+
+
+    item = RANDOM.Treasure(level)
+//    StringClear(DEBUG_STRING)
+//    StringAppend(DEBUG_STRING, "Chest Level ", 255)
+//    StringAppendNumber(DEBUG_STRING, level, 255)
+    if(subtype == 3)
+      metal_box_item = SystemGet(SYS_ROOMMETALBOXITEM, 0, 0)
+      if(metal_box_item != ITEM_NONE)
+        item = metal_box_item
+
+
+    if(GiveItemToCharacter(target, item))
+      if(cost_key)
+        // Cost a key...
+        target.keys--
+
+      // Give the opener some dilligence...
+      ExperienceFunction(FindIndex(target), EXPERIENCE_VIRTUE_DILLIGENCE, 2, FALSE)
+
+      // Unlock...
+      PITEM.Effect(target, item, self.x, self.y, self.z + 2.0)
+      self.action = ACTION_DOUBLE_BEGIN
+      self.daction = ACTION_DOUBLE
+      self.height = 1
+      self.hits = 0  // Makes it sink in water...
+      self.eqcol01 = self.eqcol01 & 15
+      PlaySound("FILE:BAD5.RAW", 225 + RollDice(1, 50), 255)
+
+
+      // Make the chest not spawn on re-entry of room...
+      MapObjectDefeated()
+      
+
+// !!!BAD!!!
+// !!!BAD!!!
+// !!!BAD!!!
+      // Make chest fade out...  Not good...
+      self.eqcol01 = self.eqcol01 | 16
+      self.intimer = 65535
+      self.tetimer = 1
+// !!!BAD!!!
+// !!!BAD!!!
+// !!!BAD!!!
+      return TRUE
+    else
+      // Character's inventory is full...
+      if(target.aitimer == 0)
+        BuzzerSound()
+      self.rltimer = 60
+  return FALSE
+
+
+//-----------------------------------------------------------------------
+int Event()
+  int self, subtype, target, charge, rider, broken, fading
+  float oldvx, oldvy, oldz
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+  broken = self.eqcol01 & 32
+  fading = self.eqcol01 & 48
+
+
+
+  if(subtype == 1)
+    // Mimic
+    STANDARD.DamageSoundEvent("FILE:-CRATE01.RAW", NULL, "FILE:-CRATE03.RAW")
+  if(subtype == 3)
+    // Metal Chest
+    STANDARD.DamageSoundEvent("FILE:BLOCK.RAW", NULL, NULL)
+  if(subtype == 0 || subtype == 2)
+    if(self.hits <= 10)
+      self.hits = 0
+    STANDARD.DamageSoundEvent("FILE:-CRATE01.RAW", NULL, "FILE:-CRATE03.RAW")
+
+
+  // Network...
+  if(self.event == EVENT_NETWORK_UPDATE)
+    STANDARD.Event()
+    return 0
+
+
+  // Fade out
+  if(self.event == EVENT_THIRDIARY_TIMER && fading)
+    self.tetimer = 1
+    self.alpha--
+    if(self.alpha < 5)
+      GoPoof(POOF_SELF)
+    return 0
+  if(self.event == EVENT_SECONDARY_TIMER)
+    self.sflags = self.sflags & (255-SCRIPT_BUMP_DAMAGE)
+    return 0
+  if(self.action == ACTION_BASH_LEFT)
+    oldvx = self.vx
+    oldvy = self.vy
+    if(STANDARD.BumpDamageEvent(DAMAGE_EDGE, 3, 1, TRUE, TRUE))
+      self.spin = self.spin+32768
+      self.vx = oldvx
+      self.vy = oldvy
+      target = FindByIndex(SystemGet(SYS_COLLISIONCHAR, 0, 0))
+      if(target)
+        if(target.nctimer < 40)
+          target.nctimer = 40
+      self.rltimer = 5
+      SystemSet(SYS_BUMPABORT, 0, 0, 0)
+      return 0
+
+  if(subtype == 1)
+    // Mimic is a normal monster...
+    if(self.event == EVENT_DAMAGED && self.aitimer > 0 && self.aistate == 255)
+      // Looks like we've been found out...  No longer hiding...
+      self.aistate = 1  // No longer hiding...
+      self.flags = self.flags & (65535 - CHAR_PLATFORM_ON)
+
+
+    if(self.action == ACTION_STAND || self.action == ACTION_SWIM || self.action == ACTION_STUN)
+      if(self.event == EVENT_HIT_CHARACTER && self.action == ACTION_STAND && self.aitimer > 0)
+        // Looks like an enemy is trying to open the Mimic...
+        target = FindByIndex(SystemGet(SYS_COLLISIONCHAR, 0, 0))
+        if(target)
+          if(target.team != self.team && target.team != TEAM_NEUTRAL)
+            if(GetDirection(target.x, target.y) == DIRECTION_FRONT && target.z < (self.z+2.0))
+              // Jump out at 'em
+              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+              self.aistate = 1  // No longer hiding...
+              self.flags = self.flags & (65535 - CHAR_PLATFORM_ON)
+              return 0
+      STANDARD.Pushable()
+    STANDARD.Event()
+  else
+    if(self.event == EVENT_HIT_CHARACTER && self.action != ACTION_STUN_BEGIN && self.daction != ACTION_DOUBLE && !broken)
+      target = FindByIndex(SystemGet(SYS_COLLISIONCHAR, 0, 0))
+      if(target && self.rltimer == 0)
+        rider = FindByIndex(target.rider)
+        if(rider)
+          target = rider
+        if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
+          // Try to give the target an item...
+          UnlockEffect(self, target, TRUE)
+      STANDARD.Pushable()
+      self.gotox = self.x
+      self.gotoy = self.y
+      return TRUE
+    if(self.event == EVENT_FELL_IN_PIT || self.event == EVENT_HIT_WATER)
+      STANDARD.Event()
+      return TRUE
+    if((self.event == EVENT_DAMAGED || self.event == EVENT_DROWN) && !broken)
+      if(broken)
+        return FALSE
+      if(self.daction == ACTION_DOUBLE)
+        self.action = ACTION_DOUBLE_END
+        self.dmtimer = 20
+        self.intimer = 20
+      else
+        self.action = ACTION_STUN_BEGIN
+        self.daction = ACTION_STAND
+        self.dmtimer = 20
+        self.intimer = 20
+        if(subtype == 3)
+          // Special chests are indestructable...
+          self.hits = 20
+          return TRUE
+        if(self.hits <= 10)
+          // Make the chest not spawn on re-entry of room...
+          MapObjectDefeated()
+
+          // Give the attacker some dilligence...
+          ExperienceFunction(SystemGet(SYS_GLOBALATTACKER, 0, 0), EXPERIENCE_VIRTUE_DILLIGENCE, 1, FALSE)
+
+          self.eflags = 0
+          self.flags = self.flags & (65535-CHAR_HOVER_ON)
+          if(subtype == 0)
+            // Normal chest
+            PDUST.Effect(30)
+            PSPARK.Effect(self.x, self.y, self.z, 30, 3)
+            RANDOM.Goodies(20)
+          else
+            // Trapped chest
+            charge = 120
+            if(RollDice(1, 100) > 25)
+              // Poison Cloud...
+              PDUST.FullEffect(self.x, self.y, self.z, (0.001*charge)+0.25, (charge*0.02)+2.0, (charge*0.001)+0.08, (charge>>5)+6, POISON_SMOKE_COLOR, 100, 100, 10, TRUE, FindIndex(self))
+            else
+              PEXPLODE.Effect(self.x, self.y, self.z, 0.0, 0.0, (0.013*charge)+0.025, DAMAGE_FIRE, (charge>>5), 1, FindIndex(self), self.team, "FILE:FIRE1.RGB", EXPLOSION_SMOKE_COLOR, charge)
+            PSPARK.Effect(self.x, self.y, self.z, 30, 3)
+
+
+          if(self.event == EVENT_DROWN)
+            GoPoof(POOF_SELF)
+            return FALSE
+
+
+          GoPoof(POOF_STUCK_PARTICLES)
+          self.frame = 1
+          self.action = ACTION_KNOCK_OUT_BEGIN
+          self.daction = ACTION_KNOCK_OUT
+          self.eqcol01 = self.eqcol01 | 32
+          ModelSetup()
+          self.frame = 1
+          self.tetimer = 32  // Start poof after 32 frames...
+          self.nctimer = 65535
+          self.intimer = 65535
+
+
+//-----------------------------------------------------------------------
+int GetName()
+  int self, subtype
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+  StringClear(NAME_STRING)
+
+
+  if(subtype == 3)
+    StringAppend(NAME_STRING, "Metal Box", 256)
+    return TRUE
+
+
+  if(LocalPlayerIsClass(CLASS_HUBBIN)==FALSE)
+    if(subtype != 1 || self.action == ACTION_STAND)
+      subtype = 0
+  if(subtype == 0)
+    StringAppend(NAME_STRING, "Chest", 256)
+  if(subtype == 1)
+    StringAppend(NAME_STRING, "Chest Mimic", 256)
+  if(subtype == 2)
+    StringAppend(NAME_STRING, "Trapped Chest", 256)
+
+//-----------------------------------------------------------------------
+int Refresh()
+  int self, subtype
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+
+  if(subtype == 1)
+    // Chest Mimic...  Chest mimic's teeth show when zoom'd out
+    // due to zbuffer problems...  Easiest way to fix is to turn
+    // off the teeth when hiding...  That's what this is for...
+    if(self.action == ACTION_STAND)
+      ModelAssign(self+MODEL_HEAD_FILE, NULL)
+    else
+      ModelAssign(self+MODEL_HEAD_FILE, "FILE:CHESTMIM.RDY")
+  if(subtype == 1 || subtype == 2)
+    if(LocalPlayerIsClass(CLASS_HUBBIN))
+      self.dmtimer = 30
+  self.timer = 4
+
+
+
+//-----------------------------------------------------------------------
+int SubtypeModifyLevel(int mimic)
+  int self, subtype, level, map_level
+
+
+  self = FindSelf()
+  subtype = self.eqcol01 >> 6
+  map_level = MAPGEN.GetCurrentLevel()
+  level = (map_level+RollDice(1,2)) >> 1
+  if(level < 1)
+    level = 1
+  // Use our spawn subtype to figger actual subtype...
+  if(subtype == 0)
+    // Subtype 0 is used for normal chests with a chance of being trapped/mimic...
+    if(RollDice(1, 20) <= map_level)
+      subtype = 2  // definately trapped...
+  if(subtype == 1)
+    // Subtype 1 is used for untrapped chests...
+    self.eqcol01 = (self.eqcol01 & 15) | (0<<6)
+    // Becomes subtype 0
+  if(subtype == 2)
+    // Subtype 2 is used for trapped/mimic chests...
+    if(RollDice(1, 20) > 15 && mimic)
+      self.eqcol01 = (self.eqcol01 & 15) | (1<<6)
+      // Becomes subtype 1 (mimic)
+    else
+      self.eqcol01 = (self.eqcol01 & 15) | (2<<6)
+      // Becomes subtype 2 (trapped)
+  if(subtype == 3)
+    // Subtype 3 is used for extra good chests...
+    level = level + 2
+    self.eqcol01 = (self.eqcol01 & 15) | (3<<6)
+    // Becomes subtype 3
+  if(level > 6)
+    level = 6
+  return level
+
+
+//-----------------------------------------------------------------------
+int Spawn()
+  int self, subtype, level
+  self = FindSelf()
+  level = SubtypeModifyLevel(TRUE)
+  subtype = self.eqcol01 >> 6
+  self.eqcol01 = self.eqcol01 & 192
+  self.eqcol01 = self.eqcol01 | level
+  self.misc5 = 1
+
+
+
+
+  self.boxsize = 1.6
+  self.height = 3
+  self.flags = CHAR_GRAVITY_ON | CHAR_PLATFORM_ON | CHAR_NO_BACKSTAB
+  self.sflags = SCRIPT_NO_PETRIFY | SCRIPT_NO_POISON
+  self.aitimer = 1
+  self.timer = 1
+  self.mflags = MORE_FLAG_PUSHABLE | MORE_FLAG_FAST_TURN
+
+
+  self.hitsmax = 20
+  self.hits = self.hitsmax
+  self.deffire = -5
+  self.vspin = 0
+  if(subtype == 1)
+    self.vspin = 400
+    self.int = 1
+    self.str = 15
+    self.dex = 5
+    self.vflags = VIRTUE_FLAG_STILL_HIDE | VIRTUE_FLAG_NO_DROWN
+    self.eqspec1 = ITEM_JUMP
+    self.aistate = 255  // Hidden
+    if(self.team == TEAM_NEUTRAL)
+      self.team = TEAM_MONSTER
+  else
+    self.team = TEAM_NEUTRAL
+    self.vflags = VIRTUE_FLAG_NO_DROWN
+    self.oflags = OTHER_FLAG_NO_MORPH | OTHER_FLAG_NO_HEARTS
+  if(subtype == 3)
+    self.flags = self.flags | CHAR_NO_STUCK_PARTS
+    self.deffire = 5
+
+
+  ModelSetup()
+  STANDARD.PutOnPlatform()
+
+//-----------------------------------------------------------------------

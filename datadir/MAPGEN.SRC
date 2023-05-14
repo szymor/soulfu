@@ -339,39 +339,40 @@ Setup()
 
   // Town...
   AddRoom(   0.0,    0.0, 0,  AREA_SUMMON, 0,40960, "FILE:TOWN000.SRF", 65535, FALSE, RollDice(1, 256), 1, flags | MAP_ROOM_FLAG_TOWN | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_OUTSIDE)
+  AddRoom( -150.0,  -4.0, 0,  AREA_SUMMON, 0,33300, "FILE:ARENA000.SRF",    0, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_OUTSIDE)
 
 
   // Castle and cellar...
   if(START_LEVEL <= 0)
     // Castle
     AddRoom(   0.0, -120.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN001.SRF", 0, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom(   0.0, -280.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN002.SRF", 1, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom(-130.0, -150.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN003.SRF", 1, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom( 130.0, -120.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN004.SRF", 1, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom(-130.0, -270.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN005.SRF", 3, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom(-130.0, -350.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN006.SRF", 5,  TRUE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom( 145.0, -210.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN007.SRF", 4, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom( 130.0, -280.0, 0,  AREA_CELLAR, 0,    0, "FILE:TOWNST0.SRF", 7, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_DUAL_LEVEL)
-    AddRoom( 130.0, -350.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN006.SRF", 8,  TRUE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
-    AddRoom(   0.0, -400.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWNVR0.SRF", 2, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_VIRTUE)
+    AddRoom(   0.0, -280.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN002.SRF", 2, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom(-130.0, -150.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN003.SRF", 2, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom( 130.0, -120.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN004.SRF", 2, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom(-130.0, -270.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN005.SRF", 4, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom(-130.0, -350.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN006.SRF", 6,  TRUE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom( 145.0, -210.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN007.SRF", 5, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom( 130.0, -280.0, 0,  AREA_CELLAR, 0,    0, "FILE:TOWNST0.SRF", 8, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_DUAL_LEVEL)
+    AddRoom( 130.0, -350.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWN006.SRF", 9,  TRUE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
+    AddRoom(   0.0, -400.0, 0,  AREA_SUMMON, 0,    0, "FILE:TOWNVR0.SRF", 3, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_VIRTUE)
 
 
     // Cellar
     difficulty = ((NumLocalPlayer()-1)*64)
-    AddRoom( 260.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR000.SRF", 8, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 360.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR003.SRF",11, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 360.0, -380.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR004.SRF",12, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 440.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR001.SRF",12, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 540.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR006.SRF",14, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 330.0, -200.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR005.SRF",12, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 310.0, -120.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR004.SRF",16, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 210.0, -130.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR002.SRF",17, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 410.0, -130.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR007.SRF",17, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 350.0, -470.0, 1,  AREA_CELLAR,  difficulty,49152, "FILE:CELLR008.SRF",13, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 260.0, -380.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR009.SRF",13, FALSE, RollDice(1, 256), 0, flags)
-    AddRoom( 260.0, -480.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLRBS0.SRF",21, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_BOSS)
-    AddRoom( 650.0, -300.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLRBS1.SRF",15, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_BOSS)
-    AddRoom( 450.0, -370.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLRST0.SRF",13, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_DUAL_LEVEL)
+    AddRoom( 260.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR000.SRF", 9, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 360.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR003.SRF",12, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 360.0, -380.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR004.SRF",13, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 440.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR001.SRF",13, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 540.0, -280.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR006.SRF",15, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 330.0, -200.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR005.SRF",13, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 310.0, -120.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR004.SRF",17, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 210.0, -130.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR002.SRF",18, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 410.0, -130.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR007.SRF",18, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 350.0, -470.0, 1,  AREA_CELLAR,  difficulty,49152, "FILE:CELLR008.SRF",14, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 260.0, -380.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLR009.SRF",14, FALSE, RollDice(1, 256), 0, flags)
+    AddRoom( 260.0, -480.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLRBS0.SRF",22, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_BOSS)
+    AddRoom( 650.0, -300.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLRBS1.SRF",16, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_BOSS)
+    AddRoom( 450.0, -370.0, 1,  AREA_CELLAR,  difficulty,    0, "FILE:CELLRST0.SRF",14, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_DUAL_LEVEL)
 
 
   // Sewers

@@ -1,0 +1,405 @@
+//-----------------------------------------------------------------------
+int ModelSetup()
+  int self
+  int hair_color_rgb, hair_texture
+  int body_color_rgb, body_color_dull, body_color_gloss
+  int limb_color_rgb, limb_color_dull, limb_color_gloss
+  int flesh_color, gold_color, steel_color
+  int skin_type, hair_color_index, armor_type
+  int subtype
+  self = FindSelf()
+
+
+  // Funky shield stuff...
+  FUNKY.ShieldUnpress()
+
+
+  // Figger the skin & hair & clothing colors...
+  subtype = (self.eqcol01>>6)
+  skin_type = (self.eqcol01>>4)&3
+  if(skin_type == 0)
+    // Light skin & Light Hair
+    flesh_color = "FILE:FLESH.RGB"
+    hair_color_index = 10
+    hair_texture = "FILE:HAIR2.RGB"
+  if(skin_type == 1)
+    // Light skin & Dark Hair 
+    flesh_color = "FILE:FLESH.RGB"
+    hair_color_index = 6
+    hair_texture = "FILE:HAIR1.RGB"
+  if(skin_type == 2)
+    // Tanned skin & Dark Hair
+    flesh_color = "FILE:TFLESH.RGB"
+    hair_color_index = 3
+    hair_texture = "FILE:HAIR2.RGB"
+  if(skin_type == 3)
+    // Dark skin & Dark Hair
+    flesh_color = "FILE:DFLESH.RGB"
+    hair_color_index = 3
+    hair_texture = "FILE:HAIR0.RGB"
+
+
+
+  // Figger the colors to actually use...
+  hair_color_rgb   = HairColor(hair_color_index)
+  body_color_rgb   = RGBColor(self.eqcol01 & 15)
+  body_color_dull  = DullColor(self.eqcol01 & 15)
+  body_color_gloss = GlossColor(self.eqcol01 & 15)
+  limb_color_rgb   = RGBColor(9)
+  limb_color_dull  = DullColor(9)
+  limb_color_gloss = GlossColor(9)
+
+
+
+
+  gold_color = "FILE:DGOLD.RGB"
+  steel_color = "FILE:DSTEEL.RGB"
+
+
+  // Clear the model...
+  ModelClear()
+
+
+  // Animations (bones)
+  ModelAssign(self+MODEL_BASE_FILE, "FILE:PLAYERSM.RDY")
+  ModelAssign(self+MODEL_BASE_TEX0, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_TEX1, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_TEX2, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_TEX3, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_BASE_COLOR, WHITE)
+
+
+
+  // Body type...
+  armor_type = self.eqbody & 252
+  if(armor_type >= ITEM_BODY_1 && armor_type <= ITEM_BODY_5)
+    // Character is wearing armor...
+    if(armor_type == ITEM_BODY_1)
+      // Stuff for armor type 1
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRBODY0.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, flesh_color)
+      ModelAssign(self+MODEL_CHEST_TEX1, "FILE:NYELLOW.RGB")
+      ModelAssign(self+MODEL_CHEST_TEX2, body_color_gloss)
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:SHADBOD0.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, WHITE)
+
+      ModelAssign(self+MODEL_PADS_FILE, "FILE:PLRPADS0.RDY")
+      ModelAssign(self+MODEL_PADS_TEX0, "FILE:WHITE.RGB")
+      ModelAssign(self+MODEL_PADS_TEX1, "FILE:WHITE.RGB")
+      ModelAssign(self+MODEL_PADS_TEX2, "FILE:=TASSLE.RGB")
+      ModelAssign(self+MODEL_PADS_TEX3, "FILE:WHITE.RGB")
+      ModelAssign(self+MODEL_PADS_COLOR, body_color_rgb)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS0.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, flesh_color)
+      ModelAssign(self+MODEL_ARMS_TEX1, "FILE:DYELLOW.RGB")
+      ModelAssign(self+MODEL_ARMS_TEX2, limb_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, WHITE)
+    if(armor_type == ITEM_BODY_2)
+      // Stuff for armor type 2
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRBODY1.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, body_color_dull)
+      ModelAssign(self+MODEL_CHEST_TEX1, steel_color)
+      ModelAssign(self+MODEL_CHEST_TEX2, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:SHADBOD1.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, body_color_rgb)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS1.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, flesh_color)
+      ModelAssign(self+MODEL_ARMS_TEX1, steel_color)
+      ModelAssign(self+MODEL_ARMS_TEX2, limb_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, WHITE)
+    if(armor_type == ITEM_BODY_3)
+      // Stuff for armor type 3
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRBODY2.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, body_color_dull)
+      ModelAssign(self+MODEL_CHEST_TEX1, steel_color)
+      ModelAssign(self+MODEL_CHEST_TEX2, steel_color)
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:SHADBOD2.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, body_color_rgb)
+
+      ModelAssign(self+MODEL_PADS_FILE, "FILE:PLRPADS2.RDY")
+      ModelAssign(self+MODEL_PADS_TEX0, "FILE:WHITE.RGB")
+      ModelAssign(self+MODEL_PADS_TEX1, steel_color)
+      ModelAssign(self+MODEL_PADS_TEX2, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_PADS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_PADS_COLOR, WHITE)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS2.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, flesh_color)
+      ModelAssign(self+MODEL_ARMS_TEX1, steel_color)
+      ModelAssign(self+MODEL_ARMS_TEX2, limb_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, WHITE)
+    if(armor_type == ITEM_BODY_4)
+      // Stuff for armor type 4
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRBODY3.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, steel_color)
+      ModelAssign(self+MODEL_CHEST_TEX1, steel_color)
+      ModelAssign(self+MODEL_CHEST_TEX2, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:SHADBOD3.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, body_color_rgb)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS3.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, limb_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX1, steel_color)
+      ModelAssign(self+MODEL_ARMS_TEX2, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:SHADBOD3.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, WHITE)
+    if(armor_type == ITEM_BODY_5)
+      // Stuff for armor type 5
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRBODY4.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, flesh_color)
+      ModelAssign(self+MODEL_CHEST_TEX1, gold_color)
+      ModelAssign(self+MODEL_CHEST_TEX2, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:SHADBOD0.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, WHITE)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS4.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, flesh_color)
+      ModelAssign(self+MODEL_ARMS_TEX1, limb_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX2, gold_color)
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, WHITE)
+  else
+    // No armor being worn...
+    if(subtype < 2)
+      // Soldier style shirt...
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRTUNI1.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, body_color_dull)
+      ModelAssign(self+MODEL_CHEST_TEX1, flesh_color)
+      ModelAssign(self+MODEL_CHEST_TEX2, "FILE:SHADTUN1.RGB")
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, WHITE)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS0.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, flesh_color)
+      ModelAssign(self+MODEL_ARMS_TEX1, body_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX2, limb_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, WHITE)
+    else
+      // Wizard style shirt...
+      ModelAssign(self+MODEL_CHEST_FILE, "FILE:PLRTUNI0.RDY")
+      ModelAssign(self+MODEL_CHEST_TEX0, body_color_dull)
+      ModelAssign(self+MODEL_CHEST_TEX1, limb_color_dull)
+      ModelAssign(self+MODEL_CHEST_TEX2, flesh_color)
+      ModelAssign(self+MODEL_CHEST_TEX3, "FILE:SHADTUN0.RGB")
+      ModelAssign(self+MODEL_CHEST_COLOR, WHITE)
+
+      ModelAssign(self+MODEL_ARMS_FILE, "FILE:PLRARMS5.RDY")
+      ModelAssign(self+MODEL_ARMS_TEX0, flesh_color)
+      ModelAssign(self+MODEL_ARMS_TEX1, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_ARMS_TEX2, body_color_dull)
+      ModelAssign(self+MODEL_ARMS_TEX3, "FILE:=ARMOR.RGB")
+      ModelAssign(self+MODEL_ARMS_COLOR, limb_color_rgb)
+
+
+
+
+
+
+  if(subtype < 2)
+    if(subtype & 1)
+      // Scruffy hair, no hat...
+      ModelAssign(self+MODEL_HEAD_FILE, "FILE:PLRHEAD3.RDY")
+      ModelAssign(self+MODEL_HEAD_TEX0, flesh_color)
+      ModelAssign(self+MODEL_HEAD_TEX1, hair_texture)
+      ModelAssign(self+MODEL_HEAD_TEX2, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_HEAD_TEX3, "FILE:HAIRSHIN.RGB")
+      ModelAssign(self+MODEL_HEAD_COLOR, hair_color_rgb)
+    else
+      if(skin_type == 0 || skin_type == 2)
+        // Vampire hair, no hat...
+        ModelAssign(self+MODEL_HEAD_FILE, "FILE:PLRHEAD5.RDY")
+        ModelAssign(self+MODEL_HEAD_TEX0, flesh_color)
+        ModelAssign(self+MODEL_HEAD_TEX1, hair_texture)
+        ModelAssign(self+MODEL_HEAD_TEX2, "FILE:DBLACK.RGB")
+        ModelAssign(self+MODEL_HEAD_TEX3, "FILE:HAIRSHIN.RGB")
+        ModelAssign(self+MODEL_HEAD_COLOR, hair_color_rgb)
+      if(skin_type == 1)
+        // Politician instead...
+        ModelAssign(self+MODEL_HEAD_FILE, "FILE:PLRHEAD2.RDY")
+        ModelAssign(self+MODEL_HEAD_TEX0, flesh_color)
+        ModelAssign(self+MODEL_HEAD_TEX1, hair_texture)
+        ModelAssign(self+MODEL_HEAD_TEX2, "FILE:DBLACK.RGB")
+        ModelAssign(self+MODEL_HEAD_TEX3, "FILE:HAIRSHIN.RGB")
+        ModelAssign(self+MODEL_HEAD_COLOR, hair_color_rgb)
+      if(skin_type == 3)
+        // Bald instead...
+        ModelAssign(self+MODEL_HEAD_FILE, "FILE:PLRHEAD0.RDY")
+        ModelAssign(self+MODEL_HEAD_TEX0, flesh_color)
+        ModelAssign(self+MODEL_HEAD_TEX1, hair_texture)
+        ModelAssign(self+MODEL_HEAD_TEX2, "FILE:DBLACK.RGB")
+        ModelAssign(self+MODEL_HEAD_TEX3, "FILE:HAIRSHIN.RGB")
+        ModelAssign(self+MODEL_HEAD_COLOR, hair_color_rgb)
+  else
+    if(subtype & 1)
+      // Hattable head...
+      ModelAssign(self+MODEL_HEAD_FILE, "FILE:PLRHEAD6.RDY")
+      ModelAssign(self+MODEL_HEAD_TEX0, flesh_color)
+      ModelAssign(self+MODEL_HEAD_TEX1, hair_texture)
+      ModelAssign(self+MODEL_HEAD_TEX2, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_HEAD_TEX3, "FILE:HAIRSHIN.RGB")
+      ModelAssign(self+MODEL_HEAD_COLOR, hair_color_rgb)
+    else
+      // Alternate hattable head...
+      ModelAssign(self+MODEL_HEAD_FILE, "FILE:PLRHEAD7.RDY")
+      ModelAssign(self+MODEL_HEAD_TEX0, flesh_color)
+      ModelAssign(self+MODEL_HEAD_TEX1, hair_texture)
+      ModelAssign(self+MODEL_HEAD_TEX2, "FILE:DBLACK.RGB")
+      ModelAssign(self+MODEL_HEAD_TEX3, "FILE:HAIRSHIN.RGB")
+      ModelAssign(self+MODEL_HEAD_COLOR, hair_color_rgb)
+
+    // Little beanie hat thing...
+    ModelAssign(self+MODEL_HAIR_FILE, "FILE:PLRHAT4.RDY")
+    ModelAssign(self+MODEL_HAIR_TEX0, body_color_gloss)
+    ModelAssign(self+MODEL_HAIR_TEX1, "FILE:DBLACK.RGB")
+    ModelAssign(self+MODEL_HAIR_TEX2, limb_color_gloss)
+    ModelAssign(self+MODEL_HAIR_TEX3, "FILE:WHITE.RGB")
+    ModelAssign(self+MODEL_HAIR_COLOR, limb_color_rgb)
+
+
+  // Robe thing...
+  ModelAssign(self+MODEL_LEGS_FILE, "FILE:PLRPANT4.RDY")
+  ModelAssign(self+MODEL_LEGS_TEX0, body_color_dull)
+  ModelAssign(self+MODEL_LEGS_TEX1, "FILE:BUCKLE.RGB")
+  ModelAssign(self+MODEL_LEGS_TEX2, limb_color_dull)
+  ModelAssign(self+MODEL_LEGS_TEX3, "FILE:SHADPNT4.RGB")
+  ModelAssign(self+MODEL_LEGS_COLOR, YELLOW)
+
+  ModelAssign(self+MODEL_FEET_FILE, "FILE:PLRFEET1.RDY")
+  ModelAssign(self+MODEL_FEET_TEX0, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_FEET_TEX1, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_FEET_TEX2, limb_color_dull)
+  ModelAssign(self+MODEL_FEET_TEX3, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_FEET_COLOR, WHITE)
+
+
+  // Give the character some ears...
+  ModelAssign(self+MODEL_MOUTH_FILE, "FILE:PLREARS0.RDY")
+  ModelAssign(self+MODEL_MOUTH_TEX0, flesh_color)
+  ModelAssign(self+MODEL_MOUTH_TEX1, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_MOUTH_TEX2, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_MOUTH_TEX3, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_MOUTH_COLOR, WHITE)
+
+
+
+  // Give the character some eyes...
+  ModelAssign(self+MODEL_EYES_FILE, "FILE:PLREYES0.RDY")
+  ModelAssign(self+MODEL_EYES_TEX0, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_EYES_TEX1, "FILE:WHITE.RGB")
+  ModelAssign(self+MODEL_EYES_TEX2, "FILE:WHITE.RGB")
+  STANDARD.EyeSetup(self+MODEL_EYES_TEX3, TEAM_GOOD)
+  ModelAssign(self+MODEL_EYES_COLOR, WHITE)
+
+
+  // Put weapons in the character's hands...
+  STANDARD.ItemModelSetup(MODEL_LEFT_FILE)
+  STANDARD.ItemModelSetup(MODEL_RIGHT_FILE)
+
+
+//-----------------------------------------------------------------------
+int ButtonEvent()
+  STANDARD.ButtonEvent()
+
+//-----------------------------------------------------------------------
+int Event()
+  int self, subtype, temp, pitch
+  self = FindSelf()
+  subtype = (self.eqcol01>>7)
+
+
+  // Squires & Apprentices don't take wounds...
+  self.hitstap = 0
+
+
+  if(self.event == EVENT_DAMAGED)
+    temp = RollDice(1, 3)
+    pitch = 235 + RollDice(1, 40)
+    if(self.hits > 0)
+      if(temp == 1)
+        PlaySound("FILE:-HUBBI01.RAW", pitch, 255)
+      if(temp == 2)
+        PlaySound("FILE:-HUBBI02.RAW", pitch, 255)
+      if(temp == 3)
+        PlaySound("FILE:-HUBBI03.RAW", pitch, 255)
+    else
+      PlaySound("FILE:-HUBBI04.RAW", pitch, 255)
+
+
+  STANDARD.Event()
+  STANDARD.JumpOutOfWaterEvent()
+  if(subtype == 0)
+    STANDARD.LevelUpEvent(3, 0, 1, 1, 0)
+  else
+    STANDARD.LevelUpEvent(2, 2, 0, 0, 1)
+
+//-----------------------------------------------------------------------
+int FrameEvent()
+  STANDARD.FrameEvent()
+
+//-----------------------------------------------------------------------
+int GetName()
+  int self, subtype
+  self = FindSelf()
+  subtype = (self.eqcol01>>7)
+
+
+  StringClear(NAME_STRING)
+  if(subtype == 0)
+    StringAppend(NAME_STRING, "Audience", 256)
+  else
+    StringAppend(NAME_STRING, "Audience", 256)
+  STANDARD.NameAppendHits()
+
+
+//-----------------------------------------------------------------------
+int Refresh()
+  // Eye blinks...
+  STANDARD.Refresh()
+
+
+//-----------------------------------------------------------------------
+int Spawn()
+  int self, i, subtype
+  self = FindSelf()
+  subtype = (self.eqcol01>>7)
+
+  self.boxsize = 0.85
+  self.height = 4
+  self.flags = CHAR_GRAVITY_ON | CHAR_CAN_RIDE_MOUNT
+  self.sflags = SCRIPT_ALLOW_BODY
+  self.vflags = VIRTUE_FLAG_HITS // Used to tell if we've asked for a healing potion yet...
+  self.vspin = 1024
+  self.timer = 1
+
+
+  // Starting equipment...
+  if(subtype == 0)
+    // Squire
+    self.hitsmax = 10
+    self.manamax = 0
+    self.str = 16
+    self.dex = 16
+    self.int = 10
+  else
+    // Apprentice
+    self.hitsmax = 6
+    self.manamax = 8
+    self.str = 5
+    self.dex = 10
+    self.int = 16
+  self.eqspec1 = ITEM_JUMP
+  self.hits = self.hitsmax
+  self.mana = self.manamax
+  self.level = 1
+
+
+  ModelSetup()
+
+//-----------------------------------------------------------------------
+

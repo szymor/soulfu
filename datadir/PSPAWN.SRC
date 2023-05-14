@@ -1,0 +1,1066 @@
+#define eqrand      self.stat00l
+#define player    self.stat02h
+
+//-----------------------------------------------------------------------
+int Spawn()
+  int self
+  self = FindSelf()
+  self.timer = 1
+  self.misc6 = 0
+  self.misc5 = 0
+  self.team = TEAM_MONSTER
+  self.target = MAX_CHARACTER
+  eqrand = 255
+
+//-----------------------------------------------------------------------
+int Refresh()
+  int self, child, new_team, i, found_enemy, found_player, target, chest
+  float spawnx, spawny, spawnz
+
+  self = FindSelf()
+  child = FALSE
+  chest = FALSE
+  
+  
+// Take care of the gates
+  if(self.misc5 < 52)
+    CBUTTON.LockAllGates(TRUE)
+  else
+    CBUTTON.UnlockAllGates(TRUE)
+
+// Check for enemies
+  found_enemy = FALSE
+  i = 0
+  while(i < MAX_CHARACTER)
+    target = FindByIndex(i)
+    if(target)
+      if(target.team == TEAM_MONSTER)
+        i = MAX_CHARACTER
+        found_enemy = TRUE
+    i++
+
+// Check for players
+  found_player = FALSE
+  i = 0
+  while(i < MAX_CHARACTER)
+    target = FindByIndex(i)
+    if(target)
+      if(target.team == TEAM_GOOD)
+        i = MAX_CHARACTER
+        found_player = TRUE
+    i++
+
+// If grandma got killed by monster
+//  if(found_player == FALSE)
+//    CDOOR.ChangeRoom(0, TRUE)
+
+// Setup defaults to prevent errors
+// (can change them later)
+  new_team = TEAM_MONSTER
+  eqrand = 0
+  spawnx = self.x
+  spawny = self.y
+  spawnz = self.z
+  
+
+//-----------------10 Slimettes-----------------
+  if(self.misc6 < 10 && self.misc5 == 0)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSLIMETT.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 11 && self.misc5 == 1)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Grubs & 5 Gremfs-----------------
+  if(self.misc6 < 21 && self.misc5 == 2)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    if(self.misc6 < 16)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGRUBBUG.RUN")
+    if(self.misc6 > 15)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGREMF.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 22 && self.misc5 == 3)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------BOSS 1 (1 Rat Sub2 & 5 Rats)-----------
+  if(self.misc6 < 28 && self.misc5 == 4)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    if(self.misc6 == 23)
+      eqrand = 2
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 15 | (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CRAT.RUN")
+    if(self.misc6 > 23)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CRAT.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 29 && self.misc5 == 5)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//------------------8 Lumpkins--------------------
+  if(self.misc6 < 37 && self.misc5 == 6)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLUMPKIN.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 38 && self.misc5 == 7)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Mushies & 3 Snakes-----------------
+  if(self.misc6 < 46 && self.misc5 == 8)
+    if(self.misc6 < 42)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CMUSHI.RUN")
+    if(self.misc6 > 41)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSNAKE.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 47 && self.misc5 == 9)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------BOSS 2(3 Lumpkins & 3 Tranches)-----------------
+  if(self.misc6 < 50 && self.misc5 == 10)
+
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLUMPKIN.RUN")
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CTRANCH.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 51 && self.misc5 == 11)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Grub Mums-----------------
+  if(self.misc6 < 56 && self.misc5 == 12)
+    eqrand = 0
+    if (self.misc6 == 51)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGRUBMUM.RUN")
+    else
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGRUBMUM.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 57 && self.misc5 == 13)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------3 Bats-----------------
+  if(self.misc6 < 60 && self.misc5 == 14)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CBAT.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 61 && self.misc5 == 15)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      self.misc6++
+    else
+      self.misc6++
+
+//---------BOSS 3 (4 Carrions)-----------
+  if(self.misc6 < 65 && self.misc5 == 16)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CCARRION.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 66 && self.misc5 == 17)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------15 Mushi-----------------
+  if(self.misc6 < 80 && self.misc5 == 18)
+    eqrand = RollDice(0, 1)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CMUSHI.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 81 && self.misc5 == 19)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Snakes Sub2-----------------
+  if(self.misc6 < 86 && self.misc5 == 20)
+    eqrand = 1
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSNAKE.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 87 && self.misc5 == 21)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------BOSS 4(2 Skultons & 2 Wuffs)-----------------
+  if(self.misc6 < 91 && self.misc5 == 22)
+
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CWUFF.RUN")
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSKULTON.RUN")
+    self.misc6++
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 92 && self.misc5 == 23)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------3 Mums Sub2 & 7 Gremfs Sub2-----------------
+  if(self.misc6 < 102 && self.misc5 == 24)
+    if(self.misc6 < 95)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGRUBMUM.RUN")
+    if(self.misc6 > 94)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGREMF.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 103 && self.misc5 == 25)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------1 Lumpkin Sub3 5 Lumpkins Sub2-----------------
+  if(self.misc6 < 110 && self.misc5 == 26)
+    if(self.misc6 < 104)
+      eqrand = 2
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLUMPKIN.RUN")
+    if(self.misc6 > 103)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLUMPKIN.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 111 && self.misc5 == 27)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------BOSS 5 (2 Porc Sub2 7 Porcs)-----------------
+  if(self.misc6 < 120 && self.misc5 == 28)
+    if(self.misc6 < 112)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CPORC.RUN")
+    if(self.misc6 > 111)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CPORC.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 121 && self.misc5 == 29)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Rats Sub3-----------------
+  if(self.misc6 < 126 && self.misc5 == 30)
+    eqrand = 2
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CRAT.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 127 && self.misc5 == 31)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Bats Sub2 2 Mums Sub 3-----------------
+  if(self.misc6 < 134 && self.misc5 == 32)
+    if(self.misc6 < 132)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CBAT.RUN")
+    if(self.misc6 > 131)
+      eqrand = 2
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGRUBMUM.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 135 && self.misc5 == 33)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+1
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------BOSS 6 (4 Lizzers 1 Carrion Sub 2)-----------------
+  if(self.misc6 < 141 && self.misc5 == 34)
+    if(self.misc6 < 140)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLIZZER.RUN")
+    if(self.misc6 > 139)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CCARRION.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 142 && self.misc5 == 35)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------3 Gremfs 3 Tranches Sub 2-----------------
+  if(self.misc6 < 146 && self.misc5 == 36)
+    eqrand = 1
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CTRANCH.RUN")
+    eqrand = 1
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CGREMF.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 147 && self.misc5 == 37)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Zombis 5 Snakes Sub 2-----------------
+  if(self.misc6 < 157 && self.misc5 == 38)
+    if(self.misc6 < 152)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CZOMBI.RUN")
+    if(self.misc6 > 151)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSNAKE.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 158 && self.misc5 == 39)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//--------BOSS 7 (1 Porc Sub4 2 Porcs Sub3 2 Porcs)---------
+  if(self.misc6 < 163 && self.misc5 == 40)
+    if(self.misc7 == 1)
+      if(self.misc6 < 159)
+        eqrand = 3
+        SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+        SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+        child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CPORC.RUN")
+        self.misc6++
+    else
+      if(self.misc6 < 160)
+        eqrand = 2
+        SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+        SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+        child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CPORC.RUN")
+    if(self.misc6 > 159)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1dd)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CPORC.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 164 && self.misc5 == 41)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------6 Lizzers Sub 2-----------------
+  if(self.misc6 < 169 && self.misc5 == 42)
+    eqrand = 1
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLIZZER.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 170 && self.misc5 == 43)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Snakes Sub 3-----------------
+  if(self.misc6 < 175 && self.misc5 == 44)
+    eqrand = 2
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSNAKE.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 176 && self.misc5 == 45)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+
+//----------BOSS 8 (4 Bats Sub3 1 Eye Bat)-----------
+  if(self.misc6 < 180 && self.misc5 == 46)
+    if(self.misc6 < 179)
+      eqrand = 2
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CBAT.RUN")
+    if(self.misc6 > 178)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CEYEBAT.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 181 && self.misc5 == 47)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//---------------5 Wuffs Sub 2-----------------
+  if(self.misc6 < 185 && self.misc5 == 47)
+    eqrand = 1
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+    SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+    child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CWUFF.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 186 && self.misc5 == 48)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//----------3 Lumpkins Sub3 1 Lumpkin Sub4-----------
+  if(self.misc6 < 190 && self.misc5 == 49)
+    if(self.misc6 < 189)
+      eqrand = 2
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLUMPKIN.RUN")
+    if(self.misc6 > 188)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CLUMPKIN.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 191 && self.misc5 == 50)
+    if (self.misc7 == 1)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, 1)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+2
+      self.misc6++
+    else
+      self.misc6++
+
+//-------BOSS 9 (3 Skultons Sub2 3 Tranches Sub3)----------
+  if(self.misc6 < 197 && self.misc5 == 51)
+    if(self.misc6 < 194)
+      eqrand = 2
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CTRANCH.RUN")
+    if(self.misc6 > 193)
+      eqrand = 1
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      child = Spawn(CHARACTER, spawnx, spawny, spawnz, "FILE:CSKULTON.RUN")
+    self.misc6++
+    self.timer = 20
+
+//---------------Crates & Barrels-----------------
+  if(self.misc6 < 198 && self.misc5 == 52)
+    if (self.misc7 == 1)
+      eqrand = 3
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_TEAM, new_team)
+      PHEART.Effect(RED_HEART, 0, -5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 0,  5, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART,-5,  0, 4, 0.0, 0.0, 0.0)
+      PHEART.Effect(RED_HEART, 5,  0, 4, 0.0, 0.0, 0.0)
+      child = Spawn(CHARACTER,  0,  -10, 10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,  0,   10, 10, "FILE:CBARREL.RUN")
+      child = Spawn(CHARACTER, 10,   0,  10, "FILE:CCRATE.RUN")
+      child = Spawn(CHARACTER,-10,   0,  10, "FILE:CBARREL.RUN")
+      SystemSet(SYS_GLOBALSPAWN, 0, GLOBAL_SPAWN_SUBTYPE, (eqrand << 6))
+      chest = Spawn(CHARACTER,  0,   0,  10, "FILE:CCHESTA.RUN")
+      chest.misc5 = chest.misc5+3
+      self.misc6++
+    else
+      self.misc6++
+
+
+
+
+//----------------------------------------------------
+  if(self.misc6 == 10 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 11 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 21 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 22 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 28 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 29 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 37 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 38 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 46 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 47 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 50 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 51 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 56 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 57 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 60 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 61 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 65 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 66 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 80 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 81 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 86 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 87 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 91 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 92 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 102 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 103 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 110 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 111 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 120 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 121 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 126 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 127 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 134 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 135 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 141 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 142 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 146 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 147 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 157 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 158 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 163 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 164 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 169 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 170 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 175 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 176 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 180 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 181 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 185 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 186 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 190 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 191 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+  if(self.misc6 == 197 && !found_enemy)
+    self.misc5++
+  if(self.misc6 == 198 && !found_enemy)
+    self.misc5++
+    self.timer = 1000
+
+
+// Take care of my lovelies
+  if(child)
+    child.spin = self.spin
+    child.expgive = 0
+    child.aitimer = 1
+    SystemSet(SYS_CHARFASTFUNCTION, FindIndex(child), 0, FAST_FUNCTION_MODELSETUP)
+
+// Lets continue updating if it stopped
+  if(self.timer == 0)
+    self.timer = 100
+  
+
+//-----------------------------------------------------------------------
+
