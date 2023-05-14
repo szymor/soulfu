@@ -38,6 +38,7 @@ unsigned short onscreen_draw_count;
 #include "dcodepcx.c"
 #include "dcodeogg.c"
 #include "dcodeddd.c"
+#include "skybox.c"
 #include "display.c"
 #include "sound.c"
 #include "input.c"
@@ -191,8 +192,16 @@ void main_loop(void)
       map_side_xy[X] = camera_side_xyz[X];
       map_side_xy[Y] = camera_side_xyz[Y];
 
-
-
+/* Skyboxcode by MiR 2008 */
+if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
+            //if (SKYBOX_ON>0) {
+                display_texture_on();
+                //if (SKYBOX_ON<10) {
+                    LoadSkyBoxTextures(g_skyTexID,g_skyTexIDs[1]);
+                    DrawSkyBox(g_skyTexID);
+                //}
+            }
+/* End skybox code */
       // Draw the world scene...
       drawing_world = TRUE;
       room_draw(roombuffer);

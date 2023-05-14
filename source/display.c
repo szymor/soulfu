@@ -1719,7 +1719,23 @@ signed char display_load_texture(unsigned char* index)
     glGenTextures(1, (unsigned int*) (data+2));
     glBindTexture(GL_TEXTURE_2D, *((unsigned int*) (data+2)));
 
-
+/* changes for the skyboxing mode by MiR 2008 Block 1*/
+    char skbx[6];
+    int numsky;
+    int numtex;
+    if(strncmp(filename, "SKYBOX",6) == 0) {
+        //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        sscanf(filename,"%6s%1d%1d",&skbx,&numsky,&numtex);
+        //log_message("found skybox %d %d",numsky,numtex);
+        if (numsky>=0&&numsky<10&&numtex>0&&numtex<7) {
+            g_skyTexIDs[numsky][numtex-1]=*((unsigned int*) (data+2));
+        }
+    } else {
+/* end of block 1 */
 
     // Fast and Ugly mode...
     if(fast_and_ugly_active)
@@ -1741,7 +1757,9 @@ signed char display_load_texture(unsigned char* index)
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         }
     }
-
+/* changes for the skyboxing mode by MiR 2008 Block 1*/
+    } // to end the else case from above
+/* End of BLock 2 , no further changes down this way */
 
 // !!!BAD!!!
 // !!!BAD!!!  Leave this code here, but don't use...  It's for the old tile based stuff...

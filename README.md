@@ -23,6 +23,7 @@ make
   + language file converter,
   + script compiler.
 + A few mods have been merged:
+  + Sky Box by MiR 2008,
   + Arena by ???.
 
 ## What will be done?
