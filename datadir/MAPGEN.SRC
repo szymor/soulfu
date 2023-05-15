@@ -339,7 +339,7 @@ Setup()
 
   // Town...
   AddRoom(   0.0,    0.0, 0,  AREA_SUMMON, 0,40960, "FILE:TOWN000.SRF", 65535, FALSE, RollDice(1, 256), 1, flags | MAP_ROOM_FLAG_TOWN | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_OUTSIDE)
-  AddRoom( -150.0,  -4.0, 0,  AREA_SUMMON, 0,33300, "FILE:ARENA000.SRF",    0, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND | MAP_ROOM_FLAG_OUTSIDE)
+  AddRoom( -300.0,   0.0, 0,  AREA_SUMMON, 0,33300, "FILE:ARENA000.SRF",    0, FALSE, RollDice(1, 256), 0, flags | MAP_ROOM_FLAG_FOUND)
 
 
   // Castle and cellar...
