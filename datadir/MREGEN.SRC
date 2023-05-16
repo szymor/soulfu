@@ -1,0 +1,31 @@
+//----------------------------------------------------------------------//-----------------------------------------------------------------------
+int Event()
+  int self
+  self = FindSelf()
+  if(self.mana < (self.manamax-self.manatap))
+    self.mana++
+    if(self)
+      PlayerManaNumber()
+  PlayerManaTimer()
+      
+//-----------------------------------------------------------------------
+int PlayerManaTimer()
+  int self
+  self = FindSelf()
+  if(self.class == CLASS_WIZARD)
+    self.tetimer = (1800-(self.int*15))
+  if(self.class == CLASS_MYSTIC)
+    self.tetimer = (1800-(self.int*10))
+
+//-----------------------------------------------------------------------
+int PlayerManaNumber()
+  int self, child
+  self = FindSelf()
+  if(self)
+    child = Spawn(PARTICLE, self.x, self.y, self.z + (self.height - 1), "FILE:PNUMBER.RUN") 
+      child.red   = 0
+      child.green = 0
+      child.blue  = 255
+      child.number = 1
+
+//-----------------------------------------------------------------------
