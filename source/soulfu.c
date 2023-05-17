@@ -898,6 +898,9 @@ unsigned char mip_map_active = FALSE;
 unsigned char fast_and_ugly_active = FALSE;
 unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] =
 {
+  {320, 200},
+  {320, 240},
+  {640, 400},
   {640, 480},
   {800, 600},
   {1024, 768},

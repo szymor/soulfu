@@ -542,8 +542,8 @@ SF_EXTERN unsigned int time_since_i_sent_heartbeat;// Frames since I sent a hear
 SF_EXTERN unsigned char mip_map_active ; // = FALSE;
 SF_EXTERN unsigned char fast_and_ugly_active ; // = FALSE;
 
-
-#define MAX_SCREEN_SIZES 8
+// need to be power of 2 for bit masking
+#define MAX_SCREEN_SIZES 16
 SF_EXTERN unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] ;
 
 SF_EXTERN int screen_x; // =400;                       // The x screen size
@@ -755,4 +755,3 @@ signed char src_compile_archive(unsigned char stage);
 #define SRC_HEADERIZE   1   // The first stage of compilation
 #define SRC_COMPILERIZE 2   // The second stage of compilation
 #define SRC_FUNCTIONIZE 3   // The third stage of compilation
-
