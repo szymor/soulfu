@@ -29,6 +29,7 @@ make
   + language file converter,
   + script compiler.
 + A few mods have been merged:
+  + Squire AI by Poobah,
   + Mana Regeneration by Xuln,
   + Saving System by Xuln,
   + Sky Box by MiR 2008,
