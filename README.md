@@ -34,6 +34,7 @@ make
   + Saving System by Xuln,
   + Sky Box by MiR 2008,
   + Arena by bravebebe.
++ Background music has been enabled. It was already there, composed by Aaron.
 
 ## What will be done?
 I do not promise anything. The project is done in my free time. I have some ideas, though:

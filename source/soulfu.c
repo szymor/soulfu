@@ -22,7 +22,7 @@
 #include <SDL/SDL_opengl.h>
 #include <SDL/SDL_net.h>
 
-#define EXECUTABLE_VERSION   "1.5 NICEWARE"
+#define EXECUTABLE_VERSION   "1.x BFTD"
 
 unsigned short onscreen_draw_count;
 
