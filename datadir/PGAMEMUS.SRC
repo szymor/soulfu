@@ -1,0 +1,81 @@
+//-----------------------------------------------------------------------
+//This sets up the music track...
+//-----------------------------------------------------------------------
+int Music(int cur_room, int next_room)
+  int cur_level, next_level, cur_flags, next_flags
+
+  cur_level  = MAPGEN.GetRoomLevel(cur_room)
+  next_level = MAPGEN.GetRoomLevel(next_room)
+  cur_flags  = MAPGEN.GetRoomFlags(cur_room)
+  next_flags = MAPGEN.GetRoomFlags(next_room)
+
+  if(cur_room == next_room) //From wfader, for (re)spawn/load
+    if(cur_flags & MAP_ROOM_FLAG_OUTSIDE)
+      PlayMusic("FILE:CUTSCENE.MUS", FileReadByte("FILE:CUTSCENE.MUS", 26), MUSIC_PLAY)
+    else
+      if(cur_flags & MAP_ROOM_FLAG_TOWN)
+        PlayMusic("FILE:TOWN.MUS", FileReadByte("FILE:TOWN.MUS", 26), MUSIC_PLAY)
+      else
+        if(cur_flags & MAP_ROOM_FLAG_VIRTUE)
+          PlayMusic("FILE:GOODNITE.MUS", FileReadByte("FILE:GOODNITE.MUS", 26), MUSIC_PLAY)
+        else
+          if(cur_flags & MAP_ROOM_FLAG_BOSS)
+            PlayMusic("FILE:SPOOKY.MUS", FileReadByte("FILE:SPOOKY.MUS", 27), MUSIC_PLAY)
+          else
+            MusicBegin(cur_level)
+
+  else //From cdoor, normal music transition
+
+    if(cur_flags & MAP_ROOM_FLAG_OUTSIDE) //reset track for leaving starting town
+      MusicBegin(next_level)
+    else
+      if(cur_flags & MAP_ROOM_FLAG_TOWN) //reset track for leaving other towns
+        MusicBegin(next_level)
+      else
+        if(cur_flags & MAP_ROOM_FLAG_VIRTUE) //reset track for leaving altar
+          MusicBegin(next_level)
+        else
+          if(cur_flags & MAP_ROOM_FLAG_BOSS) //reset track for leaving boss room
+            MusicBegin(next_level)
+          else
+            if(cur_level != next_level) //change tracks for default level changes
+              MusicBegin(next_level)
+            else
+              if(next_flags & MAP_ROOM_FLAG_OUTSIDE) //starting town only music
+                PlayMusic("FILE:CUTSCENE.MUS", FileReadByte("FILE:CUTSCENE.MUS", 26), MUSIC_PLAY)
+              else
+                if(next_flags & MAP_ROOM_FLAG_TOWN) //later town only music
+                  PlayMusic("FILE:TOWN.MUS", FileReadByte("FILE:TOWN.MUS", 26), MUSIC_PLAY)
+                else
+                  if(next_flags & MAP_ROOM_FLAG_VIRTUE) //start altar only music
+                    PlayMusic("FILE:GOODNITE.MUS", FileReadByte("FILE:GOODNITE.MUS", 26), MUSIC_PLAY)
+
+//-----------------------------------------------------------------------
+//This calls the correct track for the current level
+int MusicBegin(int next_level)
+  if(next_level == 0)
+    PlayMusic("FILE:AIRSHIP.MUS", FileReadByte("FILE:AIRSHIP.MUS", 26), MUSIC_PLAY)
+  else
+    if(next_level == 1)
+      PlayMusic("FILE:PALACE.MUS", FileReadByte("FILE:PALACE.MUS", 26), MUSIC_PLAY)
+    else
+      if(next_level == 2)
+        PlayMusic("FILE:FOREST.MUS", FileReadByte("FILE:FOREST.MUS", 26), MUSIC_PLAY)
+      else
+        if(next_level == 3)
+          PlayMusic("FILE:MINES.MUS", FileReadByte("FILE:MINES.MUS", 26), MUSIC_PLAY)
+        else
+          if(next_level == 4)
+            PlayMusic("FILE:MOUNTAIN.MUS", FileReadByte("FILE:MOUNTAIN.MUS", 26), MUSIC_PLAY)
+          else
+            if(next_level == 5)
+              PlayMusic("FILE:DUNGEON.MUS", FileReadByte("FILE:DUNGEON.MUS", 26), MUSIC_PLAY)
+            else
+              if(next_level == 6)
+                PlayMusic("FILE:SPOOKY.MUS", FileReadByte("FILE:SPOOKY.MUS", 26), MUSIC_PLAY)
+              else
+                if(next_level == 7)
+                  PlayMusic("FILE:EVILNITE.MUS", FileReadByte("FILE:EVILNITE.MUS", 26), MUSIC_PLAY)
+
+//-----------------------------------------------------------------------
+

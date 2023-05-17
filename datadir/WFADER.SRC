@@ -71,7 +71,9 @@ Refresh()
         mode = 0
         timer = 0
         SystemSet(SYS_CURSORDRAW, 0, 0, TRUE)
-        PlayMusic(NULL, 0, MUSIC_STOP)
+        //PlayMusic(NULL, 0, MUSIC_STOP)
+        curroom = MAPGEN.GetCurrentRoom()
+        PGAMEMUS.Music(curroom, curroom)
       else
         timer = timer + (skip<<3)
       DrawBlack(alpha)

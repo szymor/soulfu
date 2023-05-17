@@ -227,7 +227,8 @@ int Event()
                 current_room = MAPGEN.GetCurrentRoom()
                 next_room = MAPGEN.GetRoomDoorDestination(current_room, door)
                 ChangeRoom(next_room, FALSE)
-                StopMusic()
+                //StopMusic()
+                PGAMEMUS.Music(current_room, next_room)
                 GoPoof(POOF_SELF)
 
 
