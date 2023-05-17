@@ -333,7 +333,7 @@ void volume_draw_room_shadows(unsigned char* data)
 //-----------------------------------------------------------------------------------------------
 // Stuff for finding screen corners
 #define CORNER_FORE_SCALE (-ZNEAR)
-#define CORNER_LEFT_SCALE (1.68f*ZNEAR)
+#define CORNER_LEFT_SCALE ((virtual_x / virtual_y)*1.26f*ZNEAR)
 #define CORNER_UP_SCALE (1.26f*ZNEAR)
 void volume_shadow_draw_all()
 {
