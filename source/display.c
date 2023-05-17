@@ -405,8 +405,8 @@ void display_get_onscreen_xyd(float* in_xyz, float* out_xyd)
     if(out_xyd[2] != 0.0f)
     {
          out_xyd[X]/=out_xyd[2]; out_xyd[Y]/=out_xyd[2];
-         out_xyd[X]*=200.0f;   out_xyd[X]+=200.0f;
-         out_xyd[Y]*=-150.0f;  out_xyd[Y]+=150.0f;
+         out_xyd[X]*=virtual_x/2;   out_xyd[X]+=virtual_x/2;
+         out_xyd[Y]*=-virtual_y/2;  out_xyd[Y]+=virtual_y/2;
     }
 }
 
@@ -2286,7 +2286,7 @@ void display_loadin(float amount_done)
     display_clear_buffers();
     glLoadMatrixf(window_camera_matrix);
     x_add = 15.0f;
-    x = (400.0f - (x_add*7.0f))*0.5f;
+    x = (virtual_x - (x_add*7.0f))*0.5f;
     repeat(i, 7)
     {
         display_color(grey);
@@ -2299,12 +2299,12 @@ void display_loadin(float amount_done)
     display_texture_off();
     if(amount_done < 0.0f) { amount_done = 0.0f; }
     if(amount_done > 1.0f) { amount_done = 1.0f; }
-    amount_done*=200.0f;
+    amount_done*=virtual_x-200.0f;
     display_color(grey);
     display_start_fan();
         display_vertex_xy(100.0f-2.5f, 250.0f-2.5f);
-        display_vertex_xy(300.0f+2.5f, 250.0f-2.5f);
-        display_vertex_xy(300.0f+2.5f, 275.0f+2.5f);
+        display_vertex_xy(virtual_x-100.0f+2.5f, 250.0f-2.5f);
+        display_vertex_xy(virtual_x-100.0f+2.5f, 275.0f+2.5f);
         display_vertex_xy(100.0f-2.5f, 275.0f+2.5f);
     display_end();
     display_color(white);
@@ -2407,9 +2407,9 @@ void display_fade(void)
         {
             // Generate the points...
             circle_xyz[4][0] = WARNING_SIZE;   circle_xyz[4][1] = WARNING_SIZE;
-            circle_xyz[5][0] = 400-WARNING_SIZE;   circle_xyz[5][1] = WARNING_SIZE;
-            circle_xyz[6][0] = 400-WARNING_SIZE;   circle_xyz[6][1] = 300-WARNING_SIZE;
-            circle_xyz[7][0] = WARNING_SIZE;   circle_xyz[7][1] = 300-WARNING_SIZE;
+            circle_xyz[5][0] = virtual_x-WARNING_SIZE;   circle_xyz[5][1] = WARNING_SIZE;
+            circle_xyz[6][0] = virtual_x-WARNING_SIZE;   circle_xyz[6][1] = virtual_y-WARNING_SIZE;
+            circle_xyz[7][0] = WARNING_SIZE;   circle_xyz[7][1] = virtual_y-WARNING_SIZE;
 
 
             // Draw the effect

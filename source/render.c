@@ -1011,8 +1011,8 @@ void render_get_point_xy(float x, float y, float z, float* x_spot, float* y_spot
     display_end();
     if(glRenderMode(GL_RENDER))
     {
-        *x_spot = feedback_buffer[1]*400.0f/((float)screen_x);
-        *y_spot = 300.0f - (feedback_buffer[2]*300.0f/((float)screen_y));
+        *x_spot = feedback_buffer[1]*virtual_x/((float)screen_x);
+        *y_spot = virtual_y - (feedback_buffer[2]*virtual_y/((float)screen_y));
     }
     else
     {
@@ -1038,8 +1038,8 @@ void render_get_point_xyd(float x, float y, float z, float* x_spot, float* y_spo
     display_end();
     if(glRenderMode(GL_RENDER))
     {
-        *x_spot = feedback_buffer[1]*400.0f/((float)screen_x);
-        *y_spot = 300.0f - (feedback_buffer[2]*300.0f/((float)screen_y));
+        *x_spot = feedback_buffer[1]*virtual_x/((float)screen_x);
+        *y_spot = virtual_y - (feedback_buffer[2]*virtual_y/((float)screen_y));
         *d_spot = feedback_buffer[3];
     }
     else
@@ -2967,8 +2967,8 @@ void render_rdy(unsigned char* data, unsigned short frame, unsigned char mode, u
             if(dot != 0.0f)
             {
                 onscreen_joint_xyss[X]/=dot;      onscreen_joint_xyss[Y]/=dot;
-                onscreen_joint_xyss[X]*=200.0f;   onscreen_joint_xyss[X]+=200.0f;
-                onscreen_joint_xyss[Y]*=-150.0f;  onscreen_joint_xyss[Y]+=150.0f;
+                onscreen_joint_xyss[X]*=virtual_x/2;   onscreen_joint_xyss[X]+=virtual_x/2;
+                onscreen_joint_xyss[Y]*=-virtual_y/2;  onscreen_joint_xyss[Y]+=virtual_y/2;
                 num_onscreen_joint++;
                 dot = (ONSCREEN_CLICK_SCALE/dot);
                 onscreen_joint_xyss[2] = (*((float*) (joint_data+(i<<2)))) * dot;  // Joint size...
@@ -2986,7 +2986,7 @@ void render_rdy(unsigned char* data, unsigned short frame, unsigned char mode, u
         {
             if(onscreen_joint_xyss[X] > -onscreen_joint_xyss[3] && onscreen_joint_xyss[Y] > -onscreen_joint_xyss[3] && onscreen_joint_xyss[3] > 0.0f)
             {
-                if(onscreen_joint_xyss[X] < (400.0f+onscreen_joint_xyss[3]) && onscreen_joint_xyss[Y] < (300.0f+onscreen_joint_xyss[3]))
+                if(onscreen_joint_xyss[X] < (virtual_x+onscreen_joint_xyss[3]) && onscreen_joint_xyss[Y] < (virtual_y+onscreen_joint_xyss[3]))
                 {
                     we_have_to_draw_it = TRUE;
                     i = num_onscreen_joint;

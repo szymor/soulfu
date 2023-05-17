@@ -339,8 +339,8 @@ void input_setup(void)
 
     // Setup mouse information
     mouse_last_click_object = NULL;
-    mouse_x = 200.0f;
-    mouse_y = 150.0f;
+    mouse_x = virtual_x / 2;
+    mouse_y = virtual_y / 2;
     repeat(i, MAX_MOUSE_BUTTON)
     {
         mouse_down[i] = 0;

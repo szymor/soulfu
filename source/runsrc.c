@@ -6850,10 +6850,10 @@ float_stack_head-=num_float_args;
 
 
                 // 400x300 notation to true screen coordinates
-                return_float = screen_x / 400.0f;
+                return_float = screen_x / virtual_x;
                 e = e * return_float;
                 script_temp_e = script_temp_e * return_float;
-                return_float = screen_y / 300.0f;
+                return_float = screen_y / virtual_y;
                 f = f * return_float;
                 script_temp_f = script_temp_f * return_float;
 

@@ -450,10 +450,10 @@ if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
         alt_text = mouse_text;
         brx = x+script_window_scale*(strlen(alt_text)+1);
         bry = y+(script_window_scale*1.2f);
-        if(brx > 400.0f)
+        if(brx > virtual_x)
         {
-          x = 400.0f - (brx-x);
-          brx = 400.0f;
+          x = virtual_x - (brx-x);
+          brx = virtual_x;
         }
         display_color_alpha(whiter);
         display_mouse_text_box(x, y, brx, bry, texture_winalt);
@@ -522,7 +522,7 @@ if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
 #ifdef SHOW_JOYSTICK_POSITIONS
     repeat(i, MAX_LOCAL_PLAYER)
     {
-      x = (400.0f/(MAX_LOCAL_PLAYER+1)) * (i+1);
+      x = (virtual_x/(MAX_LOCAL_PLAYER+1)) * (i+1);
       y = 275.0f;
 
       display_color(white);
@@ -777,7 +777,7 @@ int main(int argc, char *argv[])
   if(script)
   {
     script = (unsigned char*) sdf_read_unsigned_int(script);
-    obj_spawn(WINDOW, 200.0f, 150.0f, 0, script, MAX_WINDOW);
+    obj_spawn(WINDOW, virtual_x / 2, virtual_y / 2, 0, script, MAX_WINDOW);
     repeat(i, promotion_count)
     {
       promote_window(promotion_buffer[i]);
