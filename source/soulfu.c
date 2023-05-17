@@ -912,6 +912,8 @@ unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] =
 };
 int screen_x=400;                       // The x screen size
 int screen_y=300;                       // The y screen size
+float virtual_x = 400.0f;
+float virtual_y = 300.0f;
 float script_window_x;
 float script_window_y;
 float script_window_scale = 6.0f;

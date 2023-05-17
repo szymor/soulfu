@@ -545,13 +545,13 @@ void input_read(void)
                 {
                     mouse_x += event.motion.xrel * 0.625f;
                     mouse_y += event.motion.yrel * 0.625f;
-                    clip(0.0f, mouse_x, 400.0f);
-                    clip(0.0f, mouse_y, 300.0f);
+                    clip(0.0f, mouse_x, virtual_x);
+                    clip(0.0f, mouse_y, virtual_y);
                 }
                 else
                 {
-                    mouse_x = event.motion.x * 400.0f / screen_x;
-                    mouse_y = event.motion.y * 300.0f / screen_y;
+                    mouse_x = event.motion.x * virtual_x / screen_x;
+                    mouse_y = event.motion.y * virtual_y / screen_y;
                 }
                 break;
             case SDL_JOYAXISMOTION:
@@ -880,7 +880,7 @@ void input_camera_controls(void)
 
 
                     // Keep the mouse in one spot...
-                    SDL_WarpMouse((Uint16) (mouse_last_x * screen_x / 400.0f), (Uint16) (mouse_last_y * screen_y / 300.0f));
+                    SDL_WarpMouse((Uint16) (mouse_last_x * screen_x / virtual_x), (Uint16) (mouse_last_y * screen_y / virtual_y));
                     mouse_x = mouse_last_x;
                     mouse_y = mouse_last_y;
                     // Flush out that last mouse event...

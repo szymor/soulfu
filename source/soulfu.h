@@ -548,6 +548,8 @@ SF_EXTERN unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] ;
 
 SF_EXTERN int screen_x; // =400;                       // The x screen size
 SF_EXTERN int screen_y; // =300;                       // The y screen size
+SF_EXTERN float virtual_x;
+SF_EXTERN float virtual_y;
 SF_EXTERN float script_window_x;
 SF_EXTERN float script_window_y;
 SF_EXTERN float script_window_scale ; // = 6.0f;

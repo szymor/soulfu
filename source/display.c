@@ -2146,6 +2146,8 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     // Remember how big our display is...
     screen_x = size_x;
     screen_y = size_y;
+    virtual_y = 300.0f;
+    virtual_x = screen_x * virtual_y / screen_y;
     display_viewport(0,0,screen_x,screen_y);
 
 
@@ -2155,9 +2157,9 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
         circle_xyz[i][2] = 0.0;
     }
     circle_xyz[0][0] = 0.0;  circle_xyz[0][1] = 0.0;
-    circle_xyz[1][0] = 400.0;  circle_xyz[1][1] = 0.0;
-    circle_xyz[2][0] = 400.0;  circle_xyz[2][1] = 300.0;
-    circle_xyz[3][0] = 0.0;  circle_xyz[3][1] = 300.0;
+    circle_xyz[1][0] = virtual_x;  circle_xyz[1][1] = 0.0;
+    circle_xyz[2][0] = virtual_x;  circle_xyz[2][1] = virtual_y;
+    circle_xyz[3][0] = 0.0;  circle_xyz[3][1] = virtual_y;
 
 
 
@@ -2174,6 +2176,7 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     log_message("INFO:     Double Buffer == %d", value);
     SDL_GL_GetAttribute( SDL_GL_STENCIL_SIZE, &value );
     log_message("INFO:     Stencil Bits  == %d", value);
+    log_message("INFO:     Resolution    == %dx%d", screen_x, screen_y);
     log_message("INFO:     Color Depth...");
     SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &value);
     log_message("INFO:       Red bits    == %d", value);
@@ -2212,9 +2215,9 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     // Setup our camera's field of view...
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-0.4, 0.4, -0.3, 0.3, ZNEAR, MAX_TERRAIN_DISTANCE);
-    screen_frustum_x = 0.4f;
-    screen_frustum_y = 0.3f;
+    screen_frustum_x = virtual_x / 1000;
+    screen_frustum_y = virtual_y / 1000;
+    glFrustum(-screen_frustum_x, screen_frustum_x, -screen_frustum_y, screen_frustum_y, ZNEAR, MAX_TERRAIN_DISTANCE);
 
 
     // Setup the texture matrix...
@@ -2240,7 +2243,7 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     // Top left corner is 0, 0...  Bottom right is 400, 300...
     glLoadIdentity();
     glScalef(1.0, -1.0, 1.0);
-    glTranslatef(-0.8f, -0.6f, -2*ZNEAR);
+    glTranslatef(-2*screen_frustum_x, -2*screen_frustum_y, -2*ZNEAR);
     glScalef(0.004f, 0.004f, 1.0);
     glGetFloatv(GL_MODELVIEW_MATRIX, window_camera_matrix);
     log_message("INFO:   ------------------------------------------");
