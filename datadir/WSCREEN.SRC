@@ -21,18 +21,18 @@ Spawn()
 //-----------------------------------------------------------------------
 Refresh()
   int    i, self, file, count, testing
-
+  float midx
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
   file = "FILE:CONFIG.DAT"
   testing = FileReadByte(file, 73)
-
+  midx = SystemGet(SYS_SCREENPARAMS, 0, 2) / 2
 
   if(!testing)
     if(timer == 0)
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WSPLASH.RUN")
+      Spawn(WINDOW, midx, 150.0, 1.0, "FILE:WMAIN.RUN")
+      Spawn(WINDOW, midx, 150.0, 1.0, "FILE:WSPLASH.RUN")
       GoPoof(POOF_SELF)
     timer--
     return 0
@@ -44,7 +44,7 @@ Refresh()
     // User accepted display changes...
     FileWriteByte(file, 73, 0)   // Testing Off
     ButtonSound()
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, midx, 150.0, 1.0, "FILE:WMAIN.RUN")
     GoPoof(POOF_SELF)
   if(SystemGet(SYS_KEYPRESSED, 27, 0))  // Escape key
     timer = 0

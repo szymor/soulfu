@@ -38,14 +38,14 @@ Refresh()
 
   if(mode < 10)
     // !!!BAD!!!
-    WindowMegaImage(-22.0,-17.0,  22.0,-17.0,  22.0,17.0,  -22.0,17.0,  0.01,0.0,  1.0,1.0,  BLACK, ALPHA_NONE, NULL)
+    WindowMegaImage(-44.0,-17.0,  44.0,-17.0,  44.0,17.0,  -44.0,17.0,  0.01,0.0,  1.0,1.0,  BLACK, ALPHA_NONE, NULL)
     // !!!BAD!!!
 
 
 
 
   if(mode == 10)
-    WindowMegaImage(-22.0,-17.0,  22.0,-17.0,  22.0,17.0,  -22.0,17.0,  0.01,0.0,  1.0,1.0,  BLACK, ALPHA_TRANS+(255-timer), NULL)
+    WindowMegaImage(-44.0,-17.0,  44.0,-17.0,  44.0,17.0,  -44.0,17.0,  0.01,0.0,  1.0,1.0,  BLACK, ALPHA_TRANS+(255-timer), NULL)
     timer = timer + SystemGet(SYS_MAINFRAMESKIP, 0, 0) * 5
   if(mode == 9)
     fade = (255-timer) * 3 >> 2

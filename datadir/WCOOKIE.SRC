@@ -5,22 +5,24 @@
 //-----------------------------------------------------------------------
 Spawn()
   int self
+  float screenx
   self = FindSelf()
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Pick a random message
   message = RollDice(1,20)
 
   // Drop into place...
   timer = 0
-  self.x = 400.0
+  self.x = screenx
   self.y = 300.0
 
 //-----------------------------------------------------------------------
 Refresh()
   int self, size
-  float offset
+  float offset, screenx
   self = FindSelf()
-
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Adjust the timer...
   timer = timer + SystemGet(SYS_MAINFRAMESKIP, 0, 0)
@@ -32,11 +34,11 @@ Refresh()
 
 
   // Correct our position based on the timer...
-  self.x = 400.0
+  self.x = screenx
   if(timer < 30)
-    self.x = 400.0 + ((30-timer)<<1)
+    self.x = screenx + ((30-timer)<<1)
   if(timer > 470)
-    self.x = 400.0 + ((timer-470)<<1)
+    self.x = screenx + ((timer-470)<<1)
   self.y = 300.0
 
 
