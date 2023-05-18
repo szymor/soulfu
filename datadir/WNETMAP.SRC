@@ -156,7 +156,11 @@ int DrawPhoneticHighlight(int letter)
 Refresh()
   int    i, self, curx, cury, direction
   int    letter, ping_time, num_players, color, length
+  float screenx, xpos, xadd
 
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  xadd = screenx / 2
+  xpos = xadd / 2
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
@@ -165,11 +169,11 @@ Refresh()
   // Join progress window...
   if(timer)
     // Abort...
-    self.x = 200.0
+    self.x = xadd
     self.y = 150.0
     if(timer == 1 && button_eight == 250)
       ButtonSound()
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+      Spawn(WINDOW, xadd, 150.0, 1.0, "FILE:WMAIN.RUN")
       GoPoof(POOF_SELF)
 
 
@@ -184,11 +188,11 @@ Refresh()
       StringAppend(String(0), "Ironing Out Details", 256)
     if(length == 4)
       MAPGEN.Setup()
-      Spawn(WINDOW, 100.0, 70.0, 0.0, "FILE:WSPAWN.RUN")
-      Spawn(WINDOW, 300.0, 70.0, 1.0, "FILE:WSPAWN.RUN")
-      Spawn(WINDOW, 100.0, 200.0, 2.0, "FILE:WSPAWN.RUN")
-      Spawn(WINDOW, 300.0, 200.0, 3.0, "FILE:WSPAWN.RUN")
-      Spawn(WINDOW, 200.0, 280.0, 1.0, "FILE:WLEAVE.RUN")
+      Spawn(WINDOW, xpos, 70.0, 0.0, "FILE:WSPAWN.RUN")
+      Spawn(WINDOW, xpos + xadd, 70.0, 1.0, "FILE:WSPAWN.RUN")
+      Spawn(WINDOW, xpos, 200.0, 2.0, "FILE:WSPAWN.RUN")
+      Spawn(WINDOW, xpos + xadd, 200.0, 3.0, "FILE:WSPAWN.RUN")
+      Spawn(WINDOW, xadd, 280.0, 1.0, "FILE:WLEAVE.RUN")
       GoPoof(POOF_SELF)
     WindowBorder(FALSE, -10.0, -2.0, 20, 4, BORDER_FULL)
     length = StringLength(String(0))
@@ -212,11 +216,11 @@ Refresh()
 
   // Big error pop up if network is broken...
   if(!SystemGet(SYS_NETWORKON, 0, 0))
-    self.x = 200.0
+    self.x = xadd
     self.y = 150.0
     if(button_one == 250)
       ButtonSound()
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+      Spawn(WINDOW, xadd, 150.0, 1.0, "FILE:WMAIN.RUN")
       GoPoof(POOF_SELF)
 
 // !!!BAD!!!
@@ -288,7 +292,7 @@ Refresh()
       button_nine = 251
   if(button_seven == 250)
     ButtonSound()
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, xadd, 150.0, 1.0, "FILE:WMAIN.RUN")
     GoPoof(POOF_SELF)
   if(button_eight == 250)
     ButtonSound()

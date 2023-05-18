@@ -15,7 +15,9 @@ Refresh()
   int player, binding, child, i, type, num_player, target
   int x, y, z
   float ypos, xpos, xadd
+  float screenx
 
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
@@ -25,7 +27,7 @@ Refresh()
   if(button_one == 250)
     ButtonSound()
     GoPoof(POOF_ALL_OTHER_WINDOWS)
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMAIN.RUN")
     SystemSet(SYS_LEAVEGAME, 0, 0, 0)
     GoPoof(POOF_SELF)
   if(button_two == 250)
@@ -45,7 +47,7 @@ Refresh()
 
 
     // Make a message window...
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMESSAGE.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMESSAGE.RUN")
 
 
     // Count local players...
@@ -62,7 +64,7 @@ Refresh()
     // Make a status window for each player character...
     if(num_player > 0)
       ypos = 300.0 - (3.0 * ((SystemGet(SYS_WINDOWSCALE, 0, 0) / 600.0) + 6.0))
-      xadd = 400.0 / num_player
+      xadd = screenx / num_player
       xpos = xadd*0.5
       player = 0
       while(player < 4)
@@ -100,7 +102,7 @@ Refresh()
 
 
     // Make a fader window...
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WFADER.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WFADER.RUN")
 
 
     // Poof this window...

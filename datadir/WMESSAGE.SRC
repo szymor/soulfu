@@ -58,7 +58,7 @@ Refresh()
   int    old_input_active, append_all, frame_skip, alpha
   int    i, j, type, spin, count, subtype
   float  max, x, curx, cury, spawnx, spawny
-  float  offx
+  float  offx, screenx
 
 
 
@@ -66,9 +66,10 @@ Refresh()
   self = FindSelf()
   max = (SystemGet(SYS_WINDOWSCALE, 0, 0) * 0.00125) + 4.5
   offx = ((SystemGet(SYS_WINDOWSCALE, 0, 0) * 0.00166666666) + 6.0)
-  sizex = 400.0 / offx
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  sizex = screenx / offx
   sizex--
-  offx = (400.0 - (sizex * offx)) * 0.5
+  offx = (screenx - (sizex * offx)) * 0.5
   SystemSet(SYS_MESSAGESIZE, 0, 0, sizex)
 
 

@@ -912,6 +912,8 @@ unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] =
 };
 int screen_x=400;                       // The x screen size
 int screen_y=300;                       // The y screen size
+// virtual screen size 400x300 is true only for aspect ratio 4:3
+// for wider screen virtual_x will be larger (e.g. 533.1 for 16:9)
 float virtual_x = 400.0f;
 float virtual_y = 300.0f;
 float script_window_x;

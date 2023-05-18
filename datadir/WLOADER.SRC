@@ -17,7 +17,9 @@ Refresh()
   int self
   int player, binding, child, num_player, old_slot, room
   float ypos, xpos, xadd
+  float screenx
 
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
@@ -32,14 +34,16 @@ Refresh()
     if(SystemGet(SYS_LOAD, slot_load+1, 0))
       SystemSet(SYS_LOAD, slot_load+1, 0, 0)
       GoPoof(POOF_ALL_OTHER_WINDOWS)
+      xadd = screenx / 2
+      xpos = xadd / 2
       if(SystemGet(SYS_LOCALPLAYER, 0, 0) != 65535)
-        Spawn(WINDOW, 100.0, 80.0, 0.0, "FILE:WLOAD.RUN")
+        Spawn(WINDOW, xpos, 80.0, 0.0, "FILE:WLOAD.RUN")
       if(SystemGet(SYS_LOCALPLAYER, 1, 0) != 65535)
-        Spawn(WINDOW, 300.0, 80.0, 1.0, "FILE:WLOAD.RUN")
+        Spawn(WINDOW, xpos + xadd, 80.0, 1.0, "FILE:WLOAD.RUN")
       if(SystemGet(SYS_LOCALPLAYER, 2, 0) != 65535)
-        Spawn(WINDOW, 100.0, 210.0, 2.0, "FILE:WLOAD.RUN")
+        Spawn(WINDOW, xpos, 210.0, 2.0, "FILE:WLOAD.RUN")
       if(SystemGet(SYS_LOCALPLAYER, 3, 0) != 65535)
-        Spawn(WINDOW, 300.0, 210.0, 3.0, "FILE:WLOAD.RUN")
+        Spawn(WINDOW, xpos + xadd, 210.0, 3.0, "FILE:WLOAD.RUN")
     if(!SystemGet(SYS_LOAD, slot_load+1, 0))
       GoPoof(POOF_ALL_OTHER_WINDOWS)
       
@@ -48,7 +52,7 @@ Refresh()
   if(button_one == 250)
     ButtonSound()
     GoPoof(POOF_ALL_OTHER_WINDOWS)
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMAIN.RUN")
     SystemSet(SYS_LEAVEGAME, 0, 0, 0)
     GoPoof(POOF_SELF)
   if(button_two == 250)
@@ -66,7 +70,7 @@ Refresh()
       SystemSet(SYS_LOAD, slot_load+1, 0, 0)
 
       // Make a message window...
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMESSAGE.RUN")
+      Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMESSAGE.RUN")
 
 
       // Count local players...
@@ -82,7 +86,7 @@ Refresh()
       // Make a status window for each player character...
       if(num_player > 0)
         ypos = 300.0 - (3.0 * ((SystemGet(SYS_WINDOWSCALE, 0, 0) / 600.0) + 6.0))
-        xadd = 400.0 / num_player
+        xadd = screenx / num_player
         xpos = xadd*0.5
         player = 0
         while(player < 4)
@@ -96,7 +100,7 @@ Refresh()
       SystemSet(SYS_CAMERARESET, 0, 0, 0)
 
       // Make a fader window...
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WFADER.RUN")
+      Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WFADER.RUN")
 
       // Poof this window...
       ButtonSound()

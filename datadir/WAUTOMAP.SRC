@@ -37,6 +37,7 @@ Refresh()
   float sx, sy
   float x, y, z
   float tlx, tly, trx, try, brx, bry, blx, bly
+  float frustumx, frustumy
   self = FindSelf()
 
 
@@ -102,7 +103,9 @@ Refresh()
   Window3DPosition(cx, cy, 0.0, WIN_TARGET)
   Window3DPosition(cx-sx, cy-sy, 800.0, WIN_CAMERA)
   SystemSet(SYS_MAPAUTOMAPDRAW, 0, 0, 0)
-  Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+  frustumx = SystemGet(SYS_SCREENPARAMS, 0, 2) / 1000.0
+  frustumy = SystemGet(SYS_SCREENPARAMS, 0, 3) / 1000.0
+  Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
   Window3DEnd()
 
 

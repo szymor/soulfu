@@ -264,6 +264,7 @@ int emacs_return_count = 0;
 #define SYS_ROOMRESTOCK             226
 #define SYS_SAVE                    227
 #define SYS_LOAD                    228
+#define SYS_SCREENPARAMS            229
 #define SYS_MODELCHECKHACK          255
 
 
@@ -4523,6 +4524,21 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                         {
                             log_message("INFO:   Couldn't open SAVE%d.DAT", slot);
                             i = FALSE;
+                        }
+                        break;
+                    case SYS_SCREENPARAMS:
+                        switch (k)
+                        {
+                            // real resolution
+                            case 0: i = screen_x; break;
+                            case 1: i = screen_y; break;
+                            // virtual
+                            case 2: i = (int)virtual_x; break;
+                            case 3: i = (int)virtual_y; break;
+                            // higher precision
+                            case 4: i = (int)(virtual_x * 256.0); break;
+                            case 5: i = (int)(virtual_y * 256.0); break;
+                            default: i = FALSE;
                         }
                         break;
                     default:

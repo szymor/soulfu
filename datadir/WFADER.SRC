@@ -20,14 +20,16 @@ Spawn()
 
 //-----------------------------------------------------------------------
 DrawBlack(int alpha)
-  WindowMegaImage(-22.0,-17.0,  22.0,-17.0,  22.0,17.0,  -22.0,17.0,  0.01,0.0,  1.0,1.0,  BLACK, ALPHA_TRANS | alpha, NULL)
+  WindowMegaImage(-44.0,-17.0,  44.0,-17.0,  44.0,17.0,  -44.0,17.0,  0.01,0.0,  1.0,1.0,  BLACK, ALPHA_TRANS | alpha, NULL)
 
 
 //-----------------------------------------------------------------------
 Refresh()
   int    self, alpha, scaling, skip, curroom, roomflags, save_window
+  float screenx, midx
 
-
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  midx = screenx / 2
 
   self = FindSelf()
   if(SystemGet(SYS_STARTGAME, 0, 0))
@@ -116,14 +118,14 @@ Refresh()
       if(button_one == 250)
         ButtonSound()
         GoPoof(POOF_ALL_OTHER_WINDOWS)
-        Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+        Spawn(WINDOW, midx, 150.0, 1.0, "FILE:WMAIN.RUN")
         SystemSet(SYS_LEAVEGAME, 0, 0, 0)
         GoPoof(POOF_SELF)
       curroom = MAPGEN.GetCurrentRoom()
       roomflags = MAPGEN.GetRoomFlags(curroom)
       if((roomflags & MAP_ROOM_FLAG_TOWN) || CHEAT)
         if(button_two == 250)
-          Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WSAVE.RUN")
+          Spawn(WINDOW, midx, 150.0, 1.0, "FILE:WSAVE.RUN")
           ButtonSound()
           escape_mode = FALSE
       else

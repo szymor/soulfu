@@ -17,6 +17,9 @@ int GetName()
 // What this item does when used...
 int Effect(int self)
   int type, subwin
+  float screenx
+
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   if(self)
     ButtonSound()
@@ -31,7 +34,7 @@ int Effect(int self)
 
 
     // Open book window...
-    subwin = Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WBOOK.RUN")
+    subwin = Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WBOOK.RUN")
     if(subwin)
       if(type == ITEM_BOOK_5)
         subwin.int2829 = "FILE:BKGUIDE.DAT"
@@ -69,4 +72,3 @@ int DirectUsage()
   Effect(self)
 
 //-----------------------------------------------------------------------
-

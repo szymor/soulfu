@@ -458,6 +458,7 @@
 #define SYS_ROOMRESTOCK             226
 #define SYS_SAVE                    227
 #define SYS_LOAD                    228
+#define SYS_SCREENPARAMS            229
 #define SYS_MODELCHECKHACK          255
 
 
