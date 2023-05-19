@@ -410,12 +410,14 @@ Refresh()
   int    slider_value
   int    read_offset, read_value
   int    action, weapon_frame
-
+  float ratio
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
 
-
+  // screen aspect ratio
+  ratio = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  ratio = ratio / SystemGet(SYS_SCREENPARAMS, 0, 3)
 
 
   // Build the string for the class drop down box...
@@ -478,7 +480,7 @@ Refresh()
 
 
   // Main window
-  WindowBorder(FALSE, -10.0, -5.5, 20, 11, BORDER_FULL)
+  WindowBorder(FALSE, -10.0, -5.5, 10 + 7.5 * ratio, 11, BORDER_FULL)
 
 
 
@@ -547,8 +549,8 @@ Refresh()
 
 
   // Preview window
-  WindowBorder(FALSE, 0.0, -2.5, 10, 8, BORDER_FULL)
-  Window3DStart(0.0, 0.0, 10.0, 8.0, FALSE)
+  WindowBorder(FALSE, 0.0, -2.5, 7.5 * ratio, 8, BORDER_FULL)
+  Window3DStart(0.0, 0.0, 7.5 * ratio, 8.0, FALSE)
   Window3DPosition(0.0, 0.0, 3.25, WIN_TARGET)
   Window3DPosition(sin(camx)*4.0, 3.25, 6.25, WIN_CAMERA)
   Window3DModel(WIN_3D_MODEL, MODEL_BASE_FILE, frame, 255)

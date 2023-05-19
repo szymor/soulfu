@@ -327,11 +327,15 @@ Refresh()
   int    read_offset, read_value
   int    action, weapon_frame
   int    player_character
-
+  float  ratio
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
-  
+
+  // screen aspect ratio
+  ratio = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  ratio = ratio / SystemGet(SYS_SCREENPARAMS, 0, 3)
+
   // Find the player's character
   player_character = SystemGet(SYS_LOCALPLAYER, player, 0)
   if(player_character)
@@ -397,7 +401,7 @@ Refresh()
   TitleBar(TRUE, 0.0, -5.5, String(0))
 
   // Main window
-  WindowBorder(FALSE, -10.0, -5.5, 20, 11, BORDER_FULL)
+  WindowBorder(FALSE, -10.0, -5.5, 10 + 7.5 * ratio, 11, BORDER_FULL)
 
 
   // Setup the preview model...
@@ -472,8 +476,8 @@ Refresh()
 
 
   // Preview window
-  WindowBorder(FALSE, 0.0, -2.5, 10, 8, BORDER_FULL)
-  Window3DStart(0.0, 0.0, 10.0, 8.0, FALSE)
+  WindowBorder(FALSE, 0.0, -2.5, 7.5 * ratio, 8, BORDER_FULL)
+  Window3DStart(0.0, 0.0, 7.5 * ratio, 8.0, FALSE)
   Window3DPosition(0.0, 0.0, 3.25, WIN_TARGET)
   Window3DPosition(sin(camx)*4.0, 3.25, 6.25, WIN_CAMERA)
   Window3DModel(WIN_3D_MODEL, MODEL_BASE_FILE, frame, 255)

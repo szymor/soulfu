@@ -10,7 +10,9 @@ Spawn()
 //-----------------------------------------------------------------------
 Refresh()
   int    self
+  float screenx
 
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
@@ -20,7 +22,7 @@ Refresh()
   if(button_one == 250)
     ButtonSound()
     GoPoof(POOF_ALL_OTHER_WINDOWS)
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMAIN.RUN")
     GoPoof(POOF_SELF)
 
 

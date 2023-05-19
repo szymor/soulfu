@@ -308,7 +308,7 @@ Refresh()
     if(icon2 == 255)
       ButtonSound()
       GoPoof(POOF_ALL_OTHER_WINDOWS)
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+      Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMAIN.RUN")
       SystemSet(SYS_LEAVEGAME, 0, 0, 0)
       GoPoof(POOF_SELF)
       icon2 = 50

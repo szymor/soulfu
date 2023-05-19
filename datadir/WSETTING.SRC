@@ -37,7 +37,9 @@ Spawn()
 Refresh()
   int    self, file
   int    i
+  float screenx
 
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
@@ -77,7 +79,7 @@ Refresh()
       FileWriteByte(file, 72, mode)
       FileWriteByte(file, 73, TRUE)
     ButtonSound()
-    Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMAIN.RUN")
     GoPoof(POOF_SELF)
 
 

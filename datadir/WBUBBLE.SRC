@@ -14,7 +14,9 @@ Spawn()
   self = FindSelf()
   message = RollDice(1,28)
   team = TEAM_GOOD
+  float screenx
 
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Setup the talker model...
   self.eqcol01 = RollDice(1, 256)
@@ -66,7 +68,7 @@ Spawn()
 
 
   // Put us in the right spot...
-  self.x = 381.0
+  self.x = screenx - 19.0
   self.y = 106.0
 
 
@@ -124,9 +126,10 @@ int CutDown(int string_to_cut)
 //-----------------------------------------------------------------------
 Refresh()
   int self, size_x, size_y, y, x, scaling
-  float val
+  float val, ratio
   self = FindSelf()
-
+  ratio = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  ratio = ratio / SystemGet(SYS_SCREENPARAMS, 0, 3)
 
   // Set the scaling to large...
   SystemSet(SYS_WINDOWSCALE, 0, 0, 2048)
@@ -146,7 +149,7 @@ Refresh()
   WindowMegaImage(-40.0,-6.0,    7.0,-6.0,    7.0,28.0,   -40.0,28.0,   0.02,0.02,  0.98,0.98,  GREEN_COLOR,   ALPHA_NONE,  "FILE:GRADIENT.RGB")
 
 
-  Window3DStart(-5.0, 0.0, 20.0, 16.0, FALSE)
+  Window3DStart(-7.0 * ratio + 4.0, 0.0, 15.0 * ratio, 16.0, FALSE)
   Window3DPosition(0.0, 0.0, 2.5, WIN_TARGET)
   Window3DPosition(4.0, 4.25, 5.25, WIN_CAMERA)
   Window3DModel(WIN_3D_MODEL, MODEL_BASE_FILE, frame, 255)
@@ -264,7 +267,7 @@ Refresh()
 
 
   // Draw the Zucchini thing...
-  WindowBorder(FALSE, -40.0, 14.0, 0, 0, 0)
+  WindowBorder(FALSE, -30.0 * ratio, 14.0, 0, 0, 0)
   WindowMegaImage(0.0,0.0,  4.0,0.0,  4.0,6.0,  0.0,6.0,  0.0,0.0,  1.0,1.0,  white, 255, "FILE:ZUCCHINI.RGB")
 
 
