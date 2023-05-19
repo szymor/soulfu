@@ -588,12 +588,13 @@ Refresh()
   int self, mode, length, part, curx, cury, tex_flags, tex_alpha
   int frame_stuff, part_offset, temp, weapon_frame
   int working_on_tile
-  float cx, cy, cz, tx, ty, tz, zoom, door_value
+  float cx, cy, cz, tx, ty, tz, zoom, door_value, frustumx, frustumy
   self = FindSelf()
   mode = pick_mode >> 8
   part = pick_part >> 8
 
-
+  frustumx = SystemGet(SYS_SCREENPARAMS, 0, 2) / 1000.0
+  frustumy = SystemGet(SYS_SCREENPARAMS, 0, 3) / 1000.0
 
   StringClear(NAME_STRING)
   if(openfile == NULL)
@@ -1643,7 +1644,7 @@ Refresh()
       Window3DModel(draw_mode, MODEL_BASE_FILE, frame, main_alpha)
       if(mode != MODE_OTHER)
         Window3DModel(WIN_3D_AXIS, MODEL_BASE_FILE, frame, main_alpha)
-      Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+      Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
       Window3DEnd()
       WindowString(WHITE, 0.0, 0.0, "Top")
     else
@@ -1711,7 +1712,7 @@ Refresh()
       Window3DModel(draw_mode, MODEL_BASE_FILE, frame, main_alpha)
       if(mode != MODE_OTHER)
         Window3DModel(WIN_3D_AXIS, MODEL_BASE_FILE, frame, main_alpha)
-      Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+      Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
       Window3DEnd()
       WindowString(WHITE, 0.0, 0.0, "Front")
 
@@ -1732,7 +1733,7 @@ Refresh()
       Window3DModel(draw_mode, MODEL_BASE_FILE, frame, main_alpha)
       if(mode != MODE_OTHER)
         Window3DModel(WIN_3D_AXIS, MODEL_BASE_FILE, frame, main_alpha)
-      Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+      Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
       Window3DEnd()
       WindowString(WHITE, 0.0, 0.0, "Side")
 
@@ -1785,7 +1786,7 @@ Refresh()
           ClearButtons()
           skin_border_mode = BORDER_MOVE
           button_three = 255
-      Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+      Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
       Window3DEnd()
       if(!SystemGet(SYS_KEYDOWN, KEYF12, 0))
         WindowString(WHITE, 0.0, 0.0, "3D")
@@ -1856,7 +1857,7 @@ Refresh()
 
 
     // Set the frustum thing correctly...
-    Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+    Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
 
 
     // Turn billboard stuff back on...

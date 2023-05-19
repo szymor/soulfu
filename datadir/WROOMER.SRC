@@ -289,11 +289,13 @@ Refresh()
   int    object, group, object_data, subtype
   int    room_flags, water_level, tex_offset
   float  cx, cy, cz, tx, ty, tz, zoom, velx, vely, velz
-  float  sine, cosine
+  float  sine, cosine, screenx, frustumx, frustumy
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
-
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
+  frustumx = SystemGet(SYS_SCREENPARAMS, 0, 2) / 1000.0
+  frustumy = SystemGet(SYS_SCREENPARAMS, 0, 3) / 1000.0
 
   // Make sure we've got the file open'd...
   if(openfile == NULL)
@@ -327,7 +329,7 @@ Refresh()
       ButtonSound()
       ClearButtons()
       GoPoof(POOF_ALL_OTHER_WINDOWS)
-      Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WTOOLS.RUN")
+      Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WTOOLS.RUN")
       SystemSet(SYS_LEAVEGAME, 0, 0, 0)
       SystemSet(SYS_TOPWINDOW, 0, 0, 0)
       test_active = FALSE
@@ -807,7 +809,7 @@ Refresh()
     Window3DPosition(0.0, 0.1, 160.0, WIN_CAMERA)
     Window3DPosition(0.4, 0.4, 500.0, WIN_FRUSTUM)
     Window3DRoom(0.0, 0.0, 0.0, openfile, DARK_RED, 0, ROOM_MODE_MINIMAP)
-    Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+    Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
     Window3DEnd()
     WindowBorder(FALSE, -20.0, -13.0, 0,  0, BORDER_NONE)  // Return to previous window area...
 
@@ -1471,7 +1473,7 @@ Refresh()
 
 
   // Figure out where the camera really is
-  zoom = 200.0*((260-zoom_slider)/255.0)
+  zoom = 0.5 * screenx * ((260-zoom_slider)/255.0)
   cx = sin((camspinx * 360) >> 16)
   camspinx = camspinx+16384
   cy = sin((camspinx * 360) >> 16)
@@ -1578,7 +1580,7 @@ Refresh()
   Window3DRoom(0.0, 0.0, 0.0, openfile, BLUE, 0, ROOM_MODE_WAYPOINT)
   Window3DRoom(0.0, 0.0, 0.0, openfile, WHITE, 0, ROOM_MODE_OBJECT_GROUP | work_mode)
   Window3DRoom(0.0, 0.0, 0.0, openfile, MAGENTA, 0, ROOM_MODE_BRIDGE | sub_mode)
-  Window3DPosition(0.4, 0.3, 500.0, WIN_FRUSTUM)
+  Window3DPosition(frustumx, frustumy, 500.0, WIN_FRUSTUM)
   Window3DEnd()
 
 

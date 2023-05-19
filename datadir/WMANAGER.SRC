@@ -30,11 +30,11 @@ Spawn()
 //-----------------------------------------------------------------------
 Refresh()
   int    i, self, first_file, click, subwin
-
+  float screenx
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
-
+  screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
 
   // Button actions
@@ -55,14 +55,14 @@ Refresh()
     UpdateFiles(UPDATE_SDFSAVE)
   if(button_six == 250)
     ButtonSound()
-    subwin = Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WEMACS.RUN")
+    subwin = Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WEMACS.RUN")
     if(subwin)
       StringClear(subwin.string0)
       StringAppend(subwin.string0, filename, 16)
       subwin.stat04h = 255
   if(button_seven == 250)
     ButtonSound()
-    subwin = Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WMODELER.RUN")
+    subwin = Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMODELER.RUN")
     if(subwin)
       StringClear(subwin.string0)
       StringAppend(subwin.string0, filename, 16)
@@ -76,7 +76,7 @@ Refresh()
       StringAppend(subwin.string0, "RDY", 16)
   if(button_eight == 250)
     ButtonSound()
-    subwin = Spawn(WINDOW, 200.0, 150.0, 1.0, "FILE:WROOMER.RUN")
+    subwin = Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WROOMER.RUN")
     if(subwin)
       StringClear(subwin.string0)
       StringAppend(subwin.string0, filename, 16)
