@@ -35,10 +35,10 @@ make
   + Sky Box by MiR 2008,
   + Arena by bravebebe.
 + Background music has been enabled. It was already there, composed by Aaron.
++ Support for resolutions up to 1920x1080. No stretching, no black stripes.
 
 ## What will be done?
 I do not promise anything. The project is done in my free time. I have some ideas, though:
-+ fix screen scaling for 16:9 aspect ratio,
 + integrate some higher quality mods,
 + improve data handling tools even more,
 + 64 bit platform support,
@@ -49,4 +49,3 @@ But it's easier said than done.
 ## Trivia
 + Build with DEVTOOL flag to enable development tools inside the game. Hold down the C key to make a relevant button appear.
 + No 64 bit support at the moment.
-+ FileUtil crashes the game. Surely, it needs to be fixed.

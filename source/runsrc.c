@@ -3598,6 +3598,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                     case SYS_FILENAME:
                         if(j < sdf_num_files)
                         {
+                            index = sdf_index + (j<<4);
                             opcode = (*(index+4)&15);
                             if(opcode != SDF_FILE_IS_UNUSED)
                             {
