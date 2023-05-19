@@ -48,4 +48,8 @@ But it's easier said than done.
 
 ## Trivia
 + Build with DEVTOOL flag to enable development tools inside the game. Hold down the C key to make a relevant button appear.
-+ No 64 bit support at the moment.
++ Luck gives you bonus to money and damage. You can find better stuff in chests, too.
++ Fortune cookies bring you luck.
++ Soldier can have one extra companion.
++ Mystic can turn undead by praying.
++ D'warf is immune to poison and petrification.
