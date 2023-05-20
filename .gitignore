@@ -1,7 +1,11 @@
 LOGFILE.TXT
+stderr.txt
 soulfu
+soulfu.exe
 source/soulfu.o
 *.sdf
 *.RUN
 SAVELOG.TXT
 SAVE*.DAT
+CONFIG.DAT
+*.dll

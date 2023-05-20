@@ -1,12 +1,13 @@
 .PHONY: all clean
 
-PKG ?= pkg-config
+PKG = i686-w64-mingw32-pkg-config
+CC = i686-w64-mingw32-gcc
 
 TARGET = soulfu
 SRC = source/soulfu.c
 DEP = $(wildcard source/*.c source/*.h)
-LDLIBS = -lm $(shell $(PKG) --libs sdl SDL_net ogg libjpeg vorbis gl)
-FLAGS = -m32 -DDEVTOOL
+LDLIBS = $(shell $(PKG) --libs sdl SDL_net ogg libjpeg vorbis) -lopengl32
+FLAGS = -DDEVTOOL
 
 all: $(TARGET) data
 
