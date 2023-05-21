@@ -2,6 +2,7 @@
 
 PKG = i686-w64-mingw32-pkg-config
 CC = i686-w64-mingw32-gcc
+WINDRES = i686-w64-mingw32-windres
 
 TARGET = soulfu
 SRC = source/soulfu.c
@@ -12,9 +13,12 @@ FLAGS = -DDEVTOOL
 all: $(TARGET) data
 
 clean:
-	rm -rf $(TARGET) $(DATAFILE)
+	rm -rf $(TARGET) $(DATAFILE) resource.res
 
-$(TARGET): $(DEP)
-	$(CC) $(FLAGS) -o $@ -Isource $(SRC) $(LDLIBS)
+$(TARGET): $(DEP) resource.res
+	$(CC) $(FLAGS) -o $@ -Isource $(SRC) resource.res $(LDLIBS)
+
+resource.res: resource.rc
+	$(WINDRES) resource.rc -O coff -o $@
 
 include common.mk

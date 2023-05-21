@@ -9,3 +9,4 @@ SAVELOG.TXT
 SAVE*.DAT
 CONFIG.DAT
 *.dll
+*.res
