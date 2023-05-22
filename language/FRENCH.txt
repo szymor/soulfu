@@ -1,0 +1,168 @@
+Menu Principal
+Cadres
+Joueur 
+Progrès
+Message
+Carte
+Statistiques
+Techniques
+Inventaire
+Matériel
+Livre
+Coffre
+Serrure
+Piège
+Jeu Local
+Jeu du Réseau
+Contrôles
+BUY ME
+Quittez
+Acceptez
+Continuez
+Revenez
+Achat
+Vendez
+24 Close !!!BAD!!!
+Réseau Cassé
+Dimensn:
+Couleur:
+Gamma  :
+Mode   :
+Fenêtre,Plein
+Son    :
+Musique:
+Texte  :
+Petit,Moyen,Grand,Enorme
+Note:  Vous devez recommencer après que
+       vous fassiez des changements...
+Vitesse:
+Entrée :
+Aucun,Clavier,Manette1,Manette2,Manette3,Manette4
+Gauche :
+Bouton 1,Bouton 2,Bouton 3,Bouton 4,Bouton 5,Bouton 6,Bouton 7,Bouton 8,Aucun
+Droite :
+Camera :
+Parlez :
+Invent.:
+Matéri.:
+Lent   :
+Rapide :
+Dégât:
+Magie:
+NVO:  
+Exp:
+MAX
+For:
+Vit:
+Int:
+Ver:
+Arg:
+Def:
+Lier...
+Tous droits réservés
+Ceinture
+Tête
+Cou
+Corps
+Dos
+Pieds
+Mains
+Gauche
+Droit
+Compassion:
+Persistance:
+Honneur:
+Foi:
+Courage:
+Camaraderie:
+Insigne de Compassion
+Insigne de Persistance
+Insigne d'Honneur
+Insigne de Foi
+Insigne de Courage  
+Insigne de Camaraderie
+Soldat
+Sorcier
+Guérisseuse
+G'nome
+Elfe
+Croyant
+D'warfe
+Hubbin
+92 Reserved
+93 Reserved
+94 Reserved
+95 Reserved
+96 Reserved
+97 Reserved
+98 Reserved
+99 Reserved
+100 Reserved
+101 Reserved
+102 Reserved
+103 Reserved
+104 Reserved
+105 Reserved
+106 Reserved
+107 Reserved
+Clavier
+109 GANDALFALFA a défait JIMBOBO!
+110 GANDALFALFA a été défait...
+111 GANDALFALFA a gagné un niveau!
+112 GANDALFALFA a gagné un Insigne de Vertu!
+113 GANDALFALFA baisse la tête...
+114 GANDALFALFA sourit...
+115 GANDALFALFA s'est endormi...
+116 GANDALFALFA est confondu!
+117 GANDALFALFA se sent malade!
+118 GANDALFALFA est aveugle!
+119 C'est GANDALFALFA, l'amnésique!
+120 GANDALFALFA se sent mieux!
+121 GANDALFALFA se sent puissant!
+122 GANDALFALFA se sent fatigué!
+123 Cela était dégoûtant...
+124 GANDALFALFA a toujours faim...
+125 GANDALFALFA n'a plus faim...
+126 GANDALFALFA s’est évanoui!
+127 GANDALFALFA ne peut pas lire l'écriture étrange...
+128 GANDALFALFA a achevé son jeûne.
+129 !!!BAD!!! FRENCH!!!  That item couldn't be equipped...
+130 !!!BAD!!! FRENCH!!!  TOO EXPENSIVE
+131 !!!BAD!!! FRENCH!!!  CANT BE SOLD
+132 GANDALFALFA ne peut pas manger la viande.
+133 Le panneau dit...
+134 Scellé Pour une Bonne Raison
+135 Halle des Contrefaçons
+136 Halle des Epées
+137 Halle des Statues
+138 Salle de Trône
+139 Salle d'Enigme
+140 Salle de Trésor
+141 Tour de Balise
+142 Le Haut Tribunal
+143 Bienvenu au Palais de Cendre
+144 Bienvenu au Palais de Glace
+145 Bienvenu au Palais d'Ombre
+146 La Tanière de Patron
+147 Se Garder du Dragon
+148 Attention: Champ de Mines
+149 Ne Regardez pas le Plafond
+150 Courez!
+151 Une Voie Seulement
+152 Il y a un Besoin de Chapeaux Durs dans ce Secteur
+153 Console de la Vanne
+154 Mécanisme de la Clé est Sous ce Panneau
+155 Mécanisme du Piège est Sous ce Panneau
+156 Capsule de Temps
+157 Prenez du Poids!
+158 Regardez Derrière le Statue
+159 Trésor Enterré
+160 Le Trésor est sur le Pilier
+161 Pris au Piège
+162 Non Pris au Piège
+163 Cet article est maudit!
+164 GANDALFALFA a désarmé un piège!
+165 GANDALFALFA a ouvert la serrure!
+166 GANDALFALFA a trouvé un secret!
+167 La porte est fermée à clé.
+168 Le coffre est fermé à clé.

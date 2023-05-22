@@ -10,3 +10,4 @@ SAVE*.DAT
 CONFIG.DAT
 *.dll
 *.res
+datadir/*.LAN

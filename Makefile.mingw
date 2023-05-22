@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all
 
 PKG = i686-w64-mingw32-pkg-config
 CC = i686-w64-mingw32-gcc
@@ -11,9 +11,6 @@ LDLIBS = $(shell $(PKG) --libs sdl SDL_net ogg libjpeg vorbis) -lopengl32
 FLAGS = -DDEVTOOL
 
 all: $(TARGET) data
-
-clean:
-	rm -rf $(TARGET) $(DATAFILE) resource.res
 
 $(TARGET): $(DEP) resource.res
 	$(CC) $(FLAGS) -o $@ -Isource $(SRC) resource.res $(LDLIBS)

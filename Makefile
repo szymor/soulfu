@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all
 
 PKG ?= pkg-config
 
@@ -9,9 +9,6 @@ LDLIBS = -lm $(shell $(PKG) --libs sdl SDL_net ogg libjpeg vorbis gl)
 FLAGS = -m32 -DDEVTOOL
 
 all: $(TARGET) data
-
-clean:
-	rm -rf $(TARGET) $(DATAFILE)
 
 $(TARGET): $(DEP)
 	$(CC) $(FLAGS) -o $@ -Isource $(SRC) $(LDLIBS)
