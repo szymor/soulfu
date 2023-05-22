@@ -1,0 +1,168 @@
+Menu principale
+Impostazioni
+Giocatore 
+Aggiornamento
+Messaggio
+Mappa
+Statistiche
+Tecniche
+Inventario
+Attrezzature
+Libro
+Petto
+Chiave di violino
+Trappola
+Gioco locale
+Gioco in rete
+Controlli
+Comprami
+Esci
+Salva le modifiche
+Continua
+Torna indietro
+Comprare
+Vendere
+Chiudere
+Rete rotta
+Schermo :
+Colori :
+Gamma :
+Modalità :
+Finestra, Schermo intero
+Suono :
+Musica :
+Scala:
+Piccolo, Medio, Grande, Enorme
+Nota: è necessario riavviare per far funzionare
+       alcune modifiche...
+Velocità :
+Dispositivo :
+Nessuno, Tastiera, Joystk 1, Joystk 2, Joystk 3, Joystk 4
+Sinistra :
+Pulsante 1,Pulsante 2,Pulsante 3,Pulsante 4,Pulsante 5,Pulsante 6,Pulsante 7,Pulsante 8,Nessuno
+Destra :
+Telecamera :
+Parlare :
+Inventa:
+Equipaggiamento :
+Lento :
+Veloce :
+Colpi:
+Mana:
+Livello:
+Exp:
+Monte:
+Str:
+Dex:
+Int:
+Punti:
+Forza:
+Destrezza:
+Intelligenza:
+Tutti i diritti riservati
+Marsupio da cintura
+Testa
+Collo
+Corpo
+Schiena
+Piedi
+Mani
+Sinistra
+Destra
+Compassione:
+Dilligenza:
+Onore:
+Fede:
+Coraggio:
+Amicizia:
+Distintivo della Compassione
+Distintivo della diligenza
+Distintivo dell'onore
+Distintivo della fede
+Distintivo del Coraggio
+Distintivo di Amicizia
+Soldato
+Mago
+Guaritore
+G'nome
+Elfo
+Mistico
+D'warf
+Hubbin
+92 Riservato
+93 Riservato
+94 Riservato
+95 Riservato
+96 Riservato
+97 Riservato
+98 Riservato
+99 Riservato
+100 Riservato
+101 Riservato
+102 Riservato
+103 Riservato
+104 Riservato
+105 Riservato
+106 Riservato
+107 Riservato
+Tastiera
+109 GANDALF ha sconfitto JIMBOBO
+110 GANDALF è stato sconfitto
+111 Gandalf ha guadagnato un livello
+112 Gandalf ha guadagnato un distintivo di virtù
+113 Gandalf si sente in colpa per averlo fatto...
+114 Gandalf si è divertito troppo...
+115 Gandalf si è addormentato...
+116 Gandalf è confuso
+117 Gandalf si sente male
+118 Gandalf è cieco
+119 Gandalf non ricorda nulla
+120 Gandalf si sente meglio
+121 Gandalf si sente potente
+122 Gandalf si sente stanco
+123 Non aveva un buon sapore...
+124 Gandalf ha ancora fame...
+125 Gandalf non ha più fame...
+126 Gandalf è svenuto!
+127 Gandalf non riesce a leggere la strana scrittura...
+128 Gandalf ha completato il suo digiuno...
+129 Quell'oggetto non può essere equipaggiato...
+130 Quell'oggetto è troppo costoso...
+131 Quell'oggetto non può essere venduto...
+132 Gandalf non può mangiare carne...
+133 Il cartello dice...
+134 Sigillato per una buona ragione
+135 Sala degli Imitatori
+136 Sala delle Spade
+137 Sala delle Statue
+138 Sala del Trono 
+139 Sala dei puzzle
+140 Sala del Tesoro
+141 Torre del Faro
+142 L'Alta Corte
+143 Benvenuti nel Palazzo del Frassino
+144 Benvenuti nel Palazzo del Ghiaccio
+145 Benvenuti nel Palazzo delle Ombre
+146 Camera del boss
+147 Attenzione al drago
+148 Pericolo:  Campo minato
+149 Non guardare in alto
+150 Corri!
+151 Solo un senso di marcia
+152 In quest'area è obbligatorio l'elmetto
+153 Controlli del cancello di inondazione
+154 Meccanismo a chiave sotto questo cartello
+155 Meccanismo a trappola situato sotto questo pannello
+156 Luogo di riposo della capsula del tempo
+157 Questo pannello ha bisogno di più peso
+158 Guarda dietro la statua
+159 Tesoro sepolto
+160 Il tesoro è in cima al pilastro
+161 Intrappolato
+162 Non intrappolato
+163 Quell'oggetto è maledetto
+164 Gandalf ha fatto scattare una trappola
+165 Gandalf ha scassinato la serratura
+166 Gandalf ha trovato un segreto
+167 La porta è chiusa a chiave
+168 Il forziere è chiuso a chiave

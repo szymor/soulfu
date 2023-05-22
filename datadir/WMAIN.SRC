@@ -297,71 +297,71 @@ Refresh()
 
 
   // Language Flags
-//  y = 11.0
-//  yadd = -2.5
-//  if(flag5 || picked_flag == 5)
-//    flag5 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=GERMANY.RGB", "Deutsch", flag5)
-//    if(flag5 == 255)
-//      ButtonSound()
-//      picked_flag = 5
-//      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
-//      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
-//      flag5 = 254
-//  else
-//    flag5 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=GERMANY.RGB", NULL, 0)
-//  y = y + yadd
+  y = 11.0
+  yadd = -2.5
+  if(flag5 || picked_flag == 5)
+    flag5 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=GERMANY.RGB", "Deutsch", flag5)
+    if(flag5 == 255)
+      ButtonSound()
+      picked_flag = 5
+      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
+      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
+      flag5 = 254
+  else
+    flag5 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=GERMANY.RGB", NULL, 0)
+  y = y + yadd
 
 
-//  if(flag4 || picked_flag == 4)
-//    flag4 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=ITALY.RGB", "Italiano", flag4)
-//    if(flag4 == 255)
-//      ButtonSound()
-//      picked_flag = 4
-//      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
-//      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
-//      flag4 = 254
-//  else
-//    flag4 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=ITALY.RGB", NULL, 0)
-//  y = y + yadd
+  if(flag4 || picked_flag == 4)
+    flag4 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=ITALY.RGB", "Italiano", flag4)
+    if(flag4 == 255)
+      ButtonSound()
+      picked_flag = 4
+      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
+      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
+      flag4 = 254
+  else
+    flag4 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=ITALY.RGB", NULL, 0)
+  y = y + yadd
 
 
-//  if(flag3 || picked_flag == 3)
-//    flag3 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=SPAIN.RGB", "Español", flag3)
-//    if(flag3 == 255)
-//      ButtonSound()
-//      picked_flag = 3
-//      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
-//      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
-//      flag3 = 254
-//  else
-//    flag3 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=SPAIN.RGB", NULL, 0)
-//  y = y + yadd
+  if(flag3 || picked_flag == 3)
+    flag3 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=SPAIN.RGB", "Español", flag3)
+    if(flag3 == 255)
+      ButtonSound()
+      picked_flag = 3
+      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
+      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
+      flag3 = 254
+  else
+    flag3 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=SPAIN.RGB", NULL, 0)
+  y = y + yadd
 
 
-//  if(flag2 || picked_flag == 2)
-//    flag2 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=FRANCE.RGB", "Français", flag2)
-//    if(flag2 == 255)
-//      ButtonSound()
-//      picked_flag = 2
-//      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
-//      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
-//      flag2 = 254
-//  else
-//    flag2 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=FRANCE.RGB", NULL, 0)
-//  y = y + yadd
+  if(flag2 || picked_flag == 2)
+    flag2 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=FRANCE.RGB", "Français", flag2)
+    if(flag2 == 255)
+      ButtonSound()
+      picked_flag = 2
+      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
+      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
+      flag2 = 254
+  else
+    flag2 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=FRANCE.RGB", NULL, 0)
+  y = y + yadd
 
 
-//  if(flag1 || picked_flag == 1)
-//    flag1 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=AMERICA.RGB", "English", flag1)
-//    if(flag1 == 255)
-//      ButtonSound()
-//      picked_flag = 1
-//      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
-//      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
-//      flag1 = 254
-//  else
-//    flag1 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=AMERICA.RGB", NULL, 0)
-//  y = y + yadd
+  if(flag1 || picked_flag == 1)
+    flag1 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=AMERICA.RGB", "English", flag1)
+    if(flag1 == 255)
+      ButtonSound()
+      picked_flag = 1
+      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
+      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
+      flag1 = 254
+  else
+    flag1 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=AMERICA.RGB", NULL, 0)
+  y = y + yadd
 
 
   // Highlight controls menu if we don't have any players setup...

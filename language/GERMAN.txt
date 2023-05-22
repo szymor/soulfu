@@ -1,0 +1,168 @@
+Hauptmenü
+Einstellungen
+Spieler 
+Aktualisieren
+Nachricht
+Karte
+Statistik
+Techniken
+Bestandsaufnahme
+Ausrüstung
+Buch
+Brustkorb
+Schlüsselloch
+Falle
+Lokales Spiel
+Netzwerk-Spiel
+Steuerelemente
+Mich kaufen
+Beenden
+Änderungen speichern
+Fortfahren
+Zurückgehen
+Kaufen
+Verkaufen
+Schließen
+Netzwerk gebrochen
+Bildschirm :
+Farben :
+Gamma :
+Modus :
+Fenster, Vollbild
+Ton :
+Musik :
+Skalierung:
+Klein,Mittel,Groß,Riesig
+Hinweis: Sie müssen neu starten, damit
+       damit einige Änderungen funktionieren...
+Geschwindigkeit :
+Gerät :
+Keine,Tastatur,Joystk 1,Joystk 2,Joystk 3,Joystk 4
+Links :
+Taste 1,Taste 2,Taste 3,Taste 4,Taste 5,Taste 6,Taste 7,Taste 8,Keine
+Rechts :
+Kamera :
+Sprechen :
+Erfinden:
+Ausrüsten :
+Langsam :
+Schnell :
+Treffer:
+Mana:
+Stufe:
+Exp:
+Reittier:
+Str:
+Dex:
+Int:
+Punkte:
+Stärke:
+Geschicklichkeit:
+Intelligenz:
+Alle Rechte vorbehalten
+Gürteltasche
+Kopf
+Hals
+Körper
+Rücken
+Füße
+Hände
+Links
+Rechts
+Mitgefühl:
+Fleiß:
+Ehre:
+Glaube:
+Tapferkeit:
+Kameradschaft:
+Abzeichen des Mitgefühls
+Abzeichen des Fleißes
+Abzeichen der Ehre
+Abzeichen des Glaubens
+Abzeichen des Mutes
+Abzeichen der Kameradschaft
+Soldat
+Zauberer
+Heiler
+G'nome
+Elf
+Mystiker
+D'warf
+Hubbin
+92 Reserviert
+93 Reserviert
+94 Reserviert
+95 Reserviert
+96 Reserviert
+97 Reserviert
+98 Reserviert
+99 Reserviert
+100 Reserviert
+101 Reserviert
+102 Reserviert
+103 Reserviert
+104 Reserviert
+105 Reserviert
+106 Reserviert
+107 Reserviert
+Tastatur
+109 GANDALF besiegte JIMBOBO
+110 GANDALF wurde besiegt
+111 Gandalf hat einen Level aufgestiegen
+112 Gandalf hat sich ein Tugendabzeichen verdient
+113 Gandalf fühlt sich schlecht, weil er das getan hat...
+114 Gandalf hat das zu sehr genossen...
+115 Gandalf schlief ein...
+116 Gandalf ist verwirrt
+117 Gandalf fühlt sich krank
+118 Gandalf ist blind
+119 Gandalf kann sich an nichts mehr erinnern
+120 Gandalf fühlt sich besser
+121 Gandalf fühlt sich mächtig
+122 Gandalf fühlt sich müde
+123 Das hat nicht besonders gut geschmeckt...
+124 Gandalf ist immer noch hungrig...
+125 Gandalf ist nicht mehr hungrig...
+126 Gandalf ist in Ohnmacht gefallen!
+127 Gandalf kann die seltsame Schrift nicht lesen...
+128 Gandalf hat sein Fasten beendet...
+129 Dieser Gegenstand konnte nicht ausgerüstet werden...
+130 Dieser Gegenstand ist zu teuer...
+131 Dieser Gegenstand kann nicht verkauft werden...
+132 Gandalf kann kein Fleisch essen...
+133 Das Schild sagt...
+134 Aus gutem Grund versiegelt
+135 Halle der Nachahmer
+136 Halle der Schwerter
+137 Halle der Statuen
+138 Thronsaal 
+139 Rätselraum
+140 Schatzkammer
+141 Bakenturm
+142 Der Hohe Hof
+143 Willkommen im Aschepalast
+144 Willkommen im Eispalast
+145 Willkommen im Schattenpalast
+146 Boss-Kammer
+147 Hüte dich vor dem Drachen
+148 Gefahr:  Minenfeld
+149 Nicht nach oben schauen
+150 Lauft!
+151 Nur in eine Richtung
+152 Schutzhelme sind in diesem Bereich erforderlich
+153 Kontrolle der Fluttore
+154 Schlüsselmechanismus unter diesem Schild
+155 Fallenmechanismus unter dieser Tafel
+156 Aufbewahrungsort der Zeitkapsel
+157 Diese Tafel braucht mehr Gewicht
+158 Blick hinter die Statue
+159 Vergrabener Schatz
+160 Der Schatz liegt oben auf der Säule
+161 Eingeklemmt
+162 Nicht gefangen
+163 Dieser Gegenstand ist verflucht
+164 Gandalf hat eine Falle ausgelöst
+165 Gandalf hat das Schloss geknackt
+166 Gandalf hat ein Geheimnis gefunden
+167 Die Tür ist verschlossen
+168 Die Truhe ist verschlossen
