@@ -12,7 +12,7 @@
 Spawn()
   int self, class, openfile
   self = FindSelf()
-  message = RollDice(0,27)
+  message = RollDice(1,28)
   team = TEAM_GOOD
   float screenx
 
@@ -171,7 +171,7 @@ Refresh()
 
   // Figure out how big to make the bubble...
   StringClear(String(10))
-  StringAppend(String(10), StringLanguage(260 + message), 256)
+  StringAppend(String(10), StringLanguage(259 + message), 256)
 
   size_y = CutDown(String(10))
   size_x = 1

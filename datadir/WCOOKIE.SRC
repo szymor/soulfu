@@ -10,7 +10,7 @@ Spawn()
   screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   // Pick a random message
-  message = RollDice(0,19)
+  message = RollDice(1,20)
 
   // Drop into place...
   timer = 0
@@ -48,7 +48,7 @@ Refresh()
 
   // Figure out how big to make the bubble...
   StringClear(String(0))
-  StringAppend(String(0), StringLanguage(310 + message), 256)
+  StringAppend(String(0), StringLanguage(309 + message), 256)
 
   size = StringLength(String(0))
 
