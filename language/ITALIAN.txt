@@ -166,3 +166,164 @@ Tastiera
 166 Gandalf ha trovato un segreto
 167 La porta è chiusa a chiave
 168 Il forziere è chiuso a chiave
+169 Riservato
+170 Riservato
+171 Riservato
+172 Riservato
+173 Riservato
+174 Riservato
+175 Riservato
+176 Riservato
+177 Riservato
+178 Riservato
+179 Riservato
+Carica gioco
+Strumenti
+Grazie
+Ne vuoi ancora?
+Sii gentile!
+È gratis!
+Punteggi alti
+Difesa dai bordi
+Difesa dai colpi
+Difesa dal fuoco
+Difesa dal ghiaccio
+Difesa Acido
+Difesa elettrica
+GIOCO FINITO
+PRONTO PER L'USO
+Acquista  ($10)
+Negozio
+Oggetti
+Trucchi
+Armi
+Speciale
+Testa
+Corpo
+Gambe
+Equipaggiamento
+Virtù
+Altoparlanti invertiti
+Veloce e brutto
+Ombre graziose
+Acqua graziosa
+Linee del terreno
+Linee dei personaggi
+Mappa Mip
+Z Bit :
+Test
+Com'è il video?
+Tempo rimasto: 
+Sembra buono
+Salva il gioco
+Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
+SIATE GENTILI!
+GRAZIE!
+Questo gioco è NICEWARE!  Per sbloccare
+per sbloccare la versione completa, DEVI fare
+qualcosa di gentile per qualcun altro.
+Ecco come fare!  Basta digitare la frase
+qui sotto e il gioco è fatto...
+Ecco il trucco!  Dovete fare
+una buona azione ogni volta che si gioca
+gioco...
+E dire agli altri di SoulFu
+mentre lo fate!
+ Giocatori in rete
+Esci dal gioco
+Iniziare il gioco
+Tabella dei punteggi più alti
+Nome
+Punteggio
+Classe
+Vai Poof
+E la speranza era quasi persa...  Quasi...
+Non posso salvare
+Davvero hai smesso?
+Negozio di topi
+Oggetti:
+AzioneR:
+AzioneL:
+Telecamera
+Muoversi 
+249 Riservato
+250 Riservato
+251 Riservato
+252 Riservato
+253 Riservato
+254 Riservato
+255 Riservato
+256 Riservato
+257 Riservato
+258 Riservato
+259 Riservato
+"Tutti gli animali sono uguali, ma alcuni sono più uguali di altri." -George_Orwell
+"I trucchi e i tradimenti sono la pratica degli sciocchi, che non hanno il senso di essere onesti." -Benjamin_Franklin
+"Chi esprime i voti non decide nulla.  Coloro che contano i voti decidono tutto." - Josef_Stalin
+"In tempi di inganno universale, dire la verità diventa un atto rivoluzionario." -Gorge Orwell
+"Io ero mentalmente adatto a trasportare armi nucleari, ma non lo sono se vedo un UFO." -Maj._George_A._Filer,_III
+" Ho scritto, finché alla fine è diventato, per lunghezza e larghezza, la grandezza che vedete." -John_Bunyan
+"Siamo tazze che vengono costantemente e silenziosamente riempite.  Il trucco sta nel saperci rovesciare e far uscire le cose belle." -Ray_Bradbury
+"La vita è come un rotolo di carta igienica: più si avvicina alla fine, più va veloce." -Andy_Rooney
+"La migliore cura per l'insonnia è dormire molto." -W._C._Fields
+"Quando le persone brutte fanno facce strane, le persone strane vincono le gare." -Lerry
+"Il governo per essere duraturo dovrà essere giusto." -Ed_Leedskalnin
+"Gli uomini spesso diventano ciò che credono di essere." -Mahatma_Gandhi
+"Essere l'ultimo uomo sulla Luna è un onore molto dubbio." -Gene_Cernan
+"Il corpo dice ciò che le parole non possono dire."
+"Fidati di te stesso; ogni cuore vibra su quella corda di ferro." -Ralph_Waldo_Emerson
+"Fai sempre ciò che hai paura di fare." -Ralph_Waldo_Emerson
+"Non è auspicabile coltivare il rispetto per la legge, quanto per il diritto." -Henry_David_Thoreau
+"Se cinquant'anni fa mi avessi detto che avrei costruito le mie attività con i proventi delle campane a vento, ti avrei detto che eri pazzo." -Paolo_Soleri
+"Non ereditiamo la terra dai nostri genitori, la prendiamo in prestito dai nostri figli" - Proverbio kenyano
+"Segnatevi la mia parola: sta per arrivare una combinazione di aereo e automobile. Potete sorridere. Ma arriverà..." -Henry_Ford
+"Non puoi dipendere dai tuoi occhi quando la tua immaginazione è fuori fuoco." -Mark_Twain
+"Se non tentiamo l'assurdo, non possiamo raggiungere l'impossibile." -Albert_Einstein
+"Ogni generazione ride delle vecchie mode, ma segue religiosamente le nuove." -Henry_David_Thoreau
+"I vestiti fanno l'uomo. Le persone nude hanno poca o nessuna influenza sulla società." -Mark_Twain
+"L'autoeducazione è, credo fermamente, l'unico tipo di educazione che esista." -Isaac_Asimov
+"La vera disciplina consiste nel dire di no alle opportunità sbagliate." -Peter_Drucker
+"I veri pistoleri hanno sempre cercato di evitare di estrarre la pistola." - Michael Crichton
+"Vivi come vorresti aver vissuto quando starai morendo." -Christian_Gellert
+288 Riservato
+289 Riservato
+290 Riservato
+291 Riservato
+292 Riservato
+293 Riservato
+294 Riservato
+295 Riservato
+296 Riservato
+297 Riservato
+298 Riservato
+299 Riservato
+300 Riservato
+301 Riservato
+302 Riservato
+303 Riservato
+304 Riservato
+305 Riservato
+306 Riservato
+307 Riservato
+308 Riservato
+309 Riservato
+Tutte le vostre basi appartengono a noi!
+Iniziate ad allenarvi!
+Racecar scritto al contrario è Racecar!
+Prova a giocare in stile Ironman!
+L'alcol fa male!
+Le biblioteche sono divertenti!
+La televisione è una perdita di tempo!
+I prestiti costano il doppio!
+State lontani dalle carte di credito!
+Siate più gentili con mamma e papà!
+Fate pure!  Chiedile di uscire!
+Cambia sempre in meglio!
+I videogiochi fanno marcire il cervello!
+Non ci si può leccare il gomito!
+Indossate la cintura di sicurezza e guidate piano!
+I gatti sono meglio dei cani!
+I cani sono meglio dei gatti!
+Imparate a SOGNARE LUCIDO!
+Mangiate più frutta!
+Sorridete di più!  Sorridete ora!

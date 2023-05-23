@@ -166,3 +166,164 @@ Teclado
 166 Gandalf ha encontrado un secreto
 167 La puerta está cerrada
 168 El cofre está cerrado
+169 Reservado
+170 Reservado
+171 Reservado
+172 Reservado
+173 Reservado
+174 Reservado
+175 Reservado
+176 Reservado
+177 Reservado
+178 Reservado
+179 Reservado
+Cargar Juego
+Herramientas
+Gracias
+¿Quieres más?
+¡Sé amable!
+¡Es gratis!
+Puntuaciones altas
+Defensa de bordes
+Defensa Bash
+Defensa Fuego
+Defensa de Hielo
+Defensa Ácido
+Defensa Eléctrica
+FIN DEL JUEGO
+RESPAWN LISTO
+Comprar  ($10)
+Comprar
+Artículos
+Trampa
+Armas
+Especial
+Cabeza
+Cuerpo
+Piernas
+Equipamiento
+Virtud
+Altavoces invertidos
+Rápido y Feo
+Sombras bonitas
+Agua bonita
+Líneas del terreno
+Líneas de personajes
+Mapa Mip
+Z Bit :
+Probando
+¿Cómo va el vídeo?
+Tiempo restante: 
+Se ve bien
+Guardar Juego
+Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
+¡SE AMABLE!
+¡GRACIAS!
+¡Este juego es NICEWARE!  Para desbloquear
+la versión completa, DEBES hacer
+algo bueno por otra persona.
+Así de fácil.  Sólo tienes que escribir la frase
+de abajo y ya está...
+¡Aquí está el truco!  Tienes que hacer
+una buena acción cada vez que juegues al
+juego...
+Y hablar a otros sobre SoulFu
+de paso.
+ Jugadores en red
+Salir del juego
+Empezar partida
+Tabla de puntuaciones
+Nombre
+Puntuación
+Clase
+Go Poof
+Y casi se pierde la esperanza...  Casi...
+Cant Save
+¿De verdad renunciar?
+Tienda Mouse
+Artículos:
+ActionR:
+AcciónL:
+Cámara
+Mover 
+249 Reservado
+250 Reservado
+251 Reservado
+252 Reservado
+253 Reservado
+254 Reservado
+255 Reservado
+256 Reservado
+257 Reservado
+258 Reservado
+259 Reservado
+"Todos los animales son iguales, pero algunos son más iguales que otros."
+"Los trucos y la traición son la práctica de los tontos, que no tienen el sentido común de ser honestos." -Benjamin_Franklin
+"Los que emiten los votos no deciden nada.  Los que cuentan los votos lo deciden todo." -Josef_Stalin
+"En tiempos de engaño universal, decir la verdad se convierte en un acto revolucionario."
+"Yo era mentalmente apto para llevar armas nucleares, pero no lo soy si veo un OVNI."
+"Lo escribí, hasta que al final llegó a ser, a lo largo y a lo ancho, lo grande que ves."
+"Somos copas, que se llenan constante y silenciosamente.  El truco está en saber cómo volcarnos y dejar salir las cosas bellas." -Ray_Bradbury
+"La vida es como un rollo de papel higiénico, cuanto más se acerca al final, más rápido se va." -Andy_Rooney
+"La mejor cura para el insomnio es dormir mucho."
+"Cuando la gente fea pone caras raras, la gente rara gana carreras." -Lerry
+"Para ser duradero, el gobierno tiene que ser justo."
+"Los hombres a menudo se convierten en lo que creen que son."
+"Ser el último hombre en la Luna es un honor muy dudoso." -Gene_Cernan
+"El cuerpo dice lo que las palabras no pueden." -Martha_Graham
+"Confía en ti mismo; cada corazón vibra con esa cuerda de hierro."
+"Siempre haz lo que temes hacer." -Ralph_Waldo_Emerson
+"No es deseable cultivar el respeto por la ley, tanto como por el derecho."
+"Si me hubieras dicho hace cincuenta años que construiría mis actividades con las ganancias de las campanas de viento, te habría dicho que estabas loco."
+"No heredamos la tierra de nuestros padres, la tomamos prestada de nuestros hijos" -Kenyan_Proverb
+"Observa mi palabra: Una combinación de avión y automóvil está llegando. Puede que sonrías. Pero llegará..." -Henry_Ford
+"No puedes depender de tus ojos cuando tu imaginación está desenfocada." -Mark_Twain
+"A menos que intentemos lo absurdo, no podremos conseguir lo imposible."
+"Cada generación se ríe de las viejas modas, pero sigue religiosamente las nuevas." -Henry_David_Thoreau
+"La ropa hace al hombre. La gente desnuda tiene poca o ninguna influencia en la sociedad." -Mark_Twain
+"Creo firmemente que la autoeducación es el único tipo de educación que existe."
+"La verdadera disciplina consiste en decir no a las oportunidades equivocadas." -Peter_Drucker
+"Los verdaderos pistoleros siempre intentaban evitar sacar sus pistolas." -Michael_Crichton
+"Vive como desearías haber vivido cuando estés muriendo." -Christian_Gellert
+288 Reservado
+289 Reservado
+290 Reservado
+291 Reservado
+292 Reservado
+293 Reservado
+294 Reservado
+295 Reservado
+296 Reservado
+297 Reservado
+298 Reservado
+299 Reservado
+300 Reservado
+301 Reservado
+302 Reservado
+303 Reservado
+304 Reservado
+305 Reservado
+306 Reservado
+307 Reservado
+308 Reservado
+309 Reservado
+¡Toda tu base nos pertenece!
+¡Comiencen a ejercitarse!
+¡Racecar deletreado al revés es Racecar!
+Intenta jugar al estilo Ironman.
+¡El alcohol es malo para ti!
+¡Las bibliotecas son divertidas!
+La televisión es una pérdida de tiempo.
+¡Los préstamos cuestan el doble!
+¡Aléjate de las tarjetas de crédito!
+¡Sé más amable con mamá y papá!
+¡Adelante!  ¡Invítala a salir!
+¡Cambia siempre a mejor!
+¡Los videojuegos te pudren el cerebro!
+¡No puedes chuparte el codo!
+¡Ponte el cinturón de seguridad y conduce DESPACIO!
+¡Los gatos son mejores que los perros!
+¡Los perros son mejores que los gatos!
+¡Aprende a SOÑAR LUCIDO!
+¡Come más fruta!
+¡Sonríe más!  ¡Sonríe AHORA!

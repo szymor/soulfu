@@ -3230,7 +3230,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
 
                             // Save Characters
                             fprintf(savelog,"\nSaving Characters:\n");
-                            fwrite(local_player_character, sizeof(local_player_character), MAX_LOCAL_PLAYER, savefile);
+                            fwrite(local_player_character, sizeof(local_player_character[0]), MAX_LOCAL_PLAYER, savefile);
                             fprintf(savelog,"   Player 1 Index: %3d\n", local_player_character[0]);
                             fprintf(savelog,"   Player 2 Index: %3d\n", local_player_character[1]);
                             fprintf(savelog,"   Player 3 Index: %3d\n", local_player_character[2]);
@@ -3403,7 +3403,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
 
                             // Load Characters
                             fprintf(savelog,"\nLoading Characters:\n");
-                            fread(local_player_character, sizeof(local_player_character), MAX_LOCAL_PLAYER, loadfile);
+                            fread(local_player_character, sizeof(local_player_character[0]), MAX_LOCAL_PLAYER, loadfile);
                             fprintf(savelog,"   Player 1 Index: %3d\n", local_player_character[0]);
                             fprintf(savelog,"   Player 2 Index: %3d\n", local_player_character[1]);
                             fprintf(savelog,"   Player 3 Index: %3d\n", local_player_character[2]);

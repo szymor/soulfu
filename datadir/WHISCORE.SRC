@@ -171,14 +171,14 @@ Refresh()
 
 
   // Title bar
-  TitleBar(FALSE, 0.0, -12.0, "High Score Table")
+  TitleBar(FALSE, 0.0, -12.0, StringLanguage(235))
 
 
   // Headers
   WindowBorder(FALSE, -18.0, -10.0-1.7, 36, 1, BORDER_TITLE)
-  TitleBar(FALSE, -14.0, -10.0, "Name")
-  TitleBar(FALSE, 0.0, -10.0, "Score")
-  TitleBar(FALSE, 7.0, -10.0, "Class")
+  TitleBar(FALSE, -14.0, -10.0, StringLanguage(236))
+  TitleBar(FALSE, 0.0, -10.0, StringLanguage(237))
+  TitleBar(FALSE, 7.0, -10.0, StringLanguage(238))
 
 
 

@@ -56,16 +56,16 @@ Refresh()
       GoPoof(POOF_SELF)
   
   //Window Setup
-  TitleBar(TRUE, 1.0, -8.0, "Save Game")        
+  TitleBar(TRUE, 1.0, -8.0, StringLanguage(218))        
   WindowBorder(FALSE, -5.0, -8.0, 12, 19, BORDER_FULL)
-  button_one = ButtonImage(button_one,1.0, 15.0, 10.0, 2.0, "Save Game")
+  button_one = ButtonImage(button_one,1.0, 15.0, 10.0, 2.0, StringLanguage(218))
   if(CHEAT)
-    button_two = ButtonImage(button_two,1.0, 17.0, 10.0, 2.0, "Load Game")
+    button_two = ButtonImage(button_two,1.0, 17.0, 10.0, 2.0, StringLanguage(180))
   else
-    button_two = ButtonImage(button_two,1.0, 17.0, 10.0, 2.0, "Continue")
+    button_two = ButtonImage(button_two,1.0, 17.0, 10.0, 2.0, StringLanguage(21))
   
   //Setup Slot
-  slot = WindowMiniList(2.0, 0.5, 8, 12, slot, "Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12")
+  slot = WindowMiniList(2.0, 0.5, 8, 12, slot, StringLanguage(219))
 
 
 //-----------------------------------------------------------------------

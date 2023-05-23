@@ -1311,10 +1311,10 @@ Refresh()
       WindowBorder(FALSE, -8.5, 0.0, 17, 2, BORDER_BOX)
       if(mode == MODE_CANNOTRESPAWN)
         // Game over...
-        CenterString(WHITE, 8.5, 0.5, "GAME OVER")
+        CenterString(WHITE, 8.5, 0.5, StringLanguage(193))
       else
         // Check for player wanting to respawn...
-        CenterString(WHITE, 8.5, 0.5, "RESPAWN READY")
+        CenterString(WHITE, 8.5, 0.5, StringLanguage(194))
         temp = FALSE
         if(SystemGet(SYS_LOCALPLAYERINPUT, player, PLAYER_DEVICE_BUTTON_LEFT))
           temp = TRUE
@@ -1685,7 +1685,7 @@ Refresh()
             BuzzerSound()
       else
         // We're selling keys, so draw the special key button...
-        button1 = ButtonImage(button1, 0.0, 5.2, 17, 2.0, "Buy \7 ($10)")
+        button1 = ButtonImage(button1, 0.0, 5.2, 17, 2.0, StringLanguage(195))
 
 
         // We're also selling 6 items...
@@ -1713,7 +1713,7 @@ Refresh()
 
 
       WindowBorder(FALSE, -9.5, y+0.5, 4, 1, BORDER_FULL)
-      WindowString(WHITE, 0.0, 0.0, "Shop")
+      WindowString(WHITE, 0.0, 0.0, StringLanguage(196))
 
 
     if(shop_on)
@@ -1793,10 +1793,10 @@ Refresh()
 
 
       WindowBorder(FALSE, -9.5, y+0.5, 5, 1, BORDER_FULL)
-      WindowString(WHITE, 0.0, 0.0, "Items")
+      WindowString(WHITE, 0.0, 0.0, StringLanguage(197))
       // Cheat button...
       if(SystemGet(SYS_DEVTOOL, 0, 0) && CHEAT)
-        if(ButtonImage(0, -0.5, -0.5, 6.0, 2.0, "Cheat") == 255)
+        if(ButtonImage(0, -0.5, -0.5, 6.0, 2.0, StringLanguage(198)) == 255)
           binding.money = 1000
           binding.keys = 20
           binding.item00 = CHEAT_ITEM_00
@@ -1827,12 +1827,12 @@ Refresh()
       WindowBorder(FALSE, -8.5, y, 17, 11, BORDER_LOW_TITLE)
 
       WindowBorder(FALSE, -8.0, y+2.2, 7, 8, BORDER_BOX)
-      CenterString(WHITE, 3.5, 0.0, "Weapons")
+      CenterString(WHITE, 3.5, 0.0, StringLanguage(199))
       RowIcon(242, 0.5, 1.0)
       RowIcon(243, 3.5, 1.0)
 
 
-      CenterString(WHITE, 3.5, 4.0, "Special")
+      CenterString(WHITE, 3.5, 4.0, StringLanguage(200))
       RowIcon(244, 0.5, 5.0)
       RowIcon(245, 3.5, 5.0)
 
@@ -1841,27 +1841,27 @@ Refresh()
 
       WindowBorder(FALSE, 0.0, y+0.2, 8, 10, BORDER_BOX)
       if(binding.sflags & SCRIPT_ALLOW_HELM)
-        CenterString(WHITE, 2.5, 1.0, "Head")
+        CenterString(WHITE, 2.5, 1.0, StringLanguage(201))
         RowIcon(246, 5.0, 0.0)  // Helm
       if(binding.sflags & SCRIPT_ALLOW_BODY)
-        CenterString(WHITE, 2.5, 4.0, "Body")
+        CenterString(WHITE, 2.5, 4.0, StringLanguage(202))
         RowIcon(247, 5.0, 3.0)  // Body Armor
       if(binding.sflags & SCRIPT_ALLOW_LEGS)
-        CenterString(WHITE, 2.5, 7.0, "Legs")
+        CenterString(WHITE, 2.5, 7.0, StringLanguage(203))
         RowIcon(248, 5.0, 6.0)  // Leggings
 
 
-      DefenseString(0.00, 9.0, binding.defedge, DAMAGE_EDGE, "Edge Defense")
-      DefenseString(1.40, 9.0, binding.defbash, DAMAGE_BASH, "Bash Defense")
-      DefenseString(2.80, 9.0, binding.deffire, DAMAGE_FIRE, "Fire Defense")
-      DefenseString(4.20, 9.0, binding.defice,  DAMAGE_ICE,  "Ice Defense")
-      DefenseString(5.60, 9.0, binding.defacid, DAMAGE_ACID, "Acid Defense")
-      DefenseString(7.00, 9.0, binding.defvolt, DAMAGE_VOLT, "Electric Defense")
+      DefenseString(0.00, 9.0, binding.defedge, DAMAGE_EDGE, StringLanguage(187))
+      DefenseString(1.40, 9.0, binding.defbash, DAMAGE_BASH, StringLanguage(188))
+      DefenseString(2.80, 9.0, binding.deffire, DAMAGE_FIRE, StringLanguage(189))
+      DefenseString(4.20, 9.0, binding.defice,  DAMAGE_ICE,  StringLanguage(190))
+      DefenseString(5.60, 9.0, binding.defacid, DAMAGE_ACID, StringLanguage(191))
+      DefenseString(7.00, 9.0, binding.defvolt, DAMAGE_VOLT, StringLanguage(192))
 
 
 
       WindowBorder(FALSE, -9.5, y+0.5, 9, 1, BORDER_FULL)
-      WindowString(WHITE, 0.0, 0.0, "Equipment")
+      WindowString(WHITE, 0.0, 0.0, StringLanguage(204))
 
 
 
@@ -1878,7 +1878,7 @@ Refresh()
       Badge(binding.virfait, 3, 0.0, 5.2)
       Badge(binding.vircour, 4, 0.0, 6.2)
       WindowBorder(FALSE, -9.5, y+0.5, 6, 1, BORDER_FULL)
-      WindowString(WHITE, 0.0, 0.0, "Virtue")
+      WindowString(WHITE, 0.0, 0.0, StringLanguage(205))
     SystemSet(SYS_CURRENTITEM, 0, 0, 400)
 
 

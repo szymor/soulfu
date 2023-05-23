@@ -272,27 +272,27 @@ Refresh()
 
   // Button images
   button1 = ButtonImage(button1, 0.0, 0.0, 16.0, 2.0, StringLanguage(15))   // Local Game
-  button8 = ButtonImage(button8, 0.0, 2.0, 16.0, 2.0, "Load Game")          // Load Game
+  button8 = ButtonImage(button8, 0.0, 2.0, 16.0, 2.0, StringLanguage(180))  // Load Game
   button2 = ButtonImage(button2, 0.0, 4.0, 16.0, 2.0, StringLanguage(16))   // Network Game
   button3 = ButtonImage(button3, 0.0, 6.0, 16.0, 2.0, StringLanguage(2))    // Settings
   button4 = ButtonImage(button4, 0.0, 8.0, 16.0, 2.0, StringLanguage(17))   // Controls
   if(SystemGet(SYS_DEVTOOL, 0, 0) && CHEAT)
-    button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Tools")
+    button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, StringLanguage(181)) // Tools
   else
     if(SystemGet(SYS_PAYINGCUSTOMER, 0, 0))
-      button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Thanks") // Thanks!
+      button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, StringLanguage(182)) // Thanks!
     else
       if(timer & 128)
         if(timer & 64)
-          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Want More?!")      // Want More?
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, StringLanguage(183))      // Want More?
         else
-          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Be Nice!")          // Be Nice!
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, StringLanguage(184))          // Be Nice!
       else
         if(timer & 64)
-          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "It's Free!")  // It's Free!
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, StringLanguage(185))  // It's Free!
         else
-          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, "Be Nice!")        // Be Nice!
-  button6 = ButtonImage(button6, 0.0,12.0, 16.0, 2.0, "High Scores")          // High Scores
+          button5 = ButtonImage(button5, 0.0, 10.0, 16.0, 2.0, StringLanguage(184))        // Be Nice!
+  button6 = ButtonImage(button6, 0.0,12.0, 16.0, 2.0, StringLanguage(186))          // High Scores
   button7 = ButtonImage(button7, 0.0,14.0, 16.0, 2.0, StringLanguage(19))   // Quit
 
 

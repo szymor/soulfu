@@ -82,7 +82,7 @@ Refresh()
     if(mode == 2)
       // Full black with text that fades in...
       DrawBlack(255)
-      CenterString(WHITE, 0.0, 0.0, "And hope was nearly lost...  Nearly...")
+      CenterString(WHITE, 0.0, 0.0, StringLanguage(240))
       alpha = 255 - timer
       if(alpha < 0)
         alpha = 0
@@ -133,12 +133,12 @@ Refresh()
           BuzzerSound()
 
       WindowBorder(FALSE, -10.0, -2.0, 20, 4, BORDER_FULL)
-      CenterString(WHITE, 10.0, 0.5, "Really quit?")
+      CenterString(WHITE, 10.0, 0.5, StringLanguage(242))
       button_one = ButtonImage(button_one, 0.0, 2.0,10.0, 2.0, StringLanguage(19))
       if((roomflags & MAP_ROOM_FLAG_TOWN) || CHEAT)
-        button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, "Save Game")
+        button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, StringLanguage(218))  // Save Game
       else
-        button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, "Cant Save")
+        button_two = ButtonImage(button_two,10.0, 2.0,10.0, 2.0, StringLanguage(241))  // Cant Save
     else
       button_one = 0
       button_two = 0

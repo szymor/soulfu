@@ -166,3 +166,164 @@ Tastatur
 166 Gandalf hat ein Geheimnis gefunden
 167 Die Tür ist verschlossen
 168 Die Truhe ist verschlossen
+169 Reserviert
+170 Reserviert
+171 Reserviert
+172 Reserviert
+173 Reserviert
+174 Reserviert
+175 Reserviert
+176 Reserviert
+177 Reserviert
+178 Reserviert
+179 Reserviert
+Spiel laden
+Werkzeuge
+Danke
+Du willst mehr?!
+Sei nett!
+Es ist kostenlos!
+Hohe Punktzahl
+Kantenverteidigung
+Bash-Verteidigung
+Feuer-Verteidigung
+Eis-Verteidigung
+Säure-Verteidigung
+Elektro-Verteidigung
+GAME OVER
+RESPAWN BEREIT
+ kaufen ($10)
+Einkaufen
+Gegenstände
+Schummeln
+Waffen
+Spezial
+Kopf
+Körper
+Beine
+Ausrüstung
+Tugend
+Reverse-Lautsprecher
+Schnell & Hässlich
+Hübsche Schatten
+Hübsches Wasser
+Terrain-Linien
+Charakter-Linien
+Mip-Karte
+Z-Bit :
+Testen
+Wie ist das Video?
+Verbleibende Zeit: 
+Sieht gut aus
+Spiel speichern
+Steckplatz 1,Steckplatz 2,Steckplatz 3,Steckplatz 4,Steckplatz 5,Steckplatz 6,Steckplatz 7,Steckplatz 8,Steckplatz 9,Steckplatz 10,Steckplatz 11,Steckplatz 12
+SEID NETT!
+DANKE!
+Dieses Spiel ist NICEWARE!  Zum Freischalten
+die Vollversion freizuschalten, MÜSSEN Sie
+etwas Nettes für jemand anderen tun.
+So geht's!  Tippe einfach den Satz
+unten ein, und schon geht's los...
+Hier ist der Haken!  Du musst
+jedes Mal, wenn du das Spiel spielst, eine gute Tat
+Spiel spielst...
+Und erzähle anderen Leuten von SoulFu
+während du dabei bist!
+ Spieler vernetzen
+Spiel beenden
+Spiel starten
+Highscore-Tabelle
+Name
+Punktestand
+Klasse
+Puff gehen
+Und die Hoffnung war fast verloren...  Beinahe...
+Nicht zu retten
+Wirklich aufgeben?
+Maus-Shop
+Artikel:
+ActionR:
+AktionL:
+Kamera
+Bewegen 
+249 Reserviert
+250 Reserviert
+251 Reserviert
+252 Reserviert
+253 Reserviert
+254 Reserviert
+255 Reserviert
+256 Reserviert
+257 Reserviert
+258 Reserviert
+259 Reserviert
+"Alle Tiere sind gleich, aber einige Tiere sind gleicher als andere." -George_Orwell
+"Tricks und Verrat sind die Praxis von Narren, die nicht den Verstand haben, ehrlich zu sein." -Benjamin_Franklin
+"Diejenigen, die die Stimmen abgeben, entscheiden nichts.  Diejenigen, die die Stimmen zählen, entscheiden alles." -Josef_Stalin
+"In Zeiten des allgemeinen Betrugs wird das Sagen der Wahrheit zu einem revolutionären Akt." -George_Orwell
+"Ich war geistig fit, Atomwaffen zu tragen, aber ich bin nicht geistig fit, wenn ich ein UFO sehe." -Maj._George_A._Filer,_III
+" Ich habe es niedergeschrieben, bis es schließlich in Länge und Breite so groß wurde, wie Sie es sehen." -John_Bunyan
+" Wir sind Tassen, die ständig und leise gefüllt werden.  Der Trick ist, zu wissen, wie wir uns selbst umkippen und die schönen Dinge herauslassen können." -Ray_Bradbury
+"Das Leben ist wie eine Rolle Klopapier, je näher es dem Ende kommt, desto schneller geht es." -Andy_Rooney
+"Das beste Mittel gegen Schlaflosigkeit ist, viel zu schlafen." -W._C._Fields
+"Wenn hässliche Menschen seltsame Gesichter machen, gewinnen seltsame Menschen Rennen." -Lerry
+"Regierungen, die Bestand haben sollen, müssen gerecht sein." -Ed_Leedskalnin
+"Menschen werden oft zu dem, was sie selbst zu sein glauben." -Mahatma_Gandhi
+"Der letzte Mensch auf dem Mond zu sein, ist eine sehr zweifelhafte Ehre." -Gene_Cernan
+"Der Körper sagt, was Worte nicht können." -Martha_Graham
+"Vertrau dir selbst; jedes Herz schwingt an dieser eisernen Schnur." -Ralph_Waldo_Emerson
+"Tue immer das, wovor du Angst hast." -Ralph_Waldo_Emerson
+"Es ist nicht wünschenswert, einen Respekt vor dem Gesetz zu kultivieren, so sehr wie vor dem Recht." -Henry_David_Thoreau
+"Wenn Sie mir vor fünfzig Jahren gesagt hätten, dass ich meine Aktivitäten aus dem Erlös von Windglocken aufbauen würde, hätte ich Sie für verrückt erklärt." -Paolo_Soleri
+"Wir erben die Erde nicht von unseren Eltern, wir leihen sie uns von unseren Kindern." -Kenianisches_Sprichwort
+"Merken Sie sich mein Wort: Eine Kombination aus Flugzeug und Auto wird kommen. Du kannst lächeln. Aber es wird kommen..." -Henry_Ford
+"Du kannst dich nicht auf deine Augen verlassen, wenn deine Phantasie unscharf ist." -Mark_Twain
+"Wenn wir das Absurde nicht versuchen, können wir das Unmögliche nicht erreichen." -Albert_Einstein
+"Jede Generation lacht über die alten Moden, aber folgt religiös den neuen." -Henry_David_Thoreau
+"Kleidung macht den Mann. Nackte Menschen haben wenig oder keinen Einfluss auf die Gesellschaft." -Mark_Twain
+"Selbsterziehung ist, davon bin ich fest überzeugt, die einzige Art von Erziehung, die es gibt." -Isaac_Asimov
+"Die wahre Disziplin besteht darin, zu den falschen Gelegenheiten nein zu sagen." -Peter_Drucker
+"Die echten Revolverhelden haben immer versucht, nicht ihre Waffe zu ziehen." -Michael_Crichton
+"Lebe so, wie du gelebt zu haben wünschst, wenn du stirbst." -Christian_Gellert
+288 Reserviert
+289 Reserviert
+290 Reserviert
+291 Reserviert
+292 Reserviert
+293 Reserviert
+294 Reserviert
+295 Reserviert
+296 Reserviert
+297 Reserviert
+298 Reserviert
+299 Reserviert
+300 Reserviert
+301 Reserviert
+302 Reserviert
+303 Reserviert
+304 Reserviert
+305 Reserviert
+306 Reserviert
+307 Reserviert
+308 Reserviert
+309 Reserviert
+Ihre gesamte Basis gehört uns!
+Fangt an zu trainieren!
+Racecar rückwärts buchstabiert ist Racecar!
+Versuche den Ironman-Stil zu spielen!
+Alkohol ist schlecht für dich!
+Bibliotheken sind lustig!
+Fernsehen ist Zeitverschwendung!
+Kredite kosten doppelt so viel!
+Halte dich von Kreditkarten fern!
+Sei netter zu Mama und Papa!
+Mach schon!  Frag sie aus!
+Ändere dich immer zum Besseren!
+Videospiele verderben dein Gehirn!
+Du kannst deinen Ellbogen nicht lecken!
+Schnall dich an und fahr LANGSAM!
+Katzen sind besser als Hunde!
+Hunde sind besser als Katzen!
+Lerne zu LUCID DREAM!
+Iss mehr Obst!
+Lächle mehr!  Lächle JETZT!

@@ -116,8 +116,8 @@ Refresh()
 
 
   // Button images
-  button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, "Exit Game")
-  button_two = ButtonImage(button_two, 18.0, 0.0, 18.0, 2.0, "Start Game")
+  button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, StringLanguage(233))  // Exit Game
+  button_two = ButtonImage(button_two, 18.0, 0.0, 18.0, 2.0, StringLanguage(234))  // Start Game
 
 
 //-----------------------------------------------------------------------

@@ -108,12 +108,12 @@ Refresh()
 
   // Flip speaker pan...
   flip_pan_on = WindowYesBox(flip_pan_on, 0.5, 13.0)
-  WindowString(White, 2.0, 13.0, "Reverse Speakers")
+  WindowString(White, 2.0, 13.0, StringLanguage(206))
   SystemSet(SYS_FLIPPAN, 0, 0, flip_pan_on)
 
 
   // Fast and Ugly mode
-  WindowString(White, 2.0, 12.0, "Fast & Ugly")
+  WindowString(White, 2.0, 12.0, StringLanguage(207))
   if(WindowYesBox(fastandugly_on, 0.5, 12.0) != fastandugly_on)
     fastandugly_on = (fastandugly_on+1)&1
     SystemSet(SYS_FASTANDUGLY, 0, 0, fastandugly_on)
@@ -122,31 +122,31 @@ Refresh()
 
   // Pretty Shadows
   pretty_shadows_on = WindowYesBox(pretty_shadows_on, 0.5, 11.0)
-  WindowString(White, 2.0, 11.0, "Pretty Shadows")
+  WindowString(White, 2.0, 11.0, StringLanguage(208))
   SystemSet(SYS_WATERLAYERSACTIVE, 0, 0, pretty_shadows_on)
 
 
 
   // Pretty Water
   pretty_water_on = WindowYesBox(pretty_water_on, 0.5, 10.0)
-  WindowString(White, 2.0, 10.0, "Pretty Water")
+  WindowString(White, 2.0, 10.0, StringLanguage(209))
   SystemSet(SYS_WATERLAYERSACTIVE, 0, 0, pretty_water_on)
 
 
   // Terrain lines
   i = (WindowYesBox(cartoon_mode&2, 0.5, 9.0)<<1)
-  WindowString(White, 2.0, 9.0, "Terrain Lines")
+  WindowString(White, 2.0, 9.0, StringLanguage(210))
 
 
   // Character Lines
   i = i | WindowYesBox(cartoon_mode&1, 0.5, 8.0)
-  WindowString(White, 2.0, 8.0, "Character Lines")
+  WindowString(White, 2.0, 8.0, StringLanguage(211))
   cartoon_mode = i
   SystemSet(SYS_CARTOONMODE, 0, 0, cartoon_mode)
 
 
   // Mip mapping
-  WindowString(WHITE, 2.0, 7.0, "Mip Map")
+  WindowString(WHITE, 2.0, 7.0, StringLanguage(212))
   if(WindowYesBox(mip_on, 0.5, 7.0) != mip_on)
     mip_on = (mip_on+1)&1
     SystemSet(SYS_MIPMAPACTIVE, 0, 0, mip_on)
@@ -175,7 +175,7 @@ Refresh()
   WindowString(WHITE, 0.0, 3.0, StringLanguage(30))
   mode = WindowMiniList(8.0, 3.0, 12, 2, mode, StringLanguage(31))
 
-  WindowString(WHITE, 0.0, 2.0, "Z Bit  :")
+  WindowString(WHITE, 0.0, 2.0, StringLanguage(213))
   z_bit = WindowMiniList(8.0, 2.0, 12, 4, z_bit, "8 bit,16 bit,24 bit,32 bit")
 
   WindowString(WHITE, 0.0, 1.0, StringLanguage(28))

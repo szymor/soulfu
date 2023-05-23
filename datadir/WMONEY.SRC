@@ -44,7 +44,7 @@ Refresh()
 
 
   // Title window
-  TitleBar(TRUE, 0.0, -12.0, "!BE NICE!")
+  TitleBar(TRUE, 0.0, -12.0, StringLanguage(220))
 
 
   // Button window
@@ -57,18 +57,18 @@ Refresh()
 
 
   // Main window text                                                  TOO FAR
-  WindowString(WHITE, 0.0, 0.0,  "This game is NICEWARE!  To unlock")
-  WindowString(WHITE, 0.0, 1.0,  "the full version, you MUST do")
-  WindowString(WHITE, 0.0, 2.0,  "something nice for somebody else.")
-  WindowString(WHITE, 0.0, 3.0,  "That's it!  Just type the phrase")
-  WindowString(WHITE, 0.0, 4.0,  "below and you're good to go...")
+  WindowString(WHITE, 0.0, 0.0,  StringLanguage(222))
+  WindowString(WHITE, 0.0, 1.0,  StringLanguage(223))
+  WindowString(WHITE, 0.0, 2.0,  StringLanguage(224))
+  WindowString(WHITE, 0.0, 3.0,  StringLanguage(225))
+  WindowString(WHITE, 0.0, 4.0,  StringLanguage(226))
 
-  WindowString(WHITE, 0.0, 6.0,  "Here's the catch!  You have to do")
-  WindowString(WHITE, 0.0, 7.0,  "a good deed every time you play the")
-  WindowString(WHITE, 0.0, 8.0,  "game...")
+  WindowString(WHITE, 0.0, 6.0,  StringLanguage(227))
+  WindowString(WHITE, 0.0, 7.0,  StringLanguage(228))
+  WindowString(WHITE, 0.0, 8.0,  StringLanguage(229))
 
-  WindowString(WHITE, 0.0, 10.0, "And tell other folks about SoulFu")
-  WindowString(WHITE, 0.0, 11.0, "while you're at it!")
+  WindowString(WHITE, 0.0, 10.0, StringLanguage(230))
+  WindowString(WHITE, 0.0, 11.0, StringLanguage(231))
   // Main window text                                                  TOO FAR
 
 
@@ -157,7 +157,7 @@ Refresh()
   if(got_match)
     SystemSet(SYS_PAYINGCUSTOMER, 0, 0, TRUE)
     WindowBorder(FALSE, -10.0, -1.5, 20, 5, BORDER_FULL)
-    CenterString(WHITE, 10.0, 2.0, "THANKS!")
+    CenterString(WHITE, 10.0, 2.0, StringLanguage(221))
 
 
 //-----------------------------------------------------------------------

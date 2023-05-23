@@ -166,3 +166,164 @@ Keyboard
 166 Gandalf found a secret
 167 The door is locked
 168 The chest is locked
+169 Reserved
+170 Reserved
+171 Reserved
+172 Reserved
+173 Reserved
+174 Reserved
+175 Reserved
+176 Reserved
+177 Reserved
+178 Reserved
+179 Reserved
+Load Game
+Tools
+Thanks
+Want More?!
+Be Nice!
+It's Free!
+High Scores
+Edge Defense
+Bash Defense
+Fire Defense
+Ice Defense
+Acid Defense
+Electric Defense
+GAME OVER
+RESPAWN READY
+Buy  ($10)
+Shop
+Items
+Cheat
+Weapons
+Special
+Head
+Body
+Legs
+Equipment
+Virtue
+Reverse Speakers
+Fast & Ugly
+Pretty Shadows
+Pretty Water
+Terrain Lines
+Character Lines
+Mip Map
+Z Bit  :
+Testing
+How's the video?
+Time Left: 
+Looks Good
+Save Game
+Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
+!BE NICE!
+THANKS!
+This game is NICEWARE!  To unlock
+the full version, you MUST do
+something nice for somebody else.
+That's it!  Just type the phrase
+below and you're good to go...
+Here's the catch!  You have to do
+a good deed every time you play the
+game...
+And tell other folks about SoulFu
+while you're at it!
+ Network Players
+Exit Game
+Start Game
+High Score Table
+Name
+Score
+Class
+Go Poof
+And hope was nearly lost...  Nearly...
+Cant Save
+Really quit?
+Mouse Shop
+Items:
+ActionR:
+ActionL:
+Camera
+Move 
+249 Reserved
+250 Reserved
+251 Reserved
+252 Reserved
+253 Reserved
+254 Reserved
+255 Reserved
+256 Reserved
+257 Reserved
+258 Reserved
+259 Reserved
+"All animals are equal, but some animals are more equal than others." -George_Orwell
+"Tricks and treachery are the practice of fools, who don't have the sense to be honest." -Benjamin_Franklin
+"Those who cast the votes decide nothing.  Those who count the votes decide everything." -Josef_Stalin
+"During times of universal deceit, telling the truth becomes a revolutionary act." -George_Orwell
+"I was mentally fit to carry nuclear weapons, but I'm not mentally fit if I see a UFO." -Maj._George_A._Filer,_III
+"I penned it down, until at last it came to be, for length and breadth, the bigness which you see." -John_Bunyan
+"We are cups, constantly and quietly being filled.  The trick is, knowing how to tip ourselves over and let the beautiful stuff out." -Ray_Bradbury
+"Life is like a roll of toilet paper, the closer it gets to the end, the faster it goes." -Andy_Rooney
+"The best cure for insomnia is to get a lot of sleep." -W._C._Fields
+"When ugly people make weird faces, strange people win races." -Lerry
+"Government to be lasting will have to be just." -Ed_Leedskalnin
+"Men often become what they believe themselves to be." -Mahatma_Gandhi
+"Being the last man on the Moon is a very dubious honor." -Gene_Cernan
+"The body says what words cannot." -Martha_Graham
+"Trust thyself; every heart vibrates to that iron string." -Ralph_Waldo_Emerson
+"Always do what you're afraid to do." -Ralph_Waldo_Emerson
+"It is not desirable to cultivate a respect for the law, so much as for the right." -Henry_David_Thoreau
+"If you had told me fifty years ago that I would build my activities from the proceeds of windbells, I would have said you were crazy." -Paolo_Soleri
+"We do not inherit the earth from our parents, we borrow it from our children" -Kenyan_Proverb
+"Mark my word: A combination airplane and motorcar is coming. You may smile. But it will come..." -Henry_Ford
+"You cannot depend on your eyes when your imagination is out of focus." -Mark_Twain
+"Unless we attempt the absurd we cannot achieve the impossible." -Albert_Einstein
+"Every generation laughs at the old fashions, but religiously follows the new." -Henry_David_Thoreau
+"Clothes make the man. Naked people have little or no influence on society." -Mark_Twain
+"Self-education is, I firmly believe, the only kind of education there is." -Isaac_Asimov
+"The real discipline comes in saying no to the wrong opportunities." -Peter_Drucker
+"The real gunslingers always tried to avoid pulling their guns." -Michael_Crichton
+"Live as you will have wished to have lived when you are dying." -Christian_Gellert
+288 Reserved
+289 Reserved
+290 Reserved
+291 Reserved
+292 Reserved
+293 Reserved
+294 Reserved
+295 Reserved
+296 Reserved
+297 Reserved
+298 Reserved
+299 Reserved
+300 Reserved
+301 Reserved
+302 Reserved
+303 Reserved
+304 Reserved
+305 Reserved
+306 Reserved
+307 Reserved
+308 Reserved
+309 Reserved
+All your base are belong to us!
+Start to exercise!
+Racecar spelled backwards is Racecar!
+Try playing ironman style!
+Alcohol is bad for you!
+Libraries are fun!
+Television is a waste of time!
+Loans cost twice as much!
+Stay away from credit cards!
+Be nicer to Mom and Dad!
+Go ahead!  Ask her out!
+Always change for the better!
+Videogames rot your brain!
+You can't lick your elbow!
+Wear your seatbelt and drive SLOW!
+Cats are better than dogs!
+Dogs are better than cats!
+Learn to LUCID DREAM!
+Eat more fruit!
+Smile more!  Smile NOW!

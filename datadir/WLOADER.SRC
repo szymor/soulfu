@@ -27,7 +27,7 @@ Refresh()
   // Slot window
   WindowBorder(FALSE, -4.0, -35.0, 9, 1, BORDER_FULL)
   old_slot = slot_load
-  slot = WindowMiniList(0.5, 0.0, 8, 12, slot, "Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12")
+  slot = WindowMiniList(0.5, 0.0, 8, 12, slot, StringLanguage(219))
   slot_load = slot>>8
   
   if(slot_load != old_slot)
@@ -115,8 +115,8 @@ Refresh()
   WindowBorder(FALSE, -18.0, -1.0, 36, 2, BORDER_FULL)
 
   // Button images
-  button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, "Main Menu")
-  button_two = ButtonImage(button_two, 18.0, 0.0, 18.0, 2.0, "Load Game")
+  button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, StringLanguage(1))  // Main Menu
+  button_two = ButtonImage(button_two, 18.0, 0.0, 18.0, 2.0, StringLanguage(180))  // Load Game
   
 
 

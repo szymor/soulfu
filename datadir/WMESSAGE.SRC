@@ -213,7 +213,7 @@ Refresh()
       // Players bar...
       StringClear(String(0))
       StringAppendNumber(String(0), SystemGet(SYS_NUMNETWORKPLAYER, 0, 0), 256)
-      StringAppend(String(0), " Network Players", 256)
+      StringAppend(String(0), StringLanguage(232), 256)
       length = StringLength(String(0))
       x = sizex-length
       WindowBorder(FALSE, x, 5.7, length,  1, BORDER_LOW_TITLE)

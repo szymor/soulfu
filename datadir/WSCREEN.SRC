@@ -60,15 +60,15 @@ Refresh()
 
   // Title bar (can't drag)
   WindowBorder(FALSE, -3.5, -2.85, 7,  1, BORDER_TITLE)
-  WindowString(WHITE, 0.0, -0.1, "Testing")
+  WindowString(WHITE, 0.0, -0.1, StringLanguage(214))
 
 
 
   // Main window
   WindowBorder(FALSE, -8.0, -1.15, 16, 4, BORDER_FULL)
-  WindowString(WHITE, 0.0, 0.0, "How's the video?")
+  WindowString(WHITE, 0.0, 0.0, StringLanguage(215))
   StringClear(String(0))
-  StringAppend(String(0), "Time Left: ", 256)
+  StringAppend(String(0), StringLanguage(216), 256)
   StringAppendNumber(String(0), (timer/60), 256)
   WindowString(RED, 0.0, 1.0, String(0))
 
@@ -76,7 +76,7 @@ Refresh()
   // Button images
   if(button_one < 250)
     button_one = WindowImage(0.0, 2.0, 16.0, 2.0, "FILE:BUTTON.RGB", NULL, 0)
-    WindowString(WHITE, 3.0, 2.5, "Looks Good")
+    WindowString(WHITE, 3.0, 2.5, StringLanguage(217))
     count = SystemGet(SYS_MAINFRAMESKIP, 0, 0)
     i = 0
     while(i < count)
@@ -84,7 +84,7 @@ Refresh()
       i++
   else
     WindowImage(16.0, 4.0, -16.0, -2.0, "FILE:BUTTON.RGB", NULL, 0)
-    WindowString(WHITE, 3.2, 2.7, "Looks Good")
+    WindowString(WHITE, 3.2, 2.7, StringLanguage(217))
     button_one--
 
 
