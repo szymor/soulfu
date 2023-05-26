@@ -299,6 +299,19 @@ Refresh()
   // Language Flags
   y = 11.0
   yadd = -2.5
+
+  if(flag6 || picked_flag == 6)
+    flag6 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=POLAND.RGB", "Polski", flag6)
+    if(flag6 == 255)
+      ButtonSound()
+      picked_flag = 6
+      FileWriteByte("FILE:CONFIG.DAT", 67, picked_flag-1)
+      SystemSet(SYS_USERLANGUAGE, 0, 0, picked_flag-1)
+      flag6 = 254
+  else
+    flag6 = WindowImage(-4.00, y+0.50, 2.00, 1.00, "FILE:=POLAND.RGB", NULL, 0)
+  y = y + yadd
+
   if(flag5 || picked_flag == 5)
     flag5 = WindowImage(-5.00, y, 4.00, 2.00, "FILE:=GERMANY.RGB", "Deutsch", flag5)
     if(flag5 == 255)

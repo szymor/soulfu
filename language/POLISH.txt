@@ -1,0 +1,329 @@
+Menu Glowne
+Ustawienia
+Gracz 
+Aktualizowanie
+Wiadomosc
+Mapa
+Statystyki
+Techniki
+Przedmioty
+Ekwipunek
+Ksiega
+Skrzynia
+Dziurka Od Klucza
+Pulapka
+Gra Lokalna
+Gra Sieciowa
+Sterowanie
+Kup Mnie
+Wyjscie
+Zapisz Zmiany
+Kontynuuj
+Wroc
+Kup
+Sprzedaj
+Zamknij
+Brak Sieci
+Ekran  :
+Kolory :
+Gamma  :
+Tryb   :
+Okno,Pelen ekran
+Dzwiek :
+Muzyka :
+Skala  :
+Mala,Srednia,Duza,Ogromna
+Uwaga: Zrestartuj gre, zeby ustawienia
+       weszly w zycie...
+Szybkosc   :
+Urzadzenie :
+Brak,Klawiatura,Joystk 1,Joystk 2,Joystk 3,Joystk 4
+Lewo   :
+Przycisk 1,Przycisk 2,Przycisk 3,Przycisk 4,Przycisk 5,Przycisk 6,Przycisk 7,Przycisk 8,Brak
+Prawo  :
+Kamera :
+Mowa   :
+Przedm.:
+Ekwip. :
+Wolno  :
+Szybko :
+Zycie:
+Mana:
+Poziom:
+Dosw:
+Mount:
+Sil:
+Zre:
+Int:
+Punkty:
+Sila:
+Zrecznosc:
+Inteligencja:
+Wszelkie prawa zastrzezone
+Sakiewka
+Glowa
+Szyja
+Tulow
+Plecy
+Stopy
+Dlonie
+Lewo
+Prawo
+Milosierdzie:
+Skrzetnosc:
+Honor:
+Wiara:
+Odwaga:
+Solidarnosc:
+Odznaka Milosierdzia
+Odznaka Skrzetnosci
+Odznaka Honoru
+Odznaka Wiary
+Odznaka Odwagi
+Odznaka Solidarnosci
+Zolnierz
+Czarodziej
+Uzdrowicielka
+Gnom
+Elf
+Mistyk
+Krasnolud
+Lotrzyk
+92 Reserved
+93 Reserved
+94 Reserved
+95 Reserved
+96 Reserved
+97 Reserved
+98 Reserved
+99 Reserved
+100 Reserved
+101 Reserved
+102 Reserved
+103 Reserved
+104 Reserved
+105 Reserved
+106 Reserved
+107 Reserved
+Klawiatura
+109 GANDALF defeated JIMBOBO
+110 GANDALF was defeated
+111 Gandalf gained a level
+112 Gandalf earned a virtue badge
+113 Gandalf feels bad about doing that...
+114 Gandalf enjoyed that too much...
+115 Gandalf fell asleep...
+116 Gandalf is confused
+117 Gandalf feels sick
+118 Gandalf is blind
+119 Gandalf can't remember anything
+120 Gandalf feels better
+121 Gandalf feels powerful
+122 Gandalf feels tired
+123 That didn't taste too good...
+124 Gandalf is still hungry...
+125 Gandalf is no longer hungry...
+126 Gandalf fainted!
+127 Gandalf can't read the strange writing...
+128 Gandalf completed his fast...
+129 That item couldn't be equipped...
+130 That item is too expensive...
+131 That item can't be sold...
+132 Gandalf can't eat meat...
+133 The sign says...
+134 Sealed for a good reason
+135 Hall of Mimics
+136 Hall of Swords
+137 Hall of Statues
+138 Throne Room 
+139 Puzzle Room
+140 Treasure Room
+141 Beacon Tower
+142 The High Court
+143 Welcome to the Ash Palace
+144 Welcome to the Ice Palace
+145 Welcome to the Shadow Palace
+146 Boss chamber
+147 Beware of Dragon
+148 Danger:  Mine field
+149 Don't look up
+150 Run!
+151 One way only
+152 Hard hats required in this area
+153 Flood gate controls
+154 Key mechanism beneath this sign
+155 Trap mechanism located under this panel
+156 Time capsule resting place
+157 This panel needs more weight
+158 Look behind statue
+159 Buried Treasure
+160 Treasure is on top of pillar
+161 Trapped
+162 Not Trapped
+163 That item is cursed
+164 Gandalf set off a trap
+165 Gandalf picked the lock
+166 Gandalf found a secret
+167 The door is locked
+168 The chest is locked
+169 Reserved
+170 Reserved
+171 Reserved
+172 Reserved
+173 Reserved
+174 Reserved
+175 Reserved
+176 Reserved
+177 Reserved
+178 Reserved
+179 Reserved
+Otworz Gre
+Narzedzia
+Dzieki
+Chcesz Wiecej?!
+Badz Mily!
+Jest Darmowa!
+Najlepsi
+Obrona Przed Ostrzem
+Obrona Przed Obuchem
+Obrona Przed Ogniem
+Obrona Przed Lodem
+Obrona Przed Kwasem
+Obrona Przed Pradem
+KONIEC GRY
+GRASZ?
+Kup  ($10)
+Sklep
+Rzeczy
+Oszustwo
+Bronie
+Specjalne
+Glowa
+Tulow
+Nogi
+Ekwipunek
+Cnota
+Zamien Glosniki
+Szybko I Brzydko
+Fajne Cienie
+Fajna Woda
+Obrysy Terenu
+Obrysy Postaci
+Mip Mapa
+Z Bit  :
+Testowanie
+Jak obraz?
+Pozostaly Czas: 
+Wyglada OK
+Zapisz Gre
+Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
+!BADZ MILY!
+DZIEKI!
+Ta gra to NICEWARE!  By odblokowac
+pelna wersje, MUSISZ zrobic cos
+milego dla kogos innego. I juz!
+Po prostu przepisz zdanie ponizej
+i mozesz grac...
+Jest haczyk! Musisz zrobic dobry
+uczynek za kazdym razem, kiedy
+chcesz zagrac...
+I powiedz innym o SoulFu, jesli
+jeszcze tego nie zrobiles!
+ Graczy Sieciowych
+Opusc Gre
+Zacznij Gre
+Tabela Najlepszych
+Imie
+Wynik
+Klasa
+Puf!
+Nadzieja zostala stracona...  Prawie...
+Nie Mozna
+Naprawde wyjsc?
+Mysz W Sklepie
+Rzeczy:
+AkcjaP:
+AkcjaL:
+Kamera
+Ruch 
+249 Reserved
+250 Reserved
+251 Reserved
+252 Reserved
+253 Reserved
+254 Reserved
+255 Reserved
+256 Reserved
+257 Reserved
+258 Reserved
+259 Reserved
+"Wszystkie zwierzeta sa rowne, ale niektore sa rowniejsze od innych." -George_Orwell
+"Sztuczki i zdrady to domena glupcow, ktorzy nie maja dosc rozumu, by byc uczciwymi." -Benjamin_Franklin
+"Niewazne, kto glosuje. Wazne, kto liczy glosy." -Jozef_Stalin
+"W czasach powszechnej obludy mowienie prawdy staje sie czynem rewolucyjnym." -George_Orwell
+"Bylem mentalnie przygotowany do obcowania z bronia atomowa, ale nie jestem mentalnie przygotowany, zeby zobaczyc UFO." -Maj._George_A._Filer,_III
+"Spisalem to, az w koncu stalo sie na dlugosc i szerokosc ogromem, ktory widzisz." -John_Bunyan
+"Jestesmy kubkami, stale i cicho napelnianymi. Sztuka jest wiedziec, jak sie przewrocic i wypuscic piekne rzeczy." -Ray_Bradbury
+"Zycie jest jak rolka papieru toaletowego. Im blizej konca, tym szybciej sie toczy." -Andy_Rooney
+"Najlepszym lekarstwem na bezsennosc jest duzo snu." -W._C._Fields
+"Kiedy brzydcy ludzie robia dziwne miny, dziwni ludzie wygrywaja wyscigi." -Lerry
+"Aby rzad byl trwaly, musi byc sprawiedliwy." -Ed_Leedskalnin
+"Ludzie czesto staja sie tym, za kogo sie uwazaja." -Mahatma_Gandhi
+"Bycie ostatnim czlowiekiem na Ksiezycu to bardzo watpliwy zaszczyt." -Gene_Cernan
+"Cialo mowi to, czego slowa nie moga." -Martha_Graham
+"Zaufaj sobie; kazde serce wibruje do tej zelaznej struny." -Ralph_Waldo_Emerson
+"Zawsze rob to, czego sie boisz." -Ralph_Waldo_Emerson
+"Nalezy kultywowac szacunek dla sprawiedliwosci, a nie dla prawa." -Henry_David_Thoreau
+"Gdybys powiedzial mi 50 lat temu, ze bede zarabiac na dzwonkach wietrznych, powiedzialbym, ze oszalales." -Paolo_Soleri
+"Nie dziedziczymy swiata po naszych rodzicach. Pozyczamy go od naszych dzieci." -Przyslowie_Kenijskie
+"Zwaz moje slowa: nadchodzi polaczenie samolotu i samochodu. Mozesz sie usmiechac. Ale nadejdzie..." -Henry_Ford
+"Nie mozesz polegac na swoich oczach, jesli brakuje ci wyobrazni." -Mark_Twain
+"Jesli nie sprobujemy absurdu, nie osiagniemy niemozliwego." -Albert_Einstein
+"Kazde pokolenie smieje sie ze starych mod, ale poboznie podaza za nowymi." -Henry_David_Thoreau
+"Ubranie czyni czlowieka. Nadzy ludzie maja niewielki lub zaden wplyw na spoleczenstwo." -Mark_Twain
+"Jestem gleboko przekonany, ze samoksztalcenie jest jedynym rodzajem edukacji." -Isaac_Asimov
+"Prawdziwa dyscyplina polega na odmawianiu niewlasciwym okazjom." -Peter_Drucker
+"Prawdziwi rewolwerowcy zawsze starali sie unikac wyciagania broni." -Michael_Crichton
+"Zyj tak, jak chcialbys zyc, umierajac." -Christian_Gellert
+288 Reserved
+289 Reserved
+290 Reserved
+291 Reserved
+292 Reserved
+293 Reserved
+294 Reserved
+295 Reserved
+296 Reserved
+297 Reserved
+298 Reserved
+299 Reserved
+300 Reserved
+301 Reserved
+302 Reserved
+303 Reserved
+304 Reserved
+305 Reserved
+306 Reserved
+307 Reserved
+308 Reserved
+309 Reserved
+Nie troluj w internecie!
+Zacznij cwiczyc!
+Kajak pisany wspak to nadal Kajak!
+Sprobuj zagrac w stylu ironman!
+Alkohol jest szkodliwy!
+Biblioteki sa fajne!
+Telewizja to strata czasu!
+Pozyczki slono kosztuja!
+Trzymaj sie z dala od kart kredytowych!
+Badz milszy dla Mamy i Taty!
+Smialo!  Umow sie z nia!
+Zawsze zmieniaj sie na lepsze!
+Gry komputerowe niszcza mozg!
+Nie da sie polizac wlasnego lokcia!
+Zapinaj pasy i jedz POWOLI!
+Koty sa lepsze od psow!
+Psy sa lepsze od kotow!
+Naucz sie SNIC SWIADOMIE!
+Jedz wiecej owocow!
+Usmiechaj sie wiecej!  Usmiechnij sie TERAZ!

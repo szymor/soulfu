@@ -585,6 +585,7 @@
 #define SPANISH                     2
 #define ITALIAN                     3
 #define GERMAN                      4
+#define POLISH                      5
 
 
 // For WindowMegaImage
