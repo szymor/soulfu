@@ -12,6 +12,8 @@ Well, the game seems to be forgotten among developers. I decided to make some ef
 3. Create a new pull request.
 4. If I like the changes, I will merge them. If not... well, don't worry. You can develop your fork of SoulFu on your own :)
 
+Having said that, I need to say that any help is really appreciated. Programmers, level designers, 2D/3D artists, translators, testers, etc. If you do not know where to start, just ask...
+
 ## Building the game
 Clone the repository:
 ```
@@ -36,15 +38,17 @@ make
   + Arena by bravebebe.
 + Background music has been enabled. It was already there, composed by Aaron.
 + Support for resolutions up to 1920x1080. No stretching, no black stripes.
++ Rough translation to French, German, Italian, Polish and Spanish. Window layout needs to be adjusted and the translation needs to be reviewed as it was done mostly with DeepL. Books are left untranslated, too.
 
 ## What will be done?
-I do not promise anything. The project is done in my free time. I have some ideas, though:
-+ integrate some higher quality mods,
+I do not promise anything. The project is done in my free time. I have some ideas which should be within my reach:
 + improve data handling tools even more,
 + 64 bit platform support,
 + port to platforms other than PC.
 
 But it's easier said than done.
+
+I have also some ideas related to gameplay (new spells, new rooms, etc.), but I will not bother sharing it here. If you want, feel free to create an issue on the topic you want to discuss.
 
 ## Trivia
 + Build with DEVTOOL flag to enable development tools inside the game. Hold down the C key to make a relevant button appear.
