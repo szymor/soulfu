@@ -1026,11 +1026,11 @@ int Spawn()
     self.manamax = 0
     self.height = 4
   if(self.class == CLASS_ELF)
-    // Bonus of 40
-    self.hitsmax = self.hitsmax + self.manamax + 5
-    self.str = self.str + 10
+    // Bonus of 30
+    self.hitsmax = self.hitsmax + self.manamax + 2
+    self.str = self.str + 5
     self.dex = self.dex + 15
-    self.int = self.int + 10
+    self.int = self.int + 8
     self.manamax = 0
   if(self.class == CLASS_MYSTIC)
     // Bonus of 30
@@ -1106,13 +1106,17 @@ int Spawn()
     self.item05 = ITEM_FOOD
   if(self.class == CLASS_ELF)
     self.eqright = ITEM_SHORT_SWORD
-    self.eqleft = ITEM_BOW
+    self.eqleft = ITEM_BOW|ARMOR_VARIANT_MAGIC
     self.item01 = ITEM_QUIVER_10
     self.item02 = ITEM_QUIVER_10
     self.item03 = ITEM_QUIVER_10
     self.item04 = ITEM_QUIVER_10
     self.item05 = ITEM_QUIVER_10
-    self.item06 = ITEM_FOOD
+    self.item06 = ITEM_BOOK_3
+    self.item07 = ITEM_FOOD
+    self.item08 = ITEM_TRIPE
+    self.item09 = ITEM_TRIPE
+    self.item10 = ITEM_TRIPE
   if(self.class == CLASS_MYSTIC)
     self.eqright = ITEM_SHORT_SWORD
     if(RollDice(1, 100) < 50)
@@ -1141,4 +1145,3 @@ int Spawn()
   MREGEN.Event()
 
 //-----------------------------------------------------------------------
-

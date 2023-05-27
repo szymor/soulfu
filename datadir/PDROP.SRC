@@ -79,8 +79,14 @@ int Event()
                 if(SystemGet(SYS_PAYINGCUSTOMER, 0, 0))
                   // Tougher monsters less likely to convert...
                   chance = owner.hitsmax-target.hits-(target.hitsmax/5)
-                  if(chance > 20)
-                    chance = 20
+                  // Elf is better at taming than others
+                  if (owner.class == CLASS_ELF)
+                    chance = chance + 5
+                    if(chance > 30)
+                      chance = 30
+                  else
+                    if(chance > 20)
+                      chance = 20
                   if(chance < 1)
                     chance = 1
                   StringClear(String(0))
@@ -201,4 +207,3 @@ int Spawn()
   hit_count = 0
 
 //-----------------------------------------------------------------------
-
