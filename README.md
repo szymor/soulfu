@@ -28,6 +28,7 @@ make
 ## What has been done till now?
 + Tools for handling **datafile.sdf** (the archive where all game data is stored) have been implemented. Maybe they are not of the highest quality, but they get work done. To be precise:
   + data packer/unpacker,
+  + 3D model converter,
   + language file converter,
   + script compiler.
 + A few mods have been merged:
@@ -45,7 +46,7 @@ make
 I do not promise anything as the project is done in my free time. I have some ideas, though:
 + avoid recompilation of unchanged scripts by the script compiler,
 + a standalone room editor,
-+ a 3D model converter,
++ conversion of 3D models along with skeletal animation data,
 + proper translation - add language-specific font characters, adjust window layout, translate books and monster names, etc.
 + network game - Aaron wrote a bunch of code for this feature, so I guess it could be made usable with relatively little effort,
 + 64 bit platform support,

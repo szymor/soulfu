@@ -7,3 +7,6 @@
 [submodule "slc"]
 	path = slc
 	url = https://github.com/szymor/soulfu-lan-converter.git
+[submodule "s3mc"]
+	path = s3mc
+	url = https://github.com/szymor/soulfu-3d-model-converter
