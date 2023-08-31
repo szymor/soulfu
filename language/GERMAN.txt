@@ -126,7 +126,7 @@ Tastatur
 126 Gandalf ist in Ohnmacht gefallen!
 127 Gandalf kann die seltsame Schrift nicht lesen...
 128 Gandalf hat sein Fasten beendet...
-129 Dieser Gegenstand konnte nicht ausger�stet werden...
+129 Dieser Gegenstand konnte nicht ausgerüstet werden...
 130 Dieser Gegenstand ist zu teuer...
 131 Dieser Gegenstand kann nicht verkauft werden...
 132 Gandalf kann kein Fleisch essen...
@@ -229,7 +229,7 @@ jedes Mal, wenn du das Spiel spielst, eine gute Tat
 Spiel spielst...
 Und erzähle anderen Leuten von SoulFu
 während du dabei bist!
- Spieler vernetzen
+Spieler vernetzen
 Spiel beenden
 Spiel starten
 Highscore-Tabelle
@@ -257,34 +257,34 @@ Bewegen
 257 Reserviert
 258 Reserviert
 259 Reserviert
-"Alle Tiere sind gleich, aber einige Tiere sind gleicher als andere." -George_Orwell
-"Tricks und Verrat sind die Praxis von Narren, die nicht den Verstand haben, ehrlich zu sein." -Benjamin_Franklin
-"Diejenigen, die die Stimmen abgeben, entscheiden nichts.  Diejenigen, die die Stimmen z�hlen, entscheiden alles." -Josef_Stalin
-"In Zeiten des allgemeinen Betrugs wird das Sagen der Wahrheit zu einem revolution�ren Akt." -George_Orwell
-"Ich war geistig fit, Atomwaffen zu tragen, aber ich bin nicht geistig fit, wenn ich ein UFO sehe." -Maj._George_A._Filer,_III
-" Ich habe es niedergeschrieben, bis es schlie�lich in L�nge und Breite so gro� wurde, wie Sie es sehen." -John_Bunyan
-" Wir sind Tassen, die st�ndig und leise gef�llt werden.  Der Trick ist, zu wissen, wie wir uns selbst umkippen und die sch�nen Dinge herauslassen k�nnen." -Ray_Bradbury
-"Das Leben ist wie eine Rolle Klopapier, je n�her es dem Ende kommt, desto schneller geht es." -Andy_Rooney
-"Das beste Mittel gegen Schlaflosigkeit ist, viel zu schlafen." -W._C._Fields
-"Wenn h�ssliche Menschen seltsame Gesichter machen, gewinnen seltsame Menschen Rennen." -Lerry
-"Regierungen, die Bestand haben sollen, m�ssen gerecht sein." -Ed_Leedskalnin
-"Menschen werden oft zu dem, was sie selbst zu sein glauben." -Mahatma_Gandhi
-"Der letzte Mensch auf dem Mond zu sein, ist eine sehr zweifelhafte Ehre." -Gene_Cernan
-"Der K�rper sagt, was Worte nicht k�nnen." -Martha_Graham
-"Vertrau dir selbst; jedes Herz schwingt an dieser eisernen Schnur." -Ralph_Waldo_Emerson
-"Tue immer das, wovor du Angst hast." -Ralph_Waldo_Emerson
-"Es ist nicht w�nschenswert, einen Respekt vor dem Gesetz zu kultivieren, so sehr wie vor dem Recht." -Henry_David_Thoreau
-"Wenn Sie mir vor f�nfzig Jahren gesagt h�tten, dass ich meine Aktivit�ten aus dem Erl�s von Windglocken aufbauen w�rde, h�tte ich Sie f�r verr�ckt erkl�rt." -Paolo_Soleri
-"Wir erben die Erde nicht von unseren Eltern, wir leihen sie uns von unseren Kindern." -Kenianisches_Sprichwort
-"Merken Sie sich mein Wort: Eine Kombination aus Flugzeug und Auto wird kommen. Du kannst l�cheln. Aber es wird kommen..." -Henry_Ford
-"Du kannst dich nicht auf deine Augen verlassen, wenn deine Phantasie unscharf ist." -Mark_Twain
-"Wenn wir das Absurde nicht versuchen, k�nnen wir das Unm�gliche nicht erreichen." -Albert_Einstein
-"Jede Generation lacht �ber die alten Moden, aber folgt religi�s den neuen." -Henry_David_Thoreau
-"Kleidung macht den Mann. Nackte Menschen haben wenig oder keinen Einfluss auf die Gesellschaft." -Mark_Twain
-"Selbsterziehung ist, davon bin ich fest �berzeugt, die einzige Art von Erziehung, die es gibt." -Isaac_Asimov
-"Die wahre Disziplin besteht darin, zu den falschen Gelegenheiten nein zu sagen." -Peter_Drucker
-"Die echten Revolverhelden haben immer versucht, nicht ihre Waffe zu ziehen." -Michael_Crichton
-"Lebe so, wie du gelebt zu haben w�nschst, wenn du stirbst." -Christian_Gellert
+„Alle Tiere sind gleich, aber manche Tiere sind gleicher als andere.“ -George_Orwell
+„Tricks und Verrat sind die Praxis von Narren, die nicht den Verstand haben, ehrlich zu sein.“ -Benjamin_Franklin
+„Die Leute, die die Stimmen abgeben, entscheiden nichts. Die Leute, die die Stimmen zählen, entscheiden alles.“ -Josef_Stalin
+„In Zeiten universeller Täuschung ist das Aussprechen von Wahrheit ein revolutionärer Akt.“ -George_Orwell
+„Ich war geistig fit, Atomwaffen zu tragen, aber ich bin nicht geistig fit, wenn ich ein UFO sehe.“ -Maj._George_A._Filer,_III
+„Ich habe es niedergeschrieben, bis es schließlich in Länge und Breite so groß wurde, wie Sie es sehen.“ -John_Bunyan
+„Wir sind Tassen, die ständig und leise gefüllt werden.  Der Trick ist, zu wissen, wie wir uns selbst umkippen und die sch�nen Dinge herauslassen können.“ -Ray_Bradbury
+„Das Leben ist wie eine Rolle Klopapier, je näher es dem Ende kommt, desto schneller geht es.“ -Andy_Rooney
+„Das beste Mittel gegen Schlaflosigkeit ist, viel zu schlafen.“ -W._C._Fields
+„Wenn hässliche Menschen seltsame Gesichter machen, gewinnen seltsame Menschen Rennen.“ -Lerry
+„Regierungen, die Bestand haben sollen, müssen gerecht sein.“ -Ed_Leedskalnin
+„Menschen werden oft zu dem, was sie selbst zu sein glauben.“ -Mahatma_Gandhi
+„Der letzte Mensch auf dem Mond zu sein, ist eine sehr zweifelhafte Ehre.“ -Gene_Cernan
+„Der Körper sagt, was Worte nicht können.“ -Martha_Graham
+„Vertrau dir selbst; jedes Herz schwingt an dieser eisernen Schnur.“ -Ralph_Waldo_Emerson
+„Tue immer das, wovor du Angst hast.“ -Ralph_Waldo_Emerson
+„Es ist nicht wünschenswert, einen Respekt vor dem Gesetz zu kultivieren, so sehr wie vor dem Recht.“ -Henry_David_Thoreau
+„Wenn Sie mir vor fünfzig Jahren gesagt hätten, dass ich meine Aktivitäten aus dem Erlös von Windglocken aufbauen würde, hätte ich Sie für verrückt erklärt.“ -Paolo_Soleri
+„Wir erben die Erde nicht von unseren Eltern, wir leihen sie uns von unseren Kindern.“ -Kenianisches_Sprichwort
+„John_Bunyan: Eine Kombination aus Flugzeug und Auto wird kommen. Du kannst lächeln. Aber es wird kommen...“ -Henry_Ford
+„Du kannst dich nicht auf deine Augen verlassen, wenn deine Phantasie unscharf ist.“ -Mark_Twain
+„Wenn wir das Absurde nicht versuchen, können wir das Unmögliche nicht erreichen.“ -Albert_Einstein
+„Jede Generation lacht über die alten Moden, aber folgt religiös den neuen.“ -Henry_David_Thoreau
+„Kleidung macht den Mann. Nackte Menschen haben wenig oder keinen Einfluss auf die Gesellschaft.“ -Mark_Twain
+„Selbsterziehung ist, davon bin ich fest überzeugt, die einzige Art von Erziehung, die es gibt.“ -Isaac_Asimov
+„Die wahre Disziplin besteht darin, zu den falschen Gelegenheiten nein zu sagen.“ -Peter_Drucker
+„Die echten Revolverhelden haben immer versucht, nicht ihre Waffe zu ziehen.“ -Michael_Crichton
+„Lebe so, wie du gelebt zu haben wünschst, wenn du stirbst.“ -Christian_Gellert
 288 Reserviert
 289 Reserviert
 290 Reserviert
