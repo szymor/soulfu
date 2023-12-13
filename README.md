@@ -19,10 +19,34 @@ Clone the repository:
 ```
 git clone --recurse-submodules <repolink> soulfu
 ```
+
+Install the following tools and libraries:
+
++ GCC
++ Make
++ SDL 1.2
++ SDL_net
++ libogg
++ libjpeg
++ vorbis
++ OpenGL development files
+
+Note that the libraries need to be the 32-bit versions.
+
+For example on Fedora Linux things can be installed with:
+```
+sudo dnf install gcc make glibc-devel.i686 sdl12-compat-devel.i686 SDL_net-devel.i686 libogg-devel.i686 libjpeg-turbo-devel.i686 libvorbis-devel.i686 mesa-libGL-devel.i686
+```
+
 Build:
 ```
 cd soulfu
 make
+```
+
+If pkg-config doesn't find the libraries, you can tell it to look in a different folder like this:
+```
+PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
 ```
 
 ## What has been done till now?
