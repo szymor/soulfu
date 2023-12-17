@@ -6,7 +6,7 @@ TARGET = soulfu
 SRC = source/soulfu.c
 DEP = $(wildcard source/*.c source/*.h)
 LDLIBS = -lm $(shell $(PKG) --libs sdl SDL_net ogg libjpeg vorbis gl)
-FLAGS = -m32 -DDEVTOOL
+FLAGS = -g -m32 -DDEVTOOL
 
 all: $(TARGET) data
 
