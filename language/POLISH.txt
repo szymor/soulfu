@@ -1,42 +1,42 @@
-Menu Glowne
+Menu g”Ûwne
 Ustawienia
 Gracz 
 Aktualizowanie
-Wiadomosc
+Wiadomo’—
 Mapa
 Statystyki
 Techniki
 Przedmioty
 Ekwipunek
-Ksiega
+Ksi“ga
 Skrzynia
-Dziurka Od Klucza
-Pulapka
-Gra Lokalna
-Gra Sieciowa
+Dziurka od klucza
+Pu”apka
+Gra lokalna
+Gra sieciowa
 Sterowanie
-Kup Mnie
-Wyjscie
-Zapisz Zmiany
+Kup mnie
+Wyj’cie
+Zapisz zmiany
 Kontynuuj
-Wroc
+WrÛ—
 Kup
 Sprzedaj
 Zamknij
-Brak Sieci
+Brak sieci
 Ekran  :
 Kolory :
 Gamma  :
 Tryb   :
-Okno,Pelen ekran
-Dzwiek :
+Okno,Pe”en ekran
+Dzwi“k :
 Muzyka :
 Skala  :
-Mala,Srednia,Duza,Ogromna
-Uwaga: Zrestartuj gre, zeby ustawienia
-       weszly w zycie...
-Szybkosc   :
-Urzadzenie :
+Ma”a,Srednia,Du◊a,Ogromna
+Uwaga: Zrestartuj gr“, ◊eby ustawienia
+       wesz”y w ◊ycie...
+Szybko’—   :
+Urz–dzenie :
 Brak,Klawiatura,Joystk 1,Joystk 2,Joystk 3,Joystk 4
 Lewo   :
 Przycisk 1,Przycisk 2,Przycisk 3,Przycisk 4,Przycisk 5,Przycisk 6,Przycisk 7,Przycisk 8,Brak
@@ -47,48 +47,48 @@ Przedm.:
 Ekwip. :
 Wolno  :
 Szybko :
-Zycie:
+Ÿycie:
 Mana:
 Poziom:
-Dosw:
+Do’w:
 Mount:
-Sil:
-Zre:
+Si”:
+Zr“:
 Int:
 Punkty:
-Sila:
-Zrecznosc:
+Si”a:
+Zr“czno’—:
 Inteligencja:
-Wszelkie prawa zastrzezone
+Wszelkie prawa zastrze◊one
 Sakiewka
-Glowa
+G”owa
 Szyja
-Tulow
+Tu”Ûw
 Plecy
 Stopy
-Dlonie
+D”onie
 Lewo
 Prawo
-Milosierdzie:
-Skrzetnosc:
+Mi”osierdzie:
+Skrz“tno’—:
 Honor:
 Wiara:
 Odwaga:
-Solidarnosc:
-Odznaka Milosierdzia
-Odznaka Skrzetnosci
+Solidarno’—:
+Odznaka Mi”osierdzia
+Odznaka Skrz“tno’—i
 Odznaka Honoru
 Odznaka Wiary
 Odznaka Odwagi
-Odznaka Solidarnosci
-Zolnierz
+Odznaka Solidarno’—i
+Ÿo”nierz
 Czarodziej
 Uzdrowicielka
 Gnom
 Elf
 Mistyk
 Krasnolud
-Lotrzyk
+ÿotrzyk
 92 Reserved
 93 Reserved
 94 Reserved
@@ -177,19 +177,19 @@ Klawiatura
 177 Reserved
 178 Reserved
 179 Reserved
-Otworz Gre
-Narzedzia
-Dzieki
-Chcesz Wiecej?!
-Badz Mily!
-Jest Darmowa!
+OtwÛrz gr“
+Narz“dzia
+Dzi“ki
+Chcesz wi“cej?!
+B–d÷ mi”y!
+Jest darmowa!
 Najlepsi
-Obrona Przed Ostrzem
-Obrona Przed Obuchem
-Obrona Przed Ogniem
-Obrona Przed Lodem
-Obrona Przed Kwasem
-Obrona Przed Pradem
+Obrona przed ostrzem
+Obrona przed obuchem
+Obrona przed ogniem
+Obrona przed lodem
+Obrona przed kwasem
+Obrona przed pr–dem
 KONIEC GRY
 GRASZ?
 Kup  ($10)
@@ -198,13 +198,13 @@ Rzeczy
 Oszustwo
 Bronie
 Specjalne
-Glowa
-Tulow
+G”owa
+Tu”Ûw
 Nogi
 Ekwipunek
 Cnota
-Zamien Glosniki
-Szybko I Brzydko
+Zamie‘ g”o’niki
+Szybko i Brzydko
 Fajne Cienie
 Fajna Woda
 Obrysy Terenu
@@ -213,34 +213,34 @@ Mip Mapa
 Z Bit  :
 Testowanie
 Jak obraz?
-Pozostaly Czas: 
-Wyglada OK
-Zapisz Gre
+Pozosta”y czas: 
+Wygl–da OK
+Zapisz gr“
 Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
-!BADZ MILY!
-DZIEKI!
-Ta gra to NICEWARE!  By odblokowac
-pelna wersje, MUSISZ zrobic cos
-milego dla kogos innego. I juz!
-Po prostu przepisz zdanie ponizej
-i mozesz grac...
-Jest haczyk! Musisz zrobic dobry
-uczynek za kazdym razem, kiedy
-chcesz zagrac...
-I powiedz innym o SoulFu, jesli
-jeszcze tego nie zrobiles!
- Graczy Sieciowych
-Opusc Gre
-Zacznij Gre
-Tabela Najlepszych
-Imie
+!B–d÷ mi”y!
+Dzi“ki!
+Ta gra to NICEWARE!  By odblokowa—
+pe”n– wersj“, MUSISZ zrobi— co’
+mi”ego dla kogo’ innego. I ju◊!
+Po prostu przepisz zdanie poni◊ej
+i mo◊esz gra—...
+Jest haczyk! Musisz zrobi— dobry
+uczynek za ka◊dym razem, kiedy
+chcesz zagra—...
+I powiedz innym o SoulFu, je’li
+jeszcze tego nie zrobi”e’!
+ graczy sieciowych
+Opu’— gr“
+Zacznij gr“
+Tabela najlepszych
+Imi“
 Wynik
 Klasa
 Puf!
-Nadzieja zostala stracona...  Prawie...
-Nie Mozna
-Naprawde wyjsc?
-Mysz W Sklepie
+Nadzieja zosta”a stracona...  Prawie...
+Nie mo◊na
+Naprawd“ wyj’—?
+Mysz w sklepie
 Rzeczy:
 AkcjaP:
 AkcjaL:
