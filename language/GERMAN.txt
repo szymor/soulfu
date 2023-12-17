@@ -1,4 +1,4 @@
-Hauptmenü
+Hauptmen�
 Einstellungen
 Spieler 
 Updating
@@ -7,22 +7,22 @@ Karte
 Statistik
 Techniken
 Inventar
-Ausrüstung
+Ausr�stung
 Buch
 Brustkorb
-Schlüsselloch
+Schl�sselloch
 Falle
 Lokales Spiel
 Netzwerk-Spiel
 Steuerung
 Kauf mich
 Beenden
-Änderungen speichern
+Aenderungen speichern
 Fortfahren
-Zurück
+Zur�ck
 Kaufen
 Verkaufen
-Schließen
+Schliessen
 Netzwerk-Fehler
 Screen :
 Farben :
@@ -32,11 +32,11 @@ Fenster, Vollbild
 Ton :
 Musik :
 Skalierung:
-Klein,Mittel,Groß,Riesig
-Hinweis: Sie müssen neu starten, damit
-       damit manche Änderungen übernommen werden...
+Klein,Mittel,Gross,Riesig
+Hinweis: Sie m�ssen neu starten, damit
+       damit manche Aenderungen �bernommen werden...
 Geschwindigkeit :
-Eingabegerät :
+Eingabeger�t :
 Keine,Tastatur,Joystk 1,Joystk 2,Joystk 3,Joystk 4
 Links :
 Taste 1,Taste 2,Taste 3,Taste 4,Taste 5,Taste 6,Taste 7,Taste 8,Keine
@@ -44,7 +44,7 @@ Rechts :
 Kamera :
 Sprechen :
 Erfinden:
-Ausrüsten :
+Ausr�sten :
 Langsam :
 Schnell :
 Treffer:
@@ -56,27 +56,27 @@ Str:
 Ges:
 Int:
 Punkte:
-Stärke:
+St�rke:
 Geschicklichkeit:
 Intelligenz:
 Alle Rechte vorbehalten
-Gürteltasche
+G�rteltasche
 Kopf
 Hals
-Körper
-Rücken
-Füße
-Hände
+K�rper
+R�cken
+F�sse
+H�nde
 Links
 Rechts
-Mitgefühl:
-Fleiß:
+Mitgef�hl:
+Fleiss:
 Ehre:
 Glaube:
 Tapferkeit:
 Kameradschaft:
-Abzeichen des Mitgefühls
-Abzeichen des Fleißes
+Abzeichen des Mitgef�hls
+Abzeichen des Fleisses
 Abzeichen der Ehre
 Abzeichen des Glaubens
 Abzeichen des Mutes
@@ -110,23 +110,23 @@ Tastatur
 110 GANDALF wurde besiegt
 111 Gandalf hat einen Level aufgestiegen
 112 Gandalf hat sich ein Tugendabzeichen verdient
-113 Gandalf fühlt sich schlecht, weil er das getan hat...
+113 Gandalf fuehlt sich schlecht, weil er das getan hat...
 114 Gandalf hat das zu sehr genossen...
 115 Gandalf schlief ein...
 116 Gandalf ist verwirrt
-117 Gandalf fühlt sich krank
+117 Gandalf fuehlt sich krank
 118 Gandalf ist blind
 119 Gandalf kann sich an nichts mehr erinnern
-120 Gandalf fühlt sich besser
-121 Gandalf fühlt sich müchtig
-122 Gandalf fühlt sich müde
+120 Gandalf fuehlt sich besser
+121 Gandalf fuehlt sich muechtig
+122 Gandalf fuehlt sich muede
 123 Das hat nicht besonders gut geschmeckt...
 124 Gandalf ist immer noch hungrig...
 125 Gandalf ist nicht mehr hungrig...
 126 Gandalf ist in Ohnmacht gefallen!
 127 Gandalf kann die seltsame Schrift nicht lesen...
 128 Gandalf hat sein Fasten beendet...
-129 Dieser Gegenstand konnte nicht ausgerüstet werden...
+129 Dieser Gegenstand konnte nicht ausgeruestet werden...
 130 Dieser Gegenstand ist zu teuer...
 131 Dieser Gegenstand kann nicht verkauft werden...
 132 Gandalf kann kein Fleisch essen...
@@ -136,7 +136,7 @@ Tastatur
 136 Halle der Schwerter
 137 Halle der Statuen
 138 Thronsaal 
-139 Rätselraum
+139 Raetselraum
 140 Schatzkammer
 141 Bakenturm
 142 Der Hohe Hof
@@ -144,27 +144,27 @@ Tastatur
 144 Willkommen im Eispalast
 145 Willkommen im Schattenpalast
 146 Boss-Kammer
-147 Hüte dich vor dem Drachen
+147 Huete dich vor dem Drachen
 148 Gefahr:  Minenfeld
 149 Nicht nach oben schauen
 150 Lauft!
 151 Nur in eine Richtung
 152 Schutzhelme sind in diesem Bereich erforderlich
 153 Kontrolle der Fluttore
-154 Schlüsselmechanismus unter diesem Schild
+154 Schluesselmechanismus unter diesem Schild
 155 Fallenmechanismus unter dieser Tafel
 156 Aufbewahrungsort der Zeitkapsel
 157 Diese Tafel braucht mehr Gewicht
 158 Blick hinter die Statue
 159 Vergrabener Schatz
-160 Der Schatz liegt oben auf der Säule
+160 Der Schatz liegt oben auf der Saeule
 161 Eingeklemmt
 162 Nicht gefangen
 163 Dieser Gegenstand ist verflucht
-164 Gandalf hat eine Falle ausgelöst
+164 Gandalf hat eine Falle ausgeloest
 165 Gandalf hat das Schloss geknackt
 166 Gandalf hat ein Geheimnis gefunden
-167 Die Tür ist verschlossen
+167 Die Tuer ist verschlossen
 168 Die Truhe ist verschlossen
 169 Reserviert
 170 Reserviert
@@ -188,25 +188,25 @@ Hiebschutz
 Bashschutz
 Feuerschutz
 Eisschutz
-Säureschutz
+S�ureschutz
 Elektroschutz
 GAME OVER
 RESPAWN BEREIT
  kaufen ($10)
 Einkaufen
-Gegenstände
+Gegenst�nde
 Schummeln
 Waffen
 Spezial
 Kopf
-Körper
+K�rper
 Beine
-Ausrüstung
+Ausr�stung
 Tugend
 Reverse-Lautsprecher
-Schnell & Hässlich
-Hübsche Schatten
-Hübsches Wasser
+Schnell & H�sslich
+H�bsche Schatten
+H�bsches Wasser
 Terrain-Linien
 Charakter-Linien
 Mip-Karte
@@ -221,13 +221,13 @@ SEID NICE!
 DANKE!
 Dieses Spiel ist NICEWARE! Zum Freischalten
 der Vollversion, MUSST du etwas
-nettes für jemand anderen tun.
+nettes f�r jemand anderen tun.
 So geht's! Tippe einfach den Satz
 ein, und schon geht's los...
 Hier ist der Haken: Du musst
 jedes Mal, wenn du das Spiel spielst,
 eine gute Tat begehen...
-Und erzähle Anderen von SoulFu
+Und erz�hle Anderen von SoulFu
 wenn du schon dabei bist!
 Spieler vernetzen
 Spiel beenden
@@ -257,34 +257,34 @@ Bewegen
 257 Reserviert
 258 Reserviert
 259 Reserviert
-„Alle Tiere sind gleich, aber manche Tiere sind gleicher als andere.“ -George_Orwell
-„Tricks und Verrat sind die Praxis von Narren, die nicht den Verstand haben, ehrlich zu sein.“ -Benjamin_Franklin
-„Die Leute, die die Stimmen abgeben, entscheiden nichts. Die Leute, die die Stimmen zählen, entscheiden alles.“ -Josef_Stalin
-„In Zeiten universeller Täuschung ist das Aussprechen von Wahrheit ein revolutionärer Akt.“ -George_Orwell
-„Ich war geistig fit, Atomwaffen zu tragen, aber ich bin nicht geistig fit, wenn ich ein UFO sehe.“ -Maj._George_A._Filer,_III
-„Ich habe es niedergeschrieben, bis es schließlich in Länge und Breite so groß wurde, wie Sie es sehen.“ -John_Bunyan
-„Wir sind Tassen, die ständig und leise gefüllt werden.  Der Trick ist, zu wissen, wie wir uns selbst umkippen und die sch�nen Dinge herauslassen können.“ -Ray_Bradbury
-„Das Leben ist wie eine Rolle Klopapier, je näher es dem Ende kommt, desto schneller geht es.“ -Andy_Rooney
-„Das beste Mittel gegen Schlaflosigkeit ist, viel zu schlafen.“ -W._C._Fields
-„Wenn hässliche Menschen seltsame Gesichter machen, gewinnen seltsame Menschen Rennen.“ -Lerry
-„Regierungen, die Bestand haben sollen, müssen gerecht sein.“ -Ed_Leedskalnin
-„Menschen werden oft zu dem, was sie selbst zu sein glauben.“ -Mahatma_Gandhi
-„Der letzte Mensch auf dem Mond zu sein, ist eine sehr zweifelhafte Ehre.“ -Gene_Cernan
-„Der Körper sagt, was Worte nicht können.“ -Martha_Graham
-„Vertrau dir selbst; jedes Herz schwingt an dieser eisernen Schnur.“ -Ralph_Waldo_Emerson
-„Tue immer das, wovor du Angst hast.“ -Ralph_Waldo_Emerson
-„Es ist nicht wünschenswert, einen Respekt vor dem Gesetz zu kultivieren, so sehr wie vor dem Recht.“ -Henry_David_Thoreau
-„Wenn Sie mir vor fünfzig Jahren gesagt hätten, dass ich meine Aktivitäten aus dem Erlös von Windglocken aufbauen würde, hätte ich Sie für verrückt erklärt.“ -Paolo_Soleri
-„Wir erben die Erde nicht von unseren Eltern, wir leihen sie uns von unseren Kindern.“ -Kenianisches_Sprichwort
-„John_Bunyan: Eine Kombination aus Flugzeug und Auto wird kommen. Du kannst lächeln. Aber es wird kommen...“ -Henry_Ford
-„Du kannst dich nicht auf deine Augen verlassen, wenn deine Phantasie unscharf ist.“ -Mark_Twain
-„Wenn wir das Absurde nicht versuchen, können wir das Unmögliche nicht erreichen.“ -Albert_Einstein
-„Jede Generation lacht über die alten Moden, aber folgt religiös den neuen.“ -Henry_David_Thoreau
-„Kleidung macht den Mann. Nackte Menschen haben wenig oder keinen Einfluss auf die Gesellschaft.“ -Mark_Twain
-„Selbsterziehung ist, davon bin ich fest überzeugt, die einzige Art von Erziehung, die es gibt.“ -Isaac_Asimov
-„Die wahre Disziplin besteht darin, zu den falschen Gelegenheiten nein zu sagen.“ -Peter_Drucker
-„Die echten Revolverhelden haben immer versucht, nicht ihre Waffe zu ziehen.“ -Michael_Crichton
-„Lebe so, wie du gelebt zu haben wünschst, wenn du stirbst.“ -Christian_Gellert
+"Alle Tiere sind gleich, aber manche Tiere sind gleicher als andere." -George_Orwell
+"Tricks und Verrat sind die Praxis von Narren, die nicht den Verstand haben, ehrlich zu sein." -Benjamin_Franklin
+"Die Leute, die die Stimmen abgeben, entscheiden nichts. Die Leute, die die Stimmen zaehlen, entscheiden alles." -Josef_Stalin
+"In Zeiten universeller Taeuschung ist das Aussprechen von Wahrheit ein revolutionaerer Akt." -George_Orwell
+"Ich war geistig fit, Atomwaffen zu tragen, aber ich bin nicht geistig fit, wenn ich ein UFO sehe." -Maj._George_A._Filer,_III
+"Ich habe es niedergeschrieben, bis es schliesslich in Laenge und Breite so gross wurde, wie Sie es sehen." -John_Bunyan
+"Wir sind Tassen, die staendig und leise gefuellt werden.  Der Trick ist, zu wissen, wie wir uns selbst umkippen und die schoenen Dinge herauslassen koennen." -Ray_Bradbury
+"Das Leben ist wie eine Rolle Klopapier, je naeher es dem Ende kommt, desto schneller geht es." -Andy_Rooney
+"Das beste Mittel gegen Schlaflosigkeit ist, viel zu schlafen." -W._C._Fields
+"Wenn haessliche Menschen seltsame Gesichter machen, gewinnen seltsame Menschen Rennen." -Lerry
+"Regierungen, die Bestand haben sollen, muessen gerecht sein." -Ed_Leedskalnin
+"Menschen werden oft zu dem, was sie selbst zu sein glauben." -Mahatma_Gandhi
+"Der letzte Mensch auf dem Mond zu sein, ist eine sehr zweifelhafte Ehre." -Gene_Cernan
+"Der Koerper sagt, was Worte nicht koennen." -Martha_Graham
+"Vertrau dir selbst; jedes Herz schwingt an dieser eisernen Schnur." -Ralph_Waldo_Emerson
+"Tue immer das, wovor du Angst hast." -Ralph_Waldo_Emerson
+"Es ist nicht wuenschenswert, einen Respekt vor dem Gesetz zu kultivieren, so sehr wie vor dem Recht." -Henry_David_Thoreau
+"Wenn Sie mir vor fuenfzig Jahren gesagt haetten, dass ich meine Aktivitaeten aus dem Erloes von Windglocken aufbauen wuerde, haette ich Sie fuer verrueckt erklaert." -Paolo_Soleri
+"Wir erben die Erde nicht von unseren Eltern, wir leihen sie uns von unseren Kindern." -Kenianisches_Sprichwort
+"John_Bunyan: Eine Kombination aus Flugzeug und Auto wird kommen. Du kannst laecheln. Aber es wird kommen..." -Henry_Ford
+"Du kannst dich nicht auf deine Augen verlassen, wenn deine Phantasie unscharf ist." -Mark_Twain
+"Wenn wir das Absurde nicht versuchen, koennen wir das Unmoegliche nicht erreichen." -Albert_Einstein
+"Jede Generation lacht ueber die alten Moden, aber folgt religioes den neuen." -Henry_David_Thoreau
+"Kleidung macht den Mann. Nackte Menschen haben wenig oder keinen Einfluss auf die Gesellschaft." -Mark_Twain
+"Selbsterziehung ist, davon bin ich fest ueberzeugt, die einzige Art von Erziehung, die es gibt." -Isaac_Asimov
+"Die wahre Disziplin besteht darin, zu den falschen Gelegenheiten nein zu sagen." -Peter_Drucker
+"Die echten Revolverhelden haben immer versucht, nicht ihre Waffe zu ziehen." -Michael_Crichton
+"Lebe so, wie du gelebt zu haben wuenschst, wenn du stirbst." -Christian_Gellert
 288 Reserviert
 289 Reserviert
 290 Reserviert
@@ -307,18 +307,18 @@ Bewegen
 307 Reserviert
 308 Reserviert
 309 Reserviert
-Ihre gesamte Basis gehört uns!
+Ihre gesamte Basis gehoert uns!
 Fangt an zu trainieren!
-Racecar rückwärts buchstabiert ist Racecar!
+Racecar rueckwaerts buchstabiert ist Racecar!
 Versuche den Ironman-Stil zu spielen!
-Alkohol ist schlecht für dich!
+Alkohol ist schlecht fuer dich!
 Bibliotheken sind lustig!
 Fernsehen ist Zeitverschwendung!
 Kredite kosten doppelt so viel!
 Halte dich von Kreditkarten fern!
 Sei netter zu Mama und Papa!
 Mach schon!  Frag sie aus!
-Ändere dich immer zum Besseren!
+Aendere dich immer zum Besseren!
 Videospiele verderben dein Gehirn!
 Du kannst deinen Ellbogen nicht lecken!
 Schnall dich an und fahr LANGSAM!
@@ -326,4 +326,4 @@ Katzen sind besser als Hunde!
 Hunde sind besser als Katzen!
 Lerne zu LUCID DREAM!
 Iss mehr Obst!
-Lächle mehr!  Lächle JETZT!
+Laechle mehr!  Laechle JETZT!
