@@ -38,6 +38,7 @@
 #include <math.h>
 #include <setjmp.h>
 #include <time.h>
+#include <sys/stat.h>
 
 #include <vorbis/codec.h>
 #include "jpeglib.h"
@@ -737,6 +738,7 @@ void water_drown_delay_setup();
 void character_bone_frame_clear();
 void character_update_all();
 unsigned char network_find_script_index(unsigned char* filename);
+char* get_path_from_home(const char *filename);
 
 //-----------------------------------------------------------------------------------------------
 

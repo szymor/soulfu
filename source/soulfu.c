@@ -608,6 +608,22 @@ char file_can_open(const char *filename, const char *mode)
   return TRUE;
 }
 
+char* get_path_from_home(const char *filename)
+{
+  static char path[1024];
+  path[0] = '\0';
+
+  char *home = getenv("HOME");
+  if(home)
+  {
+    snprintf(path, 1023, "%s/.soulfu", home);
+    mkdir(path, 0755);  // may fail if the directory exists
+    snprintf(path, 1023, "%s/.soulfu/%s", home, filename);
+    return path;
+  }
+  return NULL;
+}
+
 //-----------------------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
@@ -620,7 +636,7 @@ int main(int argc, char *argv[])
   unsigned char full_screen;
   unsigned char screen_size;
   unsigned char* data;
-  char *home, configfile[1024];
+  char *userconf, configfile[1024];
   char config_loaded = FALSE;
 
 
@@ -666,9 +682,9 @@ int main(int argc, char *argv[])
   // Load the config file from disk, if there is one...
   // XXX: Better fallback to the builtin if any of the loaded configs
   //      are corrupt.
-  home = getenv("HOME");
-  if(home) {
-    snprintf(configfile, 1023, "%s/.soulfu.dat", home);
+  userconf = get_path_from_home("CONFIG.DAT");
+  if(userconf) {
+    strcpy(configfile, userconf);
     if(file_can_open(configfile, "r")) {
       if(sdf_add_file("CONFIG.DAT", configfile)) config_loaded = TRUE;
     }

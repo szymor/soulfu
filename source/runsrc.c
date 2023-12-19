@@ -1024,7 +1024,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
     unsigned char* arg_address;
     unsigned char* file_address;
     unsigned char* index;
-
+    char *fullpath = NULL;
 
     // Read in data from the arguments...
     repeat(i, num_int_args)
@@ -3174,7 +3174,9 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         //  j is the slot number
                         slot = j;
                         sprintf(file,"SAVE%d.DAT",slot);
-                        savefile = fopen(file, "wb");
+                        fullpath = get_path_from_home(file);
+                        if (!fullpath) fullpath = file;
+                        savefile = fopen(fullpath, "wb");
                         savelog = fopen("SAVELOG.TXT", "w");
                         if(savefile)
                         {
@@ -3350,7 +3352,9 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         //  j is the slot number
                         slot = j;
                         sprintf(file,"SAVE%d.DAT",slot);
-                        loadfile = fopen(file, "rb");
+                        fullpath = get_path_from_home(file);
+                        if (!fullpath) fullpath = file;
+                        loadfile = fopen(fullpath, "rb");
                         savelog = fopen("SAVELOG.TXT", "w");
                         if(loadfile)
                         {
@@ -4513,7 +4517,9 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                         // Check if a file corresponding to the specified load slot exists...
                         slot = j;
                         sprintf(file,"SAVE%d.DAT",j);
-                        loadfile = fopen(file, "rb");
+                        fullpath = get_path_from_home(file);
+                        if (!fullpath) fullpath = file;
+                        loadfile = fopen(fullpath, "rb");
 
                         if(loadfile)
                         {
