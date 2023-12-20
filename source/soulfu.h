@@ -742,6 +742,10 @@ char* get_path_from_home(const char *filename);
 
 //-----------------------------------------------------------------------------------------------
 
+#ifndef SDF_PATH
+#define SDF_PATH "datafile.sdf"
+#endif
+
 extern int  sdf_num_files;
 extern char sdf_extension[16][4];      // The extension strings that the program recognizes
 

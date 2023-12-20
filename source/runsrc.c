@@ -5591,7 +5591,7 @@ float_stack_head-=num_float_args;
                 else if(opcode == UPDATE_SDFSAVE)
                 {
                     // Save the datafile
-                    sdf_save("datafile.sdf");
+                    sdf_save(SDF_PATH);
                 }
                 else if(opcode == UPDATE_SDFREORGANIZE)
                 {

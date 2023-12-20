@@ -643,7 +643,7 @@ int main(int argc, char *argv[])
   open_logfile();
   log_message("INFO:   ------------------------------------------");
   if(!get_mainbuffer()) { log_message("ERROR:  get_mainbuffer() failed");  exit(1); }
-  if(!sdf_load("datafile.sdf")) {
+  if(!sdf_load(SDF_PATH)) {
     log_message("ERROR:  sdf_load() failed");
     exit(1);
   }
