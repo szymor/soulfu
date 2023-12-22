@@ -1712,7 +1712,7 @@ Refresh()
 
 
 
-      WindowBorder(FALSE, -9.5, y+0.5, 4, 1, BORDER_FULL)
+      WindowBorder(FALSE, -9.5, y+0.5, StringLength(StringLanguage(196)), 1, BORDER_FULL)
       WindowString(WHITE, 0.0, 0.0, StringLanguage(196))
 
 
@@ -1792,7 +1792,7 @@ Refresh()
 
 
 
-      WindowBorder(FALSE, -9.5, y+0.5, 5, 1, BORDER_FULL)
+      WindowBorder(FALSE, -9.5, y+0.5, StringLength(StringLanguage(197)), 1, BORDER_FULL)
       WindowString(WHITE, 0.0, 0.0, StringLanguage(197))
       // Cheat button...
       if(SystemGet(SYS_DEVTOOL, 0, 0) && CHEAT)
@@ -1860,7 +1860,7 @@ Refresh()
 
 
 
-      WindowBorder(FALSE, -9.5, y+0.5, 9, 1, BORDER_FULL)
+      WindowBorder(FALSE, -9.5, y+0.5, StringLength(StringLanguage(204)), 1, BORDER_FULL)
       WindowString(WHITE, 0.0, 0.0, StringLanguage(204))
 
 
@@ -1877,7 +1877,7 @@ Refresh()
       Badge(binding.virhono, 2, 0.0, 4.2)
       Badge(binding.virfait, 3, 0.0, 5.2)
       Badge(binding.vircour, 4, 0.0, 6.2)
-      WindowBorder(FALSE, -9.5, y+0.5, 6, 1, BORDER_FULL)
+      WindowBorder(FALSE, -9.5, y+0.5, StringLength(StringLanguage(205)), 1, BORDER_FULL)
       WindowString(WHITE, 0.0, 0.0, StringLanguage(205))
     SystemSet(SYS_CURRENTITEM, 0, 0, 400)
 

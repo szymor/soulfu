@@ -50,7 +50,7 @@ Szybko :
 Ÿycie:
 Mana:
 Poziom:
-Do’w:
+Do’w.:
 Mount:
 Si”:
 Zr“:
@@ -195,14 +195,14 @@ GRASZ?
 Kup  ($10)
 Sklep
 Rzeczy
-Oszustwo
+Cheat
 Bronie
-Specjalne
+Akcje
 G”owa
 Tu”Ûw
 Nogi
 Ekwipunek
-Cnota
+Cnoty
 Zamie‘ g”o’niki
 Szybko i Brzydko
 Fajne Cienie
@@ -246,7 +246,7 @@ AkcjaP:
 AkcjaL:
 Kamera
 Ruch 
-249 Reserved
+ pomocnikÛw
 250 Reserved
 251 Reserved
 252 Reserved
