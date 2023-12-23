@@ -104,7 +104,7 @@ Hubbin
 104 Reserved
 105 Reserved
 106 Reserved
-107 Reserved
+Jive 
 Keyboard
 109 GANDALF defeated JIMBOBO
 110 GANDALF was defeated

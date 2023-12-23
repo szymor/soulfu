@@ -463,7 +463,7 @@ Refresh()
     i = 0
     while(i < num_class)
       if(i == 4 && class == CLASS_ELF && (self.eqcol01&128))
-        StringAppend(class_string, "Jive ", 256)
+        StringAppend(class_string, StringLanguage(107), 256)
       StringAppend(class_string, StringLanguage(84+i), 256)
       StringAppend(class_string, ",", 256)
       i++
