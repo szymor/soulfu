@@ -82,6 +82,8 @@ int Event()
                   // Elf is better at taming than others
                   if (owner.class == CLASS_ELF)
                     chance = chance + 5
+                    if (target.flags & CHAR_CAN_BE_MOUNTED)
+                      chance = chance + 10
                     if(chance > 30)
                       chance = 30
                   else

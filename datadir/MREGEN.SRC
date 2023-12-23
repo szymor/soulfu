@@ -14,7 +14,7 @@ int PlayerManaTimer()
   self = FindSelf()
   if(self.class == CLASS_WIZARD)
     self.tetimer = (1800-(self.int*15))
-  if(self.class == CLASS_MYSTIC)
+  if(self.class == CLASS_MYSTIC || self.class == CLASS_ELF)
     self.tetimer = (1800-(self.int*10))
 
 //-----------------------------------------------------------------------

@@ -1105,18 +1105,13 @@ int Spawn()
     self.item04 = ITEM_AMMO_10
     self.item05 = ITEM_FOOD
   if(self.class == CLASS_ELF)
-    self.eqright = ITEM_SHORT_SWORD
+    self.eqright = ITEM_DAGGER
     self.eqleft = ITEM_BOW|ARMOR_VARIANT_MAGIC
     self.item01 = ITEM_QUIVER_10
     self.item02 = ITEM_QUIVER_10
-    self.item03 = ITEM_QUIVER_10
-    self.item04 = ITEM_QUIVER_10
-    self.item05 = ITEM_QUIVER_10
-    self.item06 = ITEM_BOOK_3
-    self.item07 = ITEM_FOOD
-    self.item08 = ITEM_TRIPE
-    self.item09 = ITEM_TRIPE
-    self.item10 = ITEM_TRIPE
+    self.item03 = ITEM_FOOD
+    self.item04 = ITEM_TRIPE
+    self.item05 = ITEM_TRIPE
   if(self.class == CLASS_MYSTIC)
     self.eqright = ITEM_SHORT_SWORD
     if(RollDice(1, 100) < 50)
@@ -1130,7 +1125,7 @@ int Spawn()
     self.eqbody = ITEM_BODY_2
     self.item01 = ITEM_MEAT
   if(self.class == CLASS_HUBBIN)
-    self.eqright = ITEM_DAGGER
+    self.eqright = ITEM_DAGGER|WEAPON_VARIANT_POISON
     self.eqleft = ITEM_HIDE
     self.item01 = ITEM_FISH
     self.item02 = ITEM_FISH
