@@ -50,7 +50,9 @@ int ButtonEvent()
       target = FindTarget()
       if(target == NULL)
         // Try to find a target...
-        self.target = AcquireTarget(ACQUIRE_SEE_ENEMY | ACQUIRE_SEE_NEUTRAL, NULL, 75.0)
+        // First, check enemies only
+        // Crates, barrels, chests, statues - to be done
+        self.target = AcquireTarget(ACQUIRE_SEE_ENEMY, NULL, 75.0)
         target = FindTarget()
         self.charge = 0
       if(target)
@@ -65,7 +67,7 @@ int ButtonEvent()
         size = (size+2.0)*(target.boxsize+target.height)
         child = PSMOKE.Effect(target.x, target.y, target.z+(target.height*0.5), 0.0, 0.0, 0.0, size, 0.0, FALSE, (r<<16) | (g<<8) | b, self.charge<<2, 2)
         if(child)
-          child.image = "FILE:WHITE.RGB"
+          child.image = "FILE:=SIGHT.RGB"
           child.spin = (self.charge*500) - 25000
           child.vspin = 0
 
@@ -87,6 +89,13 @@ int Event()
   if(self.event == EVENT_DISMOUNTED)
     self.team = TEAM_NEUTRAL
     self.aitimer = 1
+    // fix for sight locking after dismounting
+    self.target = MAX_CHARACTER
+    self.charge = 0
+    ButtonPress(BUTTON_UNPRESS, BUTTON_LEFT, 10)
+    ButtonPress(BUTTON_UNPRESS, BUTTON_RIGHT, 10)
+    ButtonPress(BUTTON_UNPRESS, BUTTON_SPECIAL1, 10)
+    ButtonPress(BUTTON_UNPRESS, BUTTON_SPECIAL2, 10)
     return 0
 
   STANDARD.Event()

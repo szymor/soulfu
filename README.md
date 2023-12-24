@@ -65,6 +65,7 @@ PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
 + Support for resolutions up to 1920x1080. No stretching, no black stripes.
 + Rough translation to French, German, Italian, Polish and Spanish. Window layout needs to be adjusted and the translation needs to be reviewed as it was done mostly with DeepL. Books are left untranslated, too.
 + Elf has been rebalanced. I felt that class was a bit overpowered - 10 points more than other classes make a difference. Its gameplay style was in fact the same as Soldier's, so I guess almost nobody played the latter. That's why I decided to lower Elf's initial HP, strength and intelligence. However, it became problematic if we wanted to charm monsters, so I needed to treat Elf specially in this regard (to be consistent with Aaron's original idea) by making taming easier. Elf was also supposed to use a bow more frequently, so I made it more useful by making it magical. Is it too strong? Maybe, but 10 points more was even stronger as a benefit. Why haven't I rebalanced D'warf then? Strength or HP are not as useful as Dexterity.
++ Some bug fixing has been done around G'nome Copter. Now it can be built by G'nome at intelligence of 30.
 
 ## What could be done?
 I do not promise anything as the project is done in my free time. I have some ideas, though:

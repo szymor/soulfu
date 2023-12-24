@@ -42,9 +42,9 @@ int ChanceOfWorking(int expression, int intelligence)
     // Tanke 2
     chance = 55
 // !!!BAD!!!
-// !!!BAD!!! Temporarily disabled...
+// !!!BAD!!! Copter needs some polishing...
 // !!!BAD!!!
-  if(expression == 8 && intelligence >= 100)
+  if(expression == 8 && intelligence >= 30)
     // Copter
     chance = 60
 
@@ -293,4 +293,3 @@ int Unpressed()
 
 
 //-----------------------------------------------------------------------
-
