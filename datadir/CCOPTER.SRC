@@ -72,12 +72,172 @@ int ButtonEvent()
           child.vspin = 0
 
 //-----------------------------------------------------------------------
-int Event()
-  int self, rider
+// This function applies a force to the Kart (such as being bumped
+// by another Kart or hitting a wall...  XY is the position of whatever
+// we hit, VXVY is the RELATIVE direction of the force (-self.vx,-self.vy
+// for a stationary object)...  Mass is usually just an object's boxsize
+// (so 2.7 is of equal mass to the kart)
+int KartApplyForce(float force_x, float force_y, float force_vx, float force_vy, float force_mass)
+  int self, spin_rate, temp_rate
+  float kart_vx, kart_vy, vx, vy, x, y, distance, next_distance
+  float weight, inverse, dot_front, dot_side, temp
+  self = FindSelf()
 
+
+
+  // Alter velocity of our kart...
+  weight = force_mass * 0.37
+  if(weight > 1.0)
+    weight = 1.0
+  weight = weight*weight*weight
+  inverse = 1.0-weight
+
+
+  x = force_x-self.x
+  y = force_y-self.y
+  distance = x*x + y*y
+  x = x+force_vx
+  y = y+force_vy
+  next_distance = x*x + y*y
+  if(next_distance < distance)
+    // The force is moving against us...
+    vx = (self.vx+self.vx+force_vx)*0.5
+    vy = (self.vy+self.vy+force_vy)*0.5
+    kart_vx = (self.target  - 32768)*0.0001
+    kart_vy = (self.lasthit - 32768)*0.0001
+    x = kart_vx
+    y = kart_vy
+    kart_vx = kart_vx-vx
+    kart_vy = kart_vy-vy
+    kart_vx = -kart_vx
+    kart_vy = -kart_vy
+    kart_vx = kart_vx+vx
+    kart_vy = kart_vy+vy
+    kart_vx = x*inverse + kart_vx*weight
+    kart_vy = y*inverse + kart_vy*weight
+    self.target  = (kart_vx * 10000.0) + 32768
+    self.lasthit = (kart_vy * 10000.0) + 32768
+
+
+
+
+
+    // Get the kart's current spin rate...
+    spin_rate = (self.charge-128)
+
+
+    // Spin force...
+    dot_front = (force_x-self.x)*self.frontx + (force_y-self.y)*self.fronty
+    dot_side = (force_x-self.x)*self.sidex + (force_y-self.y)*self.sidey
+    y = dot_front
+    if(y < 0.0)
+      y = -y
+    x = dot_side
+    if(x < 0.0)
+      x = -x
+    if(x > y)
+      // Hit from side...
+      dot_front = dot_front * 0.25
+      if(dot_front > 1.0)
+        dot_front = 1.0
+      if(dot_front < -1.0)
+        dot_front = -1.0
+      temp = (force_vx*self.sidex) + (force_vy*self.sidey)
+      temp_rate =  -(dot_front*temp*200*force_mass)
+      if(temp_rate < 0 && temp_rate < spin_rate && spin_rate < 20)
+        spin_rate = temp_rate
+      if(temp_rate > 0 && temp_rate > spin_rate && spin_rate > -20)
+        spin_rate = temp_rate
+    else
+      // Hit from front...
+      dot_side = dot_side * 0.25
+      if(dot_side > 1.0)
+        dot_side = 1.0
+      if(dot_side < -1.0)
+        dot_side = -1.0
+      temp = (force_vx*self.frontx) + (force_vy*self.fronty)
+      temp_rate =  (dot_side*temp*100*force_mass)
+      if(temp_rate < 0 && temp_rate < spin_rate && spin_rate < 20)
+        spin_rate = temp_rate
+      if(temp_rate > 0 && temp_rate > spin_rate && spin_rate > -20)
+        spin_rate = temp_rate
+
+
+
+
+
+    // Copy the modified spin rate back to the kart...
+    if(spin_rate < -127)
+      spin_rate = -128
+    if(spin_rate > 127)
+      spin_rate = 127
+    self.charge = spin_rate+128
+
+
+
+//-----------------------------------------------------------------------
+
+int Event()
+  int self, rider, target, lasthit, attacker, oldtarget, target_script
+  float vx, vy, dis, dot, oldvx, oldvy
+
+  self = FindSelf()
+
+  if(self.event == EVENT_HIT_CHARACTER)
+    target = FindByIndex(SystemGet(SYS_COLLISIONCHAR, 0, 0))
+    if(target)
+      if(target.daction != ACTION_KNOCK_OUT)
+        KartApplyForce(target.x, target.y, target.vx-self.vx, target.vy-self.vy, target.boxsize)
+      rider = FindByIndex(self.rider)
+      if(rider && target.owner != FindIndex(self))
+        // Don't allow empty Karts to run guys over...
+        dot = self.vx*self.frontx + self.vy*self.fronty
+        dis = (target.x-self.x)*self.frontx + (target.y-self.y)*self.fronty
+        if((dis > 0.0 && dot > 0.0) || (dis < 0.0 && dot < 0.0))
+//        facing = GetDirection(target.x, target.y)
+//        if((facing == DIRECTION_FRONT && dot > 0.01) || (facing == DIRECTION_BACK && dot < -0.01))
+          // We're driving toward our target...  Make sure it isn't our own turret...
+          target_script = SystemGet(SYS_CHARACTERSCRIPTFILE, 0, SystemGet(SYS_COLLISIONCHAR, 0, 0))
+          if(target_script != "FILE:CMINIGON.RUN" || target.target != FindIndex(self))
+            if(dot < 0.0)
+              dot = -dot
+            if(target.team == self.team || target.team == TEAM_NEUTRAL)
+              // Target is friendly/neutral...  Custom knock down stuff...
+              if(!(target.vflags & VIRTUE_FLAG_BUMP_IMMUNE))
+                if(target.hitsmax < 255 && self.rltimer == 0 && target.intimer == 0)
+                  target.combo = 4
+                  oldtarget = self.target
+                  self.target = SystemGet(SYS_COLLISIONCHAR, 0, 0)
+                  DamageTarget(DAMAGE_BASH, dot*3.0, 1)
+                  self.target = oldtarget
+//                  if(facing == DIRECTION_FRONT)
+                  if(dis > 0.0)
+                    self.eqright = (self.eqright)>>1
+                  else
+                    self.eqright = (self.eqright+255)>>1
+            else
+              // Running over an enemy...
+              oldvx = self.vx
+              oldvy = self.vy
+              if(STANDARD.BumpDamageEvent(DAMAGE_BASH, dot*10.0, 1, TRUE, FALSE))
+                self.spin = self.spin+32768
+                self.vx = oldvx
+                self.vy = oldvy
+                if(target.nctimer < 40)
+                  target.nctimer = 40
+                if(target.action == ACTION_KNOCK_OUT || target.action == ACTION_KNOCK_OUT_STUN)
+                  if(target.flatten > 128)
+                    target.flatten = 128
+                self.rltimer = 5
+                if(dis > 0.0)
+//                if(facing == DIRECTION_FRONT)
+                  self.eqright = (self.eqright)>>1
+                else
+                  self.eqright = (self.eqright+255)>>1
+                SystemSet(SYS_BUMPABORT, 0, 0, 0)
+    return 0
 
   // Make mount/dismount work nicer...
-  self = FindSelf()
   if(self.event == EVENT_MOUNTED)
     self.aitimer = 0
     rider = FindByIndex(self.rider)
@@ -97,8 +257,41 @@ int Event()
     ButtonPress(BUTTON_UNPRESS, BUTTON_SPECIAL1, 10)
     ButtonPress(BUTTON_UNPRESS, BUTTON_SPECIAL2, 10)
     return 0
+  if(self.event == EVENT_DAMAGED)
+    // Remember velocity...
+    lasthit = self.lasthit
+    target = self.target
+    if(self.hits == 0)
+      PEXPLODE.Effect(self.x, self.y, self.z, 0.0, 0.0, 3.34, DAMAGE_FIRE, 4, 1, FindIndex(self), TEAM_NEUTRAL, "FILE:FIRE1.RGB", SMOKE_COLOR, 255)
+    STANDARD.SimpleDamageEvent()
+    attacker = FindByIndex(self.lasthit)
+    if(attacker)
+      vx = self.x - attacker.x
+      vy = self.y - attacker.y
+      dis = vx*vx + vy*vy
+      if(dis > 0.0001)
+        dis = 0.30/sqrt(dis)
+        vx = attacker.boxsize*vx*dis
+        vy = attacker.boxsize*vy*dis
+      vx = (vx + (target  - 32768)*0.0001) * 0.5
+      vy = (vy + (lasthit - 32768)*0.0001) * 0.5
+      self.target  = (vx * 10000.0) + 32768
+      self.lasthit = (vy * 10000.0) + 32768
+    else
+      // Keep old velocity...
+      self.lasthit = lasthit
+      self.target = target
+    return 0
 
+  // Need to make funky backups of certain values...
+  target = self.target
+  lasthit = self.lasthit
+  self.action = ACTION_KNOCK_OUT
   STANDARD.Event()
+  self.target = target
+  self.lasthit = lasthit
+  self.daction = ACTION_BONING
+  self.action = ACTION_BONING
 
 //-----------------------------------------------------------------------
 int FrameEvent()
