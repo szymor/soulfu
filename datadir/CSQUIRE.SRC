@@ -368,7 +368,8 @@ int Event()
     else
       PlaySound("FILE:-HUBBI04.RAW", pitch, 255)
 
-
+  if(self.event == EVENT_THIRDIARY_TIMER)
+    MREGEN.Event()
   STANDARD.Event()
   STANDARD.JumpOutOfWaterEvent()
   if(subtype == 0)
@@ -769,7 +770,7 @@ int Spawn()
   self.mana = self.manamax
   self.level = 1
 
-
+  MREGEN.Event()
   ModelSetup()
   DefenseRating()
 

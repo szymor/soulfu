@@ -1652,31 +1652,32 @@ int AIUsePotions()
 //-----------------------------------------------------------------------
 AIPitAvoidance()
   int self, found_pit
-  float x, y, z, distance
+  float x, y, z, distance, depth
 
 
   self = FindSelf()
   found_pit = FALSE
   distance = 0.50
+  depth = 10.0
   while(distance < 8.0)
     x = self.x + self.frontx*distance
     y = self.y + self.fronty*distance
     z = RoomHeightXY(x, y)
-    if(z < (self.z-8.0))
+    if(z < (self.z-depth))
       // There's a big drop
       found_pit = TRUE
       distance = 100.0
     x = self.x + self.frontx*distance + self.sidex*distance*0.5
     y = self.y + self.fronty*distance + self.sidey*distance*0.5
     z = RoomHeightXY(x, y)
-    if(z < (self.z-8.0))
+    if(z < (self.z-depth))
       // There's a big drop
       found_pit = TRUE
       distance = 100.0
     x = self.x + self.frontx*distance - self.sidex*distance*0.5
     y = self.y + self.fronty*distance - self.sidey*distance*0.5
     z = RoomHeightXY(x, y)
-    if(z < (self.z-8.0))
+    if(z < (self.z-depth))
       // There's a big drop
       found_pit = TRUE
       distance = 100.0
@@ -1690,7 +1691,7 @@ AIPitAvoidance()
     x = self.x + self.sidex*5.0
     y = self.y + self.sidey*5.0
     z = AreaHeightXY(x, y, 1.0)
-    if(z > (self.z-8.0))
+    if(z > (self.z-depth))
       self.gotox = x
       self.gotoy = y
     else
@@ -1698,7 +1699,7 @@ AIPitAvoidance()
       x = self.x - self.sidex*5.0
       y = self.y - self.sidey*5.0
       z = AreaHeightXY(x, y, 1.0)
-      if(z > (self.z-8.0))
+      if(z > (self.z-depth))
         self.gotox = x
         self.gotoy = y
       else
@@ -1706,12 +1707,40 @@ AIPitAvoidance()
         x = self.x - self.frontx*5.0
         y = self.y - self.fronty*5.0
         z = AreaHeightXY(x, y, 1.0)
-        if(z > (self.z-8.0))
+        if(z > (self.z-depth))
           self.gotox = x
           self.gotoy = y
     self.aitimer = 20
 
 
+
+//-----------------------------------------------------------------------
+
+int AIIsStuck()
+  int self
+  float height, distance, x, y, z
+
+  self = FindSelf()
+  height = 2.0
+  distance = 0.50
+  while(distance < 2.0)
+    x = self.x + self.frontx*distance
+    y = self.y + self.fronty*distance
+    z = RoomHeightXY(x, y)
+    if(z > (self.z+height))
+      return TRUE
+    x = self.x + self.frontx*distance + self.sidex*distance*0.25
+    y = self.y + self.fronty*distance + self.sidey*distance*0.25
+    z = RoomHeightXY(x, y)
+    if(z > (self.z+height))
+      return TRUE
+    x = self.x + self.frontx*distance - self.sidex*distance*0.25
+    y = self.y + self.fronty*distance - self.sidey*distance*0.25
+    z = RoomHeightXY(x, y)
+    if(z > (self.z+height))
+      return TRUE
+    distance = distance + 1.0
+  return FALSE
 
 //-----------------------------------------------------------------------
 
@@ -1808,8 +1837,7 @@ int AIScript()
               self.gotoy = self.y
             ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
         else
-          if(RollDice(2,50) == 15)
-            // Try to jump if we are stuck, and not at the destination yet
+          if (AIIsStuck())
             ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
           // Randomly break off attack...
           if(self.aistate != STANDARD_AISTATE_CHARGE && RollDice(1, 100) > 80)
@@ -1934,7 +1962,7 @@ int AIScript()
           self.aitimer = 1
       else
         mount = FindByIndex(self.mount)
-        if(!mount && RollDice(2,50) == 15)
+        if(!mount && AIIsStuck())
           // Try to jump if we are stuck, and not at the destination yet
           ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
 
@@ -1955,7 +1983,7 @@ int AIScript()
         self.aitimer = 1
       else
         mount = FindByIndex(self.mount)
-        if(!mount && RollDice(2,50) == 15)
+        if(!mount && AIIsStuck())
           // Try to jump if we are stuck, and not at the destination yet
           ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
     else
