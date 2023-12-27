@@ -1,4 +1,8 @@
-#define STANDARD_AISTATE_RALLY  5
+#define EXPR_ASK      0
+#define EXPR_CHARGE   1
+#define EXPR_FOLLOW   3
+#define EXPR_STAND    5
+#define EXPR_THROUGH  7
 
 //-----------------------------------------------------------------------
 int GetName()
@@ -34,40 +38,32 @@ int Event()
     self.action = ACTION_SPECIAL_4
     self.daction = ACTION_SPECIAL_4
 
-
     child = PEXCLAIM.Effect(self.x, self.y, self.z-0.5+(self.height), 2.0, TRUE)
     if(child)
+      child.image = "FILE:=ASK.RGB"
       expression = ExpressionFromAxis(self.baxis)
-      // !!!BAD!!!
-      // !!!BAD!!!
-      // !!!BAD!!!
-      expression = 0
-      // !!!BAD!!!
-      // !!!BAD!!!
-      // !!!BAD!!!
-      if(expression == 0)
-        child.image = "FILE:=EXCLAIM.RGB"
-      if(expression == 1)
-        child.image = "FILE:=TOWN.RGB"
-      if(expression == 2)
-        child.image = "FILE:=FOLLOW.RGB"
-      if(expression == 3)
-        child.image = "FILE:=STAND.RGB"
-      if(expression == 4)
-        child.image = "FILE:=KEY.RGB"
-      if(expression == 5)
-        child.image = "FILE:=HELP.RGB"
-      if(expression == 6)
-        child.image = "FILE:=ASK.RGB"
-      if(expression == 7)
-        child.image = "FILE:=THROUGH.RGB"
-      if(expression == 8)
+      if(expression == EXPR_CHARGE)
         child.image = "FILE:=CHARGE.RGB"
+      //if(expression == 2)
+      //  child.image = "FILE:=HELP.RGB"
+      if(expression == EXPR_FOLLOW)
+        child.image = "FILE:=FOLLOW.RGB"
+      //if(expression == 4)
+      //  child.image = "FILE:=KEY.RGB"
+      if(expression == EXPR_STAND)
+        child.image = "FILE:=STAND.RGB"
+      //if(expression == 6)
+      //  child.image = "FILE:=EXCLAIM.RGB"
+      if(expression == EXPR_THROUGH)
+        child.image = "FILE:=THROUGH.RGB"
+      //if(expression == 8)
+      //  child.image = "FILE:=TOWN.RGB"
 
 //-----------------------------------------------------------------------
 // Called when item is unpressed, to start proper animation
 int Unpressed()
-  int self, expression, pitch, i, target, count
+  int self, expression, pitch, i, target, count, door, script
+  float dist, mindist, x, y
   self = FindSelf()
   ButtonHandled()
 
@@ -82,13 +78,6 @@ int Unpressed()
     StringClear(String(0))
     StringAppend(String(0), "<TALK", 16)
     expression = ExpressionFromAxis(self.baxis)
-    // !!!BAD!!!
-    // !!!BAD!!!
-    // !!!BAD!!!
-    expression = 0
-    // !!!BAD!!!
-    // !!!BAD!!!
-    // !!!BAD!!!
     StringAppendNumber(String(0), expression, 16)
     StringAppend(String(0), ">", 16)
 //    NetworkMessage(self.name, String(0), self.class)
@@ -116,7 +105,7 @@ int Unpressed()
 
 
     // Call a rally!
-    if(expression == 0)
+    if(expression == EXPR_FOLLOW)
       count = 1
       i = 0
       while(i < MAX_CHARACTER)
@@ -130,6 +119,57 @@ int Unpressed()
             count++
         i++
 
+    // Charge!
+    if(expression == EXPR_CHARGE)
+      i = 0
+      while(i < MAX_CHARACTER)
+        target = FindByIndex(i)
+        if(target)
+          if(target.aitimer > 0 && target.team == self.team)
+            target.aistate = STANDARD_AISTATE_CHARGE
+            target.aitimer = RollDice(1, 10)
+        i++
+
+    // Stand your ground
+    if(expression == EXPR_STAND)
+      i = 0
+      while(i < MAX_CHARACTER)
+        target = FindByIndex(i)
+        if(target)
+          if(target.aitimer > 0 && target.team == self.team)
+            target.aistate = STANDARD_AISTATE_STAND
+            target.aitimer = RollDice(1, 10)
+        i++
+
+    // Get back to the door
+    if(expression == EXPR_THROUGH)
+      // find the nearest one
+      mindist = -1.0
+      i = 0
+      while(i < MAX_CHARACTER)
+        target = FindByIndex(i)
+        if(target)
+          script = SystemGet(SYS_CHARACTERSCRIPTFILE, 0, i)
+          if(script == "FILE:CDOOR.RUN")
+            x = self.x - target.x
+            y = self.y - target.y
+            dist = x*x + y*y
+            if(mindist < 0.0 || dist < mindist)
+              mindist = dist
+              door = i
+        i++
+
+      // issue command
+      if (mindist > 0.0)
+        i = 0
+        while(i < MAX_CHARACTER)
+          target = FindByIndex(i)
+          if(target)
+            if(target.aitimer > 0 && target.team == self.team)
+              target.aistate = STANDARD_AISTATE_DOOR
+              target.aitimer = RollDice(1, 10)
+              target.target = door
+          i++
 
 //-----------------------------------------------------------------------
 

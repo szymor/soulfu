@@ -72,110 +72,6 @@ int ButtonEvent()
           child.vspin = 0
 
 //-----------------------------------------------------------------------
-// This function applies a force to the Kart (such as being bumped
-// by another Kart or hitting a wall...  XY is the position of whatever
-// we hit, VXVY is the RELATIVE direction of the force (-self.vx,-self.vy
-// for a stationary object)...  Mass is usually just an object's boxsize
-// (so 2.7 is of equal mass to the kart)
-int KartApplyForce(float force_x, float force_y, float force_vx, float force_vy, float force_mass)
-  int self, spin_rate, temp_rate
-  float kart_vx, kart_vy, vx, vy, x, y, distance, next_distance
-  float weight, inverse, dot_front, dot_side, temp
-  self = FindSelf()
-
-
-
-  // Alter velocity of our kart...
-  weight = force_mass * 0.37
-  if(weight > 1.0)
-    weight = 1.0
-  weight = weight*weight*weight
-  inverse = 1.0-weight
-
-
-  x = force_x-self.x
-  y = force_y-self.y
-  distance = x*x + y*y
-  x = x+force_vx
-  y = y+force_vy
-  next_distance = x*x + y*y
-  if(next_distance < distance)
-    // The force is moving against us...
-    vx = (self.vx+self.vx+force_vx)*0.5
-    vy = (self.vy+self.vy+force_vy)*0.5
-    kart_vx = (self.target  - 32768)*0.0001
-    kart_vy = (self.lasthit - 32768)*0.0001
-    x = kart_vx
-    y = kart_vy
-    kart_vx = kart_vx-vx
-    kart_vy = kart_vy-vy
-    kart_vx = -kart_vx
-    kart_vy = -kart_vy
-    kart_vx = kart_vx+vx
-    kart_vy = kart_vy+vy
-    kart_vx = x*inverse + kart_vx*weight
-    kart_vy = y*inverse + kart_vy*weight
-    self.target  = (kart_vx * 10000.0) + 32768
-    self.lasthit = (kart_vy * 10000.0) + 32768
-
-
-
-
-
-    // Get the kart's current spin rate...
-    spin_rate = (self.charge-128)
-
-
-    // Spin force...
-    dot_front = (force_x-self.x)*self.frontx + (force_y-self.y)*self.fronty
-    dot_side = (force_x-self.x)*self.sidex + (force_y-self.y)*self.sidey
-    y = dot_front
-    if(y < 0.0)
-      y = -y
-    x = dot_side
-    if(x < 0.0)
-      x = -x
-    if(x > y)
-      // Hit from side...
-      dot_front = dot_front * 0.25
-      if(dot_front > 1.0)
-        dot_front = 1.0
-      if(dot_front < -1.0)
-        dot_front = -1.0
-      temp = (force_vx*self.sidex) + (force_vy*self.sidey)
-      temp_rate =  -(dot_front*temp*200*force_mass)
-      if(temp_rate < 0 && temp_rate < spin_rate && spin_rate < 20)
-        spin_rate = temp_rate
-      if(temp_rate > 0 && temp_rate > spin_rate && spin_rate > -20)
-        spin_rate = temp_rate
-    else
-      // Hit from front...
-      dot_side = dot_side * 0.25
-      if(dot_side > 1.0)
-        dot_side = 1.0
-      if(dot_side < -1.0)
-        dot_side = -1.0
-      temp = (force_vx*self.frontx) + (force_vy*self.fronty)
-      temp_rate =  (dot_side*temp*100*force_mass)
-      if(temp_rate < 0 && temp_rate < spin_rate && spin_rate < 20)
-        spin_rate = temp_rate
-      if(temp_rate > 0 && temp_rate > spin_rate && spin_rate > -20)
-        spin_rate = temp_rate
-
-
-
-
-
-    // Copy the modified spin rate back to the kart...
-    if(spin_rate < -127)
-      spin_rate = -128
-    if(spin_rate > 127)
-      spin_rate = 127
-    self.charge = spin_rate+128
-
-
-
-//-----------------------------------------------------------------------
 
 int Event()
   int self, rider, target, lasthit, attacker, oldtarget, target_script
@@ -187,7 +83,7 @@ int Event()
     target = FindByIndex(SystemGet(SYS_COLLISIONCHAR, 0, 0))
     if(target)
       if(target.daction != ACTION_KNOCK_OUT)
-        KartApplyForce(target.x, target.y, target.vx-self.vx, target.vy-self.vy, target.boxsize)
+        CKART.KartApplyForce(target.x, target.y, target.vx-self.vx, target.vy-self.vy, target.boxsize)
       rider = FindByIndex(self.rider)
       if(rider && target.owner != FindIndex(self))
         // Don't allow empty Karts to run guys over...

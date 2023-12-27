@@ -1714,12 +1714,7 @@ AIPitAvoidance()
 
 
 //-----------------------------------------------------------------------
-#define STANDARD_AISTATE_ATTACK 0
-#define STANDARD_AISTATE_FOLLOW 1
-#define STANDARD_AISTATE_MOUNT  2
-#define STANDARD_AISTATE_WANDER 3
-#define STANDARD_AISTATE_ATTACK_FOLLOW 4
-#define STANDARD_AISTATE_RALLY  5
+
 int AIScript()
   int self, target, mount, rider, index, temp
   float x, y, distance, angle
@@ -1739,13 +1734,33 @@ int AIScript()
 
 
   if(self.daction == ACTION_KNOCK_OUT)
-    if(self.aistate == STANDARD_AISTATE_WANDER)
+    if(self.aistate == STANDARD_AISTATE_WANDER || self.aistate == STANDARD_AISTATE_STAND || self.aistate == STANDARD_AISTATE_CHARGE || STANDARD_AISTATE_DOOR)
       self.aistate = STANDARD_AISTATE_ATTACK
 
-
+  // Stand your ground...
+  if (self.aistate == STANDARD_AISTATE_STAND)
+    target = FindByIndex(AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 25.0))
+    if (target)
+      if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
+        x = self.x - target.x
+        y = self.y - target.y
+        distance = x*x + y*y
+        x = self.boxsize + target.boxsize + 2.0
+        if(distance < (x*x))
+          // Close enough to strike...
+          self.gotox = target.x
+          self.gotoy = target.y
+          ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
+        else
+          // Defend
+          if((self.eqleft & 248) == ITEM_SHIELD)
+            ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+      else
+        self.gotox = target.x
+        self.gotoy = target.y
 
   // Charge towards target...
-  if(self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
+  if(self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW || self.aistate == STANDARD_AISTATE_CHARGE)
     self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 500.0)
     target = FindTarget()
     if(target)
@@ -1785,12 +1800,19 @@ int AIScript()
           // Close enough to strike...
           if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
             // We're facing the enemy...
-            self.gotox = target.x
-            self.gotoy = target.y
+            if (self.sflags & SCRIPT_BUMP_DAMAGE)
+              self.gotox = target.x
+              self.gotoy = target.y
+            else
+              self.gotox = self.x
+              self.gotoy = self.y
             ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
         else
+          if(RollDice(2,50) == 15)
+            // Try to jump if we are stuck, and not at the destination yet
+            ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
           // Randomly break off attack...
-          if(RollDice(1, 100) > 80)
+          if(self.aistate != STANDARD_AISTATE_CHARGE && RollDice(1, 100) > 80)
             self.aistate = STANDARD_AISTATE_WANDER
             if(self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
               self.aistate = STANDARD_AISTATE_FOLLOW
@@ -1910,8 +1932,34 @@ int AIScript()
         if(target)
           self.aistate = STANDARD_AISTATE_ATTACK_FOLLOW
           self.aitimer = 1
+      else
+        mount = FindByIndex(self.mount)
+        if(!mount && RollDice(2,50) == 15)
+          // Try to jump if we are stuck, and not at the destination yet
+          ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
 
-
+  if(self.aistate == STANDARD_AISTATE_DOOR)
+    target = FindTarget()
+    if(target)
+      self.gotox = target.x
+      self.gotoy = target.y
+      x = self.gotox-self.x
+      y = self.gotoy-self.y
+      FindPath()
+      distance = x*x + y*y
+      if(distance < 25.0)
+        // We're at the door...
+        self.gotox = self.x
+        self.gotoy = self.y
+        self.aistate = STANDARD_AISTATE_STAND
+        self.aitimer = 1
+      else
+        mount = FindByIndex(self.mount)
+        if(!mount && RollDice(2,50) == 15)
+          // Try to jump if we are stuck, and not at the destination yet
+          ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
+    else
+      self.aistate = STANDARD_AISTATE_ATTACK
 
 
   // Standard pit avoidance hack...

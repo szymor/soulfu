@@ -1,5 +1,16 @@
 #define ROOM_MODE_SET_TEXTURES 240
 
+// AI states...
+#define STANDARD_AISTATE_ATTACK        0
+#define STANDARD_AISTATE_FOLLOW        1
+#define STANDARD_AISTATE_MOUNT         2
+#define STANDARD_AISTATE_WANDER        3
+#define STANDARD_AISTATE_ATTACK_FOLLOW 4
+#define STANDARD_AISTATE_RALLY         5
+#define STANDARD_AISTATE_STAND         6
+#define STANDARD_AISTATE_CHARGE        7
+#define STANDARD_AISTATE_DOOR          8
+
 // Teams...
 #define TEAM_NEUTRAL   0 // Default team
 #define TEAM_MONSTER   1 // Monsters

@@ -675,10 +675,14 @@ int AIScript()
         if(target.team != self.team || ignore_team)
           if(target.daction != ACTION_KNOCK_OUT)
             if(GetDirection(target.x, target.y) == DIRECTION_FRONT || ignore_direction)
-              if((self.eqleft & 248) == ITEM_SHIELD)
-                ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+              if (self.aistate == STANDARD_AISTATE_CHARGE)
+                if((self.eqleft & 248) != ITEM_SHIELD)
+                  ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
               else
-                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                if((self.eqleft & 248) == ITEM_SHIELD)
+                  ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+                else
+                  ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
               self.aitimer = 10
               return 0
 
@@ -686,12 +690,12 @@ int AIScript()
   // !!!BAD!!!
   // !!!BAD!!!  Pack this up or something...
   // !!!BAD!!!
-  if(self.aistate != 5) // STANDARD_AISTATE_RALLY
-    self.aistate = 1 // STANDARD_AISTATE_FOLLOW
+  if(self.aistate < STANDARD_AISTATE_RALLY)
+    self.aistate = STANDARD_AISTATE_FOLLOW
     self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 20.0)
     target = FindTarget()
     if(target)
-      self.aistate = 0 // STANDARD_AISTATE_ATTACK
+      self.aistate = STANDARD_AISTATE_ATTACK
       x = self.x - target.x
       y = self.y - target.y
       distance = (x*x) + (y*y)
