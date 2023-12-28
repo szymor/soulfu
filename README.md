@@ -56,9 +56,9 @@ PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
   + language file converter,
   + script compiler.
 + A few mods have been merged:
-  + Squire AI by Poobah,
-  + Mana Regeneration by Xuln,
-  + Saving System by Xuln,
+  + Squire AI by Poobah *[note: AI has been largely modified since the original release of Poobah's AI]*,
+  + Mana Regeneration by Xuln *[note: it has been extended to Apprentices]*,
+  + Saving System by Xuln *[note: some issues leading to loss of game progress have been fixed]*,
   + Sky Box by MiR,
   + Arena by bravebebe.
 + Background music has been enabled. It was already there, composed by Aaron.
@@ -93,3 +93,4 @@ Take a look at **notes/Master To Do List.txt** for even more ideas by Aaron hims
 + D'warf is immune to poison and petrification,
 + Successful taming requires three things - Tripe, high max HP of tamer and low HP of monster. Hit the monster a few times to soften it.
 + Unholy weapons make you hungry faster.
++ The spell Levitate can be used to create flying weapons.
