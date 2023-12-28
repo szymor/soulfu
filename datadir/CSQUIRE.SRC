@@ -594,6 +594,76 @@ int CollectHeart(int attack)
 
   return 1
 
+//-----------------------------------------------------------------------
+
+int AIUseBow()
+  int self, target, mount
+  float dist, x, y
+  self = FindSelf()
+
+  mount = FindByIndex(self.mount)
+  if (mount)
+    return 0
+
+  if (self.aistate == STANDARD_AISTATE_CHARGE || self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
+    if (RollDice(1, 10) < 3)
+      if ((self.eqleft & 252) == ITEM_BOW && (self.eqleft & 252) == ITEM_LONG_BOW)
+        target = FindTarget()
+        if(target)
+          if(target.team != self.team && target.daction != ACTION_KNOCK_OUT && GetDirection(target.x, target.y) == DIRECTION_FRONT)
+            x = self.x - target.x
+            y = self.y - target.y
+            dist = x*x + y*y
+            if (dist > 100.0)
+              if (((self.eqleft & 252) == ITEM_BOW && dist < 225.0) || ((self.eqleft & 252) == ITEM_LONG_BOW && dist < 400.0))
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return 1
+
+  return 0
+
+//-----------------------------------------------------------------------
+
+int AIUseSpells()
+  int self, target, mount
+  float dist, x, y
+  self = FindSelf()
+
+  mount = FindByIndex(self.mount)
+  if (mount)
+    return 0
+
+  if(self.eqleft == ITEM_SPELL_ENCHANT || self.eqleft == ITEM_SPELL_DEFLECT)
+    if(RollDice(1, 10) < 5)
+      self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_FRIENDLY, NULL, 75.0)
+    else
+      self.target = FindIndex(self)
+    ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+    self.aitimer = 10
+    return 1
+
+  return 0
+
+//-----------------------------------------------------------------------
+
+int AIUseShield()
+  int self, target, mount
+  self = FindSelf()
+
+  mount = FindByIndex(self.mount)
+  if (mount)
+    return 0
+
+  if (self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
+    if ((self.eqleft & 248) == ITEM_SHIELD && RollDice(1, 15) < 3)
+      target = FindTarget()
+      if(target)
+        if(target.team != self.team && target.daction != ACTION_KNOCK_OUT && GetDirection(target.x, target.y) == DIRECTION_FRONT)
+          ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+          self.aitimer = 10
+          return 1
+
+  return 0
 
 //-----------------------------------------------------------------------
 int AIScript()
@@ -658,66 +728,12 @@ int AIScript()
     if(CollectHeart(1))
       return 0
 
-  // Randomly Use spells/arrows/shields...
-  if(RollDice(1, 10) < 3)
-    mount = FindByIndex(self.mount)
-    if(mount == NULL)
-      ignore_team = FALSE
-      ignore_direction = FALSE
-      if(self.eqleft == ITEM_SPELL_ENCHANT || self.eqleft == ITEM_SPELL_DEFLECT)
-        ignore_team = TRUE
-        ignore_direction = TRUE
-        if(RollDice(1, 10) < 5)
-          self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_FRIENDLY, NULL, 75.0)
-        else
-          self.target = FindIndex(self)
-      target = FindTarget()
-      if(target)
-        if(target.team != self.team || ignore_team)
-          if(target.daction != ACTION_KNOCK_OUT)
-            if(GetDirection(target.x, target.y) == DIRECTION_FRONT || ignore_direction)
-              if (self.aistate == STANDARD_AISTATE_CHARGE)
-                if((self.eqleft & 248) != ITEM_SHIELD)
-                  ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-              else
-                if((self.eqleft & 248) == ITEM_SHIELD)
-                  ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
-                else
-                  ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-              self.aitimer = 10
-              return 0
-
-
-  // !!!BAD!!!
-  // !!!BAD!!!  Pack this up or something...
-  // !!!BAD!!!
-  if(self.aistate < STANDARD_AISTATE_RALLY)
-    self.aistate = STANDARD_AISTATE_FOLLOW
-    self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 20.0)
-    target = FindTarget()
-    if(target)
-      self.aistate = STANDARD_AISTATE_ATTACK
-      x = self.x - target.x
-      y = self.y - target.y
-      distance = (x*x) + (y*y)
-      x = self.boxsize + target.boxsize + 3.0
-      if(distance < (x*x) && self.rrtimer == 0)
-        self.gotox = target.x
-        self.gotoy = target.y
-        ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
-        self.aitimer = 10
-        return 0
-      if((target.sflags & SCRIPT_BUMP_DAMAGE) || (RollDice(1, 10) == 1))
-        x = self.boxsize + target.boxsize + 10.0
-        if(distance < (x*x) && self.eqspec1 == ITEM_JUMP && self.rrtimer > 0)
-          self.gotox = self.x + (x*5.0)
-          self.gotoy = self.y + (y*5.0)
-          ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_SPECIAL1, 30)
-          self.aitimer = 30
-          return 0
-  // !!!BAD!!!
-  // !!!BAD!!!
-  // !!!BAD!!!
+  if (AIUseBow())
+    return 0
+  if (AIUseSpells())
+    return 0
+  if (AIUseShield())
+    return 0
 
   STANDARD.AIScript()
   self.aitimer = (self.aitimer>>2) + 1

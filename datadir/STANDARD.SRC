@@ -1824,19 +1824,34 @@ int AIScript()
         x = self.x - target.x
         y = self.y - target.y
         distance = x*x + y*y
-        x = self.boxsize + target.boxsize + 2.0
-        if(distance < (x*x))
+        if (self.eqright == ITEM_NONE || (self.eqright & 248) == ITEM_DAGGER || (self.eqright & 248) == ITEM_HAMMER)
+          x = self.boxsize + target.boxsize + 2.0
+        else
+          x = self.boxsize + target.boxsize + 3.0
+        if (distance < (x*x))
           // Close enough to strike...
           if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
-            // We're facing the enemy...
-            if (self.sflags & SCRIPT_BUMP_DAMAGE)
+            if (self.rrtimer == 0)
+              // We're facing the enemy...
               self.gotox = target.x
               self.gotoy = target.y
+              ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
+              self.aitimer = 10
             else
-              self.gotox = self.x
-              self.gotoy = self.y
-            ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
+              // Enemy is near but we are not ready to hit...
+              if ((self.eqleft & 248) == ITEM_SHIELD)
+                ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+                self.aitimer = 10
         else
+          if ((target.sflags & SCRIPT_BUMP_DAMAGE) || (RollDice(1, 10) == 1))
+            x = self.boxsize + target.boxsize + 10.0
+            if(distance < (x*x) && self.eqspec1 == ITEM_JUMP && self.rrtimer > 0)
+              x = self.x - target.x
+              y = self.y - target.y
+              self.gotox = self.x + (x*5.0)
+              self.gotoy = self.y + (y*5.0)
+              ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_SPECIAL1, 30)
+              self.aitimer = 30
           if (AIIsStuck())
             ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
           // Randomly break off attack...
