@@ -1831,7 +1831,7 @@ int AIScript()
         if (distance < (x*x))
           // Close enough to strike...
           if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
-            if((target.sflags & SCRIPT_BUMP_DAMAGE) && target.action != ACTION_STUN && target.action != ACTION_KNOCK_OUT)
+            if(!(self.sflags & SCRIPT_BUMP_DAMAGE) && (target.sflags & SCRIPT_BUMP_DAMAGE) && target.action != ACTION_STUN && target.action != ACTION_KNOCK_OUT)
               // Do not touch bumpy enemies...
               self.gotox = self.x
               self.gotoy = self.y

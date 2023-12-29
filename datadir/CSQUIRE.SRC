@@ -630,8 +630,8 @@ int EquipItemIfNeeded(int self, int item)
 //-----------------------------------------------------------------------
 
 int AIUseSpells()
-  int self, target, child, worked, dice, i, index, script
-  float dist, x, y
+  int self, target, child, worked, dice, i, index, script, cond
+  float dist, x, y, forward, left
   self = FindSelf()
 
   // check if mounted
@@ -649,7 +649,7 @@ int AIUseSpells()
       return TRUE
 
   // animate dead
-  if(self.mana >= 4 && EquipItemIfNeeded(self, ITEM_SPELL_ANIMATE_DEAD))
+  if(NumLocalHelpers() < MaxHelpers(NULL, 0) && self.mana >= 4 && EquipItemIfNeeded(self, ITEM_SPELL_ANIMATE_DEAD))
     ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
     self.aitimer = 10
     return TRUE
@@ -686,52 +686,64 @@ int AIUseSpells()
         x = self.x - target.x
         y = self.y - target.y
         dist = x*x + y*y
-        if (dist > 25.0 && dist < 50.0)
-          // check if it can be entangled
-          if ((target.oflags & OTHER_FLAG_EASY_ENTANGLE) || (target.action == ACTION_KNOCK_OUT))
-            if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_ENTANGLE))
-              // check if we have not spawned vines already...
-              index = FindIndex(self)
-              worked = TRUE
-              i = 0
-              while(i < MAX_PARTICLE)
-                child = FindParticle(i)
-                if(child)
-                  if(child.owner == index)
-                    script = SystemGet(SYS_PARTICLESCRIPTFILE, 0, i)
-                    if(script == "FILE:PTANGLE.RUN")
-                      worked = FALSE
-                      i = MAX_PARTICLE
-                i++
-              if (worked)
+
+        // check if it is running towards us
+        x = self.x - target.x
+        y = self.y - target.y
+        // Dot vector with front and side normals...
+        forward = x * target.frontx + y * target.fronty   // Front dot...
+        left = x * target.sidex + y * target.sidey        // Side dot...
+
+        // we do not need to compare absolute values
+        // we are interested only in front direction anyway
+        //cond = (target.oflags & OTHER_FLAG_EASY_ENTANGLE) && (dist > 64.0) && (dist < 81.0) && (forward > left)
+        cond = FALSE
+        cond = cond || ((target.action == ACTION_KNOCK_OUT) && (dist > 25.0) && (dist < 50.0))
+        if (cond)
+          if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_ENTANGLE))
+            // check if we have not spawned vines already...
+            index = FindIndex(self)
+            worked = TRUE
+            i = 0
+            while(i < MAX_PARTICLE)
+              child = FindParticle(i)
+              if(child)
+                if(child.owner == index)
+                  script = SystemGet(SYS_PARTICLESCRIPTFILE, 0, i)
+                  if(script == "FILE:PTANGLE.RUN")
+                    worked = FALSE
+                    i = MAX_PARTICLE
+              i++
+            if (worked)
+              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+              self.aitimer = 10
+              return TRUE
+        // projectiles, do not spam with them too much
+        if (RollDice(1, 100) < 20)
+          if (dist > 50.0)
+            // check if target can be poisoned
+            if (!(target.sflags & SCRIPT_NO_POISON))
+              if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_POISON_CLOUD))
                 ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
                 self.aitimer = 10
                 return TRUE
-          // projectiles, do not spam with them too much
-          if (RollDice(1, 100) < 20)
-            if (dist > 100.0)
-              // check if target can be poisoned
-              if (!(target.sflags & SCRIPT_NO_POISON))
-                if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_POISON_CLOUD))
-                  ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-                  self.aitimer = 10
-                  return TRUE
-              if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_LIGHTNING_BOLT))
-                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-                self.aitimer = 10
-                return TRUE
-              if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_FIREBALL))
-                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-                self.aitimer = 10
-                return TRUE
-              if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_ICEBALL))
-                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-                self.aitimer = 10
-                return TRUE
-              if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_MISSILE))
-                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-                self.aitimer = 10
-                return TRUE
+            if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_LIGHTNING_BOLT))
+              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+              self.aitimer = 10
+              return TRUE
+            if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_MISSILE))
+              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+              self.aitimer = 10
+              return TRUE
+          if (dist > 144.0)
+            if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_FIREBALL))
+              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+              self.aitimer = 10
+              return TRUE
+            if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_ICEBALL))
+              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+              self.aitimer = 10
+              return TRUE
 
     // maximum targeting magic circle range is 120.0
     self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 120.0)
