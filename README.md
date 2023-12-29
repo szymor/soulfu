@@ -22,14 +22,14 @@ git clone --recurse-submodules <repolink> soulfu
 
 Install the following tools and libraries:
 
-+ GCC
-+ Make
-+ SDL 1.2
-+ SDL_net
-+ libogg
-+ libjpeg
-+ vorbis
-+ OpenGL development files
++ GCC,
++ Make,
++ SDL 1.2,
++ SDL_net,
++ libogg,
++ libjpeg,
++ vorbis,
++ OpenGL development files.
 
 Note that the libraries need to be the 32-bit versions.
 
@@ -61,10 +61,11 @@ PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
   + Saving System by Xuln *[note: some issues leading to loss of game progress have been fixed]*,
   + Sky Box by MiR,
   + Arena by bravebebe.
++ As noted above, AI has been improved significantly. Your helpers can now fight a bit better against bumpy enemies (like rats or slimes). Apprentices can cast spells in an intelligent manner. Some TALK commands are implemented, e.g. hold your ground, charge, follow, go to the nearest door. The work is in progress, so expect even more changes.
 + Background music has been enabled. It was already there, composed by Aaron.
 + Support for resolutions up to 1920x1080. No stretching, no black stripes.
-+ Rough translation to French, German, Italian, Polish and Spanish. Window layout needs to be adjusted and the translation needs to be reviewed as it was done mostly with DeepL. Books are left untranslated, too.
-+ Elf has been rebalanced. I felt that class was a bit overpowered - 10 points more than other classes make a difference. Its gameplay style was in fact the same as Soldier's, so I guess almost nobody played the latter. That's why I decided to lower Elf's initial HP, strength and intelligence. However, it became problematic if we wanted to charm monsters, so I needed to treat Elf specially in this regard (to be consistent with Aaron's original idea) by making taming easier. Elf was also supposed to use a bow more frequently, so I made it more useful by making it magical. Is it too strong? Maybe, but 10 points more was even stronger as a benefit. Why haven't I rebalanced D'warf then? Strength or HP are not as useful as Dexterity.
++ Rough translation to French, German, Italian and Spanish made with DeepL. Polish translation is much better as I speak Polish natively. Polish language-specific font characters have been added. Not all text has been translated, though.
++ Elf has been rebalanced. The initial HP, strength and intelligence have been lowered. Taming, especially mountable monsters, is easier. The bow equipped initially by Elf is magical.
 + Some bug fixing has been done around G'nome Copter. Now it can be built by G'nome at intelligence of 30.
 
 ## What could be done?
@@ -72,13 +73,13 @@ I do not promise anything as the project is done in my free time. I have some id
 + avoid recompilation of unchanged scripts by the script compiler,
 + a standalone room editor,
 + conversion of 3D models along with skeletal animation data,
-+ proper translation - add language-specific font characters, adjust window layout, translate books and monster names, etc.
++ proper translation - add language-specific font characters, translate books and monster names, etc.
 + network game - Aaron wrote a bunch of code for this feature, so I guess it could be made usable with relatively little effort,
 + 64 bit platform support,
 + port to platforms other than PC,
 + a new spell Drain - Aaron left some notes and an image (=ODRAIN.PCX), so maybe it could be finished,
 + new areas - judging from music files Aaron left, he had in mind designing Airship, Desert, Forest and Mountain areas,
-+ better AI - Apprentices could use spells in a more helpful way, Kittens/Puppies could stop drowning so easily, etc. Aaron had in mind issuing commands as you can find command-related images in the archive (=CHARGE.PCX, =FOLLOW.PCX, =HELP.PCX, =KEY.PCX, =STAND.PCX, =THROUGH.PCX, =TOWN.PCX), so it could be implemented, too.
++ even better AI - Apprentices could use a Gonne (G'nome's gun), Squires could shoot a bow better, Kittens/Puppies could stop drowning so easily, etc.
 
 But it's easier said than done.
 
