@@ -1712,7 +1712,81 @@ AIPitAvoidance()
           self.gotoy = y
     self.aitimer = 20
 
+//-----------------------------------------------------------------------
 
+// far from ideal...
+AILavaAvoidance()
+  int self, found_pit, mount
+  float x, y, z, distance, search_dist
+
+  self = FindSelf()
+
+  if (self.z > RoomWaterLevel() && RoomWaterType() == WATER_TYPE_LAVA)
+
+    // do not step into lava if you know there is lava
+    z = RoomHeightXY(self.gotox, self.gotoy)
+    if(z < RoomWaterLevel())
+      self.gotox = self.x
+      self.gotoy = self.y
+
+    mount = FindByIndex(self.mount)
+    if (mount)
+      search_dist = 8.0
+    else
+      search_dist = 4.0
+    found_pit = FALSE
+    distance = 0.50
+    while(distance < search_dist)
+      x = self.x + self.frontx*distance
+      y = self.y + self.fronty*distance
+      z = RoomHeightXY(x, y)
+      if(z < RoomWaterLevel())
+        // There's lava
+        found_pit = TRUE
+        distance = 100.0
+      x = self.x + self.frontx*distance + self.sidex*distance*0.5
+      y = self.y + self.fronty*distance + self.sidey*distance*0.5
+      z = RoomHeightXY(x, y)
+      if(z < RoomWaterLevel())
+        // There's lava
+        found_pit = TRUE
+        distance = 100.0
+      x = self.x + self.frontx*distance - self.sidex*distance*0.5
+      y = self.y + self.fronty*distance - self.sidey*distance*0.5
+      z = RoomHeightXY(x, y)
+      if(z < RoomWaterLevel())
+        // There's lava
+        found_pit = TRUE
+        distance = 100.0
+      distance = distance + 1.0
+
+    if(found_pit)
+      self.gotox = self.x
+      self.gotoy = self.y
+      // Left check...
+      x = self.x + self.sidex*2.0
+      y = self.y + self.sidey*2.0
+      z = RoomHeightXY(x, y)
+      if(z > RoomWaterLevel())
+        self.gotox = x
+        self.gotoy = y
+      else
+        // Right check...
+        x = self.x - self.sidex*2.0
+        y = self.y - self.sidey*2.0
+        z = RoomHeightXY(x, y)
+        if(z > RoomWaterLevel())
+          self.gotox = x
+          self.gotoy = y
+        else
+          // Back check...
+          x = self.x - self.frontx*2.0
+          y = self.y - self.fronty*2.0
+          z = RoomHeightXY(x, y)
+          if(z > RoomWaterLevel())
+            self.gotox = x
+            self.gotoy = y
+      self.aitimer = 20
 
 //-----------------------------------------------------------------------
 
@@ -1721,6 +1795,11 @@ int AIIsStuck()
   float height, distance, x, y, z
 
   self = FindSelf()
+
+  // technically it is stuck, but jumping over will not help anyway
+  if(self.action == ACTION_SWIM || self.action == ACTION_SWIM_FORWARD)
+    return FALSE
+
   height = 2.0
   distance = 0.50
   while(distance < 2.0)
@@ -1889,6 +1968,8 @@ int AIScript()
       else
         self.gotox = target.x - target.frontx*10.0
         self.gotoy = target.y - target.fronty*10.0
+        if (!FindByIndex(self.mount) && AIIsStuck())
+          ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
         if(self.flags & CHAR_CAN_RIDE_MOUNT)
           if(!FindByIndex(self.mount))
             target = FindByIndex(AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_FRIENDLY | ACQUIRE_SEE_NEUTRAL | ACQUIRE_OPEN_MOUNT_ONLY, NULL, 15.0))
@@ -1950,6 +2031,8 @@ int AIScript()
       self.aistate = RollDice(1, 4)&3
     if(FindByIndex(AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 25.0)))
       self.aistate = STANDARD_AISTATE_ATTACK
+    if (!FindByIndex(self.mount) && AIIsStuck())
+      ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
 
 
 
@@ -2009,8 +2092,8 @@ int AIScript()
 
   // Standard pit avoidance hack...
   if(!(self.flags & (CHAR_HOVER_ON | CHAR_IN_WATER)))
+    //AILavaAvoidance()
     AIPitAvoidance()
-
 
 
 //-----------------------------------------------------------------------
