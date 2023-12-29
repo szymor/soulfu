@@ -350,10 +350,8 @@ int Event()
   self = FindSelf()
   subtype = (self.eqcol01>>7)
 
-
   // Squires & Apprentices don't take wounds...
   self.hitstap = 0
-
 
   if(self.event == EVENT_DAMAGED)
     temp = RollDice(1, 3)
@@ -603,11 +601,12 @@ int AIUseBow()
 
   mount = FindByIndex(self.mount)
   if (mount)
-    return 0
+    return FALSE
 
   if (self.aistate == STANDARD_AISTATE_CHARGE || self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
     if (RollDice(1, 10) < 3)
       if ((self.eqleft & 252) == ITEM_BOW && (self.eqleft & 252) == ITEM_LONG_BOW)
+        self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 75.0)
         target = FindTarget()
         if(target)
           if(target.team != self.team && target.daction != ACTION_KNOCK_OUT && GetDirection(target.x, target.y) == DIRECTION_FRONT)
@@ -618,31 +617,146 @@ int AIUseBow()
               if (((self.eqleft & 252) == ITEM_BOW && dist < 225.0) || ((self.eqleft & 252) == ITEM_LONG_BOW && dist < 400.0))
                 ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
                 self.aitimer = 10
-                return 1
+                return TRUE
 
-  return 0
+  return FALSE
+
+//-----------------------------------------------------------------------
+
+int EquipItemIfNeeded(int self, int item)
+  INONE.AutoEquipItem(self, MODEL_LEFT_FILE, item, item, TRUE)
+  return (self.eqleft == item)
 
 //-----------------------------------------------------------------------
 
 int AIUseSpells()
-  int self, target, mount
+  int self, target, child, worked, dice, i, index, script
   float dist, x, y
   self = FindSelf()
 
-  mount = FindByIndex(self.mount)
-  if (mount)
-    return 0
+  // check if mounted
+  child = FindByIndex(self.mount)
+  if (child)
+    return FALSE
 
-  if(self.eqleft == ITEM_SPELL_ENCHANT || self.eqleft == ITEM_SPELL_DEFLECT)
+  // support spells first
+
+  // cast luck if needed
+  if(self.team == TEAM_GOOD && SystemGet(SYS_LUCK, 0, 0) == 0)
+    if(self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_LUCK))
+      ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+      self.aitimer = 10
+      return TRUE
+
+  // animate dead
+  if(self.mana >= 4 && EquipItemIfNeeded(self, ITEM_SPELL_ANIMATE_DEAD))
+    ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+    self.aitimer = 10
+    return TRUE
+
+  // cast buffs on self and teammates
+  worked = self.mana >= 4 && EquipItemIfNeeded(self, ITEM_SPELL_DEFLECT)
+  if (!worked)
+    worked = self.mana >= 4 && EquipItemIfNeeded(self, ITEM_SPELL_ENCHANT)
+  if (!worked)
+    worked = self.mana >= 6 && EquipItemIfNeeded(self, ITEM_SPELL_HASTE)
+  if (!worked)
+    worked = self.mana >= 6 && EquipItemIfNeeded(self, ITEM_SPELL_FLAME_BRAND)
+  if (!worked)
+    worked = self.mana >= 6 && EquipItemIfNeeded(self, ITEM_SPELL_ICE_BRAND)
+  if (!worked)
+    worked = self.mana >= 6 && EquipItemIfNeeded(self, ITEM_SPELL_INVISIBILITY)
+  if (worked)
     if(RollDice(1, 10) < 5)
       self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_FRIENDLY, NULL, 75.0)
     else
       self.target = FindIndex(self)
-    ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-    self.aitimer = 10
-    return 1
+    ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+    self.aitimer = 40
+    return TRUE
 
-  return 0
+
+  // offensive spells next
+
+  if (self.aistate == STANDARD_AISTATE_CHARGE || self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
+    self.target = AcquireTarget(ACQUIRE_SEE_ENEMY, NULL, 25.0)
+    target = FindTarget()
+    if(target)
+      if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
+        x = self.x - target.x
+        y = self.y - target.y
+        dist = x*x + y*y
+        if (dist > 25.0 && dist < 50.0)
+          // check if it can be entangled
+          if ((target.oflags & OTHER_FLAG_EASY_ENTANGLE) || (target.action == ACTION_KNOCK_OUT))
+            if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_ENTANGLE))
+              // check if we have not spawned vines already...
+              index = FindIndex(self)
+              worked = TRUE
+              i = 0
+              while(i < MAX_PARTICLE)
+                child = FindParticle(i)
+                if(child)
+                  if(child.owner == index)
+                    script = SystemGet(SYS_PARTICLESCRIPTFILE, 0, i)
+                    if(script == "FILE:PTANGLE.RUN")
+                      worked = FALSE
+                      i = MAX_PARTICLE
+                i++
+              if (worked)
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return TRUE
+          // projectiles, do not spam with them too much
+          if (RollDice(1, 100) < 20)
+            if (dist > 100.0)
+              // check if target can be poisoned
+              if (!(target.sflags & SCRIPT_NO_POISON))
+                if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_POISON_CLOUD))
+                  ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                  self.aitimer = 10
+                  return TRUE
+              if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_LIGHTNING_BOLT))
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return TRUE
+              if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_FIREBALL))
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return TRUE
+              if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_ICEBALL))
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return TRUE
+              if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_MISSILE))
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return TRUE
+
+    // maximum targeting magic circle range is 120.0
+    self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 120.0)
+    target = FindTarget()
+    if(target)
+      // check if target can be disenchanted
+      if (target.eflags & ENCHANT_FLAG_SUMMON_3)
+        if (EquipItemIfNeeded(self, ITEM_SPELL_DISENCHANT))
+          ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+          self.aitimer = 40
+          return TRUE
+      // check if target can be petrified
+      if (!(target.sflags & SCRIPT_NO_PETRIFY) && target.pttimer == 0)
+        if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_PETRIFY))
+          ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+          self.aitimer = 40
+          return TRUE
+      // cast firestorm randomly
+      if(RollDice(1, 100) < 10)
+        if (self.mana >= 3 && EquipItemIfNeeded(self, ITEM_SPELL_FIRESTORM))
+          ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+          self.aitimer = 40
+          return TRUE
+
+  return FALSE
 
 //-----------------------------------------------------------------------
 
@@ -652,7 +766,7 @@ int AIUseShield()
 
   mount = FindByIndex(self.mount)
   if (mount)
-    return 0
+    return FALSE
 
   if (self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
     if ((self.eqleft & 248) == ITEM_SHIELD && RollDice(1, 15) < 3)
@@ -661,9 +775,30 @@ int AIUseShield()
         if(target.team != self.team && target.daction != ACTION_KNOCK_OUT && GetDirection(target.x, target.y) == DIRECTION_FRONT)
           ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
           self.aitimer = 10
-          return 1
+          return TRUE
 
-  return 0
+  return FALSE
+
+//-----------------------------------------------------------------------
+
+int AIEquipPotions(int self)
+
+  // health potions
+  if(self.hits <= ((self.hitsmax-self.hitstap+1)>>1))
+    if(INONE.AutoEquipItem(self, MODEL_RIGHT2_FILE, ITEM_HEAL, ITEM_HEAL, TRUE))
+      return TRUE
+    if(INONE.AutoEquipItem(self, MODEL_RIGHT2_FILE, ITEM_SUPER_HEAL, ITEM_HEAL, TRUE))
+      return TRUE
+
+  // mana potions
+  if(self.manamax > 0)
+    if(self.mana <= ((self.manamax-self.manatap+1)>>1))
+      if(INONE.AutoEquipItem(self, MODEL_RIGHT2_FILE, ITEM_MANA, ITEM_MANA, TRUE))
+        return TRUE
+      if(INONE.AutoEquipItem(self, MODEL_RIGHT2_FILE, ITEM_SUPER_MANA, ITEM_SUPER_MANA, TRUE))
+        return TRUE
+
+  return FALSE
 
 //-----------------------------------------------------------------------
 int AIScript()
@@ -672,6 +807,7 @@ int AIScript()
   float x, y, distance, monsterdistance
   self = FindSelf()
 
+  AIEquipPotions(self)
   STANDARD.AIUsePotions()
 
   // !!!BAD!!!
@@ -701,12 +837,9 @@ int AIScript()
       PEXCLAIM.Effect(self.x, self.y, self.z+5.0, self.boxsize, FALSE)
 
   if(!(self.vflags & VIRTUE_FLAG_HITS))
-    // Equip the potion if able and in urgent need...
-    if(!INONE.AutoEquipItem(self, MODEL_RIGHT2_FILE, ITEM_HEAL, ITEM_HEAL, TRUE))
-      if(!INONE.AutoEquipItem(self, MODEL_RIGHT2_FILE, ITEM_SUPER_HEAL, ITEM_HEAL, TRUE))
-        // Go into heart seeking mode if no potions are available, but health is needed
-        if(CollectHeart(0))
-          return 0
+    // Go into heart seeking mode if no potions are available, but health is needed
+    if(CollectHeart(0))
+      return 0
   else
     // Also find hearts if it isn't an emergency but health is still missing and the room is cleared
     i = 0
@@ -727,6 +860,10 @@ int AIScript()
   if(self.hits != self.hitsmax)
     if(CollectHeart(1))
       return 0
+
+  // Do not rush without a shield...
+  if (self.aistate == STANDARD_AISTATE_ATTACK && (self.eqleft & 248) != ITEM_SHIELD)
+    self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW
 
   if (AIUseBow())
     return 0

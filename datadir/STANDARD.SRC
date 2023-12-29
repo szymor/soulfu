@@ -1824,17 +1824,19 @@ int AIScript()
         x = self.x - target.x
         y = self.y - target.y
         distance = x*x + y*y
-        if (self.eqright == ITEM_NONE || (self.eqright & 248) == ITEM_DAGGER || (self.eqright & 248) == ITEM_HAMMER)
+        if (self.eqright == ITEM_NONE || (self.eqright & 248) == ITEM_DAGGER)
           x = self.boxsize + target.boxsize + 2.0
         else
           x = self.boxsize + target.boxsize + 3.0
         if (distance < (x*x))
           // Close enough to strike...
           if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
+            if((target.sflags & SCRIPT_BUMP_DAMAGE) && target.action != ACTION_STUN && target.action != ACTION_KNOCK_OUT)
+              // Do not touch bumpy enemies...
+              self.gotox = self.x
+              self.gotoy = self.y
             if (self.rrtimer == 0)
               // We're facing the enemy...
-              self.gotox = target.x
-              self.gotoy = target.y
               ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
               self.aitimer = 10
             else
