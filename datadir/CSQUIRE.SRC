@@ -454,7 +454,7 @@ int CollectHeart(int attack)
         // A heart has been found
         x = target.x - self.x
         y = target.y - self.y
-        distance = x*X + y*y
+        distance = x*x + y*y
         if(heartdistance < 0.0 || distance < heartdistance)
           // Store info on the nearest heart
           heartdistance = distance
@@ -498,7 +498,7 @@ int CollectHeart(int attack)
 
     self.aitimer = 1
 
-    if(RollDice(2,50)==20)
+    if(!FindByIndex(self.mount) && STANDARD.AIIsStuck())
       // Also try to jump if we are stuck, and not at the destination yet
       ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_SPECIAL1, 10)
 
@@ -570,12 +570,12 @@ int CollectHeart(int attack)
         // Try to let the caller take care of it
         return 0
 
-      if(RollDice(2,50)==15)
+      if(!FindByIndex(self.mount) && STANDARD.AIIsStuck())
         // Also try to jump if we are stuck, and not at the destination yet
         ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_SPECIAL1, 10)
 
   // Jump if we're near bad guys (we might otherwise walk into them!)
-  if(monster)
+  if(monster && heart)
     x = self.boxsize + monster.boxsize + 10.0
     if(monsterdistance < (x*x) && self.eqspec1 == ITEM_JUMP && self.rltimer == 0)
       x = self.x - heart.x
