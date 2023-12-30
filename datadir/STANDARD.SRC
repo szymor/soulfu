@@ -1715,6 +1715,7 @@ AIPitAvoidance()
 //-----------------------------------------------------------------------
 
 // far from ideal...
+// TODO - take deffire into account (fire creatures like lava)
 AILavaAvoidance()
   int self, found_pit, mount
   float x, y, z, distance, search_dist

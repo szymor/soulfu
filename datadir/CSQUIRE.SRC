@@ -544,12 +544,16 @@ int CollectHeart(int attack)
               self.gotoy = self.y + self.y - monster.y
               self.aitimer = 1
               return 1
+            else
+              return 0
           else
             // Otherwise fight
             return 0
         else
           // Don't bother doing anything if there aren't containers, hearts or monsters
           return 0
+
+      // <== heart variable (container) should be valid till this point
 
       // See if attacking the container is feasible
       x = self.boxsize + heart.boxsize
