@@ -599,7 +599,7 @@ int CollectHeart(int attack)
 //-----------------------------------------------------------------------
 
 int AIUseBow()
-  int self, target, mount
+  int self, target, mount, i, found
   float dist, x, y
   self = FindSelf()
 
@@ -608,17 +608,32 @@ int AIUseBow()
     return FALSE
 
   if (self.aistate == STANDARD_AISTATE_CHARGE || self.aistate == STANDARD_AISTATE_ATTACK || self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
-    if (RollDice(1, 10) < 3)
-      if ((self.eqleft & 252) == ITEM_BOW && (self.eqleft & 252) == ITEM_LONG_BOW)
-        self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, 75.0)
-        target = FindTarget()
-        if(target)
-          if(target.team != self.team && target.daction != ACTION_KNOCK_OUT && GetDirection(target.x, target.y) == DIRECTION_FRONT)
-            x = self.x - target.x
-            y = self.y - target.y
-            dist = x*x + y*y
-            if (dist > 100.0)
-              if (((self.eqleft & 252) == ITEM_BOW && dist < 225.0) || ((self.eqleft & 252) == ITEM_LONG_BOW && dist < 400.0))
+      if (self.eqleft >= ITEM_BOW && self.eqleft <= (ITEM_LONG_BOW+3))
+        // search for quiver
+        found = FALSE
+        i = 224
+        while(i < 246)
+          if(i != 240 && i != 241)
+            target = FileReadByte(self, i)
+            if(target >= ITEM_QUIVER_10 && target <= ITEM_QUIVER_1)
+              found = TRUE
+              i = 255
+          i++
+
+        if (found)
+          // calculate approximate range of bow
+          dist = 1.0 + (0.006 * self.str)
+          if (self.eqleft >= ITEM_LONG_BOW && self.eqleft <= (ITEM_LONG_BOW+3))
+            dist = dist + 0.6
+          dist = dist * 20.0
+          self.target = AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_ENEMY, NULL, dist)
+          target = FindTarget()
+          if(target)
+            if(target.team != self.team && target.daction != ACTION_KNOCK_OUT && GetDirection(target.x, target.y) == DIRECTION_FRONT)
+              x = self.x - target.x
+              y = self.y - target.y
+              dist = x*x + y*y
+              if (dist > 75.0)
                 ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
                 self.aitimer = 10
                 return TRUE
@@ -723,27 +738,33 @@ int AIUseSpells()
               self.aitimer = 10
               return TRUE
         // projectiles, do not spam with them too much
-        if (RollDice(1, 100) < 20)
-          if (dist > 50.0)
+        dice = RollDice(1, 100)
+        if (dist > 50.0 && dist < 400.0)
+          if (dice < 10)
+            if (!(self.flags & CHAR_IN_WATER))
+              if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_LIGHTNING_BOLT))
+                ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
+                self.aitimer = 10
+                return TRUE
+          if (dice >= 10 && dice < 20)
             // check if target can be poisoned
             if (!(target.sflags & SCRIPT_NO_POISON))
               if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_POISON_CLOUD))
                 ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
                 self.aitimer = 10
                 return TRUE
-            if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_LIGHTNING_BOLT))
-              ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
-              self.aitimer = 10
-              return TRUE
+          if (dice >= 20 && dice < 30)
             if (self.mana >= 1 && EquipItemIfNeeded(self, ITEM_SPELL_MISSILE))
               ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
               self.aitimer = 10
               return TRUE
-          if (dist > 144.0)
+        if (dist > 144.0)
+          if (dice >= 30 && dice < 40)
             if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_FIREBALL))
               ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
               self.aitimer = 10
               return TRUE
+          if (dice >= 40 && dice < 50)
             if (self.mana >= 2 && EquipItemIfNeeded(self, ITEM_SPELL_ICEBALL))
               ButtonPress(BUTTON_PRESS, BUTTON_LEFT, 0)
               self.aitimer = 10

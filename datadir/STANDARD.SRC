@@ -1908,44 +1908,61 @@ int AIScript()
           x = self.boxsize + target.boxsize + 2.0
         else
           x = self.boxsize + target.boxsize + 3.0
-        if (distance < (x*x))
-          // Close enough to strike...
-          if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
-            if(!(self.sflags & SCRIPT_BUMP_DAMAGE) && (target.sflags & SCRIPT_BUMP_DAMAGE) && target.action != ACTION_STUN && target.action != ACTION_KNOCK_OUT)
-              // Do not touch bumpy enemies...
-              self.gotox = self.x
-              self.gotoy = self.y
-            if (self.rrtimer == 0)
-              // We're facing the enemy...
-              ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
-              self.aitimer = 10
-            else
-              // Enemy is near but we are not ready to hit...
-              if ((self.eqleft & 248) == ITEM_SHIELD)
-                ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
-                self.aitimer = 10
-        else
-          if ((target.sflags & SCRIPT_BUMP_DAMAGE) || (RollDice(1, 10) == 1))
-            x = self.boxsize + target.boxsize + 10.0
-            if(distance < (x*x) && self.eqspec1 == ITEM_JUMP && self.rrtimer > 0)
+        // if we overlap with the enemy...
+        if (distance < ((self.boxsize + target.boxsize) / 2))
+          if (self.rrtimer == 0)
+            ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
+            self.aitimer = 10
+          else
+            if (self.eqspec1 == ITEM_JUMP)
               x = self.x - target.x
               y = self.y - target.y
+              if (x == 0 || y == 0)
+                x = RollDice(1, 100) / 100.0
+                y = RollDice(1, 100) / 100.0
               self.gotox = self.x + (x*5.0)
               self.gotoy = self.y + (y*5.0)
               ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_SPECIAL1, 30)
               self.aitimer = 30
-          if (AIIsStuck())
-            ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
-          // Randomly break off attack...
-          if(self.aistate != STANDARD_AISTATE_CHARGE && RollDice(1, 100) > 80)
-            self.aistate = STANDARD_AISTATE_WANDER
-            if(self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
-              self.aistate = STANDARD_AISTATE_FOLLOW
-            if(self.flags & CHAR_CAN_RIDE_MOUNT)
-              if(!FindByIndex(self.mount))
-                target = FindByIndex(AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_FRIENDLY | ACQUIRE_SEE_NEUTRAL | ACQUIRE_OPEN_MOUNT_ONLY, NULL, 50.0))
-                if(target)
-                  self.aistate = STANDARD_AISTATE_MOUNT
+        else
+          if (distance < (x*x))
+            // Close enough to strike...
+            if(GetDirection(target.x, target.y) == DIRECTION_FRONT)
+              if(!(self.sflags & SCRIPT_BUMP_DAMAGE) && (target.sflags & SCRIPT_BUMP_DAMAGE) && target.action != ACTION_STUN && target.action != ACTION_KNOCK_OUT)
+                // Do not touch bumpy enemies...
+                self.gotox = self.x
+                self.gotoy = self.y
+              if (self.rrtimer == 0)
+                // We're facing the enemy...
+                ButtonPress(BUTTON_PRESS, BUTTON_RIGHT, 0)
+                self.aitimer = 10
+              else
+                // Enemy is near but we are not ready to hit...
+                if ((self.eqleft & 248) == ITEM_SHIELD)
+                  ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_LEFT, 40)
+                  self.aitimer = 10
+          else
+            if ((target.sflags & SCRIPT_BUMP_DAMAGE) || (RollDice(1, 10) == 1))
+              x = self.boxsize + target.boxsize + 10.0
+              if(distance < (x*x) && self.eqspec1 == ITEM_JUMP && self.rrtimer > 0)
+                x = self.x - target.x
+                y = self.y - target.y
+                self.gotox = self.x + (x*5.0)
+                self.gotoy = self.y + (y*5.0)
+                ButtonPress(BUTTON_PRESS_AND_HOLD, BUTTON_SPECIAL1, 30)
+                self.aitimer = 30
+            if (AIIsStuck())
+              ButtonPress(BUTTON_PRESS, BUTTON_SPECIAL1, 0)
+            // Randomly break off attack...
+            if(self.aistate != STANDARD_AISTATE_CHARGE && RollDice(1, 100) > 80)
+              self.aistate = STANDARD_AISTATE_WANDER
+              if(self.aistate == STANDARD_AISTATE_ATTACK_FOLLOW)
+                self.aistate = STANDARD_AISTATE_FOLLOW
+              if(self.flags & CHAR_CAN_RIDE_MOUNT)
+                if(!FindByIndex(self.mount))
+                  target = FindByIndex(AcquireTarget(ACQUIRE_SEE_BEHIND | ACQUIRE_SEE_FRIENDLY | ACQUIRE_SEE_NEUTRAL | ACQUIRE_OPEN_MOUNT_ONLY, NULL, 50.0))
+                  if(target)
+                    self.aistate = STANDARD_AISTATE_MOUNT
     else
       if(self.aistate == STANDARD_AISTATE_ATTACK)
         self.aistate = STANDARD_AISTATE_WANDER

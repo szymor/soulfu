@@ -82,25 +82,26 @@ int Unpressed()
     StringAppend(String(0), ">", 16)
 //    NetworkMessage(self.name, String(0), self.class)
 
-    pitch = 256
-    if(self.class == CLASS_NONE)
-      ButtonSound()
-    if(self.class == CLASS_SOLDIER)
-      PlaySound("FILE:-SOLDI00.RAW", pitch, 255)
-    if(self.class == CLASS_WIZARD)
-      PlaySound("FILE:-WIZAR00.RAW", pitch, 255)
-    if(self.class == CLASS_HEALER)
-      PlaySound("FILE:-HEAL00.RAW", pitch, 255)
-    if(self.class == CLASS_GNOME)
-      PlaySound("FILE:-GNOME00.RAW", pitch, 255)
-    if(self.class == CLASS_ELF)
-      PlaySound("FILE:-ELF00.RAW",   pitch, 255)
-    if(self.class == CLASS_MYSTIC)
-      PlaySound("FILE:-MYSTI00.RAW", pitch, 255)
-    if(self.class == CLASS_DWARF)
-      PlaySound("FILE:-DWARF00.RAW", pitch, 255)
-    if(self.class == CLASS_HUBBIN)
-      PlaySound("FILE:-HUBBI00.RAW", pitch, 255)
+    if (expression != EXPR_ASK)
+      pitch = 256
+      if(self.class == CLASS_NONE)
+        ButtonSound()
+      if(self.class == CLASS_SOLDIER)
+        PlaySound("FILE:-SOLDI00.RAW", pitch, 255)
+      if(self.class == CLASS_WIZARD)
+        PlaySound("FILE:-WIZAR00.RAW", pitch, 255)
+      if(self.class == CLASS_HEALER)
+        PlaySound("FILE:-HEAL00.RAW", pitch, 255)
+      if(self.class == CLASS_GNOME)
+        PlaySound("FILE:-GNOME00.RAW", pitch, 255)
+      if(self.class == CLASS_ELF)
+        PlaySound("FILE:-ELF00.RAW",   pitch, 255)
+      if(self.class == CLASS_MYSTIC)
+        PlaySound("FILE:-MYSTI00.RAW", pitch, 255)
+      if(self.class == CLASS_DWARF)
+        PlaySound("FILE:-DWARF00.RAW", pitch, 255)
+      if(self.class == CLASS_HUBBIN)
+        PlaySound("FILE:-HUBBI00.RAW", pitch, 255)
 
 
 
@@ -137,6 +138,8 @@ int Unpressed()
         target = FindByIndex(i)
         if(target)
           if(target.aitimer > 0 && target.team == self.team)
+            target.gotox = target.x
+            target.gotoy = target.y
             target.aistate = STANDARD_AISTATE_STAND
             target.aitimer = RollDice(1, 10)
         i++
@@ -172,4 +175,3 @@ int Unpressed()
           i++
 
 //-----------------------------------------------------------------------
-
