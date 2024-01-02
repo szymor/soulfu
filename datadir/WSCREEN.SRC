@@ -21,7 +21,7 @@ Spawn()
 //-----------------------------------------------------------------------
 Refresh()
   int    i, self, file, count, testing
-  float midx
+  float midx, w
 
   // Allow us to save data in the window's properties...
   self = FindSelf()
@@ -59,13 +59,15 @@ Refresh()
 
 
   // Title bar (can't drag)
-  WindowBorder(FALSE, -3.5, -2.85, 7,  1, BORDER_TITLE)
+  w = StringLength(StringLanguage(214))
+  WindowBorder(FALSE, -w / 2.0, -2.85, w,  1, BORDER_TITLE)
   WindowString(WHITE, 0.0, -0.1, StringLanguage(214))
 
 
 
   // Main window
-  WindowBorder(FALSE, -8.0, -1.15, 16, 4, BORDER_FULL)
+  w = StringLength(StringLanguage(215))
+  WindowBorder(FALSE, -w / 2.0, -1.15, w, 4, BORDER_FULL)
   WindowString(WHITE, 0.0, 0.0, StringLanguage(215))
   StringClear(String(0))
   StringAppend(String(0), StringLanguage(216), 256)
@@ -75,8 +77,10 @@ Refresh()
 
   // Button images
   if(button_one < 250)
-    button_one = WindowImage(0.0, 2.0, 16.0, 2.0, "FILE:BUTTON.RGB", NULL, 0)
-    WindowString(WHITE, 3.0, 2.5, StringLanguage(217))
+    w = StringLength(StringLanguage(215))
+    button_one = WindowImage(0.0, 2.0, w, 2.0, "FILE:BUTTON.RGB", NULL, 0)
+    w = (w - StringLength(StringLanguage(217))) / 2.0
+    WindowString(WHITE, w, 2.5, StringLanguage(217))
     count = SystemGet(SYS_MAINFRAMESKIP, 0, 0)
     i = 0
     while(i < count)

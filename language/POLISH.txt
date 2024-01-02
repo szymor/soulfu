@@ -204,17 +204,17 @@ Nogi
 Ekwipunek
 Cnoty
 Zamie‘ g”o’niki
-Szybko i Brzydko
-Fajne Cienie
-Fajna Woda
-Obrysy Terenu
-Obrysy Postaci
-Mip Mapa
+Szybko i brzydko
+Fajne cienie
+Fajna woda
+Obrysy terenu
+Obrysy postaci
+Mip mapa
 Z Bit  :
 Testowanie
 Jak obraz?
-Pozosta”y czas: 
-Wygl–da OK
+Czas: 
+Jest OK
 Zapisz gr“
 Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
 !B–d÷ mi”y!
