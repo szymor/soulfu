@@ -25,7 +25,8 @@ Refresh()
   self = FindSelf()
 
   // Slot window
-  WindowBorder(FALSE, -4.0, -35.0, 9, 1, BORDER_FULL)
+  ypos = -45.0 + 6.0 * (SystemGet(SYS_WINDOWSCALE, 0, 0) / 600.0)
+  WindowBorder(FALSE, -4.0, ypos, 9, 1, BORDER_FULL)
   old_slot = slot_load
   slot = WindowMiniList(0.5, 0.0, 8, 12, slot, StringLanguage(219))
   slot_load = slot>>8

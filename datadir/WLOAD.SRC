@@ -129,43 +129,6 @@ Spawn()
   button4 = 0
 
 //-----------------------------------------------------------------------
-ClassRandomName(int string_to_overwrite, int class)
-  int alternate
-  if(class > 7)
-    class = 7
-  if(class < 0)
-    class = 0
-
-
-  alternate = RollDice(1, 100)&1
-  if(class == CLASS_SOLDIER)
-    StringRandomName(string_to_overwrite, "FILE:SOLDIER0.TXT")
-  if(class == CLASS_WIZARD)
-    if(alternate)
-      StringRandomName(string_to_overwrite, "FILE:WIZARD1.TXT")
-    else
-      StringRandomName(string_to_overwrite, "FILE:WIZARD0.TXT")
-  if(class == CLASS_HEALER)
-    if(alternate)
-      StringRandomName(string_to_overwrite, "FILE:HEALER1.TXT")
-    else
-      StringRandomName(string_to_overwrite, "FILE:HEALER0.TXT")
-  if(class == CLASS_GNOME)
-    StringRandomName(string_to_overwrite, "FILE:GNOME0.TXT")
-  if(class == CLASS_ELF)
-    if(alternate)
-      StringRandomName(string_to_overwrite, "FILE:ELF1.TXT")
-    else
-      StringRandomName(string_to_overwrite, "FILE:ELF0.TXT")
-  if(class == CLASS_MYSTIC)
-    StringRandomName(string_to_overwrite, "FILE:MYSTIC0.TXT")
-  if(class == CLASS_DWARF)
-    StringRandomName(string_to_overwrite, "FILE:DWARF0.TXT")
-  if(class == CLASS_HUBBIN)
-    StringRandomName(string_to_overwrite, "FILE:HUBBIN0.TXT")
-
-
-//-----------------------------------------------------------------------
 int ClassSetup(int class, int getscript)
   int modelfile
   int scriptfile

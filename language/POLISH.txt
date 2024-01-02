@@ -32,7 +32,7 @@ Okno,PeÓen ekran
 DzwiÒk :
 Muzyka :
 Skala  :
-MaÓa,Srednia,Du×a,Ogromna
+MaÓa,Normalna,Du×a,Ogromna
 Uwaga: Zrestartuj grÒ, ×eby ustawienia
        weszÓy w ×ycie...
 SzybkoÕÑ   :

@@ -1,5 +1,5 @@
-#define CHEAT (SystemGet(SYS_KEYDOWN, 282, 0))  // F1
-#define SHOW_STAT_SUM TRUE
+#define CHEAT FALSE // (SystemGet(SYS_KEYDOWN, 282, 0))  // F1
+#define SHOW_STAT_SUM FALSE
 
 
 #define rand_seed      self.stat03l
