@@ -617,7 +617,11 @@ char* get_path_from_home(const char *filename)
   if(home)
   {
     snprintf(path, 1023, "%s/.soulfu", home);
+#ifdef __MINGW32__
+    mkdir(path);
+#else
     mkdir(path, 0755);  // may fail if the directory exists
+#endif
     snprintf(path, 1023, "%s/.soulfu/%s", home, filename);
     return path;
   }
@@ -625,6 +629,9 @@ char* get_path_from_home(const char *filename)
 }
 
 //-----------------------------------------------------------------------------------------------
+#ifdef __MINGW32__
+#undef main
+#endif
 
 int main(int argc, char *argv[])
 {

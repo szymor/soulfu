@@ -7,7 +7,7 @@ WINDRES = i686-w64-mingw32-windres
 TARGET = soulfu
 SRC = source/soulfu.c
 DEP = $(wildcard source/*.c source/*.h)
-LDLIBS = $(shell $(PKG) --libs sdl SDL_net ogg libjpeg vorbis) -lopengl32
+LDLIBS = -lSDL -lSDL_net -l:libjpeg.a -l:libvorbis.a -l:libogg.a -lopengl32
 FLAGS = -DDEVTOOL
 
 all: $(TARGET) data
