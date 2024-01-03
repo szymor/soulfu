@@ -14,6 +14,8 @@ Well, the game seems to be forgotten among developers. I decided to make some ef
 
 Having said that, I need to say that any help is really appreciated. Programmers, level designers, 2D/3D artists, translators, testers, etc. If you do not know where to start, just ask...
 
+If you want to talk about development of SoulFu, you can reach me out at #soulfu:matrix.org ([click to join Matrix](https://matrix.to/#/#soulfu:matrix.org)).
+
 ## Building the game
 Clone the repository:
 ```
@@ -79,7 +81,9 @@ I do not promise anything as the project is done in my free time. I have some id
 + port to platforms other than PC,
 + a new spell Drain - Aaron left some notes and an image (=ODRAIN.PCX), so maybe it could be finished,
 + new areas - judging from music files Aaron left, he had in mind designing Airship, Desert, Forest and Mountain areas,
-+ even better AI - Apprentices could use a Gonne (G'nome's gun), Squires could shoot a bow better, Kittens/Puppies could stop drowning so easily, etc.
++ even better AI - Apprentices could use a Gonne (G'nome's gun) and open chests or doors on demand, Kittens/Puppies could stop drowning so easily, heart collection AI could be refactored and extended to other characters, etc.
++ port to SDL2 (as a compilation switch),
++ new weapons - maybe a spear, a trident?
 
 But it's easier said than done.
 
