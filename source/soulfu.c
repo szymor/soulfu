@@ -495,7 +495,16 @@ if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
     {
       if(play_game_active)
       {
-        display_string("-Paused-", (virtual_x - (8 * 15.0f)) / 2, 15.0f, 15.0f);
+        unsigned char *translated_paused[LANGUAGE_MAX] = {
+          "-Paused-",
+          "-Pause-",
+          "-Pausado-",
+          "-Percepito-",
+          "-Paused-",
+          "-Pauza-"
+        };
+        int len = strlen(translated_paused[user_language]);
+        display_string(translated_paused[user_language], (virtual_x - (len * 15.0f)) / 2, 15.0f, 15.0f);
       }
     }
 
