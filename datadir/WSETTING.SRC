@@ -12,6 +12,7 @@
 #define mip_on            self.stat08h
 #define fastandugly_on    self.stat09l
 #define flip_pan_on       self.stat09h
+#define skip_intro_on     self.stat10l
 
 //-----------------------------------------------------------------------
 Spawn()
@@ -27,7 +28,8 @@ Spawn()
   music_volume      = FileReadByte(file, 66)
   mip_on            = FileReadByte(file, 98)
   pretty_water_on   = FileReadByte(file, 99)
-  pretty_shadows_on = FileReadByte(file, 71)
+  pretty_shadows_on = FileReadByte(file, 71)&1
+  skip_intro_on     = (FileReadByte(file, 71)>>1)&1
   cartoon_mode      = FileReadByte(file, 100)
   fastandugly_on    = FileReadByte(file, 101)
   flip_pan_on       = FileReadByte(file, 102)
@@ -55,7 +57,7 @@ Refresh()
     FileWriteByte(file, 66, music_volume)
     FileWriteByte(file, 98, mip_on)
     FileWriteByte(file, 99, pretty_water_on)
-    FileWriteByte(file, 71, pretty_shadows_on)
+    FileWriteByte(file, 71, (pretty_shadows_on&1) | ((skip_intro_on&1)<<1))
     FileWriteByte(file, 100, cartoon_mode)
     FileWriteByte(file, 101, fastandugly_on)
     FileWriteByte(file, 102, flip_pan_on)
@@ -93,18 +95,22 @@ Refresh()
 
   // Note window
   i = StringLength(StringLanguage(36))
-  WindowBorder(FALSE, -0.5*i, 9.85, i, 2, BORDER_FULL)
+  WindowBorder(FALSE, -0.5*i, 10.85, i, 2, BORDER_FULL)
   WindowString(WHITE, 0.0, 0.0, StringLanguage(36))
   WindowString(WHITE, 0.0, 1.0, StringLanguage(37))
 
 
   // Main window
-  WindowBorder(FALSE, -10.0, -8.5, 20, 16, BORDER_FULL)
+  WindowBorder(FALSE, -10.0, -8.5, 20, 17, BORDER_FULL)
 
 
   // Button images
-  button_one = ButtonImage(button_one, 0.0, 14.0, 20.0, 2.0, StringLanguage(20))
+  button_one = ButtonImage(button_one, 0.0, 15.0, 20.0, 2.0, StringLanguage(20))
 
+
+  // Skip intro on/off
+  skip_intro_on = WindowYesBox(skip_intro_on, 0.5, 14.0)
+  WindowString(White, 2.0, 14.0, StringLanguage(259))
 
   // Flip speaker pan...
   flip_pan_on = WindowYesBox(flip_pan_on, 0.5, 13.0)
@@ -123,9 +129,7 @@ Refresh()
   // Pretty Shadows
   pretty_shadows_on = WindowYesBox(pretty_shadows_on, 0.5, 11.0)
   WindowString(White, 2.0, 11.0, StringLanguage(208))
-  SystemSet(SYS_WATERLAYERSACTIVE, 0, 0, pretty_shadows_on)
-
-
+  // maybe I should add runtime switch via SystemSet...
 
   // Pretty Water
   pretty_water_on = WindowYesBox(pretty_water_on, 0.5, 10.0)

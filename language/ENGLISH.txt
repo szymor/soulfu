@@ -256,7 +256,7 @@ Move
 256 Reserved
 257 Reserved
 258 Reserved
-259 Reserved
+Skip intro
 "All animals are equal, but some animals are more equal than others." -George_Orwell
 "Tricks and treachery are the practice of fools, who don't have the sense to be honest." -Benjamin_Franklin
 "Those who cast the votes decide nothing.  Those who count the votes decide everything." -Josef_Stalin
