@@ -326,7 +326,7 @@ signed char decode_ogg(unsigned char* index, unsigned char* filename)
     // Decide if we should get rid of the compressed file or not...
     #ifndef KEEP_COMPRESSED_FILES
         // Don't need to worry about index, since it should've been overwritten
-        free(data);
+        //free(data);
         sdf_can_save = FALSE;
     #endif
 
