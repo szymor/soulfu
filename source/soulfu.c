@@ -691,7 +691,7 @@ int main(int argc, char *argv[])
   // Try to not break it too bad...
   // XXX: We need a standard place to save output sdf files from the DevTool.
 #ifdef DEVTOOL
-  sdf_save("backup.sdf");
+  //sdf_save("backup.sdf");
 #endif
 
 
@@ -745,20 +745,19 @@ int main(int argc, char *argv[])
 
 #ifdef DEVTOOL
   //    sdf_delete_all_files(SDF_FILE_IS_RUN, NULL);
-  sdf_list_all_files(SDF_FILE_IS_SRC, NULL, FALSE);
-  sdf_list_all_files(SDF_FILE_IS_SRF, NULL, FALSE);
-  sdf_list_all_files(SDF_FILE_IS_DDD, NULL, FALSE);
-  sdf_list_all_files(SDF_FILE_IS_JPG, NULL, FALSE);
-  sdf_list_all_files(SDF_FILE_IS_PCX, NULL, FALSE);
-  sdf_list_all_files(SDF_FILE_IS_OGG, NULL, FALSE);
-  sdf_list_all_files(SDF_FILE_IS_MUS, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_SRC, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_SRF, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_DDD, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_JPG, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_PCX, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_OGG, NULL, FALSE);
+  //sdf_list_all_files(SDF_FILE_IS_MUS, NULL, FALSE);
   //    sdf_list_all_files(SDF_FILE_IS_SRC, NULL, TRUE);
   //    sdf_list_all_files(SDF_FILE_IS_OGG, NULL, TRUE);
 #endif
 
   // Decode all of the files...
   sdf_decode(SDF_ALL, TRUE);
-
 
   ddd_magic_update_thing(SDF_ALL);
   display_loadin(0.50f);
@@ -773,7 +772,9 @@ int main(int argc, char *argv[])
 
   // go through all compilation stages for the script files in the archive
   compiler_error = FALSE;
-  for(i=SRC_HEADERIZE; i<=SRC_FUNCTIONIZE; i++)
+  // headerizing and compilerizing should be already done
+  //for(i=SRC_HEADERIZE; i<=SRC_FUNCTIONIZE; i++)
+  for(i=SRC_FUNCTIONIZE; i<=SRC_FUNCTIONIZE; i++)
   {
     src_compile_archive(i);
     display_loadin(0.60f + 0.1f*i);
