@@ -1,7 +1,16 @@
 # SoulFu: Back From The Dead
 
-## Description
-SoulFu is a 3D action role-playing hack and slash dungeon crawler made by Aaron Bishop, the creator of Egoboo.
+> A 3D action role-playing hack and slash dungeon crawler made by Aaron Bishop, the creator of Egoboo.
+
+<div align="center">
+
+![logo](soulfu_bftd.png)
+
+[![Matrix](https://img.shields.io/matrix/soulfu%3Amatrix.org?label=Matrix)](https://matrix.to/#/#soulfu:matrix.org)
+
+</div>
+
+---
 
 ## Why is the subtitle so gloomy?
 Well, the game seems to be forgotten among developers. I decided to make some effort to change status quo and wanted to show it by adding the unofficial "Back From The Dead" subtitle. I hope my work will be a seed of further development of the game.
@@ -13,8 +22,6 @@ Well, the game seems to be forgotten among developers. I decided to make some ef
 4. If I like the changes, I will merge them. If not... well, don't worry. You can develop your fork of SoulFu on your own :)
 
 Having said that, I need to say that any help is really appreciated. Programmers, level designers, 2D/3D artists, translators, testers, etc. If you do not know where to start, just ask...
-
-If you want to talk about development of SoulFu, you can reach me out at #soulfu:matrix.org ([click to join Matrix](https://matrix.to/#/#soulfu:matrix.org)).
 
 ## Building the game
 Clone the repository:
