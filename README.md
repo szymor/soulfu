@@ -33,11 +33,17 @@ Install the following tools and libraries:
 + vorbis,
 + OpenGL development files.
 
-Note that the libraries need to be the 32-bit versions.
+Note that the libraries need to be in the 32-bit version.
 
-For example on Fedora Linux things can be installed with:
+Example for Fedora:
 ```
 sudo dnf install gcc make glibc-devel.i686 sdl12-compat-devel.i686 SDL_net-devel.i686 libogg-devel.i686 libjpeg-turbo-devel.i686 libvorbis-devel.i686 mesa-libGL-devel.i686
+```
+
+Example for Ubuntu/Debian:
+```
+sudo apt update
+sudo apt install gcc-multilib libc6-dev:i386 libsdl-net1.2-dev:i386 libvorbis-dev:i386 libjpeg-dev:i386 libgcc-11-dev:i386 libsdl1.2-dev:i386
 ```
 
 Build:
@@ -48,8 +54,14 @@ make
 
 If pkg-config doesn't find the libraries, you can tell it to look in a different folder like this:
 ```
+# Fedora
 PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
+
+# Ubuntu/Debian
+PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig/ make
 ```
+
+For Arch Linux there exists a package in AUR: [link](https://aur.archlinux.org/packages/soulfu-git).
 
 ## What has been done till now?
 + Tools for handling **datafile.sdf** (the archive where all game data is stored) have been implemented. Maybe they are not of the highest quality, but they get work done. To be precise:
