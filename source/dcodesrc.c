@@ -3383,3 +3383,41 @@ signed char src_compile_archive(unsigned char stage)
   return retval;
 };
 
+#ifdef DEVTOOL
+void fast_run_script(unsigned char *file_start, unsigned int fast_function, unsigned char *object_data)
+{
+#ifdef SRC_BACKTRACE
+    sprintf(backtrace_stack[backtrace_level], "%s ", ff_map[fast_function >> 1]);
+#endif
+    fast_run_offset = sdf_read_unsigned_short(file_start+fast_function);
+    if(fast_run_offset != 0)
+    {
+        if(looking_for_fast_function) {fast_function_found = TRUE;}
+        looking_for_fast_function = FALSE;
+        current_object_data = object_data;
+        current_object_item = 0;
+        run_script(file_start+fast_run_offset, file_start, 0, NULL, 0, NULL);
+        if(current_object_data != object_data)
+        {
+            sprintf(DEBUG_STRING, "CURRENT_OBJECT WAS CORRUPTED!!!");
+        }
+    }
+}
+#else
+// Function without corruption check
+void fast_run_script(unsigned char *file_start, unsigned int fast_function, unsigned char *object_data)
+{
+#ifdef SRC_BACKTRACE
+    sprintf(backtrace_stack[backtrace_level], "%s ", ff_map[fast_function >> 1]);
+#endif
+    fast_run_offset = sdf_read_unsigned_short(file_start+fast_function);
+    if(fast_run_offset != 0)
+    {
+        if(looking_for_fast_function) {fast_function_found = TRUE;}
+        looking_for_fast_function = FALSE;
+        current_object_data = object_data;
+        current_object_item = 0;
+        run_script(file_start+fast_run_offset, file_start, 0, NULL, 0, NULL);
+    }
+}
+#endif

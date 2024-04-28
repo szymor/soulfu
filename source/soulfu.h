@@ -677,40 +677,8 @@ SF_EXTERN int fast_run_offset;
 // Macro with corruption check
 SF_EXTERN unsigned char looking_for_fast_function ; // = FALSE;
 SF_EXTERN unsigned char fast_function_found ; // = FALSE;
-#ifdef DEVTOOL
-#define fast_run_script(file_start, fast_function, object_data)                         \
-{                                                                                       \
-    fast_run_offset = sdf_read_unsigned_short(file_start+fast_function);                \
-    if(fast_run_offset != 0)                                                            \
-    {                                                                                   \
-        if(looking_for_fast_function) {fast_function_found = TRUE;}                     \
-        looking_for_fast_function = FALSE;                                              \
-        current_object_data = object_data;                                              \
-        current_object_item = 0;                                                        \
-        run_script(file_start+fast_run_offset, file_start, 0, NULL, 0, NULL);           \
-        if(current_object_data != object_data)                                          \
-        {                                                                               \
-            sprintf(DEBUG_STRING, "CURRENT_OBJECT WAS CORRUPTED!!!");                   \
-        }                                                                               \
-    }                                                                                   \
-}
-#else
-// Macro without corruption check
-#define fast_run_script(file_start, fast_function, object_data)                         \
-{                                                                                       \
-    fast_run_offset = sdf_read_unsigned_short(file_start+fast_function);                \
-    if(fast_run_offset != 0)                                                            \
-    {                                                                                   \
-        if(looking_for_fast_function) {fast_function_found = TRUE;}                     \
-        looking_for_fast_function = FALSE;                                              \
-        current_object_data = object_data;                                              \
-        current_object_item = 0;                                                        \
-        run_script(file_start+fast_run_offset, file_start, 0, NULL, 0, NULL);           \
-    }                                                                                   \
-}
-#endif
 
-
+void fast_run_script(unsigned char *file_start, unsigned int fast_function, unsigned char *object_data);
 
 //-Things I Dislike Doing------------------------------------------------------------------------
 signed char decode_jpg(unsigned char* index, unsigned char* filename);
@@ -763,3 +731,12 @@ signed char src_compile_archive(unsigned char stage);
 #define SRC_HEADERIZE   1   // The first stage of compilation
 #define SRC_COMPILERIZE 2   // The second stage of compilation
 #define SRC_FUNCTIONIZE 3   // The third stage of compilation
+
+// compilation switch for backtracing support
+#define SRC_BACKTRACE
+#ifdef SRC_BACKTRACE
+#define MAX_BACKTRACE_LEVEL     8
+SF_EXTERN int backtrace_level;
+SF_EXTERN char backtrace_stack[MAX_BACKTRACE_LEVEL][256];
+SF_EXTERN const char ff_map[MAX_FAST_FUNCTION][32];
+#endif

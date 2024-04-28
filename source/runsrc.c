@@ -32,7 +32,25 @@ int emacs_buffer_size = 0;
 int emacs_buffer_write = 0;
 int emacs_return_count = 0;
 
-
+#ifdef SRC_BACKTRACE
+int backtrace_level = 0;
+char backtrace_stack[MAX_BACKTRACE_LEVEL][256];
+const char ff_map[MAX_FAST_FUNCTION][32] = {
+    "FF Spawn",
+    "FF Refresh",
+    "FF Event",
+    "FF AIScript",
+    "FF ButtonEvent",
+    "FF GetName",
+    "FF Unpressed",
+    "FF FrameEvent",
+    "FF ModelSetup",
+    "FF DefenseRating",
+    "FF Setup",
+    "FF DirectUsage",
+    "FF EnchantUsage"
+};
+#endif
 
 // For SystemGet and SystemSet
 #define SYS_INVALID                 0
@@ -1030,12 +1048,22 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
     repeat(i, num_int_args)
     {
         int_variable[i] = int_arg_stack[i];
+#ifdef SRC_BACKTRACE
+        sprintf(backtrace_stack[backtrace_level] + strlen(backtrace_stack[backtrace_level]), "%d ", int_arg_stack[i]);
+#endif
     }
     repeat(i, num_float_args)
     {
         float_variable[i] = float_arg_stack[i];
+#ifdef SRC_BACKTRACE
+        sprintf(backtrace_stack[backtrace_level] + strlen(backtrace_stack[backtrace_level]), "%f ", float_arg_stack[i]);
+#endif
     }
 
+#ifdef SRC_BACKTRACE
+    sprintf(backtrace_stack[backtrace_level], "\n");
+    ++backtrace_level;
+#endif
 
     // Reset the stacks...
     int_stack_head = 0;
@@ -3678,6 +3706,16 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         #else
                             i = FALSE;
                         #endif
+                        #ifdef SRC_BACKTRACE
+                        if (j == 1)
+                        {
+                                // print backtrace
+                                repeat (k, backtrace_level)
+                                {
+                                        puts(backtrace_stack[k]);
+                                }
+                        }
+                        #endif
                         break;
                     case SYS_CURSORPOS:
                         if(k == X)
@@ -5008,7 +5046,10 @@ log_message("ERROR:   StringSanitize()");
                 break;
             case OPCODE_CALLFUNCTION:
                 // Use recursion to call a subfunction in the script...
-
+#ifdef SRC_BACKTRACE
+                strcpy(backtrace_stack[backtrace_level], address + 16);
+                sprintf(backtrace_stack[backtrace_level], "%s ", address + 16);
+#endif
 
                 // Read in the addresses...
                 call_address = (unsigned char*) sdf_read_unsigned_int(address);
@@ -5047,6 +5088,7 @@ float_stack_head-=num_float_args;
 //                }
 
 
+
                 // Copy arguments to a seperate data area...  Needed in case the stack header
                 // is lying on the edge, about to wrap around, and some of the arguments fall
                 // on one side, some on the other...  Otherwise we could just use the stacks
@@ -5059,7 +5101,6 @@ float_stack_head-=num_float_args;
                 {
                     float_argument[opcode] = float_stack[(unsigned char)(float_stack_head+opcode)];
                 }
-
 
 
 
@@ -5076,6 +5117,7 @@ float_stack_head-=num_float_args;
                         // The subfunction returned a float...  Push it onto the stack...
                         push_float_stack(return_float);
                     }
+
 
 
 //
@@ -7526,7 +7568,9 @@ push_int_stack(TRUE);
         }
     }
 
-
+#ifdef SRC_BACKTRACE
+    --backtrace_level;
+#endif
 
     // Return TRUE if return_int is set, FALSE if return_float is set
     return return_int_is_set;
