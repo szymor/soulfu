@@ -33,8 +33,8 @@ Install the following tools and libraries:
 
 + GCC,
 + Make,
-+ SDL 1.2,
-+ SDL_net,
++ SDL 2.0,
++ SDL2_net,
 + libogg,
 + libjpeg,
 + vorbis,
@@ -42,12 +42,12 @@ Install the following tools and libraries:
 
 Note that the libraries need to be in the 32-bit version.
 
-Example for Fedora:
+~~Example for Fedora~~ outdated, relevant for SDL 1.2 version:
 ```
 sudo dnf install gcc make glibc-devel.i686 sdl12-compat-devel.i686 SDL_net-devel.i686 libogg-devel.i686 libjpeg-turbo-devel.i686 libvorbis-devel.i686 mesa-libGL-devel.i686
 ```
 
-Example for Ubuntu/Debian:
+~~Example for Ubuntu/Debian~~ outdated, relevant for SDL 1.2 version:
 ```
 sudo apt update
 sudo apt install gcc-multilib libc6-dev:i386 libsdl-net1.2-dev:i386 libvorbis-dev:i386 libjpeg-dev:i386 libgcc-11-dev:i386 libsdl1.2-dev:i386
@@ -71,6 +71,7 @@ PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig/ make
 For Arch Linux there exists a package in AUR: [link](https://aur.archlinux.org/packages/soulfu-git).
 
 ## What has been done till now?
++ Port to SDL2.
 + Tools for handling **datafile.sdf** (the archive where all game data is stored) have been implemented. Maybe they are not of the highest quality, but they get work done. To be precise:
   + data packer/unpacker,
   + 3D model converter,
@@ -101,7 +102,6 @@ I do not promise anything as the project is done in my free time. I have some id
 + a new spell Drain - Aaron left some notes and an image (=ODRAIN.PCX), so maybe it could be finished,
 + new areas - judging from music files Aaron left, he had in mind designing Airship, Desert, Forest and Mountain areas,
 + even better AI - Apprentices could use a Gonne (G'nome's gun) and open chests or doors on demand, Kittens/Puppies could stop drowning so easily, heart collection AI could be refactored and extended to other characters, etc.
-+ port to SDL2 (as a compilation switch),
 + new weapons - maybe a spear, a trident?
 
 But it's easier said than done.

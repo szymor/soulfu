@@ -6551,14 +6551,14 @@ float_stack_head-=num_float_args;
                 {
                     // Emacs is active...  Check cursor movement
                     input_active = 3;
-                    if(key_pressed[SDLK_UP] || key_pressed[SDLK_KP8])
+                    if(key_pressed[SDLK_UP] || key_pressed[SDLK_KP_8])
                     {
                         if(k > 4)  k--;
                         else if(m > 0)  m--;
                         else if(k > 0)  k--;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_DOWN] || key_pressed[SDLK_KP2])
+                    if(key_pressed[SDLK_DOWN] || key_pressed[SDLK_KP_2])
                     {
                         if(k < script_temp_k-4)  k++;
 //                        else if(m < 2047)  m++;
@@ -6566,14 +6566,14 @@ float_stack_head-=num_float_args;
                         else if(k < script_temp_k)  k++;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_LEFT] || key_pressed[SDLK_KP4])
+                    if(key_pressed[SDLK_LEFT] || key_pressed[SDLK_KP_4])
                     {
                         if(j > 4)  j--;
                         else if(i > 0)  i--;
                         else if(j > 0)  j--;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_RIGHT] || key_pressed[SDLK_KP6])
+                    if(key_pressed[SDLK_RIGHT] || key_pressed[SDLK_KP_6])
                     {
                         if(j < script_temp_i-4)  j++;
                         else if(i < 255)  i++;

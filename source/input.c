@@ -26,7 +26,7 @@
 #define JOY_TOLERANCE 5000                      // Joystick must move so much before it activates...
 
 
-#define MAX_KEY SDLK_LAST                       // The number of keys
+#define MAX_KEY SDL_NUM_SCANCODES                       // The number of keys
 #define MAX_KEY_BUFFER 256                      // Must be 256
 #define MAX_ASCII 128                           // Must be 128
 unsigned char key_down[MAX_KEY];                // TRUE if key is held down
@@ -378,8 +378,8 @@ void input_setup(void)
     {
         if(i < MAX_JOYSTICK)
         {
-            log_message("INFO:     %d...  %s", i, SDL_JoystickName(i));
             joystick_structure[i] = SDL_JoystickOpen(i);
+            log_message("INFO:     %d...  %s", i, SDL_JoystickName(joystick_structure[i]));
         }
     }
     atexit(input_free_joysticks);
@@ -458,7 +458,7 @@ void input_read(void)
     unsigned char button_state, button_down;
     unsigned short i, j, num_keys;
     unsigned short key;
-    unsigned char* key_state;
+    const unsigned char* key_state;
     int temp;
 
 
@@ -628,7 +628,7 @@ void input_read(void)
     // information is accurate (just in case we still get a stuck key)...
     if((main_video_frame & 15) == 0)
     {
-        key_state = SDL_GetKeyState(&temp);
+        key_state = SDL_GetKeyboardState(&temp);
         num_keys = (unsigned short) temp;
         if(num_keys > MAX_KEY)
         {
@@ -880,7 +880,9 @@ void input_camera_controls(void)
 
 
                     // Keep the mouse in one spot...
-                    SDL_WarpMouse((Uint16) (mouse_last_x * screen_x / virtual_x), (Uint16) (mouse_last_y * screen_y / virtual_y));
+                    SDL_WarpMouseInWindow(main_window,
+                        (Uint16) (mouse_last_x * screen_x / virtual_x),
+                        (Uint16) (mouse_last_y * screen_y / virtual_y));
                     mouse_x = mouse_last_x;
                     mouse_y = mouse_last_y;
                     // Flush out that last mouse event...
@@ -961,8 +963,8 @@ void input_camera_controls(void)
 
             // Rotation
             off_x = 0;
-            if(key_down[SDLK_KP7]) { off_x += 3; }
-            if(key_down[SDLK_KP9]) { off_x -= 3; }
+            if(key_down[SDLK_KP_7]) { off_x += 3; }
+            if(key_down[SDLK_KP_9]) { off_x -= 3; }
             camera_rotation_add_xy[X] += (signed int) (off_x * CAMERA_ROTATION_RATE * main_frame_skip);
         }
 

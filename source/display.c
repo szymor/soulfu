@@ -93,6 +93,9 @@ float screen_shake_amount = 0.0f;
 float screen_frustum_x;
 float screen_frustum_y;
 
+SDL_Window *main_window = NULL;
+SDL_GLContext gl_context = NULL;
+
 unsigned char line_mode = 0;            // Global control for cartoon lines
 float initial_camera_matrix[16];        // A matrix to speed up/simplify 3D drawing routines
 float rotate_camera_matrix[16];         // A matrix to speed up/simplify 3D drawing routines
@@ -100,7 +103,6 @@ float window_camera_matrix[16];         // A matrix to setup window drawing rout
 float onscreen_matrix[16];              // A matrix for figurin' out onscreen point locations...
 float modelview_matrix[16];             // A matrix for figurin' out onscreen point locations...
 float rotate_enviro_matrix[6];          // Enviromap mini matrix...
-
 
 unsigned short camera_rotation_xy[2] = {0,  MIN_CAMERA_Y};      // The current camera rotation...
 int camera_rotation_add_xy[2] = {0, 0}; // Movement offsets for camera...
@@ -163,7 +165,7 @@ unsigned int max_texture_size = 256;
 #define ONE_OVER_255 0.003921568627450980392156862745098f
 #define display_clear_zbuffer()         { glClear(GL_DEPTH_BUFFER_BIT); }
 #define display_clear_buffers()         { glClearColor(color_temp[0]*ONE_OVER_255, color_temp[1]*ONE_OVER_255, color_temp[2]*ONE_OVER_255, 1.0);  if(volumetric_shadows_on) { glClearStencil(8);  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); } else { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); } }
-#define display_swap()                  { SDL_GL_SwapBuffers(); }
+#define display_swap()                  { SDL_GL_SwapWindow(main_window); }
 #define display_viewport(x, y, w, h)    { glViewport(x, y, w, h); }
 float global_depth_min = 0.066f;
 #define display_zbuffer_on()            { glEnable(GL_DEPTH_TEST);  glDepthMask(TRUE);  glDepthFunc(GL_LEQUAL); }
@@ -2081,8 +2083,18 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     // Figure out all of the display settings...
     if(color_depth == 0)
     {
-        if(SDL_GetVideoInfo()->vfmt->BitsPerPixel <= 8) color_depth = 8;
-        else color_depth = 16;
+        SDL_DisplayMode mode;
+        if (SDL_GetCurrentDisplayMode(0, &mode) == 0)
+        {
+            if (SDL_BITSPERPIXEL(mode.format) <= 8)
+                color_depth = 8;
+            else
+                color_depth = 16;
+        }
+        else
+        {
+            color_depth = 16;
+        }
     }
     switch (color_depth)
     {
@@ -2114,10 +2126,14 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     }
 
 
-    flags = 0;
+    flags = SDL_WINDOW_OPENGL;
     display_full_screen = full_screen; // remember global value...
-    if(full_screen) { flags = SDL_FULLSCREEN;  log_message("INFO:   Requested fullscreen mode..."); }
-    if(SDL_SetVideoMode(size_x, size_y, color_depth, SDL_OPENGL | flags) == NULL)
+    if(full_screen) { flags |= SDL_WINDOW_FULLSCREEN;  log_message("INFO:   Requested fullscreen mode..."); }
+
+    main_window = SDL_CreateWindow("SoulFu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        size_x, size_y, flags);
+    gl_context = SDL_GL_CreateContext(main_window);
+    if (main_window == NULL || gl_context == NULL)
     {
         log_message("ERROR:  SDL couldn't turn on GL, trying 640x480 mode...  %s", SDL_GetError());
         color_depth = 16;
@@ -2134,7 +2150,11 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, TRUE);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
         volumetric_shadows_on = FALSE;
-        if(SDL_SetVideoMode(size_x, size_y, color_depth, SDL_OPENGL | SDL_FULLSCREEN) == NULL)
+
+        main_window = SDL_CreateWindow("SoulFu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+            size_x, size_y, flags | SDL_WINDOW_FULLSCREEN);
+        gl_context = SDL_GL_CreateContext(main_window);
+        if (main_window == NULL || gl_context == NULL)
         {
             log_message("ERROR:  Even 640x480 didn't work...  %s", SDL_GetError());
             SDL_Quit();
@@ -2187,20 +2207,15 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     SDL_GL_GetAttribute(SDL_GL_DEPTH_SIZE, &value);
     log_message("INFO:     Z Depth       == %d", value);
 
-
-    // Set the window manager title bar
-    SDL_WM_SetCaption( "SoulFu", "SoulFu" );
-
-
     // Keep the mouse inside the window
     if(full_screen)
     {
-        SDL_WM_GrabInput(SDL_GRAB_ON);
+        SDL_SetWindowGrab(main_window, SDL_TRUE);
     }
 
 
     // Hide the mouse cursor
-    SDL_ShowCursor(0);
+    SDL_ShowCursor(SDL_DISABLE);
 
 
     // Clear the buffers
