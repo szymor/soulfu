@@ -457,7 +457,7 @@ void input_read(void)
     SDL_Event event;
     unsigned char button_state, button_down;
     unsigned short i, j, num_keys;
-    unsigned short key;
+    SDL_Scancode key;
     const unsigned char* key_state;
     int temp;
 
@@ -489,7 +489,7 @@ void input_read(void)
         switch(event.type)
         {
             case SDL_KEYDOWN:
-                key = (unsigned short) event.key.keysym.sym;
+                key = (unsigned short) event.key.keysym.scancode;
                 if(key < MAX_KEY)
                 {
                     if(!key_down[key])
@@ -505,17 +505,18 @@ void input_read(void)
 
 
                     // If it's an ASCII character, add it to the key_buffer...
-                    if((key < MAX_ASCII && key >= ' ') || key == SDLK_BACKSPACE || key == SDLK_RETURN)
+                    SDL_Keycode kc = SDL_GetKeyFromScancode(key);
+                    if((kc < MAX_ASCII && kc >= ' ') || kc == SDLK_BACKSPACE || kc == SDLK_RETURN)
                     {
                         if(event.key.keysym.mod & (KMOD_LSHIFT | KMOD_RSHIFT))
                         {
                             // Write a shifted character
-                            input_write_key_buffer(key_shift[key]);
+                            input_write_key_buffer(key_shift[kc]);
                         }
                         else
                         {
                             // Write a lowercase character
-                            input_write_key_buffer((unsigned char) key);
+                            input_write_key_buffer((unsigned char) kc);
                         }
                     }
 //                    if(key == SDLK_ESCAPE)
@@ -526,7 +527,7 @@ void input_read(void)
                 }
                 break;
             case SDL_KEYUP:
-                key = (unsigned short) event.key.keysym.sym;
+                key = (unsigned short) event.key.keysym.scancode;
                 if(key < MAX_KEY)
                 {
                     if(key_down[key])
@@ -940,7 +941,7 @@ void input_camera_controls(void)
         if(input_active == 0 && global_block_keyboard_timer == 0)
         {
             // Zoom in
-            if(key_down[SDLK_KP_PLUS] || key_down[SDLK_PLUS] || key_down[SDLK_EQUALS])
+            if(key_down[SDL_SCANCODE_KP_PLUS] || key_down[SDL_SCANCODE_EQUALS])
             {
                 camera_to_distance -= (CAMERA_ZOOM_RATE*main_frame_skip);
                 if(camera_to_distance < MIN_CAMERA_DISTANCE)
@@ -951,7 +952,7 @@ void input_camera_controls(void)
 
 
             // Zoom out
-            if(key_down[SDLK_KP_MINUS] || key_down[SDLK_MINUS])
+            if(key_down[SDL_SCANCODE_KP_MINUS] || key_down[SDL_SCANCODE_MINUS])
             {
                 camera_to_distance += (CAMERA_ZOOM_RATE*main_frame_skip);
                 if(camera_to_distance > MAX_CAMERA_DISTANCE)
@@ -963,8 +964,8 @@ void input_camera_controls(void)
 
             // Rotation
             off_x = 0;
-            if(key_down[SDLK_KP_7]) { off_x += 3; }
-            if(key_down[SDLK_KP_9]) { off_x -= 3; }
+            if(key_down[SDL_SCANCODE_KP_7]) { off_x += 3; }
+            if(key_down[SDL_SCANCODE_KP_9]) { off_x -= 3; }
             camera_rotation_add_xy[X] += (signed int) (off_x * CAMERA_ROTATION_RATE * main_frame_skip);
         }
 

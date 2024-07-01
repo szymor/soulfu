@@ -645,7 +645,7 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
 
 
     #ifdef DEVTOOL
-    if(!key_down[SDLK_F12])
+    if(!key_down[SDL_SCANCODE_F12])
     {
     #endif
         // Solid, Fuzzy, Transparent

@@ -6491,14 +6491,14 @@ void room_draw_srf(float x, float y, float z, unsigned char* data, unsigned char
             }
             else if(selection_close_type == BORDER_CROSS_HAIRS)
             {
-                room_get_point_xyz(((mouse_x - script_window_x)/script_window_w), ((mouse_y - script_window_y)/script_window_h), &select_center_xyz[X], &select_center_xyz[Y], &select_center_xyz[Z], 100.0f,(unsigned char) (key_down[SDLK_LCTRL] || key_down[SDLK_RCTRL]), (unsigned char) (key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT]));
+                room_get_point_xyz(((mouse_x - script_window_x)/script_window_w), ((mouse_y - script_window_y)/script_window_h), &select_center_xyz[X], &select_center_xyz[Y], &select_center_xyz[Z], 100.0f,(unsigned char) (key_down[SDL_SCANCODE_LCTRL] || key_down[SDL_SCANCODE_RCTRL]), (unsigned char) (key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT]));
             }
             else if(selection_close_type == BORDER_MOVE)
             {
                 if(select_move_on)
                 {
                     // Working on movement...  Center xyz should've been magically set by now...
-                    room_get_point_xyz(((mouse_x - script_window_x)/script_window_w), ((mouse_y - script_window_y)/script_window_h), &select_offset_xyz[X], &select_offset_xyz[Y], &select_offset_xyz[Z], 100.0f,(unsigned char) (key_down[SDLK_LCTRL] || key_down[SDLK_RCTRL]), (unsigned char) (key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT]));
+                    room_get_point_xyz(((mouse_x - script_window_x)/script_window_w), ((mouse_y - script_window_y)/script_window_h), &select_offset_xyz[X], &select_offset_xyz[Y], &select_offset_xyz[Z], 100.0f,(unsigned char) (key_down[SDL_SCANCODE_LCTRL] || key_down[SDL_SCANCODE_RCTRL]), (unsigned char) (key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT]));
                     room_srf_move();
                     if(selection_move == MOVE_MODE_BRIDGE_PLOP)
                     {
@@ -6508,7 +6508,7 @@ void room_draw_srf(float x, float y, float z, unsigned char* data, unsigned char
                 else
                 {
                     // Done with movement
-                    room_get_point_xyz(((mouse_x - script_window_x)/script_window_w), ((mouse_y - script_window_y)/script_window_h), &select_center_xyz[X], &select_center_xyz[Y], &select_center_xyz[Z], 100.0f,(unsigned char) (key_down[SDLK_LCTRL] || key_down[SDLK_RCTRL]), (unsigned char) (key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT]));
+                    room_get_point_xyz(((mouse_x - script_window_x)/script_window_w), ((mouse_y - script_window_y)/script_window_h), &select_center_xyz[X], &select_center_xyz[Y], &select_center_xyz[Z], 100.0f,(unsigned char) (key_down[SDL_SCANCODE_LCTRL] || key_down[SDL_SCANCODE_RCTRL]), (unsigned char) (key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT]));
                     select_center_xyz[Z] = 0.0f;
                     select_offset_xyz[X] = select_center_xyz[X];
                     select_offset_xyz[Y] = select_center_xyz[Y];

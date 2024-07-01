@@ -178,13 +178,13 @@ void page_edit_tool(void)
 
 
     // Frame and point changes...
-    if(key_pressed[SDLK_q]) { frame=(frame-1)&31;}
-    if(key_pressed[SDLK_w]) { frame=(frame+1)&31;}
-    if(key_pressed[SDLK_e]) { point=(point-1);  if(point < 0) { point = PAGE_COL-1; } }
-    if(key_pressed[SDLK_r]) { point=(point+1);  if(point > PAGE_COL-1) { point = 0; } }
-    if(key_down[SDLK_t]) { frame=(frame-1)&31;}
-    if(key_down[SDLK_y]) { frame=(frame+1)&31;}
-    if(key_pressed[SDLK_p])
+    if(key_pressed[SDL_SCANCODE_Q]) { frame=(frame-1)&31;}
+    if(key_pressed[SDL_SCANCODE_W]) { frame=(frame+1)&31;}
+    if(key_pressed[SDL_SCANCODE_E]) { point=(point-1);  if(point < 0) { point = PAGE_COL-1; } }
+    if(key_pressed[SDL_SCANCODE_R]) { point=(point+1);  if(point > PAGE_COL-1) { point = 0; } }
+    if(key_down[SDL_SCANCODE_T]) { frame=(frame-1)&31;}
+    if(key_down[SDL_SCANCODE_Y]) { frame=(frame+1)&31;}
+    if(key_pressed[SDL_SCANCODE_P])
     {
         // Save the page anim...
         // Try to find the datafile...
@@ -207,7 +207,7 @@ void page_edit_tool(void)
     }
 
 
-    if(key_pressed[SDLK_o])
+    if(key_pressed[SDL_SCANCODE_O])
     {
         // Smooth frames...
         repeat(j, PAGE_FRAME)

@@ -1523,7 +1523,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                             selection_move = (unsigned char) m;
                             break;
                         case SYS_MODELPLOP:
-                            if(key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT])
+                            if(key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT])
                             {
                                 // Snapped to nearest quarter foot plop...
                                 select_center_xyz[X] = ((int) (select_center_xyz[X]*4.0f)) * 0.25f;
@@ -1611,7 +1611,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                             break;
                         case SYS_MODELPLOPJOINT:
                             render_insert_joint((unsigned char*) j, (unsigned short) k, select_center_xyz, 0, (unsigned char) m);
-                            if(key_down[SDLK_x])
+                            if(key_down[SDL_SCANCODE_X])
                             {
                                 select_center_xyz[X]=-select_center_xyz[X];
                                 render_insert_joint((unsigned char*) j, (unsigned short) k, select_center_xyz, 0, (unsigned char) m);
@@ -5853,7 +5853,7 @@ float_stack_head-=num_float_args;
                                                 selection_box_min[Y] = script_window_y;
                                                 selection_box_max[X] = script_window_x+(i*script_window_scale);
                                                 selection_box_max[Y] = script_window_y+(j*script_window_scale);
-                                                if(key_down[SDLK_LSHIFT] == FALSE && key_down[SDLK_RSHIFT] == FALSE)
+                                                if(key_down[SDL_SCANCODE_LSHIFT] == FALSE && key_down[SDL_SCANCODE_RSHIFT] == FALSE)
                                                 {
                                                     select_clear();
                                                     room_select_clear();
@@ -6411,7 +6411,7 @@ float_stack_head-=num_float_args;
                         if(opcode != 0)
                         {
                             // We have input...
-                            if(opcode == SDLK_BACKSPACE || opcode == SDLK_DELETE)
+                            if(opcode == SDL_SCANCODE_BACKSPACE || opcode == SDL_SCANCODE_DELETE)
                             {
                                 last_input_cursor_pos--;
                                 if(last_input_cursor_pos < 0) last_input_cursor_pos = 0;
@@ -6419,7 +6419,7 @@ float_stack_head-=num_float_args;
                             }
                             else
                             {
-                                if(opcode == SDLK_RETURN)
+                                if(opcode == SDL_SCANCODE_RETURN)
                                 {
                                     // Enter key...
                                     last_input_cursor_pos = 255;
@@ -6551,14 +6551,14 @@ float_stack_head-=num_float_args;
                 {
                     // Emacs is active...  Check cursor movement
                     input_active = 3;
-                    if(key_pressed[SDLK_UP] || key_pressed[SDLK_KP_8])
+                    if(key_pressed[SDL_SCANCODE_UP] || key_pressed[SDL_SCANCODE_KP_8])
                     {
                         if(k > 4)  k--;
                         else if(m > 0)  m--;
                         else if(k > 0)  k--;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_DOWN] || key_pressed[SDLK_KP_2])
+                    if(key_pressed[SDL_SCANCODE_DOWN] || key_pressed[SDL_SCANCODE_KP_2])
                     {
                         if(k < script_temp_k-4)  k++;
 //                        else if(m < 2047)  m++;
@@ -6566,27 +6566,27 @@ float_stack_head-=num_float_args;
                         else if(k < script_temp_k)  k++;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_LEFT] || key_pressed[SDLK_KP_4])
+                    if(key_pressed[SDL_SCANCODE_LEFT] || key_pressed[SDL_SCANCODE_KP_4])
                     {
                         if(j > 4)  j--;
                         else if(i > 0)  i--;
                         else if(j > 0)  j--;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_RIGHT] || key_pressed[SDLK_KP_6])
+                    if(key_pressed[SDL_SCANCODE_RIGHT] || key_pressed[SDL_SCANCODE_KP_6])
                     {
                         if(j < script_temp_i-4)  j++;
                         else if(i < 255)  i++;
                         else if(j < script_temp_i)  j++;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_HOME])
+                    if(key_pressed[SDL_SCANCODE_HOME])
                     {
                         j = 0;
                         i = 0;
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_PAGEUP])
+                    if(key_pressed[SDL_SCANCODE_PAGEUP])
                     {
                         m-=script_temp_k-4;
                         if(m < 0)
@@ -6596,7 +6596,7 @@ float_stack_head-=num_float_args;
                         }
                         emacs_buffer_write = 0;
                     }
-                    if(key_pressed[SDLK_PAGEDOWN])
+                    if(key_pressed[SDL_SCANCODE_PAGEDOWN])
                     {
                         m+=script_temp_k-4;
 //                        if(m > 2047) m = 2047;
@@ -6634,7 +6634,7 @@ float_stack_head-=num_float_args;
 
 
                     // End key...  More difficult cursor movement...
-                    if(key_pressed[SDLK_END])
+                    if(key_pressed[SDL_SCANCODE_END])
                     {
                         if(opcode)
                         {
@@ -6663,7 +6663,7 @@ float_stack_head-=num_float_args;
                         // We have input...
                         switch(script_temp_k)
                         {
-                            case SDLK_BACKSPACE:
+                            case SDL_SCANCODE_BACKSPACE:
                                 emacs_buffer_write = 0;
                                 if(i == 0 && j == 0)
                                 {
@@ -6689,7 +6689,7 @@ float_stack_head-=num_float_args;
                                     else { j--; call_address--; }
                                 }
                                 // Fall through to delete...
-                            case SDLK_DELETE:
+                            case SDL_SCANCODE_DELETE:
                                 // Delete the text
                                 emacs_buffer_write = 0;
                                 if(opcode == 0)
@@ -6697,7 +6697,7 @@ float_stack_head-=num_float_args;
                                     sdf_insert_data(call_address, NULL, -1);
                                 }
                                 break;
-                            case SDLK_RETURN:
+                            case SDL_SCANCODE_RETURN:
                                 emacs_buffer_write = 0;
                                 script_temp_k = word_temp[0];
                                 word_temp[0] = 0;
@@ -6709,9 +6709,9 @@ float_stack_head-=num_float_args;
                                 else if(k < script_temp_k)  k++;
                                 break;
                             default:
-                                if((key_down[SDLK_RCTRL] || key_down[SDLK_LCTRL]) && (script_temp_k == SDLK_x || script_temp_k == SDLK_k || script_temp_k == SDLK_c || script_temp_k == SDLK_v || script_temp_k == SDLK_h || script_temp_k == SDLK_b))
+                                if((key_down[SDL_SCANCODE_RCTRL] || key_down[SDL_SCANCODE_LCTRL]) && (script_temp_k == SDL_SCANCODE_X || script_temp_k == SDL_SCANCODE_K || script_temp_k == SDL_SCANCODE_C || script_temp_k == SDL_SCANCODE_V || script_temp_k == SDL_SCANCODE_H || script_temp_k == SDL_SCANCODE_B))
                                 {
-                                    if(script_temp_k == SDLK_v)
+                                    if(script_temp_k == SDL_SCANCODE_V)
                                     {
                                         emacs_paste(call_address);
                                         emacs_buffer_write = 0;
@@ -6724,11 +6724,11 @@ float_stack_head-=num_float_args;
                                         }
                                         emacs_buffer_write = 0;
                                     }
-                                    else if(script_temp_k == SDLK_c)
+                                    else if(script_temp_k == SDL_SCANCODE_C)
                                     {
                                         emacs_copy(call_address);
                                     }
-                                    else if(script_temp_k == SDLK_b || script_temp_k == SDLK_h)
+                                    else if(script_temp_k == SDL_SCANCODE_B || script_temp_k == SDL_SCANCODE_H)
                                     {
                                         if(k < word_temp[0]-4)  k++;
                                         else if(m < 2047)  m++;
@@ -6741,7 +6741,7 @@ float_stack_head-=num_float_args;
                                             call_address++;
                                             opcode--;
                                         }
-                                        if(script_temp_k == SDLK_b)
+                                        if(script_temp_k == SDL_SCANCODE_B)
                                         {
                                             sdf_insert_data(call_address, emacs_bad, EMACS_BAD_SIZE);
                                         }

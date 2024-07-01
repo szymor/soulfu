@@ -1162,7 +1162,7 @@ sprintf(DEBUG_STRING, "Rotation = %f", atan2(y, -z)*57.29577502f);
     }
 
 
-if(key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT])
+if(key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT])
 {
     if(rotation_view == VIEW_TOP_XY)
     {
@@ -2924,7 +2924,7 @@ void render_rdy(unsigned char* data, unsigned short frame, unsigned char mode, u
     {
         #ifdef DEVTOOL
             // Draw joints...
-            if(key_down[SDLK_F11])
+            if(key_down[SDL_SCANCODE_F11])
             {
                 display_texture_off();
                 inworld_joint_xyz = (float*) (bone_frame_data + (num_bone<<4) + (num_bone<<3));
@@ -3198,7 +3198,7 @@ onscreen_draw_count++;
                     {
                         render_get_point_xyz(mouse_x, mouse_y, &dot, &select_center_xyz[Y], &select_center_xyz[Z]);
                     }
-                    if(key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT])
+                    if(key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT])
                     {
                         // Snapped to nearest quarter foot...
                         select_center_xyz[X] = ((int) (select_center_xyz[X]*4.0f)) * 0.25f;
@@ -3211,7 +3211,7 @@ onscreen_draw_count++;
                     // Movement offset mode...
                     *((float*) (frame_data+3)) = select_center_xyz[X];
                     *((float*) (frame_data+7)) = select_center_xyz[Y];
-                    if(key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT])
+                    if(key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT])
                     {
                         // Snap to 0 on x axis...
                         *((float*) (frame_data+3)) = 0.0f;
@@ -3298,7 +3298,7 @@ onscreen_draw_count++;
                     }
                     else
                     {
-                        if(key_down[SDLK_LSHIFT] == FALSE && key_down[SDLK_RSHIFT] == FALSE)
+                        if(key_down[SDL_SCANCODE_LSHIFT] == FALSE && key_down[SDL_SCANCODE_RSHIFT] == FALSE)
                         {
                             select_clear();
                         }
@@ -4594,7 +4594,7 @@ if(do_anchor_swap)
 #else
             // Draw cartoon lines
 #ifdef DEVTOOL
-            if((key_down[SDLK_F12] && selection_view == VIEW_3D_XYZ) || (line_mode&1))
+            if((key_down[SDL_SCANCODE_F12] && selection_view == VIEW_3D_XYZ) || (line_mode&1))
 #else
             if(line_mode&1)
 #endif
@@ -7279,7 +7279,7 @@ void weld_selected_vertices(unsigned char* data, unsigned short frame, unsigned 
     // Need an even number of 'em
     if(select_num & 1)
     {
-        if((key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT]) && select_num > 2)
+        if((key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT]) && select_num > 2)
         {
             select_num--;
         }
@@ -7404,7 +7404,7 @@ void weld_selected_tex_vertices(unsigned char* data, unsigned short frame)
     // Need an even number of 'em
     if(select_num & 1)
     {
-        if((key_down[SDLK_LSHIFT] || key_down[SDLK_RSHIFT]) && select_num > 2)
+        if((key_down[SDL_SCANCODE_LSHIFT] || key_down[SDL_SCANCODE_RSHIFT]) && select_num > 2)
         {
             select_num--;
         }
@@ -8397,7 +8397,7 @@ if(axis == 3)
 
 
     // Fix the model for bone length and stuff...
-    if(!key_down[SDLK_f])
+    if(!key_down[SDL_SCANCODE_F])
     {
         render_fix_model_to_bone_length(start_data, frame, 9999);
     }
@@ -8932,7 +8932,7 @@ void render_interpolate(unsigned char* data, unsigned short frame)
 
 
     // Fix the model for bone length and stuff...
-    if(!key_down[SDLK_f])
+    if(!key_down[SDL_SCANCODE_F])
     {
         render_fix_model_to_bone_length(start_data, frame, 9999);
     }

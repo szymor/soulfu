@@ -395,7 +395,7 @@ void water_draw_room(unsigned char* data)
 
 
     // Draw the triangle strips for the water top surface...
-if(!key_down[SDLK_F5])
+if(!key_down[SDL_SCANCODE_F5])
 {
     water_triangle_data_start = triangle_data;
     num_strip = *((unsigned short*) triangle_data);  triangle_data+=2;
@@ -461,7 +461,7 @@ if(!key_down[SDLK_F5])
 
 
 
-if(!key_down[SDLK_F6])
+if(!key_down[SDL_SCANCODE_F6])
 {
     // Draw upper layer of the water (shimmer)...
     if(water_layers_active && room_water_type != WATER_TYPE_SAND)

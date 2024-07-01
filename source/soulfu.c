@@ -99,7 +99,7 @@ void main_loop(void)
 
 
 
-      if(key_pressed[SDLK_F9])
+      if(key_pressed[SDL_SCANCODE_F9])
       {
         pause_active=!pause_active;
         DEBUG_STRING[0] = 0;
@@ -477,7 +477,7 @@ if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
     else
     {
 #ifdef DEVTOOL
-      if(key_down[SDLK_F11])
+      if(key_down[SDL_SCANCODE_F11])
       {
         sprintf(DEBUG_STRING, "Obj == %u, Item == %u", mouse_last_object, mouse_last_item);
       }
@@ -586,7 +586,7 @@ if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
 
     main_video_frame++;
 #ifdef DEVTOOL
-    if(key_pressed[SDLK_F10])
+    if(key_pressed[SDL_SCANCODE_F10])
     {
       debug_active = (debug_active+1)&1;
     }
