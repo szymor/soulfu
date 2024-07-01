@@ -733,7 +733,7 @@ signed char src_compile_archive(unsigned char stage);
 #define SRC_FUNCTIONIZE 3   // The third stage of compilation
 
 // compilation switch for backtracing support
-#define SRC_BACKTRACE
+//#define SRC_BACKTRACE
 #ifdef SRC_BACKTRACE
 #define MAX_BACKTRACE_LEVEL     8
 SF_EXTERN int backtrace_level;
