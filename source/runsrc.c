@@ -6411,7 +6411,7 @@ float_stack_head-=num_float_args;
                         if(opcode != 0)
                         {
                             // We have input...
-                            if(opcode == SDL_SCANCODE_BACKSPACE || opcode == SDL_SCANCODE_DELETE)
+                            if(opcode == SDLK_BACKSPACE || opcode == SDLK_DELETE)
                             {
                                 last_input_cursor_pos--;
                                 if(last_input_cursor_pos < 0) last_input_cursor_pos = 0;
@@ -6419,7 +6419,7 @@ float_stack_head-=num_float_args;
                             }
                             else
                             {
-                                if(opcode == SDL_SCANCODE_RETURN)
+                                if(opcode == SDLK_RETURN)
                                 {
                                     // Enter key...
                                     last_input_cursor_pos = 255;
