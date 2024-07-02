@@ -73,7 +73,7 @@ unsigned char mouse_camera_active = FALSE;      //
 
 
 #define MAX_JOYSTICK 8
-#define MAX_JOYSTICK_BUTTON 8
+#define MAX_JOYSTICK_BUTTON 16
 int num_joystick;
 void* joystick_structure[MAX_JOYSTICK];         // Used for closing the joysticks...
 unsigned char joystick_button_pressed[MAX_JOYSTICK][MAX_JOYSTICK_BUTTON];

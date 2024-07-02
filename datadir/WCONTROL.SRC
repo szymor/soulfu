@@ -44,24 +44,24 @@ LoadBindings()
     binding8 = FileReadByte(file, 27+offset)<<8
 
     // Make sure they're within limits...
-    if(binding0 > 2048)
-      binding0 = 2048
-    if(binding1 > 2048)
-      binding1 = 2048
-    if(binding2 > 2048)
-      binding2 = 2048
-    if(binding3 > 2048)
-      binding3 = 2048
-    if(binding4 > 2048)
-      binding4 = 2048
-    if(binding5 > 2048)
-      binding5 = 2048
-    if(binding6 > 2048)
-      binding6 = 2048
-    if(binding7 > 2048)
-      binding7 = 2048
-    if(binding8 > 2048)
-      binding8 = 2048
+    if(binding0 > 4096)
+      binding0 = 4096
+    if(binding1 > 4096)
+      binding1 = 4096
+    if(binding2 > 4096)
+      binding2 = 4096
+    if(binding3 > 4096)
+      binding3 = 4096
+    if(binding4 > 4096)
+      binding4 = 4096
+    if(binding5 > 4096)
+      binding5 = 4096
+    if(binding6 > 4096)
+      binding6 = 4096
+    if(binding7 > 4096)
+      binding7 = 4096
+    if(binding8 > 4096)
+      binding8 = 4096
 
     SystemSet(SYS_PLAYERDEVICE, player, 0, (binding0>>8))
     SystemSet(SYS_PLAYERDEVICE, player, 1, (binding1>>8))
@@ -190,15 +190,15 @@ Refresh()
       WindowString(WHITE, 7.0, i+6, ":")
       i++
 
-    binding8 = WindowMiniList(9.0, 9.0, 9, 9, binding8, option_string)
-    binding7 = WindowMiniList(9.0, 8.0, 9, 9, binding7, option_string)
-    binding6 = WindowMiniList(9.0, 7.0, 9, 9, binding6, option_string)
-    binding5 = WindowMiniList(9.0, 6.0, 9, 9, binding5, option_string)
-    binding4 = WindowMiniList(9.0, 5.0, 9, 9, binding4, option_string)
-    binding3 = WindowMiniList(9.0, 4.0, 9, 9, binding3, option_string)
-    binding2 = WindowMiniList(9.0, 3.0, 9, 9, binding2, option_string)
-    binding1 = WindowMiniList(9.0, 2.0, 9, 9, binding1, option_string)
-    binding0 = WindowMiniList(9.0, 1.0, 9, 9, binding0, option_string)
+    binding8 = WindowMiniList(9.0, 9.0, 9, 17, binding8, option_string)
+    binding7 = WindowMiniList(9.0, 8.0, 9, 17, binding7, option_string)
+    binding6 = WindowMiniList(9.0, 7.0, 9, 17, binding6, option_string)
+    binding5 = WindowMiniList(9.0, 6.0, 9, 17, binding5, option_string)
+    binding4 = WindowMiniList(9.0, 5.0, 9, 17, binding4, option_string)
+    binding3 = WindowMiniList(9.0, 4.0, 9, 17, binding3, option_string)
+    binding2 = WindowMiniList(9.0, 3.0, 9, 17, binding2, option_string)
+    binding1 = WindowMiniList(9.0, 2.0, 9, 17, binding1, option_string)
+    binding0 = WindowMiniList(9.0, 1.0, 9, 17, binding0, option_string)
 
     // Apply the joystick bindings...
     SystemSet(SYS_PLAYERDEVICE, player, 0, (binding0>>8))
