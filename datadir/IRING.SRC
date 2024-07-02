@@ -1,4 +1,4 @@
-#define CHEAT FALSE // (SystemGet(SYS_KEYDOWN, 99, 0) && SystemGet(SYS_DEVTOOL, 0, 0))
+#define CHEAT FALSE // (SystemGet(SYS_KEYDOWN, 6, 0) && SystemGet(SYS_DEVTOOL, 0, 0))
 #define SUPER_CHEAT TRUE
 
 //-----------------------------------------------------------------------

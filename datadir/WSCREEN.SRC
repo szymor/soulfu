@@ -53,7 +53,7 @@ Refresh()
     ButtonSound()
     Spawn(WINDOW, midx, 150.0, 1.0, "FILE:WMAIN.RUN")
     GoPoof(POOF_SELF)
-  if(SystemGet(SYS_KEYPRESSED, 27, 0))  // Escape key
+  if(SystemGet(SYS_KEYPRESSED, 41, 0))  // Escape key
     timer = 0
   if(timer == 0)
     // Time out...  Assume display is broken...  Reset to defaults...

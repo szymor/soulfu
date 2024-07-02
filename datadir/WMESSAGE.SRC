@@ -1,4 +1,4 @@
-#define CHEAT FALSE // (SystemGet(SYS_DEVTOOL, 0, 0) && SystemGet(SYS_KEYDOWN, 99, 0))
+#define CHEAT FALSE // (SystemGet(SYS_DEVTOOL, 0, 0) && SystemGet(SYS_KEYDOWN, 6, 0))
 
 #define gem           self.stat00l
 #define icon1         self.stat00h
@@ -15,22 +15,22 @@
 #define RESTOCK_DELAY 1000
 
 
-#define KEYB      98
-#define KEYC      99
-#define KEYG      103
-#define KEYK      107
-#define KEYL      108
-#define KEYM      109
-#define KEYP      112
-#define KEYR      114
-#define KEYT      116
-#define KEYW      119
-#define KEYZ      122
-#define KEY_F1  282
-#define KEY_F2  283
-#define KEY_F3  284
-#define KEY_F4  285
-#define KEY_EQUALS 61
+#define KEYB      5
+#define KEYC      6
+#define KEYG      10
+#define KEYK      14
+#define KEYL      15
+#define KEYM      16
+#define KEYP      19
+#define KEYR      21
+#define KEYT      23
+#define KEYW      26
+#define KEYZ      29
+#define KEY_F1  58
+#define KEY_F2  59
+#define KEY_F3  60
+#define KEY_F4  61
+#define KEY_EQUALS 46
 
 
 //-----------------------------------------------------------------------

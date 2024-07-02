@@ -1,4 +1,4 @@
-#define CHEAT FALSE // (SystemGet(SYS_KEYDOWN, 282, 0))  // F1
+#define CHEAT FALSE // (SystemGet(SYS_KEYDOWN, 58, 0))  // F1
 #define SHOW_STAT_SUM FALSE
 
 

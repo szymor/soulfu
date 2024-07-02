@@ -1,4 +1,4 @@
-#define CHEAT (SystemGet(SYS_KEYDOWN, 99, 0))
+#define CHEAT (SystemGet(SYS_KEYDOWN, 6, 0))
 
 #define button1 self.stat00l
 #define button2 self.stat00h

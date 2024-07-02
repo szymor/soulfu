@@ -12,10 +12,10 @@
 #define editmode self.stat05h
 #define kanji    self.stat06w
 
-#define KEY4      260
-#define KEYLEFT   276
-#define KEY6      262
-#define KEYRIGHT  275
+#define KEY4      92
+#define KEYLEFT   80
+#define KEY6      94
+#define KEYRIGHT  79
 
 
 //-----------------------------------------------------------------------

@@ -23,19 +23,19 @@
 #define SPECIAL_USE     2
 #define SPECIAL_DIG     3
 
-#define KEYPAD0  256
-#define KEYPAD1  257
-#define KEYPAD2  258
-#define KEYPAD3  259
-#define KEYPAD4  260
-#define KEYPAD5  261
-#define KEYPAD6  262
-#define KEYPAD7  263
-#define KEYPAD8  264
-#define KEYPAD9  265
-#define KEYSPACE  32
-#define KEYD     100
-#define KEYU     117
+#define KEYPAD0  98
+#define KEYPAD1  89
+#define KEYPAD2  90
+#define KEYPAD3  91
+#define KEYPAD4  92
+#define KEYPAD5  93
+#define KEYPAD6  94
+#define KEYPAD7  95
+#define KEYPAD8  96
+#define KEYPAD9  97
+#define KEYSPACE  44
+#define KEYD     7
+#define KEYU     24
 
 #define WEAPON_TORCH   0
 #define WEAPON_MATTOCK 1

@@ -1,11 +1,11 @@
-#define CHEAT FALSE //SystemGet(SYS_KEYDOWN, 99, 0)
+#define CHEAT FALSE //SystemGet(SYS_KEYDOWN, 6, 0)
 #define mode          self.stat00l
 #define timer         self.stat01w
 #define escape_mode   self.stat02l
 #define button_one    self.stat02h
 #define button_two    self.stat03l
 
-#define KEYESCAPE  27
+#define KEYESCAPE  41
 
 //-----------------------------------------------------------------------
 Spawn()
