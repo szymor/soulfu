@@ -6663,7 +6663,7 @@ float_stack_head-=num_float_args;
                         // We have input...
                         switch(script_temp_k)
                         {
-                            case SDL_SCANCODE_BACKSPACE:
+                            case SDLK_BACKSPACE:
                                 emacs_buffer_write = 0;
                                 if(i == 0 && j == 0)
                                 {
@@ -6689,7 +6689,7 @@ float_stack_head-=num_float_args;
                                     else { j--; call_address--; }
                                 }
                                 // Fall through to delete...
-                            case SDL_SCANCODE_DELETE:
+                            case SDLK_DELETE:
                                 // Delete the text
                                 emacs_buffer_write = 0;
                                 if(opcode == 0)
@@ -6697,7 +6697,7 @@ float_stack_head-=num_float_args;
                                     sdf_insert_data(call_address, NULL, -1);
                                 }
                                 break;
-                            case SDL_SCANCODE_RETURN:
+                            case SDLK_RETURN:
                                 emacs_buffer_write = 0;
                                 script_temp_k = word_temp[0];
                                 word_temp[0] = 0;
@@ -6709,9 +6709,9 @@ float_stack_head-=num_float_args;
                                 else if(k < script_temp_k)  k++;
                                 break;
                             default:
-                                if((key_down[SDL_SCANCODE_RCTRL] || key_down[SDL_SCANCODE_LCTRL]) && (script_temp_k == SDL_SCANCODE_X || script_temp_k == SDL_SCANCODE_K || script_temp_k == SDL_SCANCODE_C || script_temp_k == SDL_SCANCODE_V || script_temp_k == SDL_SCANCODE_H || script_temp_k == SDL_SCANCODE_B))
+                                if((key_down[SDL_SCANCODE_RCTRL] || key_down[SDL_SCANCODE_LCTRL]) && (script_temp_k == SDLK_x || script_temp_k == SDLK_k || script_temp_k == SDLK_c || script_temp_k == SDLK_v || script_temp_k == SDLK_h || script_temp_k == SDLK_b))
                                 {
-                                    if(script_temp_k == SDL_SCANCODE_V)
+                                    if(script_temp_k == SDLK_v)
                                     {
                                         emacs_paste(call_address);
                                         emacs_buffer_write = 0;
@@ -6724,11 +6724,11 @@ float_stack_head-=num_float_args;
                                         }
                                         emacs_buffer_write = 0;
                                     }
-                                    else if(script_temp_k == SDL_SCANCODE_C)
+                                    else if(script_temp_k == SDLK_c)
                                     {
                                         emacs_copy(call_address);
                                     }
-                                    else if(script_temp_k == SDL_SCANCODE_B || script_temp_k == SDL_SCANCODE_H)
+                                    else if(script_temp_k == SDLK_b || script_temp_k == SDLK_h)
                                     {
                                         if(k < word_temp[0]-4)  k++;
                                         else if(m < 2047)  m++;
@@ -6741,7 +6741,7 @@ float_stack_head-=num_float_args;
                                             call_address++;
                                             opcode--;
                                         }
-                                        if(script_temp_k == SDL_SCANCODE_B)
+                                        if(script_temp_k == SDLK_b)
                                         {
                                             sdf_insert_data(call_address, emacs_bad, EMACS_BAD_SIZE);
                                         }
