@@ -984,7 +984,7 @@ void input_camera_controls(void)
                 button = player_device_button[i][PLAYER_DEVICE_BUTTON_MOVE_UP];
                 if(button < MAX_JOYSTICK_BUTTON)
                 {
-                    if(joystick_button_down[i][button])
+                    if(joystick_button_down[joystick][button])
                     {
                         camera_to_distance -= (CAMERA_ZOOM_RATE*main_frame_skip);
                         if(camera_to_distance < MIN_CAMERA_DISTANCE)
@@ -999,7 +999,7 @@ void input_camera_controls(void)
                 button = player_device_button[i][PLAYER_DEVICE_BUTTON_MOVE_DOWN];
                 if(button < MAX_JOYSTICK_BUTTON)
                 {
-                    if(joystick_button_down[i][button])
+                    if(joystick_button_down[joystick][button])
                     {
                         camera_to_distance += (CAMERA_ZOOM_RATE*main_frame_skip);
                         if(camera_to_distance > MAX_CAMERA_DISTANCE)
@@ -1013,9 +1013,9 @@ void input_camera_controls(void)
                 // Rotate buttons...
                 off_x = 0;
                 button = player_device_button[i][PLAYER_DEVICE_BUTTON_MOVE_LEFT];
-                if(button < MAX_JOYSTICK_BUTTON) { if(joystick_button_down[i][button]) { off_x += 3; } }
+                if(button < MAX_JOYSTICK_BUTTON) { if(joystick_button_down[joystick][button]) { off_x += 3; } }
                 button = player_device_button[i][PLAYER_DEVICE_BUTTON_MOVE_RIGHT];
-                if(button < MAX_JOYSTICK_BUTTON) { if(joystick_button_down[i][button]) { off_x -= 3; } }
+                if(button < MAX_JOYSTICK_BUTTON) { if(joystick_button_down[joystick][button]) { off_x -= 3; } }
                 camera_rotation_add_xy[X] += (signed int) (off_x * CAMERA_ROTATION_RATE * main_frame_skip);
             }
         }
