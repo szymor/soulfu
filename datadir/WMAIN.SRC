@@ -60,11 +60,11 @@ DrawHighlight(int cycle, int main_alpha)
   size = size*20.0
   lx = 0.0  - size
   rx = 16.0 + size
-  ty = 6.0-y
-  by = 8.0-y
+  ty = 8.0-y
+  by = 10.0-y
   WindowMegaImage(lx,ty,  rx,ty,  rx,by,  lx,by,  0.0,0.0,  1.0,1.0,  white, ALPHA_LIGHT | alpha, "FILE:=GREEN.RGB")
-  ty = 6.0+y
-  by = 8.0+y
+  ty = 8.0+y
+  by = 10.0+y
   WindowMegaImage(lx,ty,  rx,ty,  rx,by,  lx,by,  0.0,0.0,  1.0,1.0,  white, ALPHA_LIGHT | alpha, "FILE:=RED.RGB")
   
 
