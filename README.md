@@ -71,7 +71,6 @@ PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig/ make
 For Arch Linux there exists a package in AUR: [link](https://aur.archlinux.org/packages/soulfu-git).
 
 ## What has been done till now?
-+ Port to SDL2.
 + Tools for handling **datafile.sdf** (the archive where all game data is stored) have been implemented. Maybe they are not of the highest quality, but they get work done. To be precise:
   + data packer/unpacker,
   + 3D model converter,
@@ -89,6 +88,8 @@ For Arch Linux there exists a package in AUR: [link](https://aur.archlinux.org/p
 + Rough translation to French, German, Italian and Spanish made with DeepL. Polish translation is much better as I speak Polish natively. Polish language-specific font characters have been added. Not all text has been translated, though.
 + Elf has been rebalanced. The initial HP, strength and intelligence have been lowered. Taming, especially mountable monsters, is easier. The bow equipped initially by Elf is magical.
 + Some bug fixing has been done around G'nome Copter. Now it can be built by G'nome at intelligence of 30.
++ Port to SDL2.
++ Joystick support up to 16 buttons. The limit was 8 in the original and it made impossible to map controls to some buttons on modern gamepads.
 
 ## What could be done?
 I do not promise anything as the project is done in my free time. I have some ideas, though:
