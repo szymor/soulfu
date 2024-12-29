@@ -17,7 +17,7 @@ Netzwerk-Spiel
 Steuerung
 Kauf mich
 Beenden
-Änderungen speichern
+Speichern
 Fortfahren
 Zurück
 Kaufen
@@ -31,14 +31,14 @@ Modus :
 Fenster, Vollbild
 Ton :
 Musik :
-Skalierung:
+Menüs:
 Klein,Mittel,Gross,Riesig
 Hinweis: Sie müssen neu starten, damit
-       damit manche Änderungen übernommen werden...
+manche Einstellungen übernommen werden...
 Geschwindigkeit :
-Eingabegerät :
+Eingabe:
 Keine,Tastatur,Joystk 1,Joystk 2,Joystk 3,Joystk 4
-Links :
+Links  :
 Taste 1,Taste 2,Taste 3,Taste 4,Taste 5,Taste 6,Taste 7,Taste 8,Keine
 Rechts :
 Kamera :
@@ -47,7 +47,7 @@ Erfinden:
 Ausrüsten :
 Langsam :
 Schnell :
-Treffer:
+Leben:
 Mana:
 Stufe:
 Exp:
@@ -57,7 +57,7 @@ Ges:
 Int:
 Punkte:
 Stärke:
-Geschicklichkeit:
+Geschick:
 Intelligenz:
 Alle Rechte vorbehalten
 Gürteltasche
@@ -203,7 +203,7 @@ Körper
 Beine
 Ausrüstung
 Tugend
-Reverse-Lautsprecher
+Stereo-umkehr
 Schnell & Hässlich
 Hübsche Schatten
 Hübsches Wasser
@@ -215,8 +215,8 @@ Testen
 Wie ist das Video?
 Verbleibende Zeit:
 Sieht gut aus
-Spiel speichern
-Steckplatz 1,Steckplatz 2,Steckplatz 3,Steckplatz 4,Steckplatz 5,Steckplatz 6,Steckplatz 7,Steckplatz 8,Steckplatz 9,Steckplatz 10,Steckplatz 11,Steckplatz 12
+Speichern
+Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
 SEID NICE!
 DANKE!
 Dieses Spiel ist NICEWARE! Um die
@@ -234,14 +234,14 @@ Spiel beenden
 Spiel starten
 Highscore-Tabelle
 Name
-Punktestand
+Punkte
 Klasse
 Verduften
 Und die Hoffnung war fast verloren...  Beinahe...
 Nicht zu retten
 Wirklich aufgeben?
 Maus-Shop
-Artikel:
+Inventar:
 ActionR:
 AktionL:
 Kamera
@@ -318,7 +318,7 @@ Kredite kosten doppelt so viel!
 Halte dich von Kreditkarten fern!
 Sei netter zu Mama und Papa!
 Mach schon!  Frag sie aus!
-Ändere dich immer zum Besseren!
+Verändere dich immer zum Besseren!
 Videospiele verderben dein Gehirn!
 Du kannst deinen Ellbogen nicht lecken!
 Schnall dich an und fahr LANGSAM!
