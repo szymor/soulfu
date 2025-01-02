@@ -2,7 +2,7 @@
 
 PKG = i686-w64-mingw32-pkg-config
 CC = i686-w64-mingw32-gcc
-WINDRES = windres.exe
+WINDRES = i686-w64-mingw32-windres #For compling on a windows-machine you might need /mingw32/bin/windres.exe here.
 
 TARGET = soulfu.exe
 SRC = source/soulfu.c

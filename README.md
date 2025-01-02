@@ -40,35 +40,109 @@ Install the following tools and libraries:
 + vorbis,
 + OpenGL development files.
 
-Note that the libraries need to be in the 32-bit version.
+> [!NOTE]
+> Note that the libraries need to be in the 32-bit version.
 
-~~Example for Fedora~~ outdated, relevant for SDL 1.2 version:
+### Examples
+<details>
+<summary>Arch Linux</summary>
+
+For Arch Linux there exists a package in AUR: [link](https://aur.archlinux.org/packages/soulfu-git).
+
+</details>
+
+<details>
+<summary>Debian / Ubuntu</summary>
+
+1. On 64bit debian enable multiarch support:
+
 ```
-sudo dnf install gcc make glibc-devel.i686 sdl12-compat-devel.i686 SDL_net-devel.i686 libogg-devel.i686 libjpeg-turbo-devel.i686 libvorbis-devel.i686 mesa-libGL-devel.i686
+dpkg --add-architecture i386
 ```
 
-~~Example for Ubuntu/Debian~~ outdated, relevant for SDL 1.2 version:
+2. Update Package lists and install the required libraries:
+
 ```
 sudo apt update
-sudo apt install gcc-multilib libc6-dev:i386 libsdl-net1.2-dev:i386 libvorbis-dev:i386 libjpeg-dev:i386 libgcc-11-dev:i386 libsdl1.2-dev:i386
+apt install gcc-multilib libc6-dev:i386 libsdl2-dev:i386 libsdl2-net-dev:i386 libvorbis-dev:i386 libjpeg-dev:i386
 ```
+3. Navigate to the project directory and build soulfu
 
-Build:
 ```
 cd soulfu
 make
 ```
 
-If pkg-config doesn't find the libraries, you can tell it to look in a different folder like this:
-```
-# Fedora
-PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
+**Note:** If pkg-config doesn't find the libraries, you can tell it to look in a different folder like this: 
 
-# Ubuntu/Debian
+```
 PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig/ make
 ```
 
-For Arch Linux there exists a package in AUR: [link](https://aur.archlinux.org/packages/soulfu-git).
+</details>
+
+<details>
+<summary>Fedora (Outdated)</summary>
+
+Only relevant for SDL 1.2 version:
+```
+sudo dnf install gcc make glibc-devel.i686 sdl12-compat-devel.i686 SDL_net-devel.i686 libogg-devel.i686 libjpeg-turbo-devel.i686 libvorbis-devel.i686 mesa-libGL-devel.i686
+```
+Navigate to the project directory and build soulfu
+```
+cd soulfu
+make
+```
+
+If pkg-config doesn't find the libraries, you can tell it to look in a different folder like this: 
+```
+PKG_CONFIG_PATH=/usr/lib/pkgconfig/ make
+```
+
+</details>
+
+<details>
+<summary>Windows with MSYS2</summary>
+
+1. Install MSYS2 from the [official homepage](https://www.msys2.org/) or use a package manager like [scoop](https://scoop.sh/) `scoop install msys2`.
+
+2. Open MSYS2 and install git and make.
+
+```
+pacman -S git make
+```
+
+3. It is recomended to clone the repo within msys2 because SRC-files need unixoid EOLs.
+
+```
+git clone --recurse-submodules https://github.com/szymor/soulfu soulfu
+```
+
+4. Update Package lists and install the required libraries:
+
+```
+pacman -Su
+pacman -F mingw-w64-i686-binutils
+pacman -S mingw-w64-i686-gcc mingw-w64-i686-pkgconf mingw-w64-i686-SDL2 mingw-w64-i686-SDL2_net mingw-w64-i686-libjpeg-turbo mingw-w64-i686-libvorbis mingw-w64-i686-libogg
+```
+
+5. Export Windows Path with binarys. In this case the directory is in `C:\Users\user\scoop\apps\msys2\current\mingw32\bin\`
+
+```
+export PATH=/c/Users/user/scoop/apps/msys2/current/mingw32/bin:$PATH
+```
+
+6. Check Makefile.mingw if varible WINDRES is set correctly and build
+
+```
+make -f Makefile.mingw
+```
+
+7. To play the game you might need dlls. You can find them in their official repositry: [SDL2.dll](https://github.com/libsdl-org/SDL "Repo of SDL"), [SDL_net.dll](https://github.com/libsdl-org/SDL_net "Repo of SDL_net") 
+
+</details>
+
+
 
 ## What has been done till now?
 + Tools for handling **datafile.sdf** (the archive where all game data is stored) have been implemented. Maybe they are not of the highest quality, but they get work done. To be precise:
