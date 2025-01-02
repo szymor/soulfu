@@ -2,12 +2,12 @@
 
 PKG = i686-w64-mingw32-pkg-config
 CC = i686-w64-mingw32-gcc
-WINDRES = i686-w64-mingw32-windres
+WINDRES = windres.exe
 
 TARGET = soulfu.exe
 SRC = source/soulfu.c
 DEP = $(wildcard source/*.c source/*.h)
-LDLIBS = -lSDL -lSDL_net -l:libjpeg.a -l:libvorbis.a -l:libogg.a -lopengl32
+LDLIBS = -lSDL2 -lSDL2_net -l:libjpeg.a -l:libvorbis.a -l:libogg.a -lopengl32
 FLAGS = -DDEVTOOL
 
 all: $(TARGET) data
