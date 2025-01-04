@@ -31,8 +31,8 @@ git clone --recurse-submodules <repolink> soulfu
 
 Install the following tools and libraries:
 
-+ GCC,
-+ Make,
++ gcc,
++ make,
 + SDL 2.0,
 + SDL2_net,
 + libogg,
@@ -41,7 +41,7 @@ Install the following tools and libraries:
 + OpenGL development files.
 
 > [!NOTE]
-> Note that the libraries need to be in the 32-bit version.
+> The libraries need to be in the 32-bit version.
 
 ### Examples
 <details>
@@ -142,6 +142,16 @@ make -f Makefile.mingw
 
 </details>
 
+<details>
+<summary>Haiku</summary>
+
+```
+setarch x86
+pkgman install libsdl2_devel sdl2_net_devel libogg_devel libvorbis_devel libsdl2_x86 sdl2_net_x86
+make
+```
+
+</details>
 
 
 ## What has been done till now?
