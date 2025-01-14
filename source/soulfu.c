@@ -622,16 +622,36 @@ char* get_path_from_home(const char *filename)
   static char path[1024];
   path[0] = '\0';
 
+  // Try HOME first, then USERPROFILE on Windows
   char *home = getenv("HOME");
-  if(home)
-  {
-    snprintf(path, 1023, "%s/.soulfu", home);
-#ifdef __MINGW32__
-    mkdir(path);
-#else
-    mkdir(path, 0755);  // may fail if the directory exists
+#ifdef _WIN32
+  if (!home) {
+    home = getenv("USERPROFILE");
+  }
 #endif
-    snprintf(path, 1023, "%s/.soulfu/%s", home, filename);
+
+  if(home && filename)
+  {
+    // Check total path length won't exceed buffer
+    size_t needed = strlen(home) + strlen(filename) + 10; // +10 for "/.soulfu/"
+    if (needed >= sizeof(path)) {
+      log_message("ERROR: Path too long for %s", filename);
+      return NULL;
+    }
+
+    // Create .soulfu directory
+    snprintf(path, sizeof(path)-1, "%s/.soulfu", home);
+#ifdef _WIN32
+    if (mkdir(path) != 0 && errno != EEXIST) {
+#else
+    if (mkdir(path, 0755) != 0 && errno != EEXIST) {
+#endif
+      log_message("ERROR: Could not create directory %s", path);
+      return NULL;
+    }
+
+    // Create full path
+    snprintf(path, sizeof(path)-1, "%s/.soulfu/%s", home, filename);
     return path;
   }
   return NULL;
