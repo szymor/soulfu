@@ -11,3 +11,4 @@ CONFIG.DAT
 *.dll
 *.res
 datadir/*.LAN
+.aider*

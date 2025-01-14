@@ -38,6 +38,7 @@
 #include <math.h>
 #include <setjmp.h>
 #include <time.h>
+#include <errno.h>
 #include <sys/stat.h>
 
 #include <vorbis/codec.h>
