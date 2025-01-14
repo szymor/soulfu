@@ -622,9 +622,23 @@ char* get_path_from_home(const char *filename)
   static char path[1024];
   path[0] = '\0';
 
-  // Try HOME first, then USERPROFILE on Windows
+  // Try HOME first, then XDG_CONFIG_HOME on Linux, then USERPROFILE on Windows
   char *home = getenv("HOME");
-#ifdef _WIN32
+#ifndef _WIN32
+  if (!home) {
+    home = getenv("XDG_CONFIG_HOME");
+    if (home) {
+      // Use XDG_CONFIG_HOME/soulfu instead of XDG_CONFIG_HOME/.soulfu
+      snprintf(path, sizeof(path)-1, "%s/soulfu", home);
+      if (mkdir(path, 0755) != 0 && errno != EEXIST) {
+        log_message("ERROR: Could not create directory %s", path);
+        return NULL;
+      }
+      snprintf(path, sizeof(path)-1, "%s/soulfu/%s", home, filename);
+      return path;
+    }
+  }
+#else
   if (!home) {
     home = getenv("USERPROFILE");
   }
