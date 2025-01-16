@@ -653,20 +653,10 @@ unsigned char* sdf_find_filetype(char* filename, char filetype)
         if( ((*(index+4)) & 15) == filetype)
         {
             // Now check the name...
-            repeat(j, 8)
+            char strnull[16] = {0};
+            memcpy(strnull, index + 8, 8);
+            if (strcmp(filename, strnull) == 0)
             {
-                if(filename[j] != 0)
-                {
-                    if(*(index+8+j) != filename[j])  j = 100;
-                }
-                else
-                {
-                    j = 8;
-                }
-            }
-            if(j < 100)
-            {
-                // We found a match...
                 return index;
             }
         }
