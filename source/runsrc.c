@@ -3453,23 +3453,23 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                 if(index)
                                 {
                                     main_character_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
-                                }
 
-                                // Clear out model assigns...
-                                x = 256;
-                                while(x < 616)
-                                {
-                                    *((unsigned char**)(main_character_data[i]+x)) = NULL;
-                                    x+=24;
-                                }
+                                    // Clear out model assigns...
+                                    x = 256;
+                                    while(x < 616)
+                                    {
+                                        *((unsigned char**)(main_character_data[i]+x)) = NULL;
+                                        x+=24;
+                                    }
 
-                                // Setup Model
-                                call_address = current_object_data;
-                                script_temp_i = current_object_item;
-                                looking_for_fast_function = TRUE;
-                                fast_run_script(main_character_script_start[i], FAST_FUNCTION_MODELSETUP, main_character_data[i]);
-                                current_object_data = call_address;
-                                current_object_item = script_temp_i;
+                                    // Setup Model
+                                    call_address = current_object_data;
+                                    script_temp_i = current_object_item;
+                                    looking_for_fast_function = TRUE;
+                                    fast_run_script(main_character_script_start[i], FAST_FUNCTION_MODELSETUP, main_character_data[i]);
+                                    current_object_data = call_address;
+                                    current_object_item = script_temp_i;
+                                }
                             }
 
                             // Load Particles
