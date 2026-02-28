@@ -63,8 +63,9 @@ unsigned char particle_attach_to_character(unsigned short particle, unsigned sho
     // Get information from the character variables...
     if(!main_character_on[character])  return FALSE;
     character_data = main_character_data[character];
-    data = *((unsigned char**) (character_data + 256));
+    data = model_slot_get_ptr(character_data + 256);
     if(data == NULL) return FALSE;
+    unsigned char* rdy_start = data;
     frame = *((unsigned short*) (character_data + 178));
 
 
@@ -78,15 +79,15 @@ unsigned char particle_attach_to_character(unsigned short particle, unsigned sho
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, rdy_start);
     num_bone = *((unsigned short*) (base_model_data+6));
 
 
     // Skip to the bone connection info of the base model...
-    bone_data = *((unsigned char**) (data+16));
+    bone_data = rdy_read_ptr(data+16, rdy_start);
 
 
     // Go to the current frame...
@@ -132,10 +133,11 @@ unsigned char particle_attach_to_character(unsigned short particle, unsigned sho
             repeat(j, 10)
             {
                 // Find out some stuff about our sub-model...
-                data = *((unsigned char**) (character_data + 256 + (j*24)));
+                data = model_slot_get_ptr(character_data + 256 + (j*24));
                 if(data)
                 {
                     // Start reading the RDY file...
+                    unsigned char* rdy_start_j = data;
                     data+=3;
                     num_base_model = *data;  data+=3;
                     data+=(ACTION_MAX<<1);
@@ -143,14 +145,14 @@ unsigned char particle_attach_to_character(unsigned short particle, unsigned sho
 
 
                     // Assume base model 0...
-                    base_model_data = *((unsigned char**) data);
+                    base_model_data = rdy_read_ptr(data, rdy_start_j);
                     num_vertex = *((unsigned short*) base_model_data);
                     num_bone = *((unsigned short*) (base_model_data+6));
 
 
                     // Skip to the bone connection info of the base model...
                     vertex_data = base_model_data+8;
-                    bone_data = *((unsigned char**) (data+16));
+                    bone_data = rdy_read_ptr(data+16, rdy_start_j);
 
 
                     // Generate vertex coordinates for this sub-model, based on bone locations...
@@ -278,7 +280,7 @@ unsigned char particle_attach_to_character(unsigned short particle, unsigned sho
 
 
             // Figger' the normal scalars for generating the particle position...
-            bone_data = *((unsigned char**) (data+16));
+            bone_data = rdy_read_ptr(data+16, rdy_start);
             bone_data += (nearest_bone * 9);
             joint[0] = *((unsigned short*) (bone_data+1));
             joint[1] = *((unsigned short*) (bone_data+3));
@@ -358,7 +360,7 @@ float bad_rotation;
 
 
     // Figure out the texture...
-    texture = *((unsigned char**) (particle_data+44));
+    texture = model_slot_get_ptr(particle_data+44);
     if(texture ==  NULL) return;
     texture+=2;
     display_pick_texture(*((unsigned int*) texture));
@@ -879,10 +881,11 @@ void particle_update_all()
                 bone = particle_data[64];
                 character = (*((unsigned short*) (particle_data+86))) & (MAX_CHARACTER-1);
                 character_data = main_character_data[character];
-                data = *((unsigned char**) (character_data + 256));
+                data = model_slot_get_ptr(character_data + 256);
                 if(main_character_on[character] && data != NULL)
                 {
                     // Get information from the character variables...
+                    unsigned char* rdy_start2 = data;
                     frame = *((unsigned short*) (character_data + 178));
 
                     // Start reading the RDY file...
@@ -895,17 +898,17 @@ void particle_update_all()
 
 
                     // Go to the current base model
-                    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+                    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
                     base_model = *(frame_data + 2);
                     data = data + (base_model*20);
-                    base_model_data = *((unsigned char**) data);
+                    base_model_data = rdy_read_ptr(data, rdy_start2);
                     base_model_data+=6;
                     num_bone = *((unsigned short*) base_model_data);
                     if(bone >= num_bone) bone = 0;
 
 
                     // Skip to the bone connection info of the base model...
-                    base_model_data = *((unsigned char**) (data+16));
+                    base_model_data = rdy_read_ptr(data+16, rdy_start2);
                     base_model_data += bone*9;
                     joint[0] = *((unsigned short*) (base_model_data+1));
                     joint[1] = *((unsigned short*) (base_model_data+3));

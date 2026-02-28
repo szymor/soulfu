@@ -306,7 +306,7 @@ void character_collide_all()
                                                 if((check_data[78] == character_data[78] || check_data[78] == TEAM_NEUTRAL) && *((unsigned short*) (check_data+42)) == 0 && character_data[82] > 0 && check_data[82] > 0)
                                                 {
                                                     // Teams match...  Attach 'em and run their callbacks...
-                                                    mount_rdy_file = *((unsigned char**) (check_data+256));
+                                                    mount_rdy_file = model_slot_get_ptr(check_data+256);
                                                     if(mount_rdy_file && (check_data[65] < ACTION_KNOCK_OUT_BEGIN || check_data[65] > ACTION_KNOCK_OUT_END))
                                                     {
                                                         render_fill_temp_character_bone_number(mount_rdy_file);
@@ -1023,7 +1023,7 @@ void character_update_all()
                 // Do we have a valid eye model?  Do simple eye quad style animation (standard type)
                 // if the eye model only has 1 frame, or if there isn't a model...
                 frame = *((unsigned short*) (character_data + 182));
-                data = (*((unsigned char**) (character_data+448)));
+                data = model_slot_get_ptr(character_data+448);
                 eye_model_valid = FALSE;
                 if(data)
                 {

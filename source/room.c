@@ -2034,7 +2034,7 @@ void room_spawn_all(unsigned char* srf_file, unsigned short rotation, unsigned c
                                     // Set the current frame to be the first frame of the stand action...
                                     if(type == CHARACTER)
                                     {
-                                        model_data = *((unsigned char**) (child_data+256));
+                                        model_data = model_slot_get_ptr(child_data+256);
                                         if(model_data)
                                         {
                                             model_data+=6+(ACTION_STAND<<1);
@@ -2156,7 +2156,7 @@ void room_spawn_all(unsigned char* srf_file, unsigned short rotation, unsigned c
                     if(child_data)
                     {
                         // Set the current frame to be the first frame of the stand action...
-                        model_data = *((unsigned char**) (child_data+256));
+                        model_data = model_slot_get_ptr(child_data+256);
                         if(model_data)
                         {
                             model_data+=6+(ACTION_STAND<<1);

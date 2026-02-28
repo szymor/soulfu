@@ -118,14 +118,14 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
         return FALSE;
     }
     character_index = character_index & (MAX_CHARACTER-1);
-    character_rdy_file = *((unsigned char**)(main_character_data[character_index] + 256));
+    character_rdy_file = model_slot_get_ptr(main_character_data[character_index] + 256);
     if(character_bone_name == LEFT_BONE)
     {
-        item_rdy_file = *((unsigned char**)(main_character_data[character_index] + 520));
+        item_rdy_file = model_slot_get_ptr(main_character_data[character_index] + 520);
     }
     else
     {
-        item_rdy_file = *((unsigned char**)(main_character_data[character_index] + 544));
+        item_rdy_file = model_slot_get_ptr(main_character_data[character_index] + 544);
     }
     if(item_rdy_file == NULL || character_rdy_file == NULL)
     {
@@ -138,8 +138,8 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
     character_rdy_file+=6;
     character_rdy_file+=(ACTION_MAX<<1);
     character_rdy_file+=(MAX_DDD_SHADOW_TEXTURE);
-    base_model_data = (*((unsigned char**) character_rdy_file));
-    bone_data = (*((unsigned char**) (character_rdy_file+16)));
+    base_model_data = rdy_read_ptr(character_rdy_file, character_rdy_file);
+    bone_data = rdy_read_ptr(character_rdy_file+16, character_rdy_file);
     num_bone = *((unsigned short*) (base_model_data+6));
 
 
@@ -172,8 +172,8 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
         item_rdy_file+=6;
         item_rdy_file+=(ACTION_MAX<<1);
         item_rdy_file+=(MAX_DDD_SHADOW_TEXTURE);
-        base_model_data = (*((unsigned char**) item_rdy_file));
-        bone_data = (*((unsigned char**) (item_rdy_file+16)));
+        base_model_data = rdy_read_ptr(item_rdy_file, item_rdy_file);
+        bone_data = rdy_read_ptr(item_rdy_file+16, item_rdy_file);
         num_joint = *((unsigned short*) (base_model_data+4));
         num_bone = *((unsigned short*) (base_model_data+6));
         if(num_bone > 0)
