@@ -92,14 +92,14 @@ unsigned char map_doors_overlap(unsigned short room_a, unsigned char room_a_wall
     room_a_xyz[X] = ((*((unsigned short*) (map_room_data[room_a]+4)))-32768.0f)*10.0f;
     room_a_xyz[Y] = ((*((unsigned short*) (map_room_data[room_a]+6)))-32768.0f)*10.0f;
     room_a_xyz[Z] = 0.0f;
-    room_a_srf = *((unsigned char**) (map_room_data[room_a]+0));
+    room_a_srf = model_slot_get_ptr(map_room_data[room_a]);
     room_a_rotation = *((unsigned short*) (map_room_data[room_a]+8));
     room_find_wall_center(room_a_srf, room_a_rotation, room_a_wall, room_a_door_xyz, room_a_xyz, 0.0f);
 
     room_b_xyz[X] = ((*((unsigned short*) (map_room_data[room_b]+4)))-32768.0f)*10.0f;
     room_b_xyz[Y] = ((*((unsigned short*) (map_room_data[room_b]+6)))-32768.0f)*10.0f;
     room_b_xyz[Z] = 0.0f;
-    room_b_srf = *((unsigned char**) (map_room_data[room_b]+0));
+    room_b_srf = model_slot_get_ptr(map_room_data[room_b]);
     room_b_rotation = *((unsigned short*) (map_room_data[room_b]+8));
     room_find_wall_center(room_b_srf, room_b_rotation, room_b_wall, room_b_door_xyz, room_b_xyz, 0.0f);
 
@@ -123,7 +123,7 @@ unsigned char map_doors_overlap(unsigned short room_a, unsigned char room_a_wall
             room_c_level = map_room_data[room_c][12];
             if(room_c_level == room_a_level || room_c_level == room_b_level)
             {
-                room_c_srf = *((unsigned char**) (map_room_data[room_c]+0));
+                room_c_srf = model_slot_get_ptr(map_room_data[room_c]);
                 room_c_rotation = *((unsigned short*) (map_room_data[room_c]+8));
                 angle = room_c_rotation * (2.0f * PI / 65536.0f);
                 sine = (float) sin(angle);
@@ -234,11 +234,11 @@ unsigned char map_connect_rooms(unsigned short room_a, unsigned short room_b)
         {
             // Find the best wall for each room (wall normal must be pointing in general direction of
             // other room & be flagged as doorable & be unused)...
-            room_a_srf_file = *((unsigned char**) (map_room_data[room_a]+0));
+            room_a_srf_file = model_slot_get_ptr(map_room_data[room_a]);
             room_a_xy[X] = ((*((unsigned short*) (map_room_data[room_a]+4))) - 32768.0f) * 10.0f;
             room_a_xy[Y] = ((*((unsigned short*) (map_room_data[room_a]+6))) - 32768.0f) * 10.0f;
             room_a_rotation = *((unsigned short*) (map_room_data[room_a]+8));
-            room_b_srf_file = *((unsigned char**) (map_room_data[room_b]+0));
+            room_b_srf_file = model_slot_get_ptr(map_room_data[room_b]);
             room_b_xy[X] = ((*((unsigned short*) (map_room_data[room_b]+4))) - 32768.0f) * 10.0f;
             room_b_xy[Y] = ((*((unsigned short*) (map_room_data[room_b]+6))) - 32768.0f) * 10.0f;
             room_b_rotation = *((unsigned short*) (map_room_data[room_b]+8));
@@ -458,9 +458,9 @@ unsigned char map_rooms_overlap(unsigned short room_a, unsigned short room_b)
                 // They are pretty close to one another...  We'll have to do an elaborate
                 // intersection test...  Check each exterior wall vertex of room against each
                 // minimap triangle of the other.
-                room_a_srf = *((unsigned char**) (map_room_data[room_a]+0));
+                room_a_srf = model_slot_get_ptr(map_room_data[room_a]);
                 room_a_rotation = *((unsigned short*) (map_room_data[room_a]+8));
-                room_b_srf = *((unsigned char**) (map_room_data[room_b]+0));
+                room_b_srf = model_slot_get_ptr(map_room_data[room_b]);
                 room_b_rotation = *((unsigned short*) (map_room_data[room_b]+8));
 
 
@@ -513,7 +513,7 @@ unsigned char map_add_room(unsigned char* srf_file, float x, float y, unsigned s
     unsigned char connected;
     if(num_map_room < MAX_MAP_ROOM)
     {
-        *((unsigned char**) (map_room_data[num_map_room]+0)) = srf_file;
+        model_slot_set_ptr(map_room_data[num_map_room], srf_file);
         *((unsigned short*) (map_room_data[num_map_room]+4)) = (unsigned short) ((x*0.1f)+32768.0f);
         *((unsigned short*) (map_room_data[num_map_room]+6)) = (unsigned short) ((y*0.1f)+32768.0f);
         *((unsigned short*) (map_room_data[num_map_room]+8)) = rotation;
@@ -670,7 +670,7 @@ void map_automap_draw()
     repeat(i, num_automap_room)
     {
         room_a = automap_room_list[i];
-        room_a_srf_file = *((unsigned char**) (map_room_data[room_a]+0));
+        room_a_srf_file = model_slot_get_ptr(map_room_data[room_a]);
         room_a_xyz[X] = ((*((unsigned short*) (map_room_data[room_a]+4))) - 32768.0f) * 10.0f;
         room_a_xyz[Y] = ((*((unsigned short*) (map_room_data[room_a]+6))) - 32768.0f) * 10.0f;
         room_a_xyz[Z] = 0.0f;
@@ -682,7 +682,7 @@ void map_automap_draw()
             {
                 if(room_b < room_a || (map_room_data[room_a][12]!=map_room_data[room_b][12]) || !(map_room_data[room_b][13]&MAP_ROOM_FLAG_FOUND))
                 {
-                    room_b_srf_file = *((unsigned char**) (map_room_data[room_b]+0));
+                    room_b_srf_file = model_slot_get_ptr(map_room_data[room_b]);
                     room_b_xyz[X] = ((*((unsigned short*) (map_room_data[room_b]+4))) - 32768.0f) * 10.0f;
                     room_b_xyz[Y] = ((*((unsigned short*) (map_room_data[room_b]+6))) - 32768.0f) * 10.0f;
                     room_b_xyz[Z] = 0.0f;
@@ -762,7 +762,7 @@ void map_automap_draw()
     repeat(i, num_automap_room)
     {
         room_a = automap_room_list[i];
-        room_a_srf_file = *((unsigned char**) (map_room_data[room_a]+0));
+        room_a_srf_file = model_slot_get_ptr(map_room_data[room_a]);
         room_a_xyz[X] = ((*((unsigned short*) (map_room_data[room_a]+4))) - 32768.0f) * 10.0f;
         room_a_xyz[Y] = ((*((unsigned short*) (map_room_data[room_a]+6))) - 32768.0f) * 10.0f;
         room_a_rotation = *((unsigned short*) (map_room_data[room_a]+8));

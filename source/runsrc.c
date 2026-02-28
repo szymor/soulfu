@@ -905,7 +905,7 @@ void script_matrix_good_bone(unsigned char bone, unsigned char* data_start, unsi
 
 
     // Figure out how many bones we have, and what the joints are for our bone...
-    data = *((unsigned char**) (data+256));  // Data is now start of character's model data...
+    data = model_slot_get_ptr(data+256);  // Data is now start of character's model data...
     unsigned char* rdy_start = data;  // Save RDY file start for offset resolution
 
 
@@ -3192,7 +3192,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         {
                             if(!(map_room_data[m][13] & MAP_ROOM_FLAG_BOSS))
                             {
-                                room_restock_monsters(*((unsigned char**) map_room_data[m]), (map_room_data[m]+32), map_room_data[m][30], map_room_data[m][10], map_room_data[m][10]);
+                                room_restock_monsters(model_slot_get_ptr(map_room_data[m]), (map_room_data[m]+32), map_room_data[m][30], map_room_data[m][10], map_room_data[m][10]);
                             }
                         }
                         break;
@@ -3227,7 +3227,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                             repeat(i, num_map_room)
                             {
                                 fprintf(savelog,"Saving room %d:\n", i);
-                                file_index = sdf_find_index_by_data((*((unsigned char**) (map_room_data[i]))));
+                                file_index = sdf_find_index_by_data(model_slot_get_ptr(map_room_data[i]));
                                 if(file_index != 65535)
                                 {
                                     fprintf(savelog,"   SRF FILE INDEX: %d\n", file_index);
@@ -3291,7 +3291,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                 {
                                     if(*((unsigned int*) (main_particle_data[i]+k)) != 0)
                                     {
-                                        file_index = sdf_find_index_by_data((*((unsigned char**) (main_particle_data[i]+k))));
+                                        file_index = sdf_find_index_by_data(model_slot_get_ptr(main_particle_data[i]+k));
                                         if(file_index != 65535)
                                         {
                                             //fprintf(savelog,"   IMAGE%d FILE INDEX: %d\n", j+1, file_index);
@@ -3420,9 +3420,9 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     fprintf(savelog,"   SRF FILE NAME: %s\n", file_name);
                                     {
                                         unsigned char* srf_index = sdf_find_index(file_name);
-                                        (*((unsigned char**) (map_room_data[i]+0))) = srf_index ? sdf_index_get_data(srf_index) : NULL;
+                                        model_slot_set_ptr(map_room_data[i], srf_index ? sdf_index_get_data(srf_index) : NULL);
                                     }
-                                    file_index = sdf_find_index_by_data((*((unsigned char**) (map_room_data[i]+0))));
+                                    file_index = sdf_find_index_by_data(model_slot_get_ptr(map_room_data[i]));
                                     if(file_index != 65535)
                                     {
                                         fprintf(savelog,"   SRF FILE INDEX: %d\n", file_index);
@@ -3460,7 +3460,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     x = 256;
                                     while(x < 616)
                                     {
-                                        *((unsigned char**)(main_character_data[i]+x)) = NULL;
+                                        memset(main_character_data[i]+x, 0, 24);
                                         x+=24;
                                     }
 
@@ -3501,7 +3501,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     index = sdf_find_filetype(file_name, SDF_FILE_IS_RGB);
                                     if(index)
                                     {
-                                        *((unsigned char**) (main_particle_data[i]+44)) = sdf_index_get_data(index);
+                                        model_slot_set_ptr(main_particle_data[i]+44, sdf_index_get_data(index));
                                     }
                                 }
 
@@ -3512,7 +3512,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     index = sdf_find_filetype(file_name2, SDF_FILE_IS_RGB);
                                     if(index)
                                     {
-                                        *((unsigned char**) (main_particle_data[i]+68)) = sdf_index_get_data(index);
+                                        model_slot_set_ptr(main_particle_data[i]+68, sdf_index_get_data(index));
                                     }
                                 }
 
@@ -4392,7 +4392,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                         {
                             if(k == MAP_ROOM_SRF)
                             {
-                                i = (intptr_t) (*((unsigned char**) (map_room_data[j])));
+                                i = (intptr_t) model_slot_get_ptr(map_room_data[j]);
                             }
                             if(k == MAP_ROOM_X)
                             {
@@ -4413,7 +4413,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                                 script_matrix[5] = 0.0f;
                                 if(m < 5)
                                 {
-                                    room_find_wall_center(*((unsigned char**) (map_room_data[j])), *((unsigned short*) (map_room_data[j]+8)), map_room_data[j][24+m], script_matrix, script_matrix+3, map_room_door_pushback);
+                                    room_find_wall_center(model_slot_get_ptr(map_room_data[j]), *((unsigned short*) (map_room_data[j]+8)), map_room_data[j][24+m], script_matrix, script_matrix+3, map_room_door_pushback);
                                 }
                                 if(k == MAP_ROOM_DOOR_X)
                                 {
