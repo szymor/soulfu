@@ -52,7 +52,9 @@ void ddd_generate_model_action_list(unsigned char* data)
     action_list = (unsigned short*) data;
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    frame_data_start =  (unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX));
+    // Bone frame table starts after base model table
+    {
+    uintptr_t* bone_frame_table = (uintptr_t*) (data+(num_base_model*20*DETAIL_LEVEL_MAX));
 
 
     // Go through each action...
@@ -62,13 +64,14 @@ void ddd_generate_model_action_list(unsigned char* data)
         action_list[i] = 65535;
         repeat(j, num_bone_frame)
         {
-            frame_data = frame_data_start[j];
+            frame_data = (unsigned char*) bone_frame_table[j];
             if(*frame_data == i)
             {
                 action_list[i] = j;
                 j = num_bone_frame;
             }
         }
+    }
     }
 }
 
@@ -78,7 +81,7 @@ void ddd_remove_data(unsigned char* data_block_start, unsigned int data_size, un
     // <ZZ> This function removes several bytes from a block of data, and scooches everything after
     //      back to fit...
     signed int bytes_to_move;
-    bytes_to_move = ((unsigned int) data_block_start)+data_size-((unsigned int) data_to_remove)-bytes_to_remove;
+    bytes_to_move = (data_block_start + data_size) - data_to_remove - bytes_to_remove;
     if(bytes_to_move > 0)
     {
         memmove(data_to_remove, data_to_remove+bytes_to_remove, bytes_to_move);
@@ -1219,7 +1222,7 @@ void ddd_strip_fan_geometry(unsigned short num_vertex, unsigned short num_tex_ve
 }
 
 //-----------------------------------------------------------------------------------------------
-void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata_spot, unsigned char** newindex_spot, unsigned char* newdata_start, unsigned char detail_level, float scale)
+void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata_spot, unsigned int* newindex_spot, unsigned char* newdata_start, unsigned char detail_level, float scale)
 {
     // <ZZ> This function helps out decode_ddd...
     unsigned char* olddata;
@@ -1357,7 +1360,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
 
 
     // Write the header for the new, simplified base model...
-    *newindex_spot = newdata - ((unsigned int) newdata_start);  newindex_spot++;
+    *newindex_spot = (unsigned int)(newdata - newdata_start);  newindex_spot++;
     *((unsigned short*) newdata) = global_base_num_vertex;  newdata+=2;
     *((unsigned short*) newdata) = global_base_num_tex_vertex;  newdata+=2;
     *((unsigned short*) newdata) = num_joint;  newdata+=2;
@@ -1399,7 +1402,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
 
 
     // Write the new, simplified texture vertex data
-    *newindex_spot = newdata - ((unsigned int) newdata_start);  newindex_spot++;
+    *newindex_spot = (unsigned int)(newdata - newdata_start);  newindex_spot++;
     repeat(i, global_base_num_tex_vertex)
     {
         x = *((float*) tempdata);  tempdata+=4;
@@ -1411,7 +1414,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
 
 
     // Write the new, simplified texture/strip/fan data
-    *newindex_spot = newdata - ((unsigned int) newdata_start);  newindex_spot++;
+    *newindex_spot = (unsigned int)(newdata - newdata_start);  newindex_spot++;
     olddata = global_base_old_texture_start;
     triangle_data_start = newdata;
     repeat(i, MAX_DDD_TEXTURE)
@@ -1508,7 +1511,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
 
 
     // Copy the old joint data
-    *newindex_spot = newdata - ((unsigned int) newdata_start);  newindex_spot++;
+    *newindex_spot = (unsigned int)(newdata - newdata_start);  newindex_spot++;
     olddata = global_base_old_joint_start;
     repeat(i, num_joint)
     {
@@ -1519,7 +1522,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
 
 
     // Copy the old bone data
-    *newindex_spot = newdata - ((unsigned int) newdata_start);  newindex_spot++;
+    *newindex_spot = (unsigned int)(newdata - newdata_start);  newindex_spot++;
     repeat(i, num_bone)
     {
         *newdata = *olddata;  newdata++;  olddata++;
@@ -1605,7 +1608,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
 }
 
 //-----------------------------------------------------------------------------------------------
-void ddd_decode_bone_frame(unsigned char** olddata_spot, unsigned char** newdata_spot, unsigned char** newindex_spot, unsigned char* newdata_start, float scale)
+void ddd_decode_bone_frame(unsigned char** olddata_spot, unsigned char** newdata_spot, uintptr_t* newindex_spot, unsigned char* newdata_start, float scale)
 {
     // <ZZ> This function helps out decode_ddd...
     unsigned char* olddata;
@@ -1630,7 +1633,7 @@ void ddd_decode_bone_frame(unsigned char** olddata_spot, unsigned char** newdata
     // Get the file positions from the main function...
     olddata = *olddata_spot;
     newdata = *newdata_spot;
-    *newindex_spot = newdata - ((unsigned int) newdata_start);
+    *newindex_spot = (uintptr_t)(newdata - newdata_start);
 
 
     // Read the bone frame header...
@@ -1648,14 +1651,14 @@ void ddd_decode_bone_frame(unsigned char** olddata_spot, unsigned char** newdata
 
     // Figure out how many bones and joints by looking at the base model...
     base_model_start = newdata_start + 6 + (ACTION_MAX<<1) + (MAX_DDD_SHADOW_TEXTURE) + (base_model*20);
-    base_model_start = (*((unsigned int*) base_model_start)) + newdata_start;
+    base_model_start = rdy_read_ptr(base_model_start, newdata_start);
     num_vertex = *((unsigned short*) base_model_start);  base_model_start+=4;
-    num_joint = *((unsigned short*) base_model_start);  base_model_start+=2; 
+    num_joint = *((unsigned short*) base_model_start);  base_model_start+=2;
     num_bone = *((unsigned short*) base_model_start);  base_model_start+=2;
 
 
     bone_data = newdata_start + 6 + (ACTION_MAX<<1) + (MAX_DDD_SHADOW_TEXTURE) + (base_model*20) + 16;
-    bone_data = (*((unsigned int*) bone_data)) + newdata_start;
+    bone_data = rdy_read_ptr(bone_data, newdata_start);
 
 
 
@@ -1769,8 +1772,8 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
     unsigned short flags;
     unsigned char num_base_model;
     unsigned short num_bone_frame;
-    unsigned char** new_base_model_offset_start;
-    unsigned char** new_bone_frame_offset_start;
+    unsigned int* new_base_model_offset_start;
+    uintptr_t* new_bone_frame_offset_start;
     unsigned char external_bone_frame;
     unsigned char linkname[16];
     unsigned char* link_data;
@@ -1784,7 +1787,7 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
 
 
     // Find the location of the file data, and its size...
-    data = (unsigned char*) sdf_read_unsigned_int(index);
+    data = sdf_index_get_data(index);
     size = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
     old_data_start = data;
 //global_ddd_file_start = data;
@@ -1839,7 +1842,7 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
         num_bone_frame = 0;
         if(link_data)
         {
-            link_data = (unsigned char*) sdf_read_unsigned_int(link_data);
+            link_data = sdf_index_get_data(link_data);
             link_data+=6;
             num_bone_frame = sdf_read_unsigned_short(link_data);
         }
@@ -1851,7 +1854,7 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
         data+=8;
     }
     // Offsets...  Fill in later...
-    new_base_model_offset_start = (unsigned char**) newdata;
+    new_base_model_offset_start = (unsigned int*) newdata;
     repeat(i, DETAIL_LEVEL_MAX)
     {
         repeat(j, num_base_model)
@@ -1863,10 +1866,10 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
             *((unsigned int*) newdata) = 0;  newdata+=4;
         }
     }
-    new_bone_frame_offset_start = (unsigned char**) newdata;
+    new_bone_frame_offset_start = (uintptr_t*) newdata;
     repeat(i, num_bone_frame)
     {
-        *((unsigned int*) newdata) = 0;  newdata+=4;
+        *((uintptr_t*) newdata) = 0;  newdata+=sizeof(uintptr_t);
     }
 
 
@@ -1900,7 +1903,7 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
 
 
     // Allocate memory for the new file...
-    newsize = ((unsigned int) newdata) - ((unsigned int) mainbuffer);
+    newsize = (unsigned int)(newdata - mainbuffer);
     actualsize = newsize;
     #ifdef DEVTOOL
         // Allocate extra memory for the modeler...
@@ -1916,7 +1919,7 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
         index = sdf_get_new_index();
 
         // Write the index...
-        sdf_write_unsigned_int(index, (unsigned int) newdata);
+        sdf_index_set_data(index, newdata);
 //global_rdy_file_start = newdata;
         sdf_write_unsigned_int(index+4, newsize);
         *(index+4) = SDF_FILE_IS_RDY | SDF_FLAG_WAS_UPDATED;
@@ -1934,24 +1937,18 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
     memcpy(newdata, mainbuffer, newsize);
 
 
-    // Go back through and turn offsets into pointers...
+    // Go back through and turn bone frame offsets into absolute pointers...
+    // Base model offsets stay as offsets (converted at read time via rdy_read_ptr)
     data = newdata;
     data+=6+(ACTION_MAX<<1)+(MAX_DDD_SHADOW_TEXTURE);
-    repeat(i, DETAIL_LEVEL_MAX)
-    {
-        repeat(j, num_base_model)
-        {
-            repeat(k, 5)
-            {
-                *((unsigned int*) data) += (unsigned int) newdata;  data+=4;
-            }
-        }
-    }
+    data+=(num_base_model * DETAIL_LEVEL_MAX * 20);  // Skip base model offset table
     if(!external_bone_frame)
     {
         repeat(i, num_bone_frame)
         {
-            *((unsigned int*) data) += (unsigned int) newdata;  data+=4;
+            uintptr_t off = *((uintptr_t*) data);
+            *((uintptr_t*) data) = (uintptr_t)(newdata + off);
+            data+=sizeof(uintptr_t);
         }
     }
 
@@ -2003,7 +2000,7 @@ void ddd_magic_update_thing(unsigned char mask)
             if((filetype & 15) == SDF_FILE_IS_RDY)
             {
                 // Set up frame pointers if the file is externally linked...
-                data = (unsigned char*) sdf_read_unsigned_int(index);
+                data = sdf_get_file_data(i);
                 start_data = data;
                 flags = *((unsigned short*) data);
                 if(flags & DDD_EXTERNAL_BONE_FRAMES)
@@ -2012,7 +2009,7 @@ void ddd_magic_update_thing(unsigned char mask)
                     ddd_data = sdf_find_filetype(filename, SDF_FILE_IS_DDD);
                     if(ddd_data)
                     {
-                        ddd_data = (unsigned char*) sdf_read_unsigned_int(ddd_data);
+                        ddd_data = sdf_index_get_data(ddd_data);
                         temp = ddd_data[20];
                         ddd_data[20] = 0;
                         sprintf(linkname, "%s", ddd_data+12);
@@ -2021,7 +2018,7 @@ void ddd_magic_update_thing(unsigned char mask)
                         if(link_data)
                         {
                             // Copy the frame list from one file to the other...
-                            link_data = (unsigned char*) sdf_read_unsigned_int(link_data);
+                            link_data = sdf_index_get_data(link_data);
                             num_bone_frame = *((unsigned short*) (data+4));
                             data+=data[3]*DETAIL_LEVEL_MAX*20;
                             data+=6;
@@ -2031,7 +2028,7 @@ void ddd_magic_update_thing(unsigned char mask)
                             link_data+=6;
                             link_data+=(ACTION_MAX<<1);
                             link_data+=(MAX_DDD_SHADOW_TEXTURE);
-                            memcpy(data, link_data, num_bone_frame<<2);
+                            memcpy(data, link_data, num_bone_frame * BONE_FRAME_ENTRY_SIZE);
                         }
                         else
                         {

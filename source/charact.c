@@ -376,7 +376,7 @@ void character_collide_all()
                                                 if((check_data[78] == character_data[78] || character_data[78] == TEAM_NEUTRAL) && *((unsigned short*) (character_data+42)) == 0 && character_data[82] > 0 && check_data[82] > 0)
                                                 {
                                                     // Teams match...  Attach 'em and run their callbacks...
-                                                    mount_rdy_file = *((unsigned char**) (character_data+256));
+                                                    mount_rdy_file = model_slot_get_ptr(character_data+256);
                                                     if(mount_rdy_file && (character_data[65] < ACTION_KNOCK_OUT_BEGIN || character_data[65] > ACTION_KNOCK_OUT_END))
                                                     {
                                                         render_fill_temp_character_bone_number(mount_rdy_file);
@@ -510,7 +510,7 @@ void character_shadow_draw_all()
                     scale = (MAX_SHADOW_DISTANCE-distance)/MAX_SHADOW_DISTANCE;
                     alpha = (unsigned char) (scale*255.0f);
                 }
-                render_rdy_character_shadow(*((unsigned char**) model_data), character_data, alpha, scale, z);
+                render_rdy_character_shadow(model_slot_get_ptr(model_data), character_data, alpha, scale, z);
             }
         }
     }
@@ -683,7 +683,7 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
 
 
                     // Draw the base model...  (May just be bones)
-                    if(*((unsigned char**) model_data) != NULL)
+                    if(model_slot_get_ptr(model_data) != NULL)
                     {
                         onscreen_joint_active = TRUE;  // Figure out if all joints are onscreen before drawing...
                         onscreen_joint_character = i;
@@ -777,7 +777,11 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
 
 
 
-                        render_rdy(*((unsigned char**) model_data), frame, WIN_3D_MODEL, (unsigned char**) (model_data+4), alpha, temp_character_bone_frame[i], petrify, eye_frame);
+                        {
+                            unsigned char* _tex[5];
+                            model_slot_resolve_textures(model_data, _tex);
+                            render_rdy(model_slot_get_ptr(model_data), frame, WIN_3D_MODEL, _tex, alpha, temp_character_bone_frame[i], petrify, eye_frame);
+                        }
                         if(onscreen_joint_active)
                         {
                             // Character base model (bones) was onscreen...  Go ahead and actually draw the
@@ -791,9 +795,11 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
                             frame = 0;
                             repeat(j, 7)
                             {
-                                if(*((unsigned char**) model_data) != NULL)
+                                if(model_slot_get_ptr(model_data) != NULL)
                                 {
-                                    render_rdy(*((unsigned char**) model_data), frame, WIN_3D_MODEL, (unsigned char**) (model_data+4), alpha, temp_character_bone_frame[i], petrify, eye_frame);
+                                    unsigned char* _tex[5];
+                                    model_slot_resolve_textures(model_data, _tex);
+                                    render_rdy(model_slot_get_ptr(model_data), frame, WIN_3D_MODEL, _tex, alpha, temp_character_bone_frame[i], petrify, eye_frame);
                                 }
                                 model_data+=24;
                             }
@@ -802,9 +808,11 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
                             // Draw the animated mouth...
                             frame = *((unsigned short*) (character_data + 184));
                             model_data+=24;
-                            if(*((unsigned char**) model_data) != NULL)
+                            if(model_slot_get_ptr(model_data) != NULL)
                             {
-                                render_rdy(*((unsigned char**) model_data), frame, WIN_3D_MODEL, (unsigned char**) (model_data+4), alpha, temp_character_bone_frame[i], petrify, eye_frame);
+                                unsigned char* _tex[5];
+                                model_slot_resolve_textures(model_data, _tex);
+                                render_rdy(model_slot_get_ptr(model_data), frame, WIN_3D_MODEL, _tex, alpha, temp_character_bone_frame[i], petrify, eye_frame);
                             }
                             model_data-=24;
 
@@ -812,9 +820,11 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
 
                             // Draw the animated eyes...
                             frame = *((unsigned short*) (character_data + 182));
-                            if(*((unsigned char**) model_data) != NULL)
+                            if(model_slot_get_ptr(model_data) != NULL)
                             {
-                                render_rdy(*((unsigned char**) model_data), frame, WIN_3D_MODEL, (unsigned char**) (model_data+4), alpha, temp_character_bone_frame[i], petrify, eye_frame);
+                                unsigned char* _tex[5];
+                                model_slot_resolve_textures(model_data, _tex);
+                                render_rdy(model_slot_get_ptr(model_data), frame, WIN_3D_MODEL, _tex, alpha, temp_character_bone_frame[i], petrify, eye_frame);
                             }
                             model_data+=48;
 
@@ -825,7 +835,7 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
                             model_data+=24;
                             repeat(j, 4)
                             {
-                                if((*((unsigned char**) model_data)) != NULL && temp_character_bone_number[j+1] < 255)
+                                if(model_slot_get_ptr(model_data) != NULL && temp_character_bone_number[j+1] < 255)
                                 {
                                     // Hand held weapons have 3 frames...  (should be 3 independent base models...)
                                     //    Frame 0 is when holstered.
@@ -848,8 +858,12 @@ void character_draw_all(unsigned char after_water, unsigned char draw_only_doors
 
 
                                     script_matrix_good_bone(temp_character_bone_number[j+1], temp_character_bone_frame[i], character_data);
-                                    render_generate_model_world_data(*((unsigned char**) model_data), frame, script_matrix, fourthbuffer);  // Generate new bone frame in fourthbuffer
-                                    render_rdy(*((unsigned char**) model_data), frame, WIN_3D_MODEL, (unsigned char**) (model_data+4), alpha, fourthbuffer, petrify, 0);
+                                    render_generate_model_world_data(model_slot_get_ptr(model_data), frame, script_matrix, fourthbuffer);  // Generate new bone frame in fourthbuffer
+                                    {
+                                        unsigned char* _tex[5];
+                                        model_slot_resolve_textures(model_data, _tex);
+                                        render_rdy(model_slot_get_ptr(model_data), frame, WIN_3D_MODEL, _tex, alpha, fourthbuffer, petrify, 0);
+                                    }
                                 }
                                 model_data+=24;
                             }
@@ -1032,8 +1046,8 @@ void character_update_all()
                     data+=(num_base_model*20*DETAIL_LEVEL_MAX);
                     if(frame < (num_bone_frame-1))
                     {
-                        next_frame_data = *((unsigned char**) (data+((frame+1)<<2)));
-                        data =  *((unsigned char**) (data+(frame<<2)));
+                        next_frame_data = *((unsigned char**) (data+((frame+1)*BONE_FRAME_ENTRY_SIZE)));
+                        data =  *((unsigned char**) (data+(frame*BONE_FRAME_ENTRY_SIZE)));
                         action = *data;
                         next_action = *next_frame_data;
                         // Eye action animation
@@ -1102,7 +1116,7 @@ void character_update_all()
             if(character_data[187] != 0)
             {
                 frame = *((unsigned short*) (character_data + 184));
-                data = (*((unsigned char**) (character_data+472)));
+                data = model_slot_get_ptr(character_data+472);
                 if(data)
                 {
                     data+=3;
@@ -1114,8 +1128,8 @@ void character_update_all()
                     data+=(num_base_model*20*DETAIL_LEVEL_MAX);
                     if(frame < (num_bone_frame-1))
                     {
-                        next_frame_data = *((unsigned char**) (data+((frame+1)<<2)));
-                        data =  *((unsigned char**) (data+(frame<<2)));
+                        next_frame_data = *((unsigned char**) (data+((frame+1)*BONE_FRAME_ENTRY_SIZE)));
+                        data =  *((unsigned char**) (data+(frame*BONE_FRAME_ENTRY_SIZE)));
                         action = *data;
                         next_action = *next_frame_data;
                         // Mouth action animation
@@ -1185,7 +1199,7 @@ void character_update_all()
             while(skip > 0)
             {
                 frame = *((unsigned short*) (character_data + 178));
-                data = (*((unsigned char**) (character_data+256)))+3;
+                data = model_slot_get_ptr(character_data+256)+3;
                 num_base_model = *data;  data++;
                 num_bone_frame = *((unsigned short*) data); data+=2;
                 action_first_frame = (unsigned short*) data;
@@ -1194,15 +1208,15 @@ void character_update_all()
                 data+=(num_base_model*20*DETAIL_LEVEL_MAX);
                 if(frame < (num_bone_frame-1))
                 {
-                    next_frame_data = *((unsigned char**) (data+((frame+1)<<2)));
-                    data =  *((unsigned char**) (data+(frame<<2)));
+                    next_frame_data = *((unsigned char**) (data+((frame+1)*BONE_FRAME_ENTRY_SIZE)));
+                    data =  *((unsigned char**) (data+(frame*BONE_FRAME_ENTRY_SIZE)));
                 }
                 else
                 {
                     next_frame_data = *((unsigned char**) (data));
                     if(frame < num_bone_frame)
                     {
-                        data = *((unsigned char**) (data+(frame<<2)));
+                        data = *((unsigned char**) (data+(frame*BONE_FRAME_ENTRY_SIZE)));
                     }
                     else
                     {
@@ -2437,7 +2451,7 @@ void character_bone_frame_all()
         {
             character_data = main_character_data[i];
             model_data=character_data+256;
-            if(*((unsigned char**) model_data) != NULL)
+            if(model_slot_get_ptr(model_data) != NULL)
             {
                 mount_data = NULL;
                 mount = *((unsigned short*) (character_data+164));
@@ -2468,7 +2482,7 @@ void character_bone_frame_all()
                     // Generate the bone frame data...
                     frame = *((unsigned short*) (character_data + 178));
                     temp_character_bone_frame[i] = place_to_stick_bone_frame;
-                    place_to_stick_bone_frame = render_generate_model_world_data(*((unsigned char**) model_data), frame, script_matrix, place_to_stick_bone_frame);
+                    place_to_stick_bone_frame = render_generate_model_world_data(model_slot_get_ptr(model_data), frame, script_matrix, place_to_stick_bone_frame);
                 }
             }
         }
@@ -2480,7 +2494,7 @@ void character_bone_frame_all()
         {
             character_data = main_character_data[i];
             model_data=character_data+256;
-            if(*((unsigned char**) model_data) != NULL)
+            if(model_slot_get_ptr(model_data) != NULL)
             {
                 mount_data = NULL;
                 mount = *((unsigned short*) (character_data+164));
@@ -2522,7 +2536,7 @@ void character_bone_frame_all()
                     // Generate the bone frame data...
                     frame = *((unsigned short*) (character_data + 178));
                     temp_character_bone_frame[i] = place_to_stick_bone_frame;
-                    place_to_stick_bone_frame = render_generate_model_world_data(*((unsigned char**) model_data), frame, script_matrix, place_to_stick_bone_frame);
+                    place_to_stick_bone_frame = render_generate_model_world_data(model_slot_get_ptr(model_data), frame, script_matrix, place_to_stick_bone_frame);
                 }
             }
         }

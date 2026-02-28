@@ -78,7 +78,7 @@ signed char decode_ogg(unsigned char* index, unsigned char* filename)
 
 
     // Find the location of the file data, and its size...
-    data = (unsigned char*) sdf_read_unsigned_int(index);
+    data = sdf_index_get_data(index);
     size = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
 
 
@@ -303,7 +303,7 @@ signed char decode_ogg(unsigned char* index, unsigned char* filename)
 
 
         // Write the index...
-        sdf_write_unsigned_int(index, (unsigned int) newdata);
+        sdf_index_set_data(index, newdata);
         sdf_write_unsigned_int(index+4, newsize+4);
         *(index+4) = SDF_FILE_IS_RAW;
         repeat(j, 8) { *(index+8+j) = 0; }

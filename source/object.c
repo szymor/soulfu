@@ -146,7 +146,7 @@ void obj_get_script_name(unsigned char* file_start, unsigned char* file_name)
         file_type = *(index+4) & 15;
         if(file_type == SDF_FILE_IS_RUN)
         {
-            data = (unsigned char*) sdf_read_unsigned_int(index);
+            data = sdf_index_get_data(index);
             if(data == file_start)
             {
                 if(strcmp(index+8, "GENERIC") == 0) return;
@@ -332,11 +332,11 @@ unsigned char* obj_spawn(unsigned char type, float x, float y, float z, unsigned
                 main_character_data[i][217] = 5;
 
 
-                // Clear out model assigns...
+                // Clear out model assigns (each 24-byte model slot stores file numbers, not pointers)
                 j = 256;
                 while(j < 616)
                 {
-                    *((unsigned char**)(main_character_data[i]+j)) = NULL;
+                    memset(main_character_data[i]+j, 0, 24);
                     j+=24;
                 }
 
@@ -751,7 +751,7 @@ void obj_recompile_end(void)
         index = sdf_find_filetype(main_window_script_name[object], SDF_FILE_IS_RUN);
         if(index)
         {
-            main_window_script_start[object] = (unsigned char*) sdf_read_unsigned_int(index);
+            main_window_script_start[object] = sdf_index_get_data(index);
         }
         else
         {
@@ -760,7 +760,7 @@ void obj_recompile_end(void)
             index = sdf_find_filetype("GENERIC", SDF_FILE_IS_RUN);
             if(index)
             {
-                main_window_script_start[object] = (unsigned char*) sdf_read_unsigned_int(index);
+                main_window_script_start[object] = sdf_index_get_data(index);
             }
             else
             {
@@ -781,7 +781,7 @@ void obj_recompile_end(void)
             index = sdf_find_filetype(main_particle_script_name[i], SDF_FILE_IS_RUN);
             if(index)
             {
-                main_particle_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                main_particle_script_start[i] = sdf_index_get_data(index);
             }
             else
             {
@@ -790,7 +790,7 @@ void obj_recompile_end(void)
                 index = sdf_find_filetype("GENERIC", SDF_FILE_IS_RUN);
                 if(index)
                 {
-                    main_particle_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                    main_particle_script_start[i] = sdf_index_get_data(index);
                 }
                 else
                 {
@@ -811,7 +811,7 @@ void obj_recompile_end(void)
             index = sdf_find_filetype(main_character_script_name[i], SDF_FILE_IS_RUN);
             if(index)
             {
-                main_character_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                main_character_script_start[i] = sdf_index_get_data(index);
             }
             else
             {
@@ -820,7 +820,7 @@ void obj_recompile_end(void)
                 index = sdf_find_filetype("GENERIC", SDF_FILE_IS_RUN);
                 if(index)
                 {
-                    main_character_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                    main_character_script_start[i] = sdf_index_get_data(index);
                 }
                 else
                 {

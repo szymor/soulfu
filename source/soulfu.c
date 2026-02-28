@@ -20,7 +20,30 @@
 // Stuff for SDL
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_net.h>
+// SDL2_net not available on all systems; stub it out for now
+// #include <SDL2/SDL_net.h>
+#ifndef _SDL_NET_H
+#define _SDL_NET_H
+typedef struct { unsigned int host; unsigned short port; } IPaddress;
+typedef void* TCPsocket;
+typedef void* UDPsocket;
+typedef struct { int channel; unsigned char* data; int len; int maxlen; int status; IPaddress address; } UDPpacket;
+static inline int SDLNet_Init(void) { return -1; }
+static inline void SDLNet_Quit(void) {}
+static inline UDPsocket SDLNet_UDP_Open(unsigned short port) { (void)port; return NULL; }
+static inline void SDLNet_UDP_Close(UDPsocket sock) { (void)sock; }
+static inline int SDLNet_UDP_Send(UDPsocket sock, int ch, UDPpacket* p) { (void)sock; (void)ch; (void)p; return 0; }
+static inline int SDLNet_UDP_Recv(UDPsocket sock, UDPpacket* p) { (void)sock; (void)p; return 0; }
+static inline UDPpacket* SDLNet_AllocPacket(int size) { (void)size; return NULL; }
+static inline void SDLNet_FreePacket(UDPpacket* p) { (void)p; }
+static inline int SDLNet_ResolveHost(IPaddress* addr, const char* host, unsigned short port) { (void)addr; (void)host; (void)port; return -1; }
+static inline const char* SDLNet_ResolveIP(IPaddress* addr) { (void)addr; return ""; }
+static inline TCPsocket SDLNet_TCP_Open(IPaddress* addr) { (void)addr; return NULL; }
+static inline void SDLNet_TCP_Close(TCPsocket sock) { (void)sock; }
+static inline int SDLNet_TCP_Send(TCPsocket sock, const void* data, int len) { (void)sock; (void)data; (void)len; return 0; }
+static inline int SDLNet_TCP_Recv(TCPsocket sock, void* data, int maxlen) { (void)sock; (void)data; (void)maxlen; return 0; }
+static inline const char* SDLNet_GetError(void) { return "SDL_net not available"; }
+#endif
 
 #define EXECUTABLE_VERSION   "1.x BFTD"
 
@@ -710,7 +733,7 @@ int main(int argc, char *argv[])
   data = sdf_find_filetype("VERSION", SDF_FILE_IS_DAT);
   if(data)
   {
-    data = (unsigned char*) sdf_read_unsigned_int(data);
+    data = sdf_index_get_data(data);
   }
   log_message("INFO:   SoulFu version %s", EXECUTABLE_VERSION);
   generate_game_seed();
@@ -748,7 +771,7 @@ int main(int argc, char *argv[])
   config = sdf_find_filetype("CONFIG", SDF_FILE_IS_DAT);
   if(config)
   {
-    config = (unsigned char*) sdf_read_unsigned_int(config);
+    config = sdf_index_get_data(config);
     screen_size = (*(config+68)) & (MAX_SCREEN_SIZES-1);
     bit_depth = *(config+69);
     z_depth = *(config+70);
@@ -843,7 +866,7 @@ int main(int argc, char *argv[])
   script = sdf_find_filetype("WSTART", SDF_FILE_IS_RUN);
   if(script)
   {
-    script = (unsigned char*) sdf_read_unsigned_int(script);
+    script = sdf_index_get_data(script);
     obj_spawn(WINDOW, virtual_x / 2, virtual_y / 2, 0, script, MAX_WINDOW);
     repeat(i, promotion_count)
     {

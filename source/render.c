@@ -97,6 +97,7 @@ unsigned char* render_generate_model_world_data(unsigned char* data, unsigned sh
     unsigned short i, j;
     unsigned char num_base_model;
     unsigned short num_bone_frame;
+    unsigned char* data_start = data;
 
 //log_message("INFO:   render_generate_blah_blah_blah");
 
@@ -110,10 +111,10 @@ unsigned char* render_generate_model_world_data(unsigned char* data, unsigned sh
 
     // Go to the current base model
     if(frame >= num_bone_frame) frame = 0;
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data+2);  frame_data+=11;
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
 
 
     base_model_data+=4;
@@ -207,6 +208,7 @@ void render_fix_model_to_bone_length(unsigned char* data, unsigned short frame, 
     float joint_movement_xyz[MAX_JOINT][3];
     float desired_length;
     float total_weight;
+    unsigned char* data_start = data;
 
 
 
@@ -221,12 +223,12 @@ void render_fix_model_to_bone_length(unsigned char* data, unsigned short frame, 
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=12;
-    joint_size_data = *((float**) data);  data+=4;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=12;
+    joint_size_data = (float*) rdy_read_ptr(data, data_start);  data+=4;
+    bone_data = rdy_read_ptr(data, data_start);
 
 
     base_model_data+=4;
@@ -343,6 +345,7 @@ void render_crunch_bone(unsigned char* data, unsigned short frame, unsigned shor
     float length;
     unsigned char base_model;
     unsigned short joint[2];
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -356,11 +359,11 @@ void render_crunch_bone(unsigned char* data, unsigned short frame, unsigned shor
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
 
 
     base_model_data+=6;
@@ -434,6 +437,7 @@ void render_crunch_vertex(unsigned char* data, unsigned short frame, unsigned sh
     unsigned char bone_binding[2];
     unsigned short joint[2];
     float weight[2];
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -447,11 +451,11 @@ void render_crunch_vertex(unsigned char* data, unsigned short frame, unsigned sh
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
 
 
     num_vertex = *((unsigned short*) base_model_data); base_model_data+=6;
@@ -635,6 +639,7 @@ void render_crunch_rdy(unsigned char* data)
     unsigned short i;
     unsigned char base_model, detail_level;
     unsigned char base_crunched[MAX_BASE_TO_CRUNCH];
+    unsigned char* data_start = data;
 
 
     // Keep track of which we've crunched
@@ -655,7 +660,7 @@ void render_crunch_rdy(unsigned char* data)
     repeat(frame, num_bone_frame)
     {
         // Go to the current base model
-        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
         base_model = *(frame_data + 2);
         if(base_crunched[base_model] == FALSE)
         {
@@ -664,7 +669,7 @@ void render_crunch_rdy(unsigned char* data)
             repeat(detail_level, num_detail_level)
             {
                 base_model_data = data + (base_model*20) + (num_base_model*20*detail_level);
-                base_model_data = *((unsigned char**) base_model_data);
+                base_model_data = rdy_read_ptr(base_model_data, data_start);
                 num_vertex = *((unsigned short*) base_model_data);  base_model_data+=6;
                 num_bone = *((unsigned short*) base_model_data);
 
@@ -708,7 +713,7 @@ void render_crunch_all(unsigned char mask)
             sdf_get_filename(i, filename, &filetype);
             if(filetype == SDF_FILE_IS_RDY)
             {
-                file_start = (unsigned char*) sdf_read_unsigned_int(index);
+                file_start = sdf_index_get_data(index);
                 render_crunch_rdy(file_start);
             }
         }
@@ -808,6 +813,7 @@ void hide_vertices(unsigned char* data, unsigned short frame, unsigned char do_h
     unsigned char base_model;
     unsigned short i;
     unsigned char num_base_model;
+    unsigned char* data_start = data;
 
 
     if(do_hide)
@@ -828,10 +834,10 @@ void hide_vertices(unsigned char* data, unsigned short frame, unsigned char do_h
         data+=(MAX_DDD_SHADOW_TEXTURE);
 
         // Go to the current base model
-        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
         base_model = *(frame_data+2);  frame_data+=11;
         data = data + (base_model*20);
-        base_model_data = *((unsigned char**) data);
+        base_model_data = rdy_read_ptr(data, data_start);
         num_vertex = *((unsigned short*) base_model_data); base_model_data+=8;
 
         repeat(i, num_vertex)
@@ -865,6 +871,7 @@ void render_rotate_bones(unsigned char* data, unsigned short frame, signed char 
     float frotation;
     float frotcos;
     float frotsin;
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -878,11 +885,11 @@ void render_rotate_bones(unsigned char* data, unsigned short frame, signed char 
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
 
 
     base_model_data+=4;
@@ -1355,7 +1362,7 @@ void setup_shadow(void)
                     #ifdef VERBOSE_COMPILE
                         log_message("INFO:     Found file");
                     #endif
-                    data = (unsigned char*) sdf_read_unsigned_int(data);
+                    data = sdf_index_get_data(data);
                     value = *((unsigned int*) (data+2));
                 }
                 shadow_texture[i] = value;
@@ -1570,6 +1577,7 @@ void render_generate_bone_normals(unsigned char* data, unsigned short frame)
     unsigned short i;
     float new_front_xyz[3];
     float new_side_xyz[3];
+    unsigned char* data_start = data;
 
 
 
@@ -1580,15 +1588,15 @@ void render_generate_bone_normals(unsigned char* data, unsigned short frame)
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
 //log_message("INFO:   Base model %d", base_model);
     detail_level = 0;
 
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    bone_data = *((unsigned char**) data);
+    bone_data = rdy_read_ptr(data, data_start);
     num_bone = *((unsigned short*) (bone_data+6));
-    bone_data = *((unsigned char**) (data+16));
+    bone_data = rdy_read_ptr(data+16, data_start);
 
 
     normal_data = frame_data+11;
@@ -1768,6 +1776,7 @@ unsigned char render_insert_tex_vertex(unsigned char* data, unsigned short frame
     unsigned short i, j, k;
     signed short amount_to_add;
     unsigned char base_model, detail_level;
+    unsigned char* data_start = data;
 
 
 
@@ -1781,13 +1790,13 @@ unsigned char render_insert_tex_vertex(unsigned char* data, unsigned short frame
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
-    tex_vertex_data =  *((unsigned char**) data);  data+=4;
-    texture_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
+    tex_vertex_data = rdy_read_ptr(data, data_start);  data+=4;
+    texture_data = rdy_read_ptr(data, data_start);
 
     base_model_data+=2;
     num_tex_vertex = *((unsigned short*) base_model_data);
@@ -1930,17 +1939,17 @@ unsigned char render_insert_tex_vertex(unsigned char* data, unsigned short frame
     if(amount_to_add != 0)
     {
         // Update all base model pointers at start of file
-        *((unsigned char**) data) += amount_to_add;  data+=4;
-        *((unsigned char**) data) += amount_to_add;  data+=4;
-        *((unsigned char**) data) += amount_to_add;  data+=4;
+        *((unsigned int*) data) += amount_to_add;  data+=4;
+        *((unsigned int*) data) += amount_to_add;  data+=4;
+        *((unsigned int*) data) += amount_to_add;  data+=4;
         base_model++;
         while(base_model < num_base_model)
         {
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
             base_model++;
         }
 
@@ -1950,7 +1959,7 @@ unsigned char render_insert_tex_vertex(unsigned char* data, unsigned short frame
         {
             repeat(i, num_bone_frame)
             {
-                *((unsigned char**) data) += amount_to_add;  data+=4;
+                *((unsigned char**) data) += amount_to_add;  data+=BONE_FRAME_ENTRY_SIZE;
             }
         }
         return TRUE;
@@ -1994,6 +2003,7 @@ unsigned char render_pregenerate_normals(unsigned char* data, unsigned short fra
     float height_xyz[3];
     float point_xyz[3];
     unsigned char tex_alpha;
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -2007,13 +2017,13 @@ unsigned char render_pregenerate_normals(unsigned char* data, unsigned short fra
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     frame_data+=11;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=8;
-    texture_data = *((unsigned char**) data); data+=8;
-    bone_data_start = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=8;
+    texture_data = rdy_read_ptr(data, data_start); data+=8;
+    bone_data_start = rdy_read_ptr(data, data_start);
 
 
     num_vertex = *((unsigned short*) base_model_data);
@@ -2306,6 +2316,7 @@ void render_joint_size(unsigned char* data, unsigned short frame, unsigned short
     unsigned short num_bone_frame;
     unsigned short num_joint;
     unsigned char detail_level;
+    unsigned char* data_start = data;
 
     data+=3;
     num_base_model = *data;  data++;
@@ -2314,14 +2325,14 @@ void render_joint_size(unsigned char* data, unsigned short frame, unsigned short
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
 
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    joint_data = *((unsigned char**) data);
+    joint_data = rdy_read_ptr(data, data_start);
     num_joint = *((unsigned short*) (joint_data+4));
-    joint_data = *((unsigned char**) (data+12));
+    joint_data = rdy_read_ptr(data+12, data_start);
     if(joint < num_joint)
     {
         joint_data+=(joint<<2);
@@ -2353,6 +2364,7 @@ void render_attach_vertex_to_bone(unsigned char* data, unsigned short frame, uns
     float vector_xyz[3];
     float vertex_xyz[3];
     unsigned short num_normal_bone;
+    unsigned char* data_start = data;
 
 
 
@@ -2366,12 +2378,12 @@ void render_attach_vertex_to_bone(unsigned char* data, unsigned short frame, uns
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
-    bone_data =  *((unsigned char**) (data+12));
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
+    bone_data = rdy_read_ptr(data+12, data_start);
     num_vertex = *((unsigned short*) base_model_data); base_model_data+=4;
     if(vertex >= num_vertex) return;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -2635,6 +2647,7 @@ void render_gnomify_working_direction(unsigned char* data, unsigned short frame,
     unsigned char* frame_data;
     float* joint_one_xyz;
     float* joint_two_xyz;
+    unsigned char* data_start = data;
 
     // Default to 0, 0, 0 if we fail...
     global_gnomify_working_direction_xyz[X] = 0.0f;
@@ -2649,11 +2662,11 @@ void render_gnomify_working_direction(unsigned char* data, unsigned short frame,
     if(frame >= num_bone_frame) { return; }
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    data = *((unsigned char**) data);
+    data = rdy_read_ptr(data, data_start);
     data+=4;
     num_joint = *((unsigned short*) data);  data+=2;
     num_bone =  *((unsigned short*) data);
@@ -2684,6 +2697,7 @@ void render_gnomify_affect_joint(unsigned char* data, unsigned short frame, unsi
     unsigned char* frame_data;
     float* joint_xyz;
     float scale;
+    unsigned char* data_start = data;
 
     // Read the RDY file's header...
     data+=2;
@@ -2693,11 +2707,11 @@ void render_gnomify_affect_joint(unsigned char* data, unsigned short frame, unsi
     if(frame >= num_bone_frame) { return; }
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    data = *((unsigned char**) data);
+    data = rdy_read_ptr(data, data_start);
     data+=4;
     num_joint = *((unsigned short*) data);  data+=2;
     num_bone =  *((unsigned short*) data);
@@ -2731,6 +2745,7 @@ void render_joint_from_vertex_location(unsigned char* data, unsigned short frame
     unsigned short i;
     float* joint_xyz;
     float* vertex_xyz;
+    unsigned char* data_start = data;
 
     // Default to 0, 0, 0 if we fail...
     global_gnomify_working_direction_xyz[X] = 0.0f;
@@ -2745,11 +2760,11 @@ void render_joint_from_vertex_location(unsigned char* data, unsigned short frame
     if(frame >= num_bone_frame) { return; }
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    data = *((unsigned char**) data);
+    data = rdy_read_ptr(data, data_start);
     num_vertex = *((unsigned short*) data);  data+=4;
     num_joint = *((unsigned short*) data);  data+=2;
     num_bone =  *((unsigned short*) data);  data+=2;
@@ -2858,6 +2873,7 @@ void render_rdy(unsigned char* data, unsigned short frame, unsigned char mode, u
     unsigned char  temporary_particle_data[PARTICLE_SIZE];
     start_data = data;
 #endif
+    unsigned char* data_start = data;
 
 
 
@@ -2900,15 +2916,15 @@ void render_rdy(unsigned char* data, unsigned short frame, unsigned char mode, u
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
 
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
-    tex_vertex_data = *((unsigned char**) data);  data+=4;
-    texture_data = *((unsigned char**) data);  data+=4;
-    joint_data = *((unsigned char**) data);  data+=4;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
+    tex_vertex_data = rdy_read_ptr(data, data_start);  data+=4;
+    texture_data = rdy_read_ptr(data, data_start);  data+=4;
+    joint_data = rdy_read_ptr(data, data_start);  data+=4;
+    bone_data = rdy_read_ptr(data, data_start);
 
 
     vertex_data = base_model_data;
@@ -4805,6 +4821,7 @@ void render_rdy_character_shadow(unsigned char* data, unsigned char* character_d
     unsigned short frame;
     float vertex_xyz[3];
     float x, y;
+    unsigned char* data_start = data;
 
     x = *((float*) (character_data));
     y = *((float*) (character_data+4));
@@ -4822,11 +4839,11 @@ void render_rdy_character_shadow(unsigned char* data, unsigned char* character_d
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
 
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -4894,6 +4911,7 @@ void render_rdy_shadow(unsigned char* data, unsigned short frame, float x, float
     unsigned char base_model, detail_level;
     unsigned char alpha;
     float vertex_xyz[3];
+    unsigned char* data_start = data;
 
     #ifdef DEVTOOL
         float onscreen_x, onscreen_y;
@@ -4911,11 +4929,11 @@ void render_rdy_shadow(unsigned char* data, unsigned short frame, float x, float
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
 
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -5174,6 +5192,7 @@ unsigned char render_insert_triangle(unsigned char* data, unsigned short frame, 
     unsigned short num_primitive, num_primitive_vertex;
     int amount_added;
     unsigned char base_model, detail_level;
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -5188,12 +5207,12 @@ unsigned char render_insert_triangle(unsigned char* data, unsigned short frame, 
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
     data+=8;
-    texture_data = *((unsigned char**) data);  data+=4;
+    texture_data = rdy_read_ptr(data, data_start);  data+=4;
 
 
 
@@ -5345,16 +5364,16 @@ unsigned char render_insert_triangle(unsigned char* data, unsigned short frame, 
     if(amount_added != 0)
     {
         // Update all base model pointers at start of file
-        *((unsigned char**) data) += amount_added;  data+=4;
-        *((unsigned char**) data) += amount_added;  data+=4;
+        *((unsigned int*) data) += amount_added;  data+=4;
+        *((unsigned int*) data) += amount_added;  data+=4;
         base_model++;
         while(base_model < num_base_model)
         {
-            *((unsigned char**) data) += amount_added;  data+=4;
-            *((unsigned char**) data) += amount_added;  data+=4;
-            *((unsigned char**) data) += amount_added;  data+=4;
-            *((unsigned char**) data) += amount_added;  data+=4;
-            *((unsigned char**) data) += amount_added;  data+=4;
+            *((unsigned int*) data) += amount_added;  data+=4;
+            *((unsigned int*) data) += amount_added;  data+=4;
+            *((unsigned int*) data) += amount_added;  data+=4;
+            *((unsigned int*) data) += amount_added;  data+=4;
+            *((unsigned int*) data) += amount_added;  data+=4;
             base_model++;
         }
 
@@ -5364,7 +5383,7 @@ unsigned char render_insert_triangle(unsigned char* data, unsigned short frame, 
         {
             repeat(i, num_bone_frame)
             {
-                *((unsigned char**) data) += amount_added;  data+=4;
+                *((unsigned char**) data) += amount_added;  data+=BONE_FRAME_ENTRY_SIZE;
             }
         }
         return TRUE;
@@ -5397,6 +5416,7 @@ unsigned char render_insert_vertex(unsigned char* data, unsigned short frame, fl
     unsigned short amount_removed, num_primitive, num_primitive_vertex, vertex;
     unsigned char base_model, detail_level;
     unsigned char found_match;
+    unsigned char* data_start = data;
 
 
 
@@ -5411,12 +5431,12 @@ unsigned char render_insert_vertex(unsigned char* data, unsigned short frame, fl
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
-    bone_data =  *((unsigned char**) (data+12));
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
+    bone_data = rdy_read_ptr(data+12, data_start);
 
     num_vertex = *((unsigned short*) base_model_data); base_model_data+=2;
     num_tex_vertex = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -5447,18 +5467,18 @@ unsigned char render_insert_vertex(unsigned char* data, unsigned short frame, fl
 
 
             // Update all base model pointers at start of file
-            *((unsigned char**) data) += 64;  data+=4;
-            *((unsigned char**) data) += 64;  data+=4;
-            *((unsigned char**) data) += 64;  data+=4;
-            *((unsigned char**) data) += 64;  data+=4;
+            *((unsigned int*) data) += 64;  data+=4;
+            *((unsigned int*) data) += 64;  data+=4;
+            *((unsigned int*) data) += 64;  data+=4;
+            *((unsigned int*) data) += 64;  data+=4;
             base_model++;
             while(base_model < num_base_model)
             {
-                *((unsigned char**) data) += 64;  data+=4;
-                *((unsigned char**) data) += 64;  data+=4;
-                *((unsigned char**) data) += 64;  data+=4;
-                *((unsigned char**) data) += 64;  data+=4;
-                *((unsigned char**) data) += 64;  data+=4;
+                *((unsigned int*) data) += 64;  data+=4;
+                *((unsigned int*) data) += 64;  data+=4;
+                *((unsigned int*) data) += 64;  data+=4;
+                *((unsigned int*) data) += 64;  data+=4;
+                *((unsigned int*) data) += 64;  data+=4;
                 base_model++;
             }
 
@@ -5468,7 +5488,7 @@ unsigned char render_insert_vertex(unsigned char* data, unsigned short frame, fl
             {
                 repeat(i, num_bone_frame)
                 {
-                    *((unsigned char**) data) += 64;  data+=4;
+                    *((unsigned char**) data) += 64;  data+=BONE_FRAME_ENTRY_SIZE;
                 }
             }
 
@@ -5569,18 +5589,18 @@ unsigned char render_insert_vertex(unsigned char* data, unsigned short frame, fl
 
 
                 // Update all base model pointers at start of file
-                *((unsigned char**) data) -= 64;  data+=4;
-                *((unsigned char**) data) -= 64;  data+=4;
-                *((unsigned char**) data) -= amount_removed;  data+=4;
-                *((unsigned char**) data) -= amount_removed;  data+=4;
+                *((unsigned int*) data) -= 64;  data+=4;
+                *((unsigned int*) data) -= 64;  data+=4;
+                *((unsigned int*) data) -= amount_removed;  data+=4;
+                *((unsigned int*) data) -= amount_removed;  data+=4;
                 base_model++;
                 while(base_model < num_base_model)
                 {
-                    *((unsigned char**) data) -= amount_removed;  data+=4;
-                    *((unsigned char**) data) -= amount_removed;  data+=4;
-                    *((unsigned char**) data) -= amount_removed;  data+=4;
-                    *((unsigned char**) data) -= amount_removed;  data+=4;
-                    *((unsigned char**) data) -= amount_removed;  data+=4;
+                    *((unsigned int*) data) -= amount_removed;  data+=4;
+                    *((unsigned int*) data) -= amount_removed;  data+=4;
+                    *((unsigned int*) data) -= amount_removed;  data+=4;
+                    *((unsigned int*) data) -= amount_removed;  data+=4;
+                    *((unsigned int*) data) -= amount_removed;  data+=4;
                     base_model++;
                 }
 
@@ -5590,7 +5610,7 @@ unsigned char render_insert_vertex(unsigned char* data, unsigned short frame, fl
                 {
                     repeat(i, num_bone_frame)
                     {
-                        *((unsigned char**) data) -= amount_removed;  data+=4;
+                        *((unsigned char**) data) -= amount_removed;  data+=BONE_FRAME_ENTRY_SIZE;
                     }
                 }
                 return TRUE;
@@ -5634,6 +5654,7 @@ void render_copy_selected(unsigned char* data, unsigned short frame)
     unsigned short num_primitive;
     unsigned short num_primitive_vertex;
     unsigned char found_match;
+    unsigned char* data_start = data;
 
 
     // Clear out the last copy
@@ -5655,13 +5676,13 @@ void render_copy_selected(unsigned char* data, unsigned short frame)
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
     num_vertex = *((unsigned short*) (base_model_data));
-    tex_vertex_data = *((float**) (data+4));
-    texture_data = *((unsigned char**) (data+8));
+    tex_vertex_data = (float*) rdy_read_ptr(data+4, data_start);
+    texture_data = rdy_read_ptr(data+8, data_start);
 
 
     // Save the selected vertex coordinates
@@ -5759,6 +5780,7 @@ void render_paste_selected(unsigned char* data, unsigned short frame, unsigned c
     unsigned char base_model;
     unsigned short first_vertex;
     unsigned short first_tex_vertex;
+    unsigned char* data_start = data;
 
 
     // Read the rdy header to find out our starting vertices...
@@ -5767,11 +5789,11 @@ void render_paste_selected(unsigned char* data, unsigned short frame, unsigned c
     num_base_model = *data;  data+=3;
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
-    tex_vertex_data = *((float**) (data+4));
+    base_model_data = rdy_read_ptr(data, data_start);
+    tex_vertex_data = (float*) rdy_read_ptr(data+4, data_start);
     first_vertex = *((unsigned short*) (base_model_data));
     first_tex_vertex = *((unsigned short*) (base_model_data+2));
     base_model_data+=8;
@@ -5833,6 +5855,7 @@ void render_fill_temp_character_bone_number(unsigned char* data)
     unsigned short i;
     unsigned char base_model;
     unsigned short frame;
+    unsigned char* data_start = data;
 
 
 
@@ -5844,11 +5867,11 @@ void render_fill_temp_character_bone_number(unsigned char* data)
 
     // Go to the current base model
     frame = 0;
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
     base_model_data+=6;
     num_bone = *((unsigned short*) base_model_data);
 
@@ -5881,6 +5904,7 @@ unsigned char render_bone_id(unsigned char* data, unsigned short frame, unsigned
     unsigned char* bone_data;
     unsigned short i;
     unsigned char base_model;
+    unsigned char* data_start = data;
 
 
 
@@ -5897,11 +5921,11 @@ unsigned char render_bone_id(unsigned char* data, unsigned short frame, unsigned
 
     // Go to the current base model
     frame_data_start = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = *((unsigned char**) (frame_data_start+(frame<<2)));
+    frame_data = *((unsigned char**) (frame_data_start+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data =  *((unsigned char**) (data));
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
 
     base_model_data+=6;
     num_bone = *((unsigned short*) base_model_data);
@@ -5954,6 +5978,7 @@ unsigned char render_insert_bone(unsigned char* data, unsigned short frame, unsi
     unsigned char single_joint;
     unsigned char remove_bone[MAX_BONE];
     unsigned char removed_all_bones;
+    unsigned char* data_start = data;
 
 
 
@@ -5971,13 +5996,13 @@ unsigned char render_insert_bone(unsigned char* data, unsigned short frame, unsi
 
     // Go to the current base model
     frame_data_start = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = *((unsigned char**) (frame_data_start+(frame<<2)));
+    frame_data = *((unsigned char**) (frame_data_start+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
-    joint_data =  *((unsigned char**) (data+8));
-    bone_data =  *((unsigned char**) (data+12));
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
+    joint_data = rdy_read_ptr(data+8, data_start);
+    bone_data = rdy_read_ptr(data+12, data_start);
 
     num_vertex = *((unsigned short*) base_model_data); base_model_data+=2;
     num_tex_vertex = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -5995,7 +6020,7 @@ unsigned char render_insert_bone(unsigned char* data, unsigned short frame, unsi
         // Go through all frame data looking for matching base models to add bone normals...
         repeat(i, num_bone_frame)
         {
-            frame_data = *((unsigned char**) (frame_data_start+(i<<2)));
+            frame_data = *((unsigned char**) (frame_data_start+(i*BONE_FRAME_ENTRY_SIZE)));
             j = *(frame_data+2);  // Base model for this frame...
             if(j == base_model)
             {
@@ -6017,7 +6042,7 @@ unsigned char render_insert_bone(unsigned char* data, unsigned short frame, unsi
                     j = i+1;
                     while(j < num_bone_frame)
                     {
-                        *((unsigned char**) (frame_data_start+(j<<2))) += 24;
+                        *((unsigned char**) (frame_data_start+(j*BONE_FRAME_ENTRY_SIZE))) += 24;
                         j++;
                     }
                 }
@@ -6098,7 +6123,7 @@ log_message("INFO:     Cannot remove bone %d", i);
         // Go through all frame data looking for matching base models to remove bone normals...  Do backwards...
         repeat(i, num_bone_frame)
         {
-            frame_data = *((unsigned char**) (frame_data_start+(i<<2)));
+            frame_data = *((unsigned char**) (frame_data_start+(i*BONE_FRAME_ENTRY_SIZE)));
             j = *(frame_data+2);  // Base model for this frame...
             if(j == base_model)
             {
@@ -6126,7 +6151,7 @@ log_message("INFO:     Cannot remove bone %d", i);
                 j = i+1;
                 while(j < num_bone_frame)
                 {
-                    *((unsigned char**) (frame_data_start+(j<<2))) += amount_to_add;
+                    *((unsigned char**) (frame_data_start+(j*BONE_FRAME_ENTRY_SIZE))) += amount_to_add;
                     j++;
                 }
             }
@@ -6201,11 +6226,11 @@ repeat(j, num_bone)
         base_model++;
         while(base_model < num_base_model)
         {
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
-            *((unsigned char**) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
+            *((unsigned int*) data) += amount_to_add;  data+=4;
             base_model++;
         }
 
@@ -6213,7 +6238,7 @@ repeat(j, num_bone)
         // Update bone frame pointers...
         repeat(i, num_bone_frame)
         {
-            *((unsigned char**) data) += amount_to_add;  data+=4;
+            *((unsigned char**) data) += amount_to_add;  data+=BONE_FRAME_ENTRY_SIZE;
         }
 
 
@@ -6255,6 +6280,7 @@ unsigned char render_insert_joint(unsigned char* data, unsigned short frame, flo
     unsigned short i, j;
     unsigned char base_model, detail_level;
     unsigned char bone_delete_okay;
+    unsigned char* data_start = data;
 
 
     // Remove bones attached to joint, if we're deleting a joint...
@@ -6292,13 +6318,13 @@ log_message("INFO:   ");
 
     // Go to the current base model
     frame_data_start = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = *((unsigned char**) (frame_data_start+(frame<<2)));
+    frame_data = *((unsigned char**) (frame_data_start+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
-    joint_data =  *((unsigned char**) (data+8));
-    bone_data =  *((unsigned char**) (data+12));
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
+    joint_data = rdy_read_ptr(data+8, data_start);
+    bone_data = rdy_read_ptr(data+12, data_start);
 
     num_vertex = *((unsigned short*) base_model_data); base_model_data+=2;
     num_tex_vertex = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -6309,7 +6335,7 @@ log_message("INFO:   ");
         // Insert a joint...  Go through all frame data looking for matching base models to add joint position...
         repeat(i, num_bone_frame)
         {
-            frame_data = *((unsigned char**) (frame_data_start+(i<<2)));
+            frame_data = *((unsigned char**) (frame_data_start+(i*BONE_FRAME_ENTRY_SIZE)));
             j = *(frame_data+2);  // Base model for this frame...
             if(j == base_model)
             {
@@ -6328,7 +6354,7 @@ log_message("INFO:   ");
                     j = i+1;
                     while(j < num_bone_frame)
                     {
-                        *((unsigned char**) (frame_data_start+(j<<2))) += 12;
+                        *((unsigned char**) (frame_data_start+(j*BONE_FRAME_ENTRY_SIZE))) += 12;
                         j++;
                     }
                 }
@@ -6350,15 +6376,15 @@ log_message("INFO:   ");
 
             // Update all base model pointers at start of file
             data+=12;
-            *((unsigned char**) data) += 4;  data+=4;
+            *((unsigned int*) data) += 4;  data+=4;
             base_model++;
             while(base_model < num_base_model)
             {
-                *((unsigned char**) data) += 4;  data+=4;
-                *((unsigned char**) data) += 4;  data+=4;
-                *((unsigned char**) data) += 4;  data+=4;
-                *((unsigned char**) data) += 4;  data+=4;
-                *((unsigned char**) data) += 4;  data+=4;
+                *((unsigned int*) data) += 4;  data+=4;
+                *((unsigned int*) data) += 4;  data+=4;
+                *((unsigned int*) data) += 4;  data+=4;
+                *((unsigned int*) data) += 4;  data+=4;
+                *((unsigned int*) data) += 4;  data+=4;
                 base_model++;
             }
 
@@ -6366,7 +6392,7 @@ log_message("INFO:   ");
             // Update bone frame pointers...
             repeat(i, num_bone_frame)
             {
-                *((unsigned char**) data) += 4;  data+=4;
+                *((unsigned char**) data) += 4;  data+=BONE_FRAME_ENTRY_SIZE;
             }
 log_message("INFO:   Done with insert_joint");
             return TRUE;
@@ -6386,7 +6412,7 @@ log_message("INFO:   Deleting joint %d", joint_to_remove);
                 // Delete joint coordinates in every frame of animation
                 repeat(i, num_bone_frame)
                 {
-                    frame_data = *((unsigned char**) (frame_data_start+(i<<2)));
+                    frame_data = *((unsigned char**) (frame_data_start+(i*BONE_FRAME_ENTRY_SIZE)));
                     j = *(frame_data+2);  // Base model for this frame...
                     if(j == base_model)
                     {
@@ -6399,7 +6425,7 @@ log_message("INFO:   Deleting joint %d", joint_to_remove);
                             j = i+1;
                             while(j < num_bone_frame)
                             {
-                                *((unsigned char**) (frame_data_start+(j<<2))) -= 12;
+                                *((unsigned char**) (frame_data_start+(j*BONE_FRAME_ENTRY_SIZE))) -= 12;
                                 j++;
                             }
                         }
@@ -6417,15 +6443,15 @@ log_message("INFO:   Deleting joint %d", joint_to_remove);
 
                     // Update all base model pointers at start of file
                     data+=12;
-                    *((unsigned char**) data) -= 4;  data+=4;
+                    *((unsigned int*) data) -= 4;  data+=4;
                     base_model++;
                     while(base_model < num_base_model)
                     {
-                        *((unsigned char**) data) -= 4;  data+=4;
-                        *((unsigned char**) data) -= 4;  data+=4;
-                        *((unsigned char**) data) -= 4;  data+=4;
-                        *((unsigned char**) data) -= 4;  data+=4;
-                        *((unsigned char**) data) -= 4;  data+=4;
+                        *((unsigned int*) data) -= 4;  data+=4;
+                        *((unsigned int*) data) -= 4;  data+=4;
+                        *((unsigned int*) data) -= 4;  data+=4;
+                        *((unsigned int*) data) -= 4;  data+=4;
+                        *((unsigned int*) data) -= 4;  data+=4;
                         base_model++;
                     }
 
@@ -6433,7 +6459,7 @@ log_message("INFO:   Deleting joint %d", joint_to_remove);
                     // Update bone frame pointers...
                     repeat(i, num_bone_frame)
                     {
-                        *((unsigned char**) data) -= 4;  data+=4;
+                        *((unsigned char**) data) -= 4;  data+=BONE_FRAME_ENTRY_SIZE;
                     }
 
 
@@ -6492,7 +6518,7 @@ void scale_all_joints_and_vertices(unsigned char* data, float scale)
     {
         detail_level = 0;
         base_data = data + (base_model*20) + (num_base_model*20*detail_level);
-        base_data = *((unsigned char**) base_data);
+        base_data = rdy_read_ptr(base_data, data_start);
         num_vertex = *((unsigned short*) base_data);  base_data+=6;
         num_bone = *((unsigned short*) base_data);  base_data+=2;
 
@@ -6509,7 +6535,7 @@ void scale_all_joints_and_vertices(unsigned char* data, float scale)
 
 
         base_data = data + (base_model*20) + 16 + (num_base_model*20*detail_level);
-        base_data = *((unsigned char**) base_data);  base_data+=5;
+        base_data = rdy_read_ptr(base_data, data_start);  base_data+=5;
         repeat(i, num_bone)
         {
             temp = *((float*) base_data);
@@ -6524,14 +6550,14 @@ void scale_all_joints_and_vertices(unsigned char* data, float scale)
     frame = 0;
     repeat(frame, num_bone_frame)
     {
-        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
 
 
         // Find number of bones and joints for bone frame...
         base_model = *(frame_data + 2);
         detail_level = 0;
         base_data = data + (base_model*20) + (num_base_model*20*detail_level);
-        base_data = *((unsigned char**) base_data);  base_data+=4;
+        base_data = rdy_read_ptr(base_data, data_start);  base_data+=4;
         num_joint = *((unsigned short*) base_data);  base_data+=2;
         num_bone = *((unsigned short*) base_data);
 
@@ -6726,16 +6752,16 @@ float z;
     if(frame >= num_bone_frame) return;
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
-    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame<<2)));
-    next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
+    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame*BONE_FRAME_ENTRY_SIZE)));
+    next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame*BONE_FRAME_ENTRY_SIZE)));
 
 
     // Find number of bones and joints for bone frame...
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    data = *((unsigned char**) data);  data+=4;
+    data = rdy_read_ptr(data, data_start);  data+=4;
     num_joint = *((unsigned short*) data);  data+=2;
     num_bone = *((unsigned short*) data);
 
@@ -6849,12 +6875,12 @@ void break_anim_selected_vertices(unsigned char* data, unsigned short frame)
         if(frame >= num_bone_frame) return;
         data+=(ACTION_MAX<<1);
         data+=(MAX_DDD_SHADOW_TEXTURE);
-        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
         base_model = *(frame_data + 2);
         detail_level = 0;
         data = data + (base_model*20) + (num_base_model*20*detail_level);
         data+=8;
-        texture_data = *((unsigned char**) data);  data+=4;
+        texture_data = rdy_read_ptr(data, data_start);  data+=4;
         repeat(i, MAX_DDD_TEXTURE)
         {
             texture_mode = *texture_data;  texture_data++;
@@ -6924,12 +6950,12 @@ void break_anim_selected_vertices(unsigned char* data, unsigned short frame)
             if(frame >= num_bone_frame) return;
             data+=(ACTION_MAX<<1);
             data+=(MAX_DDD_SHADOW_TEXTURE);
-            frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+            frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
             base_model = *(frame_data + 2);
             detail_level = 0;
             data = data + (base_model*20) + (num_base_model*20*detail_level);
             data+=8;
-            texture_data = *((unsigned char**) data);  data+=4;
+            texture_data = rdy_read_ptr(data, data_start);  data+=4;
             repeat(i, MAX_DDD_TEXTURE)
             {
                 texture_mode = *texture_data;  texture_data++;
@@ -7101,6 +7127,7 @@ void flip_selected_vertices(unsigned char* data, unsigned short frame, unsigned 
     unsigned short num_primitive, num_primitive_vertex;
     int amount_added;
     unsigned char base_model, detail_level;
+    unsigned char* data_start = data;
 
 
     // Flip each of 'em...
@@ -7129,11 +7156,11 @@ void flip_selected_vertices(unsigned char* data, unsigned short frame, unsigned 
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    texture_data = *((unsigned char**) (data+8));
+    texture_data = rdy_read_ptr(data+8, data_start);
 
 
     // Go through each triangle...
@@ -7196,6 +7223,7 @@ unsigned char* get_start_of_triangles(unsigned char* data, unsigned short frame,
     unsigned short num_primitive, num_primitive_vertex;
     unsigned char base_model, detail_level;
     unsigned short num_bone, num_joint;
+    unsigned char* data_start = data;
 
 
     // Run through each triangle until we get to the desired texture...
@@ -7209,16 +7237,16 @@ unsigned char* get_start_of_triangles(unsigned char* data, unsigned short frame,
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
 
-    texture_data = *((unsigned char**) (data));
+    texture_data = rdy_read_ptr(data, data_start);
     num_joint = *((unsigned short*) (texture_data+4));
     num_bone = *((unsigned short*) (texture_data+6));
 
-    texture_data = *((unsigned char**) (data+8));
+    texture_data = rdy_read_ptr(data+8, data_start);
 
 
     // Go through each triangle...
@@ -7597,7 +7625,7 @@ unsigned short render_change_frame_base_model(unsigned char* data, unsigned shor
     unsigned char num_base_model;
     unsigned short num_bone_frame;
     unsigned char** frame_data_start;
-    unsigned char** base_model_data_start;
+    unsigned int* base_model_data_start;
     unsigned char* base_model_data;
     unsigned char* start_data;
     unsigned char* frame_data;
@@ -7610,6 +7638,7 @@ unsigned short render_change_frame_base_model(unsigned char* data, unsigned shor
     unsigned short copy_from_frame;
     signed int copy_from_size;
     unsigned char alpha;
+    unsigned char* data_start = data;
 
 
     // Go to the current base model, and determine its size
@@ -7621,7 +7650,7 @@ unsigned short render_change_frame_base_model(unsigned char* data, unsigned shor
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
-    base_model_data_start = (unsigned char**) data;
+    base_model_data_start = (unsigned int*) data;
     frame_data_start =  (unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX));
     if(new_base_model == 65535)
     {
@@ -7651,7 +7680,7 @@ unsigned short render_change_frame_base_model(unsigned char* data, unsigned shor
     // Determine the size of the current frame...
     frame_data = frame_data_start[frame];
     base_model = frame_data[2];
-    base_model_data = base_model_data_start[base_model*5];
+    base_model_data = rdy_read_ptr((unsigned char*)&base_model_data_start[base_model*5], data_start);
     num_joint = *((unsigned short*) (base_model_data+4));
     num_bone = *((unsigned short*) (base_model_data+6));
     size = 11 + (24*num_bone) + (12*num_joint);
@@ -7671,7 +7700,7 @@ unsigned short render_change_frame_base_model(unsigned char* data, unsigned shor
     // Determine the size of the desired base model frame...
     frame_data = frame_data_start[copy_from_frame];
     base_model = frame_data[2];
-    base_model_data = base_model_data_start[base_model*5];
+    base_model_data = rdy_read_ptr((unsigned char*)&base_model_data_start[base_model*5], data_start);
     num_joint = *((unsigned short*) (base_model_data+4));
     num_bone = *((unsigned short*) (base_model_data+6));
     copy_from_size = 11 + (24*num_bone) + (12*num_joint);
@@ -7718,7 +7747,7 @@ unsigned char render_insert_base_model(unsigned char* data, unsigned short frame
     unsigned char num_base_model;
     unsigned short num_bone_frame;
     unsigned char** frame_data_start;
-    unsigned char** base_model_data_start;
+    unsigned int* base_model_data_start;
     unsigned char* base_model_data;
     unsigned char* bone_data;
     unsigned char* start_data;
@@ -7729,6 +7758,7 @@ unsigned char render_insert_base_model(unsigned char* data, unsigned short frame
     unsigned short num_line;
     signed int size;
     unsigned short base_model;
+    unsigned char* data_start = data;
 
     // Go to the current base model, and determine its size
     start_data = data;
@@ -7743,7 +7773,7 @@ unsigned char render_insert_base_model(unsigned char* data, unsigned short frame
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
-    base_model_data_start = (unsigned char**) data;
+    base_model_data_start = (unsigned int*) data;
     frame_data_start =  (unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX));
     if(insert_mode)
     {
@@ -7758,10 +7788,10 @@ unsigned char render_insert_base_model(unsigned char* data, unsigned short frame
     detail_level = 0;
     base_model_data = data + (base_model*20) + (num_base_model*20*detail_level);
     data = base_model_data;
-    bone_data = *((unsigned char**) (base_model_data+16));
-    base_model_data = *((unsigned char**) (base_model_data));
+    bone_data = rdy_read_ptr(base_model_data+16, data_start);
+    base_model_data = rdy_read_ptr(base_model_data, data_start);
     num_bone = *((unsigned short*) (base_model_data+6));
-    size = ((unsigned int) bone_data) - ((unsigned int) base_model_data);
+    size = (signed int)(bone_data - base_model_data);
     size += num_bone*9;
     num_line = *((unsigned short*) (base_model_data+size));
     size += (num_line*8)+2;
@@ -7801,7 +7831,7 @@ unsigned char render_insert_base_model(unsigned char* data, unsigned short frame
                 }
                 base_model_data_start+=5;
             }
-            frame_data_start+=5;
+            frame_data_start = (unsigned char**)(((unsigned char*)frame_data_start) + BASE_MODEL_ENTRY_SIZE);
 
 
             // Now update all of the frame pointers, update base model references while we're at it...
@@ -7866,7 +7896,7 @@ unsigned char render_insert_base_model(unsigned char* data, unsigned short frame
                 }
                 base_model_data_start+=5;
             }
-            frame_data_start-=5;
+            frame_data_start = (unsigned char**)(((unsigned char*)frame_data_start) - BASE_MODEL_ENTRY_SIZE);
 
 
             // Now update all of the frame pointers, update base model references while we're at it...
@@ -7908,7 +7938,7 @@ unsigned char* get_start_of_frame(unsigned char* data, unsigned short frame)
 
     // Go to the current base model
     frame_data = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = *((unsigned char**) (frame_data+(frame<<2)));
+    frame_data = *((unsigned char**) (frame_data+(frame*BONE_FRAME_ENTRY_SIZE)));
     return frame_data;
 }
 
@@ -7934,7 +7964,7 @@ unsigned char* get_frame_pointer(unsigned char* data, unsigned short frame)
 
     // Go to the current base model
     frame_data = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = frame_data+(frame<<2);
+    frame_data = frame_data+(frame*BONE_FRAME_ENTRY_SIZE);
     return frame_data;
 }
 #endif
@@ -7943,13 +7973,14 @@ unsigned char* get_frame_pointer(unsigned char* data, unsigned short frame)
 unsigned short get_number_of_bones(unsigned char* data)
 {
     // <ZZ> This function returns the number of bones in base model 0 of the given RDY file...
+    unsigned char* data_start = data;
     data+=6;
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
 
 
     // Go to base model 0
-    data = (*((unsigned char**) data)) + 6;
+    data = rdy_read_ptr(data, data_start) + 6;
     return (*((unsigned short*) data));
 }
 
@@ -7963,6 +7994,7 @@ unsigned char* get_start_of_frame_shadows(unsigned char* data, unsigned short fr
     unsigned char* frame_data;
     unsigned short num_bone, num_joint;
     unsigned char base_model;
+    unsigned char* data_start = data;
 
 
     data+=3;
@@ -7975,10 +8007,10 @@ unsigned char* get_start_of_frame_shadows(unsigned char* data, unsigned short fr
 
     // Go to the current base model
     frame_data = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = *((unsigned char**) (frame_data+(frame<<2)));
+    frame_data = *((unsigned char**) (frame_data+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = frame_data[2];
     data = data + (base_model*20);
-    data = *((unsigned char**) data);  data+=4;
+    data = rdy_read_ptr(data, data_start);  data+=4;
     num_joint = *((unsigned short*) data); data+=2;
     num_bone = *((unsigned short*) data);
     frame_data += 11 + (24*num_bone) + (12*num_joint);
@@ -8007,6 +8039,7 @@ unsigned char render_insert_frame(unsigned char* data, unsigned short frame, uns
     unsigned short size;
     unsigned char alpha;
     unsigned char base_model, detail_level;
+    unsigned char* data_start = data;
 
     start_data=data;
     flags = *((unsigned short*) data); data+=2;
@@ -8022,11 +8055,11 @@ unsigned char render_insert_frame(unsigned char* data, unsigned short frame, uns
 
     // Go to the current base model
     frame_data_start = data+(num_base_model*20*DETAIL_LEVEL_MAX);
-    frame_data = *((unsigned char**) (frame_data_start+(frame<<2)));
+    frame_data = *((unsigned char**) (frame_data_start+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     detail_level = 0;
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=4;
+    base_model_data = rdy_read_ptr(data, data_start);  data+=4;
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
     num_bone = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -8064,17 +8097,17 @@ log_message("INFO:     Num_bone_frame updated");
 
             // Update bone frame pointers...
             frame++;
-            frame_data = frame_data_start+(frame<<2);
-            if(sdf_insert_data(frame_data, NULL, 4))
+            frame_data = frame_data_start+(frame*BONE_FRAME_ENTRY_SIZE);
+            if(sdf_insert_data(frame_data, NULL, BONE_FRAME_ENTRY_SIZE))
             {
 log_message("INFO:     Added bone frame pointer for frame %d", frame);
                 *((unsigned char**) frame_data) = new_frame_data;
-                frame_data+=4;
+                frame_data+=BONE_FRAME_ENTRY_SIZE;
                 frame++;
                 while(frame < num_bone_frame)
                 {
 log_message("INFO:     Pushed back pointer for frame %d by size", frame);
-                    *((unsigned char**) frame_data) += size;  frame_data+=4;
+                    *((unsigned char**) frame_data) += size;  frame_data+=BONE_FRAME_ENTRY_SIZE;
                     frame++;
                 }
 
@@ -8087,12 +8120,12 @@ log_message("INFO:     Pushed back pointer for frame %d by size", frame);
                 {
                     repeat(j, num_base_model)
                     {
-log_message("INFO:     Pushed base %d, Detail %d, back by 4", j, i);
-                        *((unsigned char**) base_model_data) += 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) += 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) += 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) += 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) += 4;  base_model_data+=4;
+log_message("INFO:     Pushed base %d, Detail %d, back by BONE_FRAME_ENTRY_SIZE", j, i);
+                        *((unsigned int*) base_model_data) += BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) += BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) += BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) += BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) += BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
                     }
                 }
 
@@ -8102,8 +8135,8 @@ log_message("INFO:     Pushed base %d, Detail %d, back by 4", j, i);
                 frame_data = frame_data_start;
                 repeat(frame, num_bone_frame)
                 {
-log_message("INFO:     Pushed back frame %d by 4", frame);
-                    *((unsigned char**) frame_data) += 4;  frame_data+=4;
+log_message("INFO:     Pushed back frame %d by BONE_FRAME_ENTRY_SIZE", frame);
+                    *((unsigned char**) frame_data) += BONE_FRAME_ENTRY_SIZE;  frame_data+=BONE_FRAME_ENTRY_SIZE;
                 }
 
 
@@ -8125,12 +8158,12 @@ log_message("INFO:     Pushed back frame %d by 4", frame);
 
 
             // Update bone frame pointers...
-            frame_data = frame_data_start+(frame<<2);
-            if(sdf_insert_data(frame_data, NULL, -4))
+            frame_data = frame_data_start+(frame*BONE_FRAME_ENTRY_SIZE);
+            if(sdf_insert_data(frame_data, NULL, -BONE_FRAME_ENTRY_SIZE))
             {
                 while(frame < num_bone_frame)
                 {
-                    *((unsigned char**) frame_data) -= size;  frame_data+=4;
+                    *((unsigned char**) frame_data) -= size;  frame_data+=BONE_FRAME_ENTRY_SIZE;
                     frame++;
                 }
 
@@ -8143,11 +8176,11 @@ log_message("INFO:     Pushed back frame %d by 4", frame);
                 {
                     repeat(j, num_base_model)
                     {
-                        *((unsigned char**) base_model_data) -= 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) -= 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) -= 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) -= 4;  base_model_data+=4;
-                        *((unsigned char**) base_model_data) -= 4;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) -= BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) -= BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) -= BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) -= BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
+                        *((unsigned int*) base_model_data) -= BONE_FRAME_ENTRY_SIZE;  base_model_data+=4;
                     }
                 }
 
@@ -8157,7 +8190,7 @@ log_message("INFO:     Pushed back frame %d by 4", frame);
                 frame_data = frame_data_start;
                 repeat(frame, num_bone_frame)
                 {
-                    *((unsigned char**) frame_data) -= 4;  frame_data+=4;
+                    *((unsigned char**) frame_data) -= BONE_FRAME_ENTRY_SIZE;  frame_data+=BONE_FRAME_ENTRY_SIZE;
                 }
 
 
@@ -8190,18 +8223,20 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
     unsigned short num_bone_frame, num_bone, num_joint;
     unsigned short link_num_bone_frame, link_num_bone, link_num_joint;
     unsigned char* base_model_data;
-    unsigned char** base_model_data_start;
+    unsigned int* base_model_data_start;
     unsigned char** frame_data_start;
-    unsigned char** link_base_model_data_start;
+    unsigned int* link_base_model_data_start;
     unsigned char** link_frame_data_start;
     unsigned char* start_data;
     unsigned short i, j, k;
     unsigned char file_type;
-    unsigned int file_start;
-    unsigned int file_size;
-    unsigned int first_frame_data;
+    uintptr_t file_start;
+    uintptr_t file_size;
+    uintptr_t first_frame_data;
     signed int push_back;
     unsigned char* index;
+    unsigned char* data_start = data;
+    unsigned char* link_data_start;
 
 
     // Read the header...
@@ -8212,7 +8247,7 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
     num_bone_frame = *((unsigned short*) data); data+=2;
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    base_model_data_start = (unsigned char**) data;
+    base_model_data_start = (unsigned int*) data;
     frame_data_start = (unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX));
 
 
@@ -8227,13 +8262,14 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
         else
         {
             // Read the link file's header...
+            link_data_start = link_data;
             link_data+=3;
             if(num_base_model != *link_data) return NULL;
             link_data++;
             link_num_bone_frame = *((unsigned short*) link_data); link_data+=2;
             link_data+=(ACTION_MAX<<1);
             link_data+=(MAX_DDD_SHADOW_TEXTURE);
-            link_base_model_data_start = (unsigned char**) link_data;
+            link_base_model_data_start = (unsigned int*) link_data;
             link_frame_data_start = (unsigned char**) (link_data+(num_base_model*20*DETAIL_LEVEL_MAX));
 
 
@@ -8241,10 +8277,10 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
             repeat(i, num_base_model)
             {
                 // Read in number of bones and joints
-                base_model_data = base_model_data_start[i*5];
+                base_model_data = start_data + base_model_data_start[i*5];
                 num_joint = *((unsigned short*) (base_model_data+4));
                 num_bone = *((unsigned short*) (base_model_data+6));
-                base_model_data = link_base_model_data_start[i*5];
+                base_model_data = link_data_start + link_base_model_data_start[i*5];
                 link_num_joint = *((unsigned short*) (base_model_data+4));
                 link_num_bone = *((unsigned short*) (base_model_data+6));
                 if(num_bone > link_num_bone) return NULL;
@@ -8258,8 +8294,8 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
 
 
             // Copy the frame pointer block from the linked file...  Destroy old frame pointers...
-            sdf_insert_data((unsigned char*) frame_data_start, NULL, -(num_bone_frame<<2));
-            sdf_insert_data((unsigned char*) frame_data_start, (unsigned char*) link_frame_data_start, (link_num_bone_frame<<2));
+            sdf_insert_data((unsigned char*) frame_data_start, NULL, -(num_bone_frame*BONE_FRAME_ENTRY_SIZE));
+            sdf_insert_data((unsigned char*) frame_data_start, (unsigned char*) link_frame_data_start, (link_num_bone_frame*BONE_FRAME_ENTRY_SIZE));
 
 
             // Write the number of frames
@@ -8269,7 +8305,7 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
             // Push back/forward the base model pointers to make up for adding/deleting frames
             push_back = link_num_bone_frame;
             push_back -= num_bone_frame;
-            push_back = push_back << 2;
+            push_back = push_back * BONE_FRAME_ENTRY_SIZE;
             repeat(i, num_detail_level)
             {
                 repeat(j, num_base_model)
@@ -8293,7 +8329,7 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
 
 
         // Looks like it is linked, search through all files to find the filename...
-        first_frame_data = (unsigned int) (frame_data_start[0]);
+        first_frame_data = (uintptr_t) (frame_data_start[0]);
         repeat(i, sdf_num_files)
         {
             index = sdf_index + (i<<4);
@@ -8303,9 +8339,9 @@ unsigned char* render_get_set_external_linkage(unsigned char* data, unsigned cha
             if(file_type == SDF_FILE_IS_RDY)
             {
                 // See if the first frame is in the current file's data block...
-                file_start = sdf_read_unsigned_int(index);
+                file_start = (uintptr_t) sdf_index_get_data(index);
                 file_size = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
-                if(first_frame_data >= file_start && first_frame_data < (file_start+file_size))
+                if(first_frame_data >= file_start && first_frame_data < (file_start+(uintptr_t)file_size))
                 {
                     // Found a match...
                     sdf_get_filename(i, linkage_filename, &file_type);
@@ -8337,6 +8373,7 @@ void render_center_frame(unsigned char* data, unsigned short frame, unsigned cha
     unsigned char base_model;
     unsigned short i;
     float min, max, offset;
+    unsigned char* data_start = data;
 
 
     start_data = data;
@@ -8349,10 +8386,10 @@ void render_center_frame(unsigned char* data, unsigned short frame, unsigned cha
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = frame_data[2];
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
     num_bone = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -8422,6 +8459,7 @@ void render_copy_frame(unsigned char* data, unsigned short frame)
     unsigned char* start_data;
     unsigned char base_model;
     unsigned short i, j;
+    unsigned char* data_start = data;
 
 
     start_data = data;
@@ -8436,13 +8474,13 @@ void render_copy_frame(unsigned char* data, unsigned short frame)
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
-    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
+    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = frame_data[2];
     if(last_frame_data[2] != base_model) last_frame_data = frame_data;
     if(last_frame_data == frame_data) return;  // Copying to same frame...
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
     num_bone = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -8536,6 +8574,7 @@ void render_auto_shadow(unsigned char* data, unsigned short frame, unsigned char
     int average_vertex_angle_change;
     signed short current_vertex_angle_change;
     float angle, sine, cosine, scale;
+    unsigned char* data_start = data;
 
 
     // Error check...
@@ -8589,12 +8628,12 @@ log_message("INFO:   Original (frame %d) centrid distance is %f", frame, origina
 
 
     // Find the original base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     original_base_model = *(frame_data + 2);
 
     // Find and remember the shadow data for the original frame...
     data = data + (original_base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
     num_joint = *((unsigned short*) (base_model_data+4));
     num_bone = *((unsigned short*) (base_model_data+6));
     frame_data = frame_data + (24*num_bone) + (12*num_joint) + 11;
@@ -8630,14 +8669,14 @@ log_message("INFO:   Original (frame %d) centrid distance is %f", frame, origina
     {
         // Go to the current base model
         data = block_start;
-        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(i<<2)));
+        frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(i*BONE_FRAME_ENTRY_SIZE)));
         base_model = *(frame_data + 2);
         if(frame_data[0] > 0 && i != frame && base_model == original_base_model)
         {
             // Generate the vertex coordinates for this frame...
             data = data + (base_model*20) + (num_base_model*20*detail_level);
-            base_model_data = *((unsigned char**) data);  data+=16;
-            bone_data = *((unsigned char**) data);
+            base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+            bone_data = rdy_read_ptr(data, data_start);
             num_vertex = *((unsigned short*) base_model_data);
             num_joint = *((unsigned short*) (base_model_data+4));
             num_bone = *((unsigned short*) (base_model_data+6));
@@ -8756,6 +8795,7 @@ void render_interpolate(unsigned char* data, unsigned short frame)
     unsigned char base_model;
     unsigned short i, j;
     unsigned char looking;
+    unsigned char* data_start = data;
 
 //float x, y, z, angle;
 
@@ -8773,9 +8813,9 @@ void render_interpolate(unsigned char* data, unsigned short frame)
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
-    next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame<<2)));
-    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
+    next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame*BONE_FRAME_ENTRY_SIZE)));
+    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = frame_data[2];
     if(next_frame_data[2] != base_model) next_frame_data = frame_data;
     if(last_frame_data[2] != base_model) last_frame_data = frame_data;
@@ -8791,13 +8831,13 @@ void render_interpolate(unsigned char* data, unsigned short frame)
             if(next_frame > 0)
             {
                 next_frame--;
-                next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame<<2)));
+                next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame*BONE_FRAME_ENTRY_SIZE)));
                 if(next_frame_data[2] != base_model) looking = FALSE;
                 if(next_frame_data[0] != frame_data[0]) looking = FALSE;
                 if(looking == FALSE)
                 {
                     next_frame++;
-                    next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame<<2)));
+                    next_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(next_frame*BONE_FRAME_ENTRY_SIZE)));
                 }
             }
             else
@@ -8818,13 +8858,13 @@ void render_interpolate(unsigned char* data, unsigned short frame)
             if(last_frame < (num_bone_frame - 1))
             {
                 last_frame++;
-                last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame<<2)));
+                last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame*BONE_FRAME_ENTRY_SIZE)));
                 if(last_frame_data[2] != base_model) looking = FALSE;
                 if(last_frame_data[0] != frame_data[0]) looking = FALSE;
                 if(looking == FALSE)
                 {
                     last_frame--;
-                    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame<<2)));
+                    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame*BONE_FRAME_ENTRY_SIZE)));
                 }
             }
             else
@@ -8840,7 +8880,7 @@ void render_interpolate(unsigned char* data, unsigned short frame)
 
     if(next_frame_data == last_frame_data) return;
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
     num_bone = *((unsigned short*) base_model_data); base_model_data+=2;
@@ -8956,6 +8996,7 @@ void render_shadow_reset(unsigned char* data, unsigned short frame)
     unsigned char* start_data;
     unsigned char base_model;
     unsigned short i, j;
+    unsigned char* data_start = data;
 
 
     start_data = data;
@@ -8970,12 +9011,12 @@ void render_shadow_reset(unsigned char* data, unsigned short frame)
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
-    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
+    last_frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(last_frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = frame_data[2];
     if(last_frame_data[2] != base_model) return;
     data = data + (base_model*20);
-    base_model_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);
     base_model_data+=4;
     num_joint = *((unsigned short*) base_model_data); base_model_data+=2;
     num_bone = *((unsigned short*) base_model_data); base_model_data+=2;

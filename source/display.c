@@ -1489,7 +1489,7 @@ void display_unload_all_textures(void)
         filetype = *(index+4);
         if((filetype & 15) == SDF_FILE_IS_RGB)
         {
-            data = (unsigned char*) sdf_read_unsigned_int(index);
+            data = sdf_index_get_data(index);
             if((*(data+1)) & TEXTURE_ON_CARD)  glDeleteTextures(1, (unsigned int*) (data+2));
         }
     }
@@ -1543,7 +1543,7 @@ signed char display_load_texture(unsigned char* index)
 
 
     // Start reading the file...
-    data = (unsigned char*) sdf_read_unsigned_int(index);
+    data = sdf_index_get_data(index);
     size_x = sdf_read_unsigned_short(data+6);
     size_y = sdf_read_unsigned_short(data+8);
     data+=10;
@@ -1701,7 +1701,7 @@ signed char display_load_texture(unsigned char* index)
 
 
     // Now load the texture onto the graphics card...  We do have a graphics card, right?
-    data = (unsigned char*) sdf_read_unsigned_int(index);
+    data = sdf_index_get_data(index);
     if((*(data+1)) & TEXTURE_ON_CARD)  glDeleteTextures(1, (unsigned int*) (data+2));
     switch(filename[0])
     {
@@ -2722,7 +2722,7 @@ unsigned int display_get_texture(char* filename)
     data = sdf_find_filetype(filename, SDF_FILE_IS_RGB);
     if(data)
     {
-        data = (unsigned char*) sdf_read_unsigned_int(data);
+        data = sdf_index_get_data(data);
         return (*((unsigned int*) (data+2)));
     }
     return 0;
@@ -2735,7 +2735,7 @@ void display_kanji_setup(void)
     kanji_data = sdf_find_filetype("KANJI", SDF_FILE_IS_DAT);
     if(kanji_data)
     {
-        kanji_data = (unsigned char*) sdf_read_unsigned_int(kanji_data);
+        kanji_data = sdf_index_get_data(kanji_data);
     }
 }
 

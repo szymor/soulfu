@@ -39,6 +39,7 @@
 #include <setjmp.h>
 #include <time.h>
 #include <errno.h>
+#include <stdint.h>
 #include <sys/stat.h>
 
 #include <vorbis/codec.h>
@@ -268,6 +269,23 @@ SF_EXTERN unsigned char drawing_world ; // = FALSE;
 #define DDD_SCALE_WEIGHT 20000.0f   // DDD coordinates should range from - to + this number...
 #define DDD_EXTERNAL_BONE_FRAMES 16384  // Flag for external linkage...
 #define JOINT_COLLISION_SCALE 0.015f// For converting joint sizes from byte to float...
+
+// 64-bit RDY format: base model entries stay 4 bytes (offsets), bone frames use native pointers
+#define BASE_MODEL_ENTRY_SIZE 20    // 5 entries × 4 bytes each (offsets from data start)
+#define BONE_FRAME_ENTRY_SIZE ((int)sizeof(uintptr_t))  // 8 on 64-bit, 4 on 32-bit
+
+// Read a 4-byte offset from RDY data and convert to pointer relative to base
+static inline unsigned char* rdy_read_ptr(unsigned char* loc, unsigned char* base) {
+    unsigned int off;
+    memcpy(&off, loc, sizeof(unsigned int));
+    return off ? (base + off) : NULL;
+}
+
+// Write a pointer as 4-byte offset relative to base into RDY data
+static inline void rdy_write_ptr(unsigned char* loc, unsigned char* ptr, unsigned char* base) {
+    unsigned int off = ptr ? (unsigned int)(ptr - base) : 0;
+    memcpy(loc, &off, sizeof(unsigned int));
+}
 
 
 // Action names...
@@ -686,7 +704,7 @@ signed char decode_jpg(unsigned char* index, unsigned char* filename);
 signed char decode_pcx(unsigned char* index, unsigned char* filename);
 signed char decode_ogg(unsigned char* index, unsigned char* filename);
 signed char decode_ddd(unsigned char* index, unsigned char* filename);
-signed char run_script(unsigned char* address, unsigned char* file_start, unsigned char num_int_args, signed int* int_arg_stack, unsigned char num_float_args, float* float_arg_stack);
+signed char run_script(unsigned char* address, unsigned char* file_start, unsigned char num_int_args, intptr_t* int_arg_stack, unsigned char num_float_args, float* float_arg_stack);
 void language_message_add(unsigned short message_index);
 void message_add(char* message_text, char* speaker_name, unsigned char sanitize);
 void setup_shadow(void);
@@ -717,6 +735,43 @@ char* get_path_from_home(const char *filename);
 
 extern int  sdf_num_files;
 extern char sdf_extension[16][4];      // The extension strings that the program recognizes
+extern unsigned char* sdf_index;
+
+// 64-bit SDF helpers: separate pointer storage (index still uses 4-byte entries)
+unsigned char* sdf_index_get_data(unsigned char* index);
+void sdf_index_set_data(unsigned char* index, unsigned char* data);
+unsigned char* sdf_get_file_data(int num);
+void sdf_set_file_data(int num, unsigned char* data);
+int sdf_find_index_by_data(unsigned char* file_start);
+
+// 64-bit model slot helpers: character model data stores SDF file numbers
+// instead of raw pointers (which don't fit in 4-byte slots on 64-bit).
+// Read a file data pointer from a 4-byte model slot entry (stored as file_num+1, 0=NULL)
+static inline unsigned char* model_slot_get_ptr(unsigned char* slot_entry) {
+    unsigned int val = *((unsigned int*) slot_entry);
+    if (val == 0) return NULL;
+    return sdf_get_file_data((int)(val - 1));
+}
+// Write a file data pointer to a 4-byte model slot entry
+static inline void model_slot_set_ptr(unsigned char* slot_entry, unsigned char* ptr) {
+    if (ptr == NULL) {
+        *((unsigned int*) slot_entry) = 0;
+    } else {
+        int num = sdf_find_index_by_data(ptr);
+        *((unsigned int*) slot_entry) = (num == 65535) ? 0 : ((unsigned int)num + 1);
+    }
+}
+// Resolve texture entries from a model slot into a pointer array for render_rdy
+// slot_base points to byte 0 of the 24-byte model slot
+// tex_out must have space for 5 unsigned char* entries
+static inline void model_slot_resolve_textures(unsigned char* slot_base, unsigned char** tex_out) {
+    int _i;
+    for (_i = 0; _i < 4; _i++) {
+        tex_out[_i] = model_slot_get_ptr(slot_base + 4 + _i * 4);
+    }
+    // Entry 4 is color (raw unsigned int), store as fake pointer for render_rdy compatibility
+    tex_out[4] = (unsigned char*)(uintptr_t)(*((unsigned int*)(slot_base + 20)));
+}
 
 signed char sdf_export_file(char* filename, char* filename_path);
 signed char sdf_add_file(char* sdf_filename, char* input_filename);

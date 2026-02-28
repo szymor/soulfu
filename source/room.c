@@ -727,7 +727,7 @@ log_message("INFO:     Plopping pillar %d", i);
                     object_group_data[length-4] = '.';
                     if(model_data)
                     {
-                        model_data = (unsigned char*) sdf_read_unsigned_int(model_data);
+                        model_data = sdf_index_get_data(model_data);
 //log_message("INFO:     Plopping DDD model %d", i);
 
                         // Build the texture list...
@@ -1962,7 +1962,7 @@ void room_spawn_all(unsigned char* srf_file, unsigned short rotation, unsigned c
                         object_group_data[length-4] = '.';
                         if(script)
                         {
-                            script = (unsigned char*) sdf_read_unsigned_int(script);
+                            script = sdf_index_get_data(script);
                             global_spawn_team = object_group_data[14];
 
 
@@ -2079,7 +2079,7 @@ void room_spawn_all(unsigned char* srf_file, unsigned short rotation, unsigned c
     script = sdf_find_filetype("CDOOR", SDF_FILE_IS_RUN);
     if(script)
     {
-        script = (unsigned char*) sdf_read_unsigned_int(script);
+        script = sdf_index_get_data(script);
         repeat(i, num_exterior_wall)
         {
             // Seed the random number generator...
@@ -2282,7 +2282,7 @@ void room_restock_monsters(unsigned char* srf_file, unsigned char* object_defeat
                         object_group_data[length-4] = '.';
                         if(script)
                         {
-                            script = (unsigned char*) sdf_read_unsigned_int(script);
+                            script = sdf_index_get_data(script);
                             if(type == CHARACTER && object_group_data[14] != TEAM_NEUTRAL && object_group_data[14] != TEAM_GOOD)
                             {
                                 if(object_defeated_list)

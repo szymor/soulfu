@@ -70,6 +70,7 @@ void volume_rdy_find_temp_stuff(unsigned char* data, unsigned short frame)
     unsigned char* bone_data;
     unsigned char base_model, detail_level;
     unsigned short i;
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -83,11 +84,11 @@ void volume_rdy_find_temp_stuff(unsigned char* data, unsigned short frame)
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
     num_bone = *((unsigned short*) (base_model_data+6));
 
 
@@ -134,6 +135,7 @@ void volume_rdy_character_shadow(unsigned char* data, unsigned short frame, unsi
     float front_dot;
     float back_dot;
     float cartoon_line_size;
+    unsigned char* data_start = data;
 
 
     flags = *((unsigned short*) data); data+=2;
@@ -152,11 +154,11 @@ void volume_rdy_character_shadow(unsigned char* data, unsigned short frame, unsi
 
 
     // Go to the current base model
-    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame<<2)));
+    frame_data =  *((unsigned char**) (data+(num_base_model*20*DETAIL_LEVEL_MAX)+(frame*BONE_FRAME_ENTRY_SIZE)));
     base_model = *(frame_data + 2);
     data = data + (base_model*20) + (num_base_model*20*detail_level);
-    base_model_data = *((unsigned char**) data);  data+=16;
-    bone_data = *((unsigned char**) data);
+    base_model_data = rdy_read_ptr(data, data_start);  data+=16;
+    bone_data = rdy_read_ptr(data, data_start);
     vertex_data = base_model_data;
     num_vertex = *((unsigned short*) vertex_data); vertex_data+=6;
     num_bone = *((unsigned short*) vertex_data); vertex_data+=2;
@@ -382,19 +384,19 @@ void volume_shadow_draw_all()
                 // Draw this character's shadow
                 frame = *((unsigned short*) (main_character_data[i]+178));
                 model_data = (main_character_data[i]+256);
-                volume_rdy_find_temp_stuff(*((unsigned char**) model_data), frame);
+                volume_rdy_find_temp_stuff(model_slot_get_ptr(model_data), frame);
 
                 // Main model
-                volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
 
                 // Non-animated overlapped parts...  Arms, Head, etc...
                 model_data+=24;
                 frame = 0;
                 repeat(j, 7)
                 {
-                    if(*((unsigned char**) model_data) != NULL)
+                    if(model_slot_get_ptr(model_data) != NULL)
                     {
-                        volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                        volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
                     }
                     model_data+=24;
                 }
@@ -402,18 +404,18 @@ void volume_shadow_draw_all()
 
                 // Draw the animated eyes...
                 frame = *((unsigned short*) (main_character_data[i] + 182));
-                if(*((unsigned char**) model_data) != NULL)
+                if(model_slot_get_ptr(model_data) != NULL)
                 {
-                    volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                    volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
                 }
                 model_data+=24;
 
 
                 // Draw the animated mouth...
                 frame = *((unsigned short*) (main_character_data[i] + 184));
-                if(*((unsigned char**) model_data) != NULL)
+                if(model_slot_get_ptr(model_data) != NULL)
                 {
-                    volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                    volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
                 }
                 model_data+=24;
 
@@ -423,7 +425,7 @@ void volume_shadow_draw_all()
                 model_data+=24;
                 repeat(j, 4)
                 {
-                    if((*((unsigned char**) model_data)) != NULL && temp_character_bone_number[j+1] < 255)
+                    if((model_slot_get_ptr(model_data)) != NULL && temp_character_bone_number[j+1] < 255)
                     {
                         // Hand held weapons have 3 frames...  (should be 3 independent base models...)
                         //    Frame 0 is when holstered.
@@ -439,8 +441,8 @@ void volume_shadow_draw_all()
                                 break;
                         }
                         script_matrix_good_bone(temp_character_bone_number[j+1], temp_character_bone_frame[i], main_character_data[i]);
-                        render_generate_model_world_data(*((unsigned char**) model_data), frame, script_matrix, fourthbuffer);  // Generate new bone frame in fourthbuffer
-                        volume_rdy_character_shadow(*((unsigned char**) model_data), frame, fourthbuffer);
+                        render_generate_model_world_data(model_slot_get_ptr(model_data), frame, script_matrix, fourthbuffer);  // Generate new bone frame in fourthbuffer
+                        volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, fourthbuffer);
                     }
                     model_data+=24;
                 }
@@ -471,19 +473,19 @@ void volume_shadow_draw_all()
                 // Draw this character's shadow
                 frame = *((unsigned short*) (main_character_data[i]+178));
                 model_data = (main_character_data[i]+256);
-                volume_rdy_find_temp_stuff(*((unsigned char**) model_data), frame);
+                volume_rdy_find_temp_stuff(model_slot_get_ptr(model_data), frame);
 
                 // Main model
-                volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
 
                 // Non-animated overlapped parts...  Arms, Head, etc...
                 model_data+=24;
                 frame = 0;
                 repeat(j, 7)
                 {
-                    if(*((unsigned char**) model_data) != NULL)
+                    if(model_slot_get_ptr(model_data) != NULL)
                     {
-                        volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                        volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
                     }
                     model_data+=24;
                 }
@@ -491,18 +493,18 @@ void volume_shadow_draw_all()
 
                 // Draw the animated eyes...
                 frame = *((unsigned short*) (main_character_data[i] + 182));
-                if(*((unsigned char**) model_data) != NULL)
+                if(model_slot_get_ptr(model_data) != NULL)
                 {
-                    volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                    volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
                 }
                 model_data+=24;
 
 
                 // Draw the animated mouth...
                 frame = *((unsigned short*) (main_character_data[i] + 184));
-                if(*((unsigned char**) model_data) != NULL)
+                if(model_slot_get_ptr(model_data) != NULL)
                 {
-                    volume_rdy_character_shadow(*((unsigned char**) model_data), frame, temp_character_bone_frame[i]);
+                    volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, temp_character_bone_frame[i]);
                 }
                 model_data+=24;
 
@@ -512,7 +514,7 @@ void volume_shadow_draw_all()
                 model_data+=24;
                 repeat(j, 4)
                 {
-                    if((*((unsigned char**) model_data)) != NULL && temp_character_bone_number[j+1] < 255)
+                    if((model_slot_get_ptr(model_data)) != NULL && temp_character_bone_number[j+1] < 255)
                     {
                         // Hand held weapons have 3 frames...  (should be 3 independent base models...)
                         //    Frame 0 is when holstered.
@@ -528,8 +530,8 @@ void volume_shadow_draw_all()
                                 break;
                         }
                         script_matrix_good_bone(temp_character_bone_number[j+1], temp_character_bone_frame[i], main_character_data[i]);
-                        render_generate_model_world_data(*((unsigned char**) model_data), frame, script_matrix, fourthbuffer);  // Generate new bone frame in fourthbuffer
-                        volume_rdy_character_shadow(*((unsigned char**) model_data), frame, fourthbuffer);
+                        render_generate_model_world_data(model_slot_get_ptr(model_data), frame, script_matrix, fourthbuffer);  // Generate new bone frame in fourthbuffer
+                        volume_rdy_character_shadow(model_slot_get_ptr(model_data), frame, fourthbuffer);
                     }
                     model_data+=24;
                 }

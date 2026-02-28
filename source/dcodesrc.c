@@ -1619,7 +1619,7 @@ unsigned char* src_mega_find_function(unsigned char* functionstring, unsigned ch
     if(index != NULL)
     {
         // Found the file, so now look for the function
-        data = (unsigned char*) sdf_read_unsigned_int(index);
+        data = sdf_index_get_data(index);
         entry_offset = src_find_function_entry(data, functionname);
         if(entry_offset)
         {
@@ -1635,7 +1635,7 @@ unsigned char* src_mega_find_function(unsigned char* functionstring, unsigned ch
             if(index != NULL)
             {
                 // Found the file, so now look for the function
-                data = (unsigned char*) sdf_read_unsigned_int(index);
+                data = sdf_index_get_data(index);
                 entry_offset = src_find_function_entry(data, functionname);
                 if(entry_offset)
                 {
@@ -2041,7 +2041,6 @@ signed char src_functionize(unsigned char* index, char* filename)
     unsigned short number_of_strings;
     unsigned char opcode;
     unsigned short offset;
-    unsigned int file_index;
     int i, j;
     unsigned char newfilename[9], newfiletype;
 
@@ -2054,7 +2053,7 @@ signed char src_functionize(unsigned char* index, char* filename)
 
 
     // Figure out where our data is, and where it stops
-    data = (unsigned char*) sdf_read_unsigned_int(index);
+    data = sdf_index_get_data(index);
     lastdata = data + (sdf_read_unsigned_int(index+4) & 0x00FFFFFF);
     datastart = data;
 
@@ -2106,30 +2105,34 @@ signed char src_functionize(unsigned char* index, char* filename)
         if(data[2] == 'F' && data[3] == 'I' && data[4] == 'L' && data[5] == 'E' && data[6] == ':')
         {
             // It's a weird "FILE:BLAH.BLA" type of string
-            file_index = (unsigned int) sdf_find_index(data+2+5);
-            if(file_index)
             {
-                file_index = sdf_read_unsigned_int((unsigned char*) file_index);
-                #ifdef VERBOSE_COMPILE
-                    log_message("INFO:     Found file %s at 0x%x", data+2+5, file_index);
-                #endif
-                sdf_write_unsigned_int(datastart+offset, file_index);
-            }
-            else
-            {
-                #ifdef VERBOSE_COMPILE
-                    log_message("INFO:       File %s couldn't be found", data+2+5);
-                #endif
-                if(sdf_fix_filename(data+2+5, newfilename, &newfiletype))
+                unsigned char* file_idx_ptr = (unsigned char*) sdf_find_index(data+2+5);
+                if(file_idx_ptr)
                 {
-                    if(newfiletype == SDF_FILE_IS_RUN)
+                    int file_num = sdf_find_index_by_data(sdf_index_get_data(file_idx_ptr));
+                    #ifdef VERBOSE_COMPILE
+                        log_message("INFO:     Found file %s as file_num %d", data+2+5, file_num);
+                    #endif
+                    sdf_write_unsigned_int(datastart+offset, (unsigned int) file_num);
+                    // Change the push opcode from 229 (4-byte int) to 233 (file data ref)
+                    if(offset > 0) *(datastart+offset-1) = 233;
+                }
+                else
+                {
+                    #ifdef VERBOSE_COMPILE
+                        log_message("INFO:       File %s couldn't be found", data+2+5);
+                    #endif
+                    if(sdf_fix_filename(data+2+5, newfilename, &newfiletype))
                     {
-                        // Probably in a spawn, so we don't need to kill the file...
-                        #ifdef VERBOSE_COMPILE
-                            log_message("INFO:     Writing a NULL value for RUN file");
-                        #endif
-                        sdf_write_unsigned_int(datastart+offset, 0);
-                    }
+                        if(newfiletype == SDF_FILE_IS_RUN)
+                        {
+                            // Probably in a spawn, so we don't need to kill the file...
+                            #ifdef VERBOSE_COMPILE
+                                log_message("INFO:     Writing a NULL value for RUN file");
+                            #endif
+                            sdf_write_unsigned_int(datastart+offset, 0);
+                            if(offset > 0) *(datastart+offset-1) = 233;
+                        }
                     else
                     {
                         log_message("ERROR:  %s :  File %s couldn't be found", filename, data+2+5);
@@ -2142,6 +2145,7 @@ signed char src_functionize(unsigned char* index, char* filename)
                     found_error = TRUE;
                 }
             }
+            }  // Close file_idx_ptr block
         }
         else
         {
@@ -2149,7 +2153,9 @@ signed char src_functionize(unsigned char* index, char* filename)
             #ifdef VERBOSE_COMPILE
                log_message("INFO:     Found string %s at 0x%x", data+2, (data+2));
             #endif
-            sdf_write_unsigned_int(datastart+offset, (unsigned int) (data+2));
+            sdf_write_unsigned_int(datastart+offset, (unsigned int)((data+2) - datastart));
+            // Change push opcode from 229 (4-byte int) to 232 (file-relative pointer)
+            if(offset > 0) *(datastart+offset-1) = 232;
         }
 
 
@@ -2193,9 +2199,13 @@ signed char src_functionize(unsigned char* index, char* filename)
                 data+=16;
 
 
-                // Fill in the call address...
+                // Get target file start for offset calculations
+                {
+                unsigned char* target_file_start = src_mega_find_function(data, filename, SRC_REQUEST_FILESTART);
+
+                // Fill in the call address (offset from target file start)
                 calladdress = src_mega_find_function(data, filename, SRC_REQUEST_OFFSET);
-                sdf_write_unsigned_int(addresslocation, (unsigned int) calladdress);
+                sdf_write_unsigned_int(addresslocation, calladdress ? (unsigned int)(calladdress - target_file_start) : 0);
 
 
                 // Error check...
@@ -2211,12 +2221,15 @@ signed char src_functionize(unsigned char* index, char* filename)
 
                 // Fill in the argument address...   +1 to ignore return value...
                 calladdress = src_mega_find_function(data, filename, SRC_REQUEST_ARGUMENTS)+1;
-                sdf_write_unsigned_int(addresslocation+8, (unsigned int) calladdress);
+                sdf_write_unsigned_int(addresslocation+8, target_file_start ? (unsigned int)(calladdress - target_file_start) : 0);
 
 
-                // Fill in the filestart address...
-                calladdress = src_mega_find_function(data, filename, SRC_REQUEST_FILESTART);
-                sdf_write_unsigned_int(addresslocation+12, (unsigned int) calladdress);
+                // Fill in the filestart address (store file number instead of pointer)
+                if(target_file_start) {
+                    sdf_write_unsigned_int(addresslocation+12, (unsigned int) sdf_find_index_by_data(target_file_start));
+                } else {
+                    sdf_write_unsigned_int(addresslocation+12, 65535);
+                }
 
 
                 // Skip the function name and the trailing zero
@@ -2224,7 +2237,8 @@ signed char src_functionize(unsigned char* index, char* filename)
 
 
                 // Fill in the return address...
-                sdf_write_unsigned_int(addresslocation+4, (unsigned int) data);
+                sdf_write_unsigned_int(addresslocation+4, (unsigned int)(data - datastart));
+                }  // Close the target_file_start block
             }
             else
             {
@@ -2244,6 +2258,8 @@ signed char src_functionize(unsigned char* index, char* filename)
                 if(opcode == 228) data+=2;                  // 2 byte integer
                 if(opcode == 229) data+=4;                  // 4 byte integer
                 if(opcode == 230) data+=4;                  // 4 byte float
+                if(opcode == 232) data+=4;                  // 4 byte file-relative pointer
+                if(opcode == 233) data+=4;                  // 4 byte file data ref
             }
         }
         i++;
@@ -2329,7 +2345,7 @@ signed char src_compilerize(unsigned char* index, unsigned char* filename)
     oldindex = sdf_find_filetype(filename, SDF_FILE_IS_RUN);
     if(oldindex != NULL)
     {
-        data = (unsigned char*) sdf_read_unsigned_int(oldindex);
+        data = sdf_index_get_data(oldindex);
         src_buffer_used = (unsigned short) (sdf_read_unsigned_int(oldindex+4) & 0x00FFFFFF);
         memcpy(src_buffer, data, src_buffer_used);
     }
@@ -2345,7 +2361,7 @@ signed char src_compilerize(unsigned char* index, unsigned char* filename)
     // Just like sdf_open...
     sdf_read_first_line = FALSE;
     sdf_read_remaining = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
-    sdf_read_file = (unsigned char*) sdf_read_unsigned_int(index);
+    sdf_read_file = sdf_index_get_data(index);
     sdf_read_line_number = 0;
 
 
@@ -2396,7 +2412,7 @@ signed char src_compilerize(unsigned char* index, unsigned char* filename)
     // Just like sdf_open...
     sdf_read_first_line = FALSE;
     sdf_read_remaining = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
-    sdf_read_file = (unsigned char*) sdf_read_unsigned_int(index);
+    sdf_read_file = sdf_index_get_data(index);
     sdf_read_line_number = 0;
 
 
@@ -2802,7 +2818,7 @@ signed char src_compilerize(unsigned char* index, unsigned char* filename)
             // Write the index...  Should overwrite headerized RUN file...
 
 
-            sdf_write_unsigned_int(oldindex, (unsigned int) newdata);
+            sdf_index_set_data(oldindex, newdata);
             sdf_write_unsigned_int(oldindex+4, newsize);
             *(oldindex+4) = SDF_FILE_IS_RUN;
             repeat(j, 8) { *(oldindex+8+j) = 0; }
@@ -2876,7 +2892,7 @@ signed char src_headerize(unsigned char* index, unsigned char* filename)
     // Just like sdf_open...
     sdf_read_first_line = FALSE;
     sdf_read_remaining = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
-    sdf_read_file = (unsigned char*) sdf_read_unsigned_int(index);
+    sdf_read_file = sdf_index_get_data(index);
     sdf_read_line_number = 0;
 
 
@@ -3033,7 +3049,7 @@ signed char src_headerize(unsigned char* index, unsigned char* filename)
     #endif
     sdf_read_first_line = FALSE;
     sdf_read_remaining = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
-    sdf_read_file = (unsigned char*) sdf_read_unsigned_int(index);
+    sdf_read_file = sdf_index_get_data(index);
     sdf_read_line_number = 0;
 
 
@@ -3100,7 +3116,7 @@ signed char src_headerize(unsigned char* index, unsigned char* filename)
     // Now search for strings to append to the header...  Just like above...
     sdf_read_first_line = FALSE;
     sdf_read_remaining = sdf_read_unsigned_int(index+4) & 0x00FFFFFF;
-    sdf_read_file = (unsigned char*) sdf_read_unsigned_int(index);
+    sdf_read_file = sdf_index_get_data(index);
     sdf_read_line_number = 0;
 
 
@@ -3243,7 +3259,7 @@ signed char src_headerize(unsigned char* index, unsigned char* filename)
         index = sdf_find_filetype(filename, SDF_FILE_IS_RUN);
         if(index != NULL)
         {
-            data = (unsigned char*) sdf_read_unsigned_int(index);
+            data = sdf_index_get_data(index);
             make_new_file = FALSE;
         }
         else
@@ -3272,7 +3288,7 @@ signed char src_headerize(unsigned char* index, unsigned char* filename)
 
 
             // Write the index...
-            sdf_write_unsigned_int(index, (unsigned int) newdata);
+            sdf_index_set_data(index, newdata);
             sdf_write_unsigned_int(index+4, newsize);
             *(index+4) = SDF_FILE_IS_RUN;
             repeat(j, 8) { *(index+8+j) = 0; }
@@ -3303,7 +3319,7 @@ signed char src_headerize(unsigned char* index, unsigned char* filename)
     index = sdf_find_filetype(filename, SDF_FILE_IS_RUN);
     if(index != NULL)
     {
-        data = (unsigned char*) sdf_read_unsigned_int(index);
+        data = sdf_index_get_data(index);
         free(data);
         *(index+4) = SDF_FILE_IS_UNUSED;
     }

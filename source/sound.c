@@ -706,7 +706,7 @@ void play_music(unsigned char* filedata, unsigned short start_time, unsigned cha
             music_instrument_table[instrument] = sdf_find_filetype(filedata, SDF_FILE_IS_RAW);
             if(music_instrument_table[instrument])
             {
-                music_instrument_table[instrument] = (unsigned char*) sdf_read_unsigned_int(music_instrument_table[instrument]);
+                music_instrument_table[instrument] = sdf_index_get_data(music_instrument_table[instrument]);
             }
             else
             {
