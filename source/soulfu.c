@@ -775,6 +775,7 @@ int main(int argc, char *argv[])
     screen_size = (*(config+68)) & (MAX_SCREEN_SIZES-1);
     bit_depth = *(config+69);
     z_depth = *(config+70);
+    if(z_depth < 16) z_depth = 16;  // SDL2 needs explicit depth buffer request (0 means none)
     volumetric_shadows_on = (*(config+71))&1;
     full_screen = *(config+72);
     mip_map_active = (*(config+98));
