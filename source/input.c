@@ -540,6 +540,12 @@ void input_read(void)
             case SDL_QUIT:
                 quitgame = TRUE;
                 break;
+            case SDL_WINDOWEVENT:
+                if(event.window.event == SDL_WINDOWEVENT_RESIZED)
+                {
+                    display_handle_resize(event.window.data1, event.window.data2);
+                }
+                break;
             case SDL_MOUSEMOTION:
                 mouse_idle_timer = 0;
                 if(display_full_screen)

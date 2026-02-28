@@ -713,6 +713,7 @@ unsigned char render_pregenerate_normals(unsigned char* data, unsigned short fra
 unsigned char particle_attach_to_character(unsigned short particle, unsigned short character, unsigned char bone_type);
 void network_send(unsigned char remotes_to_send_to);
 void display_loadin(float amount_done);
+void display_handle_resize(int w, int h);
 void render_rdy(unsigned char* data, unsigned short frame, unsigned char mode, unsigned char** texture_file_data_block, unsigned char main_alpha, unsigned char* bone_frame_data, unsigned char petrify, unsigned char eye_frame);
 unsigned char* render_generate_model_world_data(unsigned char* data, unsigned short frame, float* matrix, unsigned char* write);
 void render_rdy_shadow(unsigned char* data, unsigned short frame, float x, float y, float z, unsigned char mode);
