@@ -764,7 +764,27 @@ int main(int argc, char *argv[])
   } else strcpy(configfile, "CONFIG.DAT");
 
   if(!config_loaded && file_can_open("CONFIG.DAT", "r"))
+  {
     sdf_add_file("CONFIG.DAT", "CONFIG.DAT");
+    // If we loaded from local fallback but have a home dir path,
+    // ensure the config dir exists so we can save there on exit
+    if(userconf) {
+      char dirpath[1024];
+      strncpy(dirpath, configfile, sizeof(dirpath)-1);
+      dirpath[sizeof(dirpath)-1] = '\0';
+      // Find last '/' to get directory
+      char* lastslash = strrchr(dirpath, '/');
+      if(lastslash) {
+        *lastslash = '\0';
+        if(mkdir(dirpath, 0755) == 0) {
+          log_message("INFO:   Created config directory %s", dirpath);
+        }
+      }
+    } else {
+      // No home dir path available, save to local file
+      strcpy(configfile, "CONFIG.DAT");
+    }
+  }
    
 
   // Read the display settings from the config file...
@@ -782,31 +802,28 @@ int main(int argc, char *argv[])
     fast_and_ugly_active = (*(config+101));
     log_message("INFO:   Config file read okay...");
 
-    // Auto-detect best resolution if configured one is too small for the display
+    // Auto-detect resolution only for fresh/default config (screen_size 0 = 320x200)
+    if (screen_size == 0)
     {
         SDL_DisplayMode desktop_mode;
         if (SDL_Init(SDL_INIT_VIDEO) == 0 && SDL_GetDesktopDisplayMode(0, &desktop_mode) == 0)
         {
-            int cfg_w = screen_sizes_xy[screen_size][0];
-            if (cfg_w == 0 || cfg_w < desktop_mode.w / 2)
+            int best = screen_size;
+            int s;
+            for (s = 0; s < MAX_SCREEN_SIZES; s++)
             {
-                int best = screen_size;
-                int s;
-                for (s = 0; s < MAX_SCREEN_SIZES; s++)
+                if (screen_sizes_xy[s][0] > 0 &&
+                    screen_sizes_xy[s][0] <= (unsigned short)desktop_mode.w &&
+                    screen_sizes_xy[s][1] <= (unsigned short)desktop_mode.h &&
+                    screen_sizes_xy[s][0] > screen_sizes_xy[best][0])
                 {
-                    if (screen_sizes_xy[s][0] > 0 &&
-                        screen_sizes_xy[s][0] <= (unsigned short)desktop_mode.w &&
-                        screen_sizes_xy[s][1] <= (unsigned short)desktop_mode.h &&
-                        screen_sizes_xy[s][0] > screen_sizes_xy[best][0])
-                    {
-                        best = s;
-                    }
+                    best = s;
                 }
-                log_message("INFO:   Auto-detected resolution %dx%d for %dx%d display",
-                    screen_sizes_xy[best][0], screen_sizes_xy[best][1],
-                    desktop_mode.w, desktop_mode.h);
-                screen_size = best;
             }
+            log_message("INFO:   Auto-detected resolution %dx%d for %dx%d display",
+                screen_sizes_xy[best][0], screen_sizes_xy[best][1],
+                desktop_mode.w, desktop_mode.h);
+            screen_size = best;
         }
     }
 
