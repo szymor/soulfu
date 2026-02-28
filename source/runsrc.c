@@ -420,7 +420,7 @@ float script_point[4][2];
 float script_texpoint[4][2];
 
 
-signed int return_int;      // Set by run_script...  Only valid if return_int_is_set == TRUE
+intptr_t return_int;      // Set by run_script...  Only valid if return_int_is_set == TRUE
 float return_float;         // Set by run_script...  Only valid if return_int_is_set == FALSE
 #define word_temp color_temp
 
@@ -906,16 +906,17 @@ void script_matrix_good_bone(unsigned char bone, unsigned char* data_start, unsi
 
     // Figure out how many bones we have, and what the joints are for our bone...
     data = *((unsigned char**) (data+256));  // Data is now start of character's model data...
+    unsigned char* rdy_start = data;  // Save RDY file start for offset resolution
 
 
     // Go to base model 0...  Count bones of that one...
     data+=6;
     data+=(ACTION_MAX<<1);
     data+=(MAX_DDD_SHADOW_TEXTURE);
-    base_model_data = (*((unsigned char**) data))+6;
+    base_model_data = rdy_read_ptr(data, rdy_start)+6;
     num_bone = *((unsigned short*) base_model_data); base_model_data+=2;
     if(bone > num_bone) bone = 0;
-    data = (*((unsigned char**) (data+16)));  // Bone data...
+    data = rdy_read_ptr(data+16, rdy_start);  // Bone data...
     data = data+(bone<<3)+bone+1;
     joint[0] = *((unsigned short*) data);  data+=2;
     joint[1] = *((unsigned short*) data);
@@ -1014,28 +1015,28 @@ void script_matrix_from_bone(unsigned char bone_name)
 float script_temp_e;
 float script_temp_f;
 float script_temp_y;
-int   script_temp_i;
-int   script_temp_j;
-int   script_temp_k;
-signed char run_script(unsigned char* address, unsigned char* file_start, unsigned char num_int_args, signed int* int_arg_stack, unsigned char num_float_args, float* float_arg_stack)
+intptr_t   script_temp_i;
+intptr_t   script_temp_j;
+intptr_t   script_temp_k;
+signed char run_script(unsigned char* address, unsigned char* file_start, unsigned char num_int_args, intptr_t* int_arg_stack, unsigned char num_float_args, float* float_arg_stack)
 {
     // <ZZ> This function runs a script, starting with whatever opcode is at address.
     unsigned char opcode;
-    signed int i;
-    signed int j;
-    signed int k;
-    signed int m;
+    intptr_t i;
+    intptr_t j;
+    intptr_t k;
+    intptr_t m;
     float f;
     float e;
-    signed int int_stack[MAX_STACK];
+    intptr_t int_stack[MAX_STACK];
     unsigned char int_stack_head;
     float float_stack[MAX_STACK];
     unsigned char float_stack_head;
     signed char return_int_is_set;
     signed char keepgoing;
-    signed int int_variable[MAX_VARIABLE];
+    intptr_t int_variable[MAX_VARIABLE];
     float float_variable[MAX_VARIABLE];
-    signed int int_argument[MAX_ARGUMENT];
+    intptr_t int_argument[MAX_ARGUMENT];
     float float_argument[MAX_ARGUMENT];
     unsigned char* call_address;
     unsigned char* return_address;
@@ -1396,7 +1397,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                 break;
             case OPCODE_FINDSELF:
                 // Returns the address of the current object...  For property addressing...
-                push_int_stack((int) current_object_data);
+                push_int_stack((intptr_t) current_object_data);
                 break;
             case OPCODE_SYSTEMSET:
                 // Write data to special system values
@@ -2527,10 +2528,10 @@ log_message("ERROR:  SYS_PLAYERCONTROLHANDLED Called...");
                             {
                                 room_srf_add_texture_triangle((unsigned char*) j, (unsigned char) k, room_select_list[0], room_select_list[1], room_select_list[2], NULL, NULL, NULL);
                                 i = room_select_list[0];
-                                k = (int) room_select_data[0];
+                                k = (intptr_t) room_select_data[0];
 
                                 script_temp_i = room_select_list[2];
-                                script_temp_k = (int) room_select_data[2];
+                                script_temp_k = (intptr_t) room_select_data[2];
 
                                 room_select_num = 0;
                                 room_srf_autotexture((unsigned char*) j);
@@ -3417,9 +3418,10 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                 {
                                     strcat(file_name, ".SRF");
                                     fprintf(savelog,"   SRF FILE NAME: %s\n", file_name);
-                                    srf_file_pointer = (unsigned int) sdf_find_index(file_name);
-                                    srf_file_pointer = sdf_read_unsigned_int((unsigned char*) srf_file_pointer);
-                                    (*((unsigned char**) (map_room_data[i]+0))) = (unsigned char*) srf_file_pointer;
+                                    {
+                                        unsigned char* srf_index = sdf_find_index(file_name);
+                                        (*((unsigned char**) (map_room_data[i]+0))) = srf_index ? sdf_index_get_data(srf_index) : NULL;
+                                    }
                                     file_index = sdf_find_index_by_data((*((unsigned char**) (map_room_data[i]+0))));
                                     if(file_index != 65535)
                                     {
@@ -3452,7 +3454,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                 index = sdf_find_filetype(main_character_script_name[i], SDF_FILE_IS_RUN);
                                 if(index)
                                 {
-                                    main_character_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                                    main_character_script_start[i] = sdf_index_get_data(index);
 
                                     // Clear out model assigns...
                                     x = 256;
@@ -3499,7 +3501,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     index = sdf_find_filetype(file_name, SDF_FILE_IS_RGB);
                                     if(index)
                                     {
-                                        *((unsigned int**) (main_particle_data[i]+44)) = (unsigned int*) sdf_read_unsigned_int(index);
+                                        *((unsigned char**) (main_particle_data[i]+44)) = sdf_index_get_data(index);
                                     }
                                 }
 
@@ -3510,7 +3512,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     index = sdf_find_filetype(file_name2, SDF_FILE_IS_RGB);
                                     if(index)
                                     {
-                                        *((unsigned int**) (main_particle_data[i]+68)) = (unsigned int*) sdf_read_unsigned_int(index);
+                                        *((unsigned char**) (main_particle_data[i]+68)) = sdf_index_get_data(index);
                                     }
                                 }
 
@@ -3520,7 +3522,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                 index = sdf_find_filetype(main_particle_script_name[i], SDF_FILE_IS_RUN);
                                 if(index)
                                 {
-                                    main_particle_script_start[i] = (unsigned char*) sdf_read_unsigned_int(index);
+                                    main_particle_script_start[i] = sdf_index_get_data(index);
                                 }
                             }
 
@@ -3546,7 +3548,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         j = 256;
                         repeat(i, 15)
                         {
-                            k = *((int*)(current_object_data+j));
+                            k = (intptr_t) model_slot_get_ptr(current_object_data+j);
                             if(sdf_find_index_by_data((unsigned char*) k) == 65535)
                             {
                                 log_message("ERROR:    No match found for RDY slot %d (%x == %u)", i, (current_object_data+j), k);
@@ -3622,7 +3624,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         i = master_music_volume;
                         break;
                     case SYS_MESSAGE:
-                        i = (signed int) (message_get(j));
+                        i = (intptr_t) (message_get(j));
                         break;
                     case SYS_USERLANGUAGE:
                         i = user_language;
@@ -3647,17 +3649,17 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                                     system_file_name[i] = sdf_extension[opcode][k];
                                     i++;
                                 }
-                                i = (int) system_file_name;
+                                i = (intptr_t) system_file_name;
                             }
                             else
                             {
-                                i = (int) unused_file_name;
+                                i = (intptr_t) unused_file_name;
                             }
                         }
                         else
                         {
                             system_file_name[0] = 0;
-                            i = (int) system_file_name;
+                            i = (intptr_t) system_file_name;
                         }
                         break;
                     case SYS_FILESIZE:
@@ -3669,18 +3671,18 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                             {
                                 k = sdf_read_unsigned_int(index+4)&0x00FFFFFF;
                                 sprintf(system_file_name, "%8d", k);
-                                i = (int) system_file_name;
+                                i = (intptr_t) system_file_name;
                             }
                             else
                             {
                                 sprintf(system_file_name, "%8d", 0);
-                                i = (int) system_file_name;
+                                i = (intptr_t) system_file_name;
                             }
                         }
                         else
                         {
                             system_file_name[0] = 0;
-                            i = (int) system_file_name;
+                            i = (intptr_t) system_file_name;
                         }
                         break;
                     case SYS_FILEFTPFLAG:
@@ -3786,7 +3788,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                             call_address = (unsigned char*) j;
                             if(call_address == NULL)
                             {
-                                call_address = (unsigned char*)  (*((unsigned int*) (current_object_data+256)));
+                                call_address = model_slot_get_ptr(current_object_data+256);
                             }
                             call_address+=6;
                             i = ((unsigned short*) call_address)[k];
@@ -3813,7 +3815,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                             }
                             break;
                         case SYS_MODELEXTERNALFILENAME:
-                            i = (signed int) render_get_set_external_linkage((unsigned char*) j, NULL);
+                            i = (intptr_t) render_get_set_external_linkage((unsigned char*) j, NULL);
                             break;
                         case SYS_MODELSHADOWTEXTURE:
                             call_address = (unsigned char*) j;
@@ -3953,7 +3955,7 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         {
                             if((arg_address[4] & 15) != SDF_FILE_IS_UNUSED)
                             {
-                                if(call_address == (unsigned char*)  sdf_read_unsigned_int(arg_address))
+                                if(call_address == sdf_index_get_data(arg_address))
                                 {
                                     j = sdf_num_files;
                                     i = sdf_read_unsigned_int(arg_address+4)&0x00FFFFFF;
@@ -4105,19 +4107,19 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         // Returns an item's script...
                         // j is the item type index number...
                         j = (j%MAX_ITEM_TYPE);
-                        i = (unsigned int) item_type_script[j];
+                        i = (intptr_t) item_type_script[j];
                         break;
                     case SYS_ITEMREGISTRYICON:
                         // Returns an item's icon image...
                         // j is the item type index number...
                         j = (j%MAX_ITEM_TYPE);
-                        i = (unsigned int) item_type_icon[j];
+                        i = (intptr_t) item_type_icon[j];
                         break;
                     case SYS_ITEMREGISTRYOVERLAY:
                         // Returns an item's overlay image...
                         // j is the item type index number...
                         j = (j%MAX_ITEM_TYPE);
-                        i = (unsigned int) item_type_overlay[j];
+                        i = (intptr_t) item_type_overlay[j];
                         break;
                     case SYS_ITEMREGISTRYPRICE:
                         // Returns an item's shop price...
@@ -4187,19 +4189,19 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         // k is the buffer number...
                         if(k < 2)
                         {
-                            i = (unsigned int) mainbuffer;
+                            i = (intptr_t) mainbuffer;
                         }
                         if(k == 2)
                         {
-                            i = (unsigned int) subbuffer;
+                            i = (intptr_t) subbuffer;
                         }
                         if(k == 3)
                         {
-                            i = (unsigned int) thirdbuffer;
+                            i = (intptr_t) thirdbuffer;
                         }
                         if(k == 4)
                         {
-                            i = (unsigned int) fourthbuffer;
+                            i = (intptr_t) fourthbuffer;
                         }
                         if(k > 4)
                         {
@@ -4237,7 +4239,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                             }
                             else
                             {
-                                i = (int) global_room_active_object_data;
+                                i = (intptr_t) global_room_active_object_data;
                             }
                             break;
                         case SYS_ROOMTEXTUREFLAGS:
@@ -4246,17 +4248,17 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                             break;
                     #endif
                     case SYS_MOUSELASTOBJECT:
-                        i = (int) mouse_last_object;
+                        i = (intptr_t) mouse_last_object;
                         break;
                     case SYS_MOUSELASTITEM:
-                        i = (int) mouse_last_item;
+                        i = (intptr_t) mouse_last_item;
                         break;
                     case SYS_MOUSELASTSCRIPT:
                         i = 0;
                         if(mouse_last_object >= main_window_data[0] && mouse_last_object <= main_window_data[MAX_WINDOW-1])
                         {
                             i = (mouse_last_object-main_window_data[0])/WINDOW_SIZE;
-                            i = (int) main_window_script_start[i];
+                            i = (intptr_t) main_window_script_start[i];
                         }
                         break;
                     case SYS_ITEMINDEX:
@@ -4373,12 +4375,12 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                     case SYS_CHARACTERSCRIPTFILE:
                         // Returns a pointer to the .RUN file for the given character index...
                         // k is the character index...
-                        i = (int) main_character_script_start[k & (MAX_CHARACTER-1)];
+                        i = (intptr_t) main_character_script_start[k & (MAX_CHARACTER-1)];
                         break;
                     case SYS_PARTICLESCRIPTFILE:
                         // Returns a pointer to the .RUN file for the given particle index...
                         // k is the particle index...
-                        i = (int) main_particle_script_start[k & (MAX_PARTICLE-1)];
+                        i = (intptr_t) main_particle_script_start[k & (MAX_PARTICLE-1)];
                         break;
                     case SYS_MAPROOM:
                         // Used to get map info...  k is the parameter to read...
@@ -4390,7 +4392,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
                         {
                             if(k == MAP_ROOM_SRF)
                             {
-                                i = (int) (*((unsigned char**) (map_room_data[j])));
+                                i = (intptr_t) (*((unsigned char**) (map_room_data[j])));
                             }
                             if(k == MAP_ROOM_X)
                             {
@@ -4863,7 +4865,7 @@ log_message("ERROR:  Membuffer MAPBUFFER requested...");
             case OPCODE_STRING:
                 // Returns a pointer to a string...
                 pop_int_stack_cast(opcode, unsigned char);
-                push_int_stack(((int) run_string[opcode & (MAX_STRING-1)]));
+                push_int_stack(((intptr_t) run_string[opcode & (MAX_STRING-1)]));
                 break;
             case OPCODE_STRINGGETNUMBER:
                 // Returns the first decimal value found in a string...
@@ -4996,11 +4998,11 @@ log_message("ERROR:   StringSanitize()");
                     j = (*call_address);  j = j<<8;  call_address++;
                     j += (*call_address);  j = j<<8;  call_address++;
                     j += (*call_address);
-                    j += (unsigned int) language_file[user_language];
+                    j += (intptr_t) language_file[user_language];
                 }
                 else
                 {
-                    j = (int) bad_string;
+                    j = (intptr_t) bad_string;
                 }
                 push_int_stack(j);
                 break;
@@ -5052,10 +5054,16 @@ log_message("ERROR:   StringSanitize()");
 #endif
 
                 // Read in the addresses...
-                call_address = (unsigned char*) sdf_read_unsigned_int(address);
-                return_address = (unsigned char*) sdf_read_unsigned_int(address+4);
-                arg_address = (unsigned char*) sdf_read_unsigned_int(address+8);
-                file_address = (unsigned char*) sdf_read_unsigned_int(address+12);
+                {
+                    unsigned int file_num = sdf_read_unsigned_int(address+12);
+                    file_address = (file_num < 65535) ? sdf_get_file_data(file_num) : NULL;
+                    unsigned int call_off = sdf_read_unsigned_int(address);
+                    call_address = (call_off && file_address) ? (file_address + call_off) : NULL;
+                    unsigned int return_off = sdf_read_unsigned_int(address+4);
+                    return_address = file_start + return_off;
+                    unsigned int arg_off = sdf_read_unsigned_int(address+8);
+                    arg_address = (arg_off && file_address) ? (file_address + arg_off) : NULL;
+                }
 
 
                 // Count args in argument list...
@@ -5209,14 +5217,14 @@ float_stack_head-=num_float_args;
                 {
                     if(i == FILE_SIZE)
                     {
-                        call_address = (unsigned char*) (sdf_read_unsigned_int(call_address+4)&0x00ffffff);
+                        call_address = (unsigned char*) (uintptr_t) (sdf_read_unsigned_int(call_address+4)&0x00ffffff);
                     }
                     else
                     {
-                        call_address = (unsigned char*) sdf_read_unsigned_int(call_address);
+                        call_address = sdf_index_get_data(call_address);
                     }
                 }
-                push_int_stack(((int) call_address));
+                push_int_stack(((intptr_t) call_address));
                 break;
             case OPCODE_FILEREADBYTE:
                 // Returns a value from a file...  File must exist and be big enough...
@@ -5263,14 +5271,14 @@ float_stack_head-=num_float_args;
                     // No .RUN file given, assume duplicate of current...  Makes spawning particles easier...
                     call_address = file_start;
                 }
-                i = (int) obj_spawn(opcode, e, f, script_temp_e, call_address, 65535);
+                i = (intptr_t) obj_spawn(opcode, e, f, script_temp_e, call_address, 65535);
                 if(opcode == CHARACTER)
                 {
                     // Set the current frame to be the first frame of the current action...
                     current_object_data = (unsigned char*) i;
                     if(current_object_data)
                     {
-                        call_address = *((unsigned char**) (current_object_data+256));
+                        call_address = model_slot_get_ptr(current_object_data+256);
                         if(call_address)
                         {
                             file_address=call_address+6+(current_object_data[65]<<1);
@@ -5563,7 +5571,7 @@ float_stack_head-=num_float_args;
                         arg_address = sdf_find_filetype("LANGUAGE", SDF_FILE_IS_RUN);
                         if(arg_address)
                         {
-                            arg_address = (unsigned char*) sdf_read_unsigned_int(arg_address);
+                            arg_address = sdf_index_get_data(arg_address);
                             call_address = current_object_data;
                             script_temp_i = current_object_item;
                             fast_run_script(arg_address, FAST_FUNCTION_SETUP, mainbuffer);
@@ -5573,7 +5581,7 @@ float_stack_head-=num_float_args;
                         arg_address = sdf_find_filetype("ITEMREG", SDF_FILE_IS_RUN);
                         if(arg_address)
                         {
-                            arg_address = (unsigned char*) sdf_read_unsigned_int(arg_address);
+                            arg_address = sdf_index_get_data(arg_address);
                             call_address = current_object_data;
                             script_temp_i = current_object_item;
                             fast_run_script(arg_address, FAST_FUNCTION_SETUP, mainbuffer);
@@ -5612,7 +5620,7 @@ float_stack_head-=num_float_args;
                     arg_address = sdf_find_filetype("LANGUAGE", SDF_FILE_IS_RUN);
                     if(arg_address)
                     {
-                        arg_address = (unsigned char*) sdf_read_unsigned_int(arg_address);
+                        arg_address = sdf_index_get_data(arg_address);
                         call_address = current_object_data;
                         script_temp_i = current_object_item;
                         fast_run_script(arg_address, FAST_FUNCTION_SETUP, mainbuffer);
@@ -5622,7 +5630,7 @@ float_stack_head-=num_float_args;
                     arg_address = sdf_find_filetype("ITEMREG", SDF_FILE_IS_RUN);
                     if(arg_address)
                     {
-                        arg_address = (unsigned char*) sdf_read_unsigned_int(arg_address);
+                        arg_address = sdf_index_get_data(arg_address);
                         call_address = current_object_data;
                         script_temp_i = current_object_item;
                         fast_run_script(arg_address, FAST_FUNCTION_SETUP, mainbuffer);
@@ -6225,7 +6233,7 @@ float_stack_head-=num_float_args;
                 // Draw the image...  Can pass NULL instead of a filename to act as a hotspot...
                 if(call_address != NULL)
                 {
-                    if(((unsigned int) call_address) == 1)
+                    if(((uintptr_t) call_address) == 1)
                     {
                         // Kanji image...
                         if(arg_address)
@@ -7006,13 +7014,17 @@ float_stack_head-=num_float_args;
                 pop_int_stack(i);                                                           // Character model data block offset...  First entry is RDY filestart...
                 call_address = current_object_data + i;                                     // Actual position of model data block...
                 pop_int_stack_cast(opcode, unsigned char);                                  // Mode
-                if(*((unsigned char**) call_address) == NULL) break;
+                {
+                unsigned char* _rdy_ptr = model_slot_get_ptr(call_address);
+                if(_rdy_ptr == NULL) break;
+                unsigned char* _tex_block[5];
+                model_slot_resolve_textures(call_address, _tex_block);
                 switch(opcode & 240)
                 {
                     case WIN_3D_SHADOW:
                         display_blend_trans();
                         display_cull_off();
-                        render_rdy_shadow(*((unsigned char**) call_address), (unsigned short) j, 0.0f, 0.0f, 0.0f, opcode);
+                        render_rdy_shadow(_rdy_ptr, (unsigned short) j, 0.0f, 0.0f, 0.0f, opcode);
                         display_cull_on();
                         break;
                     case WIN_3D_MODEL:
@@ -7021,33 +7033,33 @@ float_stack_head-=num_float_args;
                         {
                             // Clear the base matrix...
                             script_matrix_clear();
-                            render_generate_model_world_data(*((unsigned char**) call_address), (unsigned short) j, script_matrix, mainbuffer);  // Generate new bone frame in mainbuffer
-                            render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, mainbuffer, 0, 0);
+                            render_generate_model_world_data(_rdy_ptr, (unsigned short) j, script_matrix, mainbuffer);  // Generate new bone frame in mainbuffer
+                            render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, mainbuffer, 0, 0);
                         }
                         else if(i == MODEL_RIDER_FILE)
                         {
                             // Set the base matrix to attach to the saddle bone...
                             script_matrix_clear();
                             script_matrix_from_bone(SADDLE_BONE);  // Uses data in mainbuffer from last base...
-                            render_generate_model_world_data(*((unsigned char**) call_address), (unsigned short) j, script_matrix, mainbuffer);  // Generate new bone frame in mainbuffer
-                            render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, mainbuffer, 0, 0);
+                            render_generate_model_world_data(_rdy_ptr, (unsigned short) j, script_matrix, mainbuffer);  // Generate new bone frame in mainbuffer
+                            render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, mainbuffer, 0, 0);
                         }
                         else if(i >= MODEL_LEFT_FILE)
                         {
                             // Use a temporary matrix to attach to the desired weapon bone...
                             script_matrix_clear();
                             script_matrix_from_bone((unsigned char) (1 + ((i - MODEL_LEFT_FILE)/24)));  // Uses data in mainbuffer from last base...
-                            render_generate_model_world_data(*((unsigned char**) call_address), (unsigned short) j, script_matrix, subbuffer);  // Generate new bone frame in subbuffer
+                            render_generate_model_world_data(_rdy_ptr, (unsigned short) j, script_matrix, subbuffer);  // Generate new bone frame in subbuffer
                             i = global_num_bone;
                             arg_address = global_bone_data;
-                            render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, subbuffer, 0, 0);
+                            render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, subbuffer, 0, 0);
                             global_bone_data = arg_address;
                             global_num_bone = i;
                         }
                         else
                         {
                             // Overlaps base bones...
-                            render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, mainbuffer, 0, 0);
+                            render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, mainbuffer, 0, 0);
                         }
                         break;
 #ifdef DEVTOOL
@@ -7058,28 +7070,29 @@ float_stack_head-=num_float_args;
                         display_texture_on();
                         break;
                     case WIN_3D_BONE:
-                        render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, NULL, 0, 0);
+                        render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, NULL, 0, 0);
                         break;
                     case WIN_3D_VERTEX:
-                        render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, NULL, 0, 0);
+                        render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, NULL, 0, 0);
                         break;
                     case WIN_3D_BONE_UPDATE:
-                        render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, NULL, 0, 0);
+                        render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, NULL, 0, 0);
                         break;
                     case WIN_3D_TEXVERTEX:
-                        render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, NULL, 0, 0);
+                        render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, NULL, 0, 0);
                         break;
                     case WIN_3D_SKIN_FROM_CAMERA:
-                        render_rdy(*((unsigned char**) call_address), (unsigned short) j, opcode, (unsigned char**) (call_address+4), (unsigned char) k, NULL, 0, 0);
+                        render_rdy(_rdy_ptr, (unsigned short) j, opcode, _tex_block, (unsigned char) k, NULL, 0, 0);
                         break;
                     case WIN_3D_MODEL_EDIT:
                         script_matrix_clear();
-                        render_generate_model_world_data(*((unsigned char**) call_address), (unsigned short) j, script_matrix, mainbuffer);  // Generate new bone frame in mainbuffer (so others attach correctly)
-                        render_rdy(*((unsigned char**) call_address), (unsigned short) j, WIN_3D_MODEL, (unsigned char**) (call_address+4), (unsigned char) k, NULL, 0, 0);
+                        render_generate_model_world_data(_rdy_ptr, (unsigned short) j, script_matrix, mainbuffer);  // Generate new bone frame in mainbuffer (so others attach correctly)
+                        render_rdy(_rdy_ptr, (unsigned short) j, WIN_3D_MODEL, _tex_block, (unsigned char) k, NULL, 0, 0);
                         break;
 #endif
                     default:
                         break;
+                }
                 }
                 push_int_stack(TRUE);
                 break;
@@ -7087,7 +7100,15 @@ float_stack_head-=num_float_args;
                 // Set the color and textures for a given character or window...
                 pop_int_stack(j);                               // Color or Texture filestart
                 pop_int_stack(i);                               // Location to stick the color or texture...
-                *((unsigned int*) i) = (unsigned int) j;
+                {
+                    unsigned char* _ptr = (unsigned char*)(uintptr_t)j;
+                    if (_ptr != NULL && sdf_find_index_by_data(_ptr) != 65535) {
+                        model_slot_set_ptr((unsigned char*)(uintptr_t)i, _ptr);
+                    } else {
+                        // Color or other non-pointer value — store raw
+                        *((unsigned int*)(uintptr_t)i) = (unsigned int)j;
+                    }
+                }
                 break;
             case OPCODE_PARTICLEBOUNCE:
                 // Reflects a particle off collision_normal_xyz, changing its velocities...
@@ -7167,7 +7188,7 @@ push_int_stack(TRUE);
                 {
                     if(main_character_on[i])
                     {
-                        i = (int) main_character_data[i];
+                        i = (intptr_t) main_character_data[i];
                     }
                     else
                     {
@@ -7186,7 +7207,7 @@ push_int_stack(TRUE);
                 {
                     if(main_character_on[i])
                     {
-                        i = (int) main_character_data[i];
+                        i = (intptr_t) main_character_data[i];
                     }
                     else
                     {
@@ -7205,7 +7226,7 @@ push_int_stack(TRUE);
                 {
                     if(main_character_on[i])
                     {
-                        i = (int) main_character_data[i];
+                        i = (intptr_t) main_character_data[i];
                     }
                     else
                     {
@@ -7243,7 +7264,7 @@ push_int_stack(TRUE);
                 {
                     if(main_character_on[i])
                     {
-                        i = (int) main_character_data[i];
+                        i = (intptr_t) main_character_data[i];
                     }
                     else
                     {
@@ -7275,7 +7296,7 @@ push_int_stack(TRUE);
                         if(k == (*((unsigned short*) (main_window_data[j]+220))) || k >= MAX_CHARACTER)
                         {
 //log_message("INFO:     Passed binding");
-                            i = (int) main_window_data[j];
+                            i = (intptr_t) main_window_data[j];
                             script_temp_i = main_used_window_count;
                         }
                     }
@@ -7289,7 +7310,7 @@ push_int_stack(TRUE);
                 {
                     if(main_particle_on[i])
                     {
-                        i = (int) main_particle_data[i];
+                        i = (intptr_t) main_particle_data[i];
                     }
                     else
                     {
@@ -7506,7 +7527,7 @@ push_int_stack(TRUE);
                                 break;
                             default:
                                 // Strings and text are put on stack as a pointer...  Can be used with FileWriteByte...
-                                push_int_stack( ((signed int) arg_address) );
+                                push_int_stack( ((intptr_t) arg_address) );
                                 break;
                         }
                         break;
@@ -7552,6 +7573,20 @@ push_int_stack(TRUE);
                                 break;
                             case 7:
                                 // String token, Zero terminated
+                                break;
+                            case 8:
+                                // File-relative pointer offset, 4 bytes
+                                {
+                                    unsigned int ptr_off = sdf_read_unsigned_int(address); address+=4;
+                                    push_int_stack(ptr_off ? (intptr_t)(file_start + ptr_off) : 0);
+                                }
+                                break;
+                            case 9:
+                                // File data reference by SDF file number, 4 bytes
+                                {
+                                    unsigned int file_num = sdf_read_unsigned_int(address); address+=4;
+                                    push_int_stack(file_num < 65535 ? (intptr_t) sdf_get_file_data(file_num) : 0);
+                                }
                                 break;
                             default:
                                 // Invalid opcode

@@ -43,7 +43,7 @@ signed char random_setup(int seed)
             // Table size should be a power of 2...
             and_random = max_random-1;
         }
-        random_table = (unsigned char*) sdf_read_unsigned_int(random_table);
+        random_table = sdf_index_get_data(random_table);
         next_random = seed;
         log_message("INFO:   Found the random number table");
         return TRUE;

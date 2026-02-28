@@ -63,7 +63,7 @@ void message_setup(void)
         sanitize_file = sdf_find_filetype("BADWORDS", SDF_FILE_IS_TXT);
         if(sanitize_file)
         {
-            sanitize_file = (unsigned char*) sdf_read_unsigned_int(sanitize_file);
+            sanitize_file = sdf_index_get_data(sanitize_file);
             sscanf(sanitize_file, "%d", &sanitize_count);
             while(*sanitize_file != 0)
             {

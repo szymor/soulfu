@@ -112,7 +112,7 @@ void water_generate(unsigned short number_of_frames)
     phong_file = sdf_find_filetype("STEEL", SDF_FILE_IS_RGB);
     if(phong_file)
     {
-        phong_file = (unsigned char*) sdf_read_unsigned_int(phong_file);
+        phong_file = sdf_index_get_data(phong_file);
 
 
         // Setup water generators...

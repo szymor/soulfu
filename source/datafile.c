@@ -76,7 +76,40 @@
 //  #define SDF_FILE_IS_TIL   15  // Lower 4 bits...  File is a 3D model file, used for tiles
 
 
+#include <stdint.h>
+
 unsigned char* sdf_index;       // The datafile index after it has been loaded into memory
+// 64-bit fix: separate array for file data pointers (index stores 4-byte values, pointers need 8)
+#define SDF_MAX_FILES (4096 + SDF_EXTRA_INDEX/16)
+static unsigned char* sdf_file_data_ptrs[SDF_MAX_FILES];
+
+// Get file number from index pointer
+static inline int sdf_index_to_num(unsigned char* index) {
+    return (int)((index - sdf_index) >> 4);
+}
+
+// Get file data pointer from index pointer
+unsigned char* sdf_index_get_data(unsigned char* index) {
+    int num = sdf_index_to_num(index);
+    if (num >= 0 && num < SDF_MAX_FILES) return sdf_file_data_ptrs[num];
+    return NULL;
+}
+
+// Set file data pointer via index pointer
+void sdf_index_set_data(unsigned char* index, unsigned char* data) {
+    int num = sdf_index_to_num(index);
+    if (num >= 0 && num < SDF_MAX_FILES) sdf_file_data_ptrs[num] = data;
+}
+
+// Get/set by file number
+unsigned char* sdf_get_file_data(int num) {
+    if (num >= 0 && num < SDF_MAX_FILES) return sdf_file_data_ptrs[num];
+    return NULL;
+}
+
+void sdf_set_file_data(int num, unsigned char* data) {
+    if (num >= 0 && num < SDF_MAX_FILES) sdf_file_data_ptrs[num] = data;
+}
 char* sdf_read_file = NULL;     // A pointer to the current read position for sdf_open
 int sdf_read_first_line;        // FALSE until sdf_read_line has been called...
 int sdf_read_line_number = 0;   // The current line number
@@ -246,7 +279,8 @@ void sdf_unload(void)
             flags = *(index+4);
             if((flags & 15) != SDF_FILE_IS_UNUSED)
             {
-                memory = (unsigned char*) sdf_read_unsigned_int(index);
+                memory = sdf_file_data_ptrs[i];
+                sdf_file_data_ptrs[i] = NULL;
                 free(memory);
             }
         }
@@ -445,8 +479,8 @@ signed char sdf_load(const char *datafile)
                   }
 
 
-                  // Replace the 4 byte location offset with an actual address
-                  sdf_write_unsigned_int(index, ((unsigned int) filedata));
+                  // Store the pointer in our separate array (64-bit safe)
+                  sdf_file_data_ptrs[i] = filedata;
                 }
                 else
                 {
@@ -681,7 +715,8 @@ signed char sdf_delete_file(char* filename)
     if(index != NULL)
     {
         // Free up the file's memory block
-        memory = (unsigned char*) sdf_read_unsigned_int(index);
+        memory = sdf_index_get_data(index);
+        sdf_index_set_data(index, NULL);
         free(memory);
 
 
@@ -826,7 +861,7 @@ signed char sdf_add_file(char* sdf_filename, char* input_filename)
                         index = sdf_get_new_index();
 
                         // Fill in the data
-                        sdf_write_unsigned_int(index, (unsigned int) memory);
+                        sdf_index_set_data(index, memory);
                         sdf_write_unsigned_int(index+4, filesize);
                         *(index+4) = filetype | SDF_FLAG_WAS_UPDATED;
                         repeat(j, 8) { *(index+8+j) = 0; }
@@ -1023,22 +1058,24 @@ signed char sdf_save(char* filename)
                 if(sdf_should_save[flags & 15])
                 {
                     // Get the size and memory location
-                    offset = sdf_read_unsigned_int(read);
+                    {
+                    unsigned char* fdata = sdf_file_data_ptrs[i];
                     size = sdf_read_unsigned_int(read+4) & 0x00FFFFFF;
 
                     repeat(j, size)
                     {
-                        ((unsigned char*) offset)[j] += OBFUSCATED;
+                        fdata[j] += OBFUSCATED;
                     }
 
 
                     // Write the data
-                    fwrite((unsigned char*) offset, 1, size, openfile);
+                    fwrite(fdata, 1, size, openfile);
 
 
                     repeat(j, size)
                     {
-                        ((unsigned char*) offset)[j] -= OBFUSCATED;
+                        fdata[j] -= OBFUSCATED;
+                    }
                     }
                 }
             }
@@ -1139,7 +1176,7 @@ signed char sdf_export_file(char* filename, char* filename_path)
             // Get the size and data location
             file_type = (*(read+4)) & 15;
             size = sdf_read_unsigned_int(read+4) & 0x00FFFFFF;
-            read = (unsigned char*) sdf_read_unsigned_int(read);
+            read = sdf_index_get_data(read);
 
 
             #ifdef EXPORTRDYASDDD
@@ -1674,7 +1711,7 @@ signed char sdf_open(char* filename)
     if(sdf_read_file)
     {
         sdf_read_remaining = sdf_read_unsigned_int(sdf_read_file+4) & 0x00FFFFFF;
-        sdf_read_file = (unsigned char*) sdf_read_unsigned_int(sdf_read_file);
+        sdf_read_file = sdf_index_get_data(sdf_read_file);
         return TRUE;
     }
     return FALSE;
@@ -1728,7 +1765,7 @@ signed char sdf_insert_data(unsigned char* file_pos, unsigned char* data_to_add,
 {
     // <ZZ> This function adds some bytes to a file, at any location within the file.
     unsigned char* index;
-    unsigned int file_start;
+    unsigned char* file_start;
     signed int file_size;
     unsigned char file_type;
     int bytes_to_subtract;
@@ -1740,7 +1777,7 @@ signed char sdf_insert_data(unsigned char* file_pos, unsigned char* data_to_add,
     index = sdf_index;
     repeat(i, sdf_num_files)
     {
-        file_start = sdf_read_unsigned_int(index);
+        file_start = sdf_file_data_ptrs[i];
         file_size  = sdf_read_unsigned_int(index+4)&0x00FFFFFF;
         file_type = (*(index+4));
         if((file_type&15) == SDF_FILE_IS_SRC || (file_type&15) == SDF_FILE_IS_TXT)
@@ -1749,34 +1786,34 @@ signed char sdf_insert_data(unsigned char* file_pos, unsigned char* data_to_add,
             file_size--;
         }
 
-        if((unsigned int) file_pos >= file_start && (unsigned int) file_pos <= (file_start+file_size) && (file_type&15) != SDF_FILE_IS_UNUSED)
+        if(file_start && file_pos >= file_start && file_pos <= (file_start+file_size) && (file_type&15) != SDF_FILE_IS_UNUSED)
         {
             // We found a match...  Make sure we have enough memory reserved to perform the operation...
             if(bytes_to_add < 0)
             {
                 // Removing data...  Figure out how many bytes we're really getting rid of...
                 bytes_to_subtract = -bytes_to_add;
-                if(file_start+file_size > ((unsigned int) file_pos)+bytes_to_subtract)
+                if(file_start+file_size > file_pos+bytes_to_subtract)
                 {
                     // Trying to remove interior bytes...  Need to shuffle data...
-                    memmove(file_pos, file_pos+bytes_to_subtract, file_size+file_start-((unsigned int) file_pos));
+                    memmove(file_pos, file_pos+bytes_to_subtract, file_size-(file_pos-file_start));
                 }
                 file_size-=bytes_to_subtract;
 
 
                 // Adjust header offsets...
-                file_offset = ((unsigned int) file_pos) - file_start;
+                file_offset = (unsigned int)(file_pos - file_start);
                 if((file_type&15) == SDF_FILE_IS_SRF)
                 {
                     repeat(j, 14)
                     {
-                        offset = sdf_read_unsigned_int((unsigned char*) (file_start+40+(j<<2)));
+                        offset = sdf_read_unsigned_int(file_start+40+(j<<2));
                         if(offset >= file_offset)
                         {
                             if(offset > ((unsigned int) bytes_to_subtract))
                             {
                                 offset-=bytes_to_subtract;
-                                sdf_write_unsigned_int((unsigned char*) (file_start+40+(j<<2)), offset);
+                                sdf_write_unsigned_int(file_start+40+(j<<2), offset);
                             }
                         }
                     }
@@ -1784,7 +1821,7 @@ signed char sdf_insert_data(unsigned char* file_pos, unsigned char* data_to_add,
 
 
                 // Pad end of file with 0's
-                memset(((unsigned char*) file_start)+file_size, 0, bytes_to_subtract);
+                memset(file_start+file_size, 0, bytes_to_subtract);
                 if((file_type&15) == SDF_FILE_IS_SRC || (file_type&15) == SDF_FILE_IS_TXT)
                 {
                     // Don't allow last 0 to be removed...
@@ -1812,7 +1849,7 @@ signed char sdf_insert_data(unsigned char* file_pos, unsigned char* data_to_add,
 
                     // We have enough room to add the data...  Start by shuffling the old data so we
                     // don't overwrite anything...
-                    memmove(file_pos+bytes_to_add, file_pos, file_size+file_start-((unsigned int) file_pos));
+                    memmove(file_pos+bytes_to_add, file_pos, file_size-(file_pos-file_start));
 
 
                     // Then copy in the new data
@@ -1830,16 +1867,16 @@ signed char sdf_insert_data(unsigned char* file_pos, unsigned char* data_to_add,
 
 
                     // Adjust header offsets...
-                    file_offset = ((unsigned int) file_pos) - file_start;
+                    file_offset = (unsigned int)(file_pos - file_start);
                     if((file_type&15) == SDF_FILE_IS_SRF)
                     {
                         repeat(j, 14)
                         {
-                            offset = sdf_read_unsigned_int((unsigned char*) (file_start+40+(j<<2)));
+                            offset = sdf_read_unsigned_int(file_start+40+(j<<2));
                             if(offset >= file_offset)
                             {
                                 offset+=bytes_to_add;
-                                sdf_write_unsigned_int((unsigned char*) (file_start+40+(j<<2)), offset);
+                                sdf_write_unsigned_int(file_start+40+(j<<2), offset);
                             }
                         }
                     }
@@ -2043,6 +2080,8 @@ void sdf_reorganize_index(void)
         {
           //copy the non-trivial
           memcpy(index_bot, index_top, 16);
+          sdf_file_data_ptrs[i] = sdf_file_data_ptrs[j];
+          sdf_file_data_ptrs[j] = NULL;
 
           sdf_num_files--;
           sdf_extra_files++;
@@ -2065,8 +2104,7 @@ int sdf_find_index_by_data(unsigned char* file_start)
 
         if(SDF_FILE_IS_UNUSED != (*(index+4)&15))
         {
-            index = (unsigned char*) sdf_read_unsigned_int(index);
-            if(index == file_start)
+            if(sdf_file_data_ptrs[i] == file_start)
             {
                 return i;
             }

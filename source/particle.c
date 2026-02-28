@@ -1085,7 +1085,7 @@ void particle_update_all()
                                             // Check to see if the door is "blocking" (frame event flags on metal grate door - so it triggers a blocked hit animation...)
                                             frame_event_flags = 0;
                                             frame = *((unsigned short*) (character_data + 178));
-                                            data = (*((unsigned char**) (character_data+256)))+3;
+                                            data = model_slot_get_ptr(character_data+256)+3;
                                             num_base_model = *data;  data++;
                                             num_bone_frame = *((unsigned short*) data); data+=2;
                                             data+=(ACTION_MAX<<1);
@@ -1093,7 +1093,7 @@ void particle_update_all()
                                             data+=(num_base_model*20*DETAIL_LEVEL_MAX);
                                             if(frame < num_bone_frame)
                                             {
-                                                data =  *((unsigned char**) (data+(frame<<2)));
+                                                data =  *((unsigned char**) (data+(frame*BONE_FRAME_ENTRY_SIZE)));
                                                 frame_event_flags = *(data+1);
                                                 if(frame_event_flags & FRAME_EVENT_BLOCK)
                                                 {
@@ -1183,7 +1183,7 @@ void particle_update_all()
 //log_message("INFO:     Character frame == %d", frame);
 //log_message("INFO:     Character action == %d", character_data[65]);
 //log_message("INFO:     Character daction == %d", character_data[66]);
-                                    data = (*((unsigned char**) (character_data+256)))+3;
+                                    data = model_slot_get_ptr(character_data+256)+3;
                                     num_base_model = *data;  data++;
                                     num_bone_frame = *((unsigned short*) data); data+=2;
                                     data+=(ACTION_MAX<<1);
@@ -1191,7 +1191,7 @@ void particle_update_all()
                                     data+=(num_base_model*20*DETAIL_LEVEL_MAX);
                                     if(frame < num_bone_frame)
                                     {
-                                        data =  *((unsigned char**) (data+(frame<<2)));
+                                        data =  *((unsigned char**) (data+(frame*BONE_FRAME_ENTRY_SIZE)));
                                         frame_event_flags = *(data+1);
                                     }
                                     if((frame_event_flags & FRAME_EVENT_BLOCK) && (*((unsigned short*) (character_data + 42))) == 0)

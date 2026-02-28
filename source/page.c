@@ -39,7 +39,7 @@ void page_setup(void)
     if(page_anim)
     {
         // Read in the page data...
-        page_anim = (unsigned char*) sdf_read_unsigned_int(page_anim);
+        page_anim = sdf_index_get_data(page_anim);
         repeat(j, PAGE_FRAME)
         {
             repeat(i, PAGE_COL)
@@ -192,7 +192,7 @@ void page_edit_tool(void)
         if(page_anim)
         {
             // Read in the page data...
-            page_anim = (unsigned char*) sdf_read_unsigned_int(page_anim);
+            page_anim = sdf_index_get_data(page_anim);
             repeat(j, PAGE_FRAME)
             {
                 repeat(i, PAGE_COL)

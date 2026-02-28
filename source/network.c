@@ -383,7 +383,7 @@ unsigned char network_setup(void)
     netlist = sdf_find_filetype("NETLIST", SDF_FILE_IS_DAT);
     if(netlist)
     {
-        netlist = (unsigned char*) sdf_read_unsigned_int(netlist);
+        netlist = sdf_index_get_data(netlist);
         log_message("INFO:   Found NETLIST.DAT...");
     }
 
@@ -754,7 +754,7 @@ void network_listen(void)
                                     script_file_start = sdf_find_filetype(filename, SDF_FILE_IS_RUN);
                                     if(script_file_start)
                                     {
-                                        script_file_start = (unsigned char*) sdf_read_unsigned_int(script_file_start);
+                                        script_file_start = sdf_index_get_data(script_file_start);
                                         character_data = obj_spawn(CHARACTER, x, y, z, script_file_start, 65535);
                                         if(character_data)
                                         {

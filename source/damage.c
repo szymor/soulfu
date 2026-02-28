@@ -48,7 +48,7 @@ void damage_setup()
     pnumber_file = sdf_find_filetype("PNUMBER", SDF_FILE_IS_RUN);
     if(pnumber_file)
     {
-        pnumber_file = (unsigned char*) sdf_read_unsigned_int(pnumber_file);
+        pnumber_file = sdf_index_get_data(pnumber_file);
     }
 }
 
