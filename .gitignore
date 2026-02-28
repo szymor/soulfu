@@ -10,5 +10,7 @@ SAVE*.DAT
 CONFIG.DAT
 *.dll
 *.res
+*.deb
 datadir/*.LAN
+packaging/bin
 .aider*
