@@ -2090,7 +2090,7 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
 
 
     // Let's get started...
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) < 0)
     {
         log_message("ERROR:  Couldn't turn on SDL...  That's bad");
         return FALSE;
