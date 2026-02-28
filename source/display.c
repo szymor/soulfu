@@ -2055,6 +2055,31 @@ unsigned char display_extension_supported(unsigned char* extension_name)
 }
 
 //-----------------------------------------------------------------------------------------------
+void display_handle_resize(int w, int h)
+{
+    screen_x = w;
+    screen_y = h;
+    virtual_y = 300.0f;
+    virtual_x = screen_x * virtual_y / screen_y;
+    display_viewport(0, 0, screen_x, screen_y);
+
+    // Recalculate projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    screen_frustum_x = virtual_x / 1000;
+    screen_frustum_y = virtual_y / 1000;
+    glFrustum(-screen_frustum_x, screen_frustum_x, -screen_frustum_y, screen_frustum_y, ZNEAR, MAX_TERRAIN_DISTANCE);
+
+    // Recalculate window camera matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glScalef(1.0, -1.0, 1.0);
+    glTranslatef(-2*screen_frustum_x, -2*screen_frustum_y, -2*ZNEAR);
+    glScalef(0.004f, 0.004f, 1.0);
+    glGetFloatv(GL_MODELVIEW_MATRIX, window_camera_matrix);
+}
+
+//-----------------------------------------------------------------------------------------------
 signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned char color_depth, unsigned char z_depth, unsigned char full_screen)
 {
     // <ZZ> This function initializes the display via SDL and GL.
@@ -2088,8 +2113,10 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
         {
             if (SDL_BITSPERPIXEL(mode.format) <= 8)
                 color_depth = 8;
-            else
+            else if (SDL_BITSPERPIXEL(mode.format) <= 16)
                 color_depth = 16;
+            else
+                color_depth = 32;
         }
         else
         {
@@ -2128,7 +2155,8 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
 
     flags = SDL_WINDOW_OPENGL;
     display_full_screen = full_screen; // remember global value...
-    if(full_screen) { flags |= SDL_WINDOW_FULLSCREEN;  log_message("INFO:   Requested fullscreen mode..."); }
+    if(full_screen) { flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;  log_message("INFO:   Requested fullscreen desktop mode..."); }
+    else { flags |= SDL_WINDOW_RESIZABLE; }
 
     main_window = SDL_CreateWindow("SoulFu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         size_x, size_y, flags);
@@ -2152,7 +2180,7 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
         volumetric_shadows_on = FALSE;
 
         main_window = SDL_CreateWindow("SoulFu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-            size_x, size_y, flags | SDL_WINDOW_FULLSCREEN);
+            size_x, size_y, flags | SDL_WINDOW_FULLSCREEN_DESKTOP);
         gl_context = SDL_GL_CreateContext(main_window);
         if (main_window == NULL || gl_context == NULL)
         {
@@ -2163,9 +2191,13 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     }
 
 
-    // Remember how big our display is...
-    screen_x = size_x;
-    screen_y = size_y;
+    // Remember how big our display is (query actual size for FULLSCREEN_DESKTOP)
+    {
+        int actual_w, actual_h;
+        SDL_GetWindowSize(main_window, &actual_w, &actual_h);
+        screen_x = actual_w;
+        screen_y = actual_h;
+    }
     virtual_y = 300.0f;
     virtual_x = screen_x * virtual_y / screen_y;
     display_viewport(0,0,screen_x,screen_y);

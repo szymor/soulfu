@@ -780,6 +780,35 @@ int main(int argc, char *argv[])
     mip_map_active = (*(config+98));
     fast_and_ugly_active = (*(config+101));
     log_message("INFO:   Config file read okay...");
+
+    // Auto-detect best resolution if configured one is too small for the display
+    {
+        SDL_DisplayMode desktop_mode;
+        if (SDL_Init(SDL_INIT_VIDEO) == 0 && SDL_GetDesktopDisplayMode(0, &desktop_mode) == 0)
+        {
+            int cfg_w = screen_sizes_xy[screen_size][0];
+            if (cfg_w == 0 || cfg_w < desktop_mode.w / 2)
+            {
+                int best = screen_size;
+                int s;
+                for (s = 0; s < MAX_SCREEN_SIZES; s++)
+                {
+                    if (screen_sizes_xy[s][0] > 0 &&
+                        screen_sizes_xy[s][0] <= (unsigned short)desktop_mode.w &&
+                        screen_sizes_xy[s][1] <= (unsigned short)desktop_mode.h &&
+                        screen_sizes_xy[s][0] > screen_sizes_xy[best][0])
+                    {
+                        best = s;
+                    }
+                }
+                log_message("INFO:   Auto-detected resolution %dx%d for %dx%d display",
+                    screen_sizes_xy[best][0], screen_sizes_xy[best][1],
+                    desktop_mode.w, desktop_mode.h);
+                screen_size = best;
+            }
+        }
+    }
+
     if(!display_setup(screen_sizes_xy[screen_size][X], screen_sizes_xy[screen_size][Y], bit_depth, z_depth, full_screen)) { log_message("ERROR:  display_setup() failed");  exit(1); }
   }
   else
@@ -998,7 +1027,12 @@ unsigned short screen_sizes_xy[MAX_SCREEN_SIZES][2] =
   {1280, 1024},
   {1366, 768},
   {1600, 1200},
-  {1920, 1080}
+  {1920, 1080},
+  {2560, 1440},
+  {3840, 2160},
+  {0, 0},
+  {0, 0},
+  {0, 0}
 };
 int screen_x=400;                       // The x screen size
 int screen_y=300;                       // The y screen size
