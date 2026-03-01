@@ -212,6 +212,7 @@
 #define VAR_TEXT                  'T'   // For property extensions only
 #define VAR_BYTE                  'B'   // For property extensions only
 #define VAR_WORD                  'W'   // For property extensions only
+#define VAR_FILEPTR               'P'   // 64-bit: file data pointer stored as model_slot (file_num+1)
 
 
 #define MAX_VARIABLE               32   // I00 - I31, F00 - F31...
