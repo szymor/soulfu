@@ -1949,7 +1949,7 @@ signed char display_load_texture(unsigned char* index)
 
     // Remember important textures that I hardcoded for windows and stuff...
     if(strcmp(filename, "=ASCII") == 0)   texture_ascii    = *((unsigned int*) (data+2));
-    if(strcmp(filename, "=ASCII") == 0)   texture_ascii_ptr= (unsigned int) data;
+    if(strcmp(filename, "=ASCII") == 0)   { int _fn = sdf_find_index_by_data(data); texture_ascii_ptr = (_fn != 65535) ? (unsigned int)(_fn + 1) : 0; }
     if(strcmp(filename, "=BOOKFNT") == 0) texture_bookfnt  = *((unsigned int*) (data+2));
     if(strcmp(filename, "=PAPER0") == 0)  texture_paper[0] = *((unsigned int*) (data+2));
     if(strcmp(filename, "=PAPER1") == 0)  texture_paper[1] = *((unsigned int*) (data+2));

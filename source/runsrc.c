@@ -1112,6 +1112,10 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                                 // Change the integer value at arg_address...
                                 (*((int*) arg_address)) = i;
                                 break;
+                            case 'P':
+                                // 64-bit: store file data pointer as model_slot (file_num+1)
+                                model_slot_set_ptr(arg_address, (unsigned char*)(intptr_t) i);
+                                break;
                             case VAR_FLOAT:
                                 // Change the float value at arg_address...
                                 (*((float*) arg_address)) = (float) i;
@@ -7512,6 +7516,10 @@ push_int_stack(TRUE);
                             case VAR_INT:
                                 // Push the integer value at arg_address...
                                 push_int_stack( (*((int*) arg_address)) );
+                                break;
+                            case 'P':
+                                // 64-bit: read file data pointer from model_slot (file_num+1)
+                                push_int_stack( (intptr_t) model_slot_get_ptr(arg_address) );
                                 break;
                             case VAR_FLOAT:
                                 // Push the float value at arg_address...

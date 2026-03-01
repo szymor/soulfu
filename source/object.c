@@ -668,7 +668,11 @@ void obj_add_property(char* tag, char type, char* offset)
         repeat(i, 8) { property_token[obj_num_property][i] = tag[i]; }
         property_token[obj_num_property][7] = 0;
 
-        // Copy the type
+        // Copy the type (auto-promote file pointer properties on 64-bit)
+        if(type == 'I' && (strcmp(tag, "IMAGE") == 0 || strcmp(tag, "IMAGE2") == 0))
+        {
+            type = 'P';
+        }
         property_type[obj_num_property] = type;
 
         // Copy the offset
