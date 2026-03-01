@@ -166,6 +166,7 @@ make
   + Saving System by Xuln *[note: some issues leading to loss of game progress have been fixed]*,
   + Sky Box by MiR,
   + Arena by bravebebe.
++ 64 bit platform support
 + As noted above, AI has been improved significantly. Your helpers can now fight a bit better against bumpy enemies (like rats or slimes). Apprentices can cast spells in an intelligent manner. Some TALK commands are implemented, e.g. hold your ground, charge, follow, go to the nearest door. The work is in progress, so expect even more changes.
 + Background music has been enabled. It was already there, composed by Aaron.
 + Support for resolutions up to 1920x1080. No stretching, no black stripes.
@@ -182,7 +183,6 @@ I do not promise anything as the project is done in my free time. I have some id
 + conversion of 3D models along with skeletal animation data,
 + proper translation - add language-specific font characters, translate books and monster names, etc.
 + network game - Aaron wrote a bunch of code for this feature, so I guess it could be made usable with relatively little effort,
-+ 64 bit platform support,
 + port to platforms other than PC,
 + a new spell Drain - Aaron left some notes and an image (=ODRAIN.PCX), so maybe it could be finished,
 + new areas - judging from music files Aaron left, he had in mind designing Airship, Desert, Forest and Mountain areas,
