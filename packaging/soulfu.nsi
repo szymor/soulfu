@@ -1,9 +1,17 @@
 ; soulfu.nsi - NSIS script for SoulFu installer
 
 ; Define installer name and output file
+!ifdef OUTFILE
+OutFile "${OUTFILE}"
+!else
 OutFile "soulfu_win32_${VERSION}.exe"
+!endif
 Name "SoulFu"
+!ifdef INSTDIR_NAME
+InstallDir "$PROGRAMFILES64\SoulFu"
+!else
 InstallDir "$PROGRAMFILES\SoulFu"
+!endif
 
 ; Request administrator privileges for installation
 RequestExecutionLevel admin

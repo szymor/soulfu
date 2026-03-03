@@ -776,7 +776,11 @@ int main(int argc, char *argv[])
       char* lastslash = strrchr(dirpath, '/');
       if(lastslash) {
         *lastslash = '\0';
+        #ifdef _WIN32
+        if(mkdir(dirpath) == 0) {
+        #else
         if(mkdir(dirpath, 0755) == 0) {
+        #endif
           log_message("INFO:   Created config directory %s", dirpath);
         }
       }

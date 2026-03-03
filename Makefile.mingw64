@@ -1,0 +1,22 @@
+.PHONY: all
+
+PKG = x86_64-w64-mingw32-pkg-config
+CC = x86_64-w64-mingw32-gcc
+WINDRES = x86_64-w64-mingw32-windres #For compiling on a windows-machine you might need /mingw64/bin/windres.exe here.
+
+TARGET = soulfu.exe
+SRC = source/soulfu.c
+DEP = $(wildcard source/*.c source/*.h)
+SYSROOT = /tmp/mingw64-sysroot
+LDLIBS = -L$(SYSROOT)/lib -lSDL2 -lSDL2_net -l:libjpeg.a -l:libvorbis.a -l:libogg.a -lopengl32
+FLAGS = -DDEVTOOL -I$(SYSROOT)/include
+
+all: $(TARGET) data
+
+$(TARGET): $(DEP) resource.res
+	$(CC) $(FLAGS) -o $@ -Isource $(SRC) resource.res $(LDLIBS)
+
+resource.res: resource.rc
+	$(WINDRES) resource.rc -O coff -o $@
+
+include common.mk
