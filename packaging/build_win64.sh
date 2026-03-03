@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Windows build script for SoulFu
-# Usage: VERSION=1.7.1 ./packaging/build_win32.sh
+# Windows 64-bit build script for SoulFu
+# Usage: VERSION=1.7.1 ./packaging/build_win64.sh
 
 # Check if version is set via environment variable
 if [ -z "$VERSION" ]; then
@@ -10,10 +10,10 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-INSTALLER_DIR="soulfu_win32"
+INSTALLER_DIR="soulfu_win64"
 ICON_FILE="Chest.ico"
-OUTPUT_FILE="soulfu_win32_$VERSION.exe"
-ZIP_FILE="soulfu_win32_$VERSION.zip"
+OUTPUT_FILE="soulfu_win64_$VERSION.exe"
+ZIP_FILE="soulfu_win64_$VERSION.zip"
 
 # Define publisher, homepage, and company name
 PUBLISHER="SoulFu Community"
@@ -22,7 +22,7 @@ COMPANY_NAME="SoulFu Community"
 
 # Clean previous build but preserve datafile.sdf
 rm -f soulfu.exe
-make -f Makefile.mingw
+make -f Makefile.mingw64
 
 # Check if compilation succeeded
 if [ ! -f "soulfu.exe" ]; then
@@ -46,14 +46,14 @@ if [ ! -f "$ICON_FILE" ]; then
     exit 1
 fi
 
-# Use DLLs from packaging directory if available, otherwise try default path
-DLL_DIR="packaging/win32"
-MINGW_BIN_PATH="/usr/local/i686-w64-mingw32/bin"
+# Use DLLs from packaging/win64 directory if available, otherwise try default path
+DLL_DIR="packaging/win64"
+MINGW_BIN_PATH="/usr/local/x86_64-w64-mingw32/bin"
 DLLS_COPIED=0
 
 echo "Looking for required DLLs..."
 
-# Try packaging/win32 directory first
+# Try packaging/win64 directory first
 if [ -f "$DLL_DIR/SDL2.dll" ] && [ -f "$DLL_DIR/SDL2_net.dll" ] && \
    [ -f "$DLL_DIR/libogg-0.dll" ] && [ -f "$DLL_DIR/libvorbis-0.dll" ]; then
     echo "Using DLLs from $DLL_DIR"
@@ -145,7 +145,7 @@ if ! command -v makensis >/dev/null 2>&1; then
 else
     # Build the installer using NSIS
     echo "Building installer with NSIS..."
-    makensis -NOCD -DVERSION="$VERSION" -DPUBLISHER="$PUBLISHER" -DHOMEPAGE="$HOMEPAGE" -DCOMPANY_NAME="$COMPANY_NAME" packaging/soulfu.nsi
+    makensis -NOCD -DVERSION="$VERSION" -DPUBLISHER="$PUBLISHER" -DHOMEPAGE="$HOMEPAGE" -DCOMPANY_NAME="$COMPANY_NAME" -DOUTFILE="$OUTPUT_FILE" -DINSTDIR_NAME="soulfu_win64" packaging/soulfu.nsi
 fi
 
 # Create portable version (zip file)
