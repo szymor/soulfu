@@ -1012,6 +1012,55 @@ void script_matrix_from_bone(unsigned char bone_name)
 }
 
 //-----------------------------------------------------------------------------------------------
+// 64-bit pointer extension table for 4-byte 'I' type properties.
+// When a script stores a 64-bit value (e.g., a file pointer) into a 4-byte 'I' property,
+// the upper 32 bits are lost. This table transparently preserves the full value.
+// Keyed by the property's memory address; validated by checking the low 32 bits still match.
+#define INT_PROP_EXT_SIZE 512  // must be power of 2
+static struct { unsigned char* addr; intptr_t value; } int_prop_ext[INT_PROP_EXT_SIZE];
+
+static void int_prop_ext_store(unsigned char* addr, intptr_t value)
+{
+    unsigned int hash = ((uintptr_t)addr >> 2) & (INT_PROP_EXT_SIZE - 1);
+    int probe;
+    for (probe = 0; probe < 16; probe++)
+    {
+        unsigned int idx = (hash + probe) & (INT_PROP_EXT_SIZE - 1);
+        if (int_prop_ext[idx].addr == addr || int_prop_ext[idx].addr == NULL)
+        {
+            int_prop_ext[idx].addr = addr;
+            int_prop_ext[idx].value = value;
+            return;
+        }
+    }
+    // Couldn't find slot in 16 probes - overwrite first probe position
+    int_prop_ext[hash].addr = addr;
+    int_prop_ext[hash].value = value;
+}
+
+static intptr_t int_prop_ext_load(unsigned char* addr)
+{
+    int low32 = *((int*) addr);
+    unsigned int hash = ((uintptr_t)addr >> 2) & (INT_PROP_EXT_SIZE - 1);
+    int probe;
+    for (probe = 0; probe < 16; probe++)
+    {
+        unsigned int idx = (hash + probe) & (INT_PROP_EXT_SIZE - 1);
+        if (int_prop_ext[idx].addr == addr)
+        {
+            // Check if low 32 bits still match (not modified by C code)
+            if ((int)(int_prop_ext[idx].value) == low32)
+            {
+                return int_prop_ext[idx].value;
+            }
+            return (intptr_t) low32;
+        }
+        if (int_prop_ext[idx].addr == NULL) break;
+    }
+    return (intptr_t) low32;
+}
+
+//-----------------------------------------------------------------------------------------------
 float script_temp_e;
 float script_temp_f;
 float script_temp_y;
@@ -1111,6 +1160,7 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                             case VAR_INT:
                                 // Change the integer value at arg_address...
                                 (*((int*) arg_address)) = i;
+                                int_prop_ext_store(arg_address, i);
                                 break;
                             case 'P':
                                 // 64-bit: store file data pointer as model_slot (file_num+1)
@@ -7515,7 +7565,7 @@ push_int_stack(TRUE);
                         {
                             case VAR_INT:
                                 // Push the integer value at arg_address...
-                                push_int_stack( (*((int*) arg_address)) );
+                                push_int_stack( int_prop_ext_load(arg_address) );
                                 break;
                             case 'P':
                                 // 64-bit: read file data pointer from model_slot (file_num+1)
