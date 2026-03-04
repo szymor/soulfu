@@ -2160,10 +2160,11 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
 
     main_window = SDL_CreateWindow("SoulFu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         size_x, size_y, flags);
-    gl_context = SDL_GL_CreateContext(main_window);
+    if (main_window) gl_context = SDL_GL_CreateContext(main_window);
     if (main_window == NULL || gl_context == NULL)
     {
         log_message("ERROR:  SDL couldn't turn on GL, trying 640x480 mode...  %s", SDL_GetError());
+        if (main_window) { SDL_DestroyWindow(main_window); main_window = NULL; }
         color_depth = 16;
         z_depth = 16;
         rgb_size[0] = 5;
@@ -2180,8 +2181,8 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
         volumetric_shadows_on = FALSE;
 
         main_window = SDL_CreateWindow("SoulFu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-            size_x, size_y, flags | SDL_WINDOW_FULLSCREEN_DESKTOP);
-        gl_context = SDL_GL_CreateContext(main_window);
+            size_x, size_y, flags);
+        if (main_window) gl_context = SDL_GL_CreateContext(main_window);
         if (main_window == NULL || gl_context == NULL)
         {
             log_message("ERROR:  Even 640x480 didn't work...  %s", SDL_GetError());

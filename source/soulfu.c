@@ -800,6 +800,7 @@ int main(int argc, char *argv[])
     bit_depth = *(config+69);
     z_depth = *(config+70);
     if(z_depth < 16) z_depth = 16;  // SDL2 needs explicit depth buffer request (0 means none)
+    if(z_depth > 24) z_depth = 24;  // Most GPUs (especially Intel) only support up to 24-bit depth
     volumetric_shadows_on = (*(config+71))&1;
     full_screen = *(config+72);
     mip_map_active = (*(config+98));
@@ -828,6 +829,9 @@ int main(int argc, char *argv[])
                 screen_sizes_xy[best][0], screen_sizes_xy[best][1],
                 desktop_mode.w, desktop_mode.h);
             screen_size = best;
+            // Write back so settings menu shows the correct resolution
+            // and subsequent saves preserve it instead of re-triggering auto-detect
+            *(config+68) = screen_size;
         }
     }
 
