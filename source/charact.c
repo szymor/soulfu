@@ -1507,7 +1507,7 @@ void character_update_all()
 // !!!BAD!!!
 // !!!BAD!!!  Get rid of atan()...  Maybe do every 16 frames or so (save desired facing in character data)...  Maybe some lookup thing...
 // !!!BAD!!!
-                        desired_facing = (unsigned short) (((float) atan2(y, x)) * (65535.0f / (2.0f*PI)));
+                        desired_facing = (unsigned short)(short) (((float) atan2(y, x)) * (65535.0f / (2.0f*PI)));
                         current_facing = *((unsigned short*) (character_data+56));
                         spin_rate = *((unsigned short*) (character_data+58));
                         spin_difference = desired_facing - current_facing;

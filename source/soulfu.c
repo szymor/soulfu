@@ -215,6 +215,7 @@ void main_loop(void)
       map_side_xy[X] = camera_side_xyz[X];
       map_side_xy[Y] = camera_side_xyz[Y];
 
+
 /* Skyboxcode by MiR 2008 */
 if(map_room_data[map_current_room][13] & MAP_ROOM_FLAG_OUTSIDE) {
             //if (SKYBOX_ON>0) {

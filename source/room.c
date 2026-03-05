@@ -2167,7 +2167,7 @@ void room_spawn_all(unsigned char* srf_file, unsigned short rotation, unsigned c
 
 
                         // Set the facing too...
-                        (*((unsigned short*) (child_data+56))) = ((unsigned short) (atan2(temp_xyz[Y], temp_xyz[X])*10430.37835047f)) + 16384;
+                        (*((unsigned short*) (child_data+56))) = ((unsigned short)(short) (atan2(temp_xyz[Y], temp_xyz[X])*10430.37835047f)) + 16384;
                     }
                 }
             }
@@ -6203,7 +6203,7 @@ unsigned char room_find_wall_center(unsigned char* data, unsigned short rotation
             center_xyz[Z] *= 0.5f;
             center_xyz[X]+=(side_xy[X]*normal_add);
             center_xyz[Y]+=(side_xy[Y]*normal_add);
-            map_room_door_spin = ((unsigned short) (atan2(side_xy[Y], side_xy[X])*10430.37835047f)) + 32768;
+            map_room_door_spin = ((unsigned short)(short) (atan2(side_xy[Y], side_xy[X])*10430.37835047f)) + 32768;
             return TRUE;
         }
         center_xyz[X] += vertex_xyz[X];

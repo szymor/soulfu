@@ -8620,7 +8620,7 @@ log_message("INFO:   Original centrid at %f, %f", original_centrid_xy[X], origin
         vector_xyz[X] = select_data[vertex][X] - original_centrid_xy[X];
         vector_xyz[Y] = select_data[vertex][Y] - original_centrid_xy[Y];
         original_centrid_distance += vector_length(vector_xyz);
-        original_vertex_angle[vertex] = (unsigned short) (atan2(vector_xyz[Y], vector_xyz[X]) * 65536.0f / (2.0 * PI));
+        original_vertex_angle[vertex] = (unsigned short)(short) (atan2(vector_xyz[Y], vector_xyz[X]) * 65536.0f / (2.0 * PI));
     }
     original_centrid_distance/=select_num;
 log_message("INFO:   Original (frame %d) centrid distance is %f", frame, original_centrid_distance);
@@ -8708,7 +8708,7 @@ log_message("INFO:   Current (frame %d) centrid at %f, %f", i, current_centrid_x
                 vector_xyz[X] = select_data[vertex][X] - current_centrid_xy[X];
                 vector_xyz[Y] = select_data[vertex][Y] - current_centrid_xy[Y];
                 current_centrid_distance += vector_length(vector_xyz);
-                current_vertex_angle = (unsigned short) (atan2(vector_xyz[Y], vector_xyz[X]) * 65536.0f / (2.0 * PI));
+                current_vertex_angle = (unsigned short)(short) (atan2(vector_xyz[Y], vector_xyz[X]) * 65536.0f / (2.0 * PI));
 
                 current_vertex_angle_change = current_vertex_angle - original_vertex_angle[vertex];
                 average_vertex_angle_change -= current_vertex_angle_change;
