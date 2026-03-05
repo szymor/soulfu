@@ -2286,7 +2286,6 @@ signed char display_setup(unsigned short size_x, unsigned short size_y, unsigned
     glGetFloatv(GL_MODELVIEW_MATRIX, initial_camera_matrix);
 
 
-
     // Setup the window matrix...  Don't worry about projection...  Just turn off z...
     // Top left corner is 0, 0...  Bottom right is 400, 300...
     glLoadIdentity();

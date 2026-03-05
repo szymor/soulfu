@@ -7494,7 +7494,7 @@ push_int_stack(TRUE);
                                     e = (*((float*) (main_character_data[((unsigned short) m)]))) - (*((float*) (current_object_data)));
                                     f = (*((float*) (main_character_data[((unsigned short) m)]+4))) - (*((float*) (current_object_data+4)));
                                 }
-                                global_attack_spin = (unsigned short) (((float) atan2(f, e)) * (65535.0f / (2.0f*PI)));
+                                global_attack_spin = (unsigned short)(short) (((float) atan2(f, e)) * (65535.0f / (2.0f*PI)));
                             }
                             else
                             {
