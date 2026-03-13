@@ -144,6 +144,13 @@ jobs:
       contents: write
 
     steps:
+      - name: Delete old release assets
+        run: |
+          gh release view latest --json assets -q '.assets[].id' 2>/dev/null \
+            | xargs -I{} gh api --method DELETE repos/${{ github.repository }}/releases/assets/{} || true
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
