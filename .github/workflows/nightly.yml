@@ -22,6 +22,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Mark workspace as safe for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Install build dependencies
         run: |
           apt-get update
