@@ -19,6 +19,7 @@ jobs:
     name: Debian package (amd64)
     runs-on: ubuntu-latest
     container: debian:bookworm
+    continue-on-error: true
 
     steps:
       - name: Install git
@@ -61,11 +62,64 @@ jobs:
           path: packaging/bin/*.deb
 
   # ──────────────────────────────────────────────────────────────────────────
+  # Debian ARM64
+  # ──────────────────────────────────────────────────────────────────────────
+  debian-arm64:
+    name: Debian package (arm64)
+    runs-on: ubuntu-22.04-arm
+    container: debian:bookworm
+    continue-on-error: true
+
+    steps:
+      - name: Install git
+        run: apt-get update && apt-get install -y git
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Mark workspace as safe for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Determine version
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          apt-get install -y \
+            build-essential \
+            libsdl2-dev \
+            libsdl2-net-dev \
+            libogg-dev \
+            libvorbis-dev \
+            libjpeg62-turbo-dev \
+            libgl-dev \
+            dpkg-dev \
+            fakeroot
+
+      - name: Build Debian package
+        run: VERSION=${{ steps.ver.outputs.version }} bash packaging/build_deb-arm64.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-debian-arm64
+          path: packaging/bin/*.deb
+
+  # ──────────────────────────────────────────────────────────────────────────
   # Windows 64-bit
   # ──────────────────────────────────────────────────────────────────────────
   windows-win64:
     name: Windows package (win64)
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
@@ -167,8 +221,8 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   release:
     name: Create GitHub Release
-    needs: [debian-amd64, windows-win64]
-    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [debian-amd64, debian-arm64, windows-win64]
+    if: always() && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
