@@ -18,6 +18,7 @@ jobs:
   debian-amd64:
     name: Debian package (amd64)
     runs-on: ubuntu-latest
+    container: debian:bookworm
 
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +28,7 @@ jobs:
       - name: Determine version
         id: ver
         run: |
-          if [[ "${{ github.event_name }}" == "push" ]]; then
+          if [ "${{ github.event_name }}" = "push" ]; then
             echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
           else
             echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
@@ -35,8 +36,8 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          apt-get update
+          apt-get install -y \
             build-essential \
             libsdl2-dev \
             libsdl2-net-dev \
@@ -45,7 +46,8 @@ jobs:
             libjpeg62-turbo-dev \
             libgl-dev \
             dpkg-dev \
-            fakeroot
+            fakeroot \
+            git
 
       - name: Build Debian package
         run: VERSION=${{ steps.ver.outputs.version }} bash packaging/build_deb-amd64.sh

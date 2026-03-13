@@ -12,6 +12,7 @@ jobs:
   debian-amd64:
     name: Debian package (amd64)
     runs-on: ubuntu-latest
+    container: debian:bookworm
 
     steps:
       - uses: actions/checkout@v4
@@ -20,8 +21,8 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          apt-get update
+          apt-get install -y \
             build-essential \
             libsdl2-dev \
             libsdl2-net-dev \
@@ -30,7 +31,8 @@ jobs:
             libjpeg62-turbo-dev \
             libgl-dev \
             dpkg-dev \
-            fakeroot
+            fakeroot \
+            git
 
       - name: Build Debian package
         run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_deb-amd64.sh
