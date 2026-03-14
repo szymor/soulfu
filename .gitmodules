@@ -13,3 +13,9 @@
 [submodule "wiki"]
 	path = wiki
 	url = https://github.com/szymor/soulfu.wiki.git
+[submodule "sbca"]
+	path = sbca
+	url = https://github.com/szymor/soulfu-bytecode-analyser.git
+[submodule "mus2xm"]
+	path = mus2xm
+	url = https://github.com/szymor/soulfu-mus2xm.git
