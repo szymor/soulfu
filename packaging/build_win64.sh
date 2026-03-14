@@ -16,9 +16,9 @@ OUTPUT_FILE="soulfu_win64_$VERSION.exe"
 ZIP_FILE="soulfu_win64_$VERSION.zip"
 
 # Define publisher, homepage, and company name
-PUBLISHER="SoulFu Community"
-HOMEPAGE="https://github.com/xmeadow/soulfu"
-COMPANY_NAME="SoulFu Community"
+PUBLISHER="SoulFu: Back From The Dead Project"
+HOMEPAGE="https://github.com/szymor/soulfu"
+COMPANY_NAME="SoulFu: Back From The Dead Project"
 
 # Clean previous build but preserve datafile.sdf
 rm -f soulfu.exe
@@ -38,6 +38,11 @@ fi
 
 if [ ! -f "Manual.htm" ]; then
     echo "Error: Manual.htm not found"
+    exit 1
+fi
+
+if [ ! -f "soulfu.jpg" ]; then
+    echo "Error: soulfu.jpg not found"
     exit 1
 fi
 
@@ -87,6 +92,7 @@ echo "Copying files to installer directory..."
 cp soulfu.exe "$INSTALLER_DIR/"
 cp datafile.sdf "$INSTALLER_DIR/"
 cp Manual.htm "$INSTALLER_DIR/"
+cp soulfu.jpg "$INSTALLER_DIR/"
 cp SDL2.dll "$INSTALLER_DIR/"
 cp SDL2_net.dll "$INSTALLER_DIR/"
 cp libogg-0.dll "$INSTALLER_DIR/"
@@ -150,7 +156,7 @@ fi
 
 # Create portable version (zip file)
 echo "Creating portable version..."
-zip -r "$ZIP_FILE" soulfu.exe datafile.sdf Manual.htm SDL2.dll SDL2_net.dll libogg-0.dll libvorbis-0.dll "$ICON_FILE" license.txt
+zip -r "$ZIP_FILE" soulfu.exe datafile.sdf Manual.htm soulfu.jpg SDL2.dll SDL2_net.dll libogg-0.dll libvorbis-0.dll "$ICON_FILE" license.txt
 
 # Create packaging/bin directory if it doesn't exist
 mkdir -p packaging/bin

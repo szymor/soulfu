@@ -45,6 +45,7 @@ Section "Install"
     File "libogg-0.dll"
     File "libvorbis-0.dll"
     File "Chest.ico"
+    File "soulfu.jpg"
 
     ; Create a shortcut in the Start Menu
     CreateDirectory "$SMPROGRAMS\SoulFu"

@@ -10,7 +10,8 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-PACKAGE_NAME="soulfu-bftd"
+PACKAGE_NAME="soulfu"
+STAGING_DIR="${PACKAGE_NAME}-pkg"
 ARCHITECTURE="i386"
 MAINTAINER="xmeadow <eke@rosauntier.com>"
 DESCRIPTION="A 3D action role-playing hack and slash dungeon crawler made by Aaron Bishop."
@@ -20,48 +21,44 @@ DEPENDENCIES="libsdl2-2.0-0, libsdl2-net-2.0-0, libvorbis0a, libgl1, libogg0, li
 rm -f soulfu
 PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig/ make release
 
-# Copy icon from packaging directory if it exists
-if [ -f "packaging/icons/hicolor/128x128/apps/soulfu.png" ]; then
-    cp packaging/icons/hicolor/128x128/apps/soulfu.png .
-else
-    echo "Error: Icon not found at packaging/icons/hicolor/128x128/apps/soulfu.png"
-    exit 1
-fi
-
 # Create directory structure
-mkdir -p ${PACKAGE_NAME}/DEBIAN
-mkdir -p ${PACKAGE_NAME}/usr/share/doc/${PACKAGE_NAME}
-mkdir -p ${PACKAGE_NAME}/usr/share/soulfu
-mkdir -p ${PACKAGE_NAME}/usr/share/applications
-mkdir -p ${PACKAGE_NAME}/usr/local/games/
+mkdir -p ${STAGING_DIR}/DEBIAN
+mkdir -p ${STAGING_DIR}/usr/share/doc/${PACKAGE_NAME}
+mkdir -p ${STAGING_DIR}/usr/share/soulfu
+mkdir -p ${STAGING_DIR}/usr/share/applications
+mkdir -p ${STAGING_DIR}/usr/games/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/16x16/apps/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/24x24/apps/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/32x32/apps/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/48x48/apps/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/64x64/apps/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/96x96/apps/
+mkdir -p ${STAGING_DIR}/usr/share/icons/hicolor/128x128/apps/
 
 # Check if files exist and copy them
-if [ -f "soulfu" ] && [ -f "Manual.htm" ] && [ -f "datafile.sdf" ] && [ -f "soulfu.png" ]; then
-    cp soulfu ${PACKAGE_NAME}/usr/local/games/
-    chmod +x ${PACKAGE_NAME}/usr/local/games/soulfu
-    cp datafile.sdf ${PACKAGE_NAME}/usr/share/soulfu
-    cp Manual.htm ${PACKAGE_NAME}/usr/share/doc/${PACKAGE_NAME}/
-    cp soulfu.png ${PACKAGE_NAME}/usr/share/soulfu
+if [ -f "soulfu" ] && [ -f "Manual.htm" ] && [ -f "datafile.sdf" ] && [ -f "soulfu.jpg" ]; then
+    cp soulfu ${STAGING_DIR}/usr/games/
+    chmod +x ${STAGING_DIR}/usr/games/soulfu
+    cp datafile.sdf ${STAGING_DIR}/usr/share/soulfu
+    cp Manual.htm ${STAGING_DIR}/usr/share/doc/${PACKAGE_NAME}/
+    cp soulfu.jpg ${STAGING_DIR}/usr/share/doc/${PACKAGE_NAME}/
+    cp packaging/icons/hicolor/16x16/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/16x16/apps/
+    cp packaging/icons/hicolor/24x24/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/24x24/apps/
+    cp packaging/icons/hicolor/32x32/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/32x32/apps/
+    cp packaging/icons/hicolor/48x48/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/48x48/apps/
+    cp packaging/icons/hicolor/64x64/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/64x64/apps/
+    cp packaging/icons/hicolor/96x96/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/96x96/apps/
+    cp packaging/icons/hicolor/128x128/apps/soulfu.png ${STAGING_DIR}/usr/share/icons/hicolor/128x128/apps/
 else
     echo "Compilation might have failed. One or more required files are missing."
     exit 1
 fi
 
 # Create .desktop file
-cat <<EOL > ${PACKAGE_NAME}/usr/share/applications/soulfu.desktop
-[Desktop Entry]
-Type=Application
-Name=Soulfu
-Comment= Play a 3D action role-playing hack and slash dungeon crawler.
-Exec=/usr/local/games/soulfu
-Icon=/usr/share/soulfu/soulfu.png
-Terminal=false
-Categories=Game;
-Keywords=rpg;
-EOL
+cp packaging/soulfu.desktop ${STAGING_DIR}/usr/share/applications/soulfu.desktop
 
 # Create control file
-cat <<EOL > ${PACKAGE_NAME}/DEBIAN/control
+cat <<EOL > ${STAGING_DIR}/DEBIAN/control
 Package: ${PACKAGE_NAME}
 Version: ${VERSION}
 Section: base
@@ -76,18 +73,18 @@ EOL
 mkdir -p packaging/bin
 
 # Build the package
-dpkg-deb --build ${PACKAGE_NAME}
+fakeroot dpkg-deb --build ${STAGING_DIR}
 
 # Move package to packaging/bin with version in filename
-if mv ${PACKAGE_NAME}.deb packaging/bin/${PACKAGE_NAME}_${VERSION}_${ARCHITECTURE}.deb; then
+if mv ${STAGING_DIR}.deb packaging/bin/${PACKAGE_NAME}_${VERSION}_${ARCHITECTURE}.deb; then
     echo "Package ${PACKAGE_NAME}_${VERSION}_${ARCHITECTURE}.deb created successfully in packaging/bin/"
 else
     echo "Error: Failed to move package to packaging/bin/"
     # Clean up leftover .deb file in current directory
-    rm -f ${PACKAGE_NAME}.deb
+    rm -f ${STAGING_DIR}.deb
     exit 1
 fi
 
 # Clean up
-rm -rf ${PACKAGE_NAME}
-rm -f soulfu soulfu.png
+rm -rf ${STAGING_DIR}
+rm -f soulfu
