@@ -170,6 +170,8 @@ make
   + data packer/unpacker,
   + 3D model converter,
   + language file converter,
+  + music converter,
+  + bytecode analyser,
   + script compiler.
 + A few mods have been merged:
   + Squire AI by Poobah *[note: AI has been largely modified since the original release of Poobah's AI]*,
@@ -186,6 +188,7 @@ make
 + Some bug fixing has been done around G'nome Copter. Now it can be built by G'nome at intelligence of 30.
 + Port to SDL2.
 + Joystick support up to 16 buttons. The limit was 8 in the original and it made impossible to map controls to some buttons on modern gamepads.
++ Syntax definition for Sublime to add syntax highlighting for SoulFu scripting language (by Sky).
 
 ## What could be done?
 I do not promise anything as the project is done in my free time. I have some ideas, though:
