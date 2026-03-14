@@ -1,0 +1,157 @@
+name: Nightly (latest)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Debian AMD64
+  # ──────────────────────────────────────────────────────────────────────────
+  debian-amd64:
+    name: Debian package (amd64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libsdl2-dev \
+            libsdl2-net-dev \
+            libogg-dev \
+            libvorbis-dev \
+            libjpeg62-turbo-dev \
+            libgl-dev \
+            dpkg-dev \
+            fakeroot
+
+      - name: Build Debian package
+        run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_deb-amd64.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-debian-amd64
+          path: packaging/bin/*.deb
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Windows 64-bit
+  # ──────────────────────────────────────────────────────────────────────────
+  windows-win64:
+    name: Windows package (win64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            mingw-w64 \
+            cmake \
+            wget \
+            zip \
+            nsis \
+            autoconf \
+            libtool \
+            make
+
+      - name: Cache MinGW sysroot
+        id: cache-sysroot
+        uses: actions/cache@v4
+        with:
+          path: |
+            /tmp/mingw64-sysroot
+            packaging/win64
+          key: mingw64-sysroot-${{ hashFiles('packaging/setup_win64_sysroot.sh') }}
+
+      - name: Set up MinGW sysroot
+        if: steps.cache-sysroot.outputs.cache-hit != 'true'
+        run: bash packaging/setup_win64_sysroot.sh
+
+      - name: Build libogg shared DLL
+        run: |
+          HOST="x86_64-w64-mingw32"
+          SYSROOT="/tmp/mingw64-sysroot"
+          LIBOGG_VERSION="1.3.6"
+          BUILDDIR=$(mktemp -d)
+          trap "rm -rf $BUILDDIR" EXIT
+          wget -q -O "$BUILDDIR/libogg.tar.xz" \
+            "https://downloads.xiph.org/releases/ogg/libogg-${LIBOGG_VERSION}.tar.xz"
+          tar -xf "$BUILDDIR/libogg.tar.xz" -C "$BUILDDIR"
+          cd "$BUILDDIR/libogg-${LIBOGG_VERSION}"
+          ./configure --host="$HOST" --prefix="$SYSROOT" --enable-shared --enable-static --quiet
+          make -j"$(nproc)" --quiet
+          make install --quiet
+          mkdir -p "$GITHUB_WORKSPACE/packaging/win64"
+          cp src/.libs/libogg-0.dll "$GITHUB_WORKSPACE/packaging/win64/"
+
+      - name: Build libvorbis shared DLL
+        run: |
+          HOST="x86_64-w64-mingw32"
+          SYSROOT="/tmp/mingw64-sysroot"
+          LIBVORBIS_VERSION="1.3.7"
+          BUILDDIR=$(mktemp -d)
+          trap "rm -rf $BUILDDIR" EXIT
+          wget -q -O "$BUILDDIR/libvorbis.tar.xz" \
+            "https://downloads.xiph.org/releases/vorbis/libvorbis-${LIBVORBIS_VERSION}.tar.xz"
+          tar -xf "$BUILDDIR/libvorbis.tar.xz" -C "$BUILDDIR"
+          cd "$BUILDDIR/libvorbis-${LIBVORBIS_VERSION}"
+          CFLAGS="-I$SYSROOT/include" LDFLAGS="-L$SYSROOT/lib" \
+          ./configure --host="$HOST" --disable-static --enable-shared \
+            --with-ogg="$SYSROOT" --quiet
+          make -j"$(nproc)" --quiet
+          cp lib/.libs/libvorbis-0.dll "$GITHUB_WORKSPACE/packaging/win64/"
+
+      - name: Build Windows packages
+        run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_win64.sh
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-windows-win64-installer
+          path: packaging/bin/*.exe
+          if-no-files-found: ignore
+
+      - name: Upload portable ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-windows-win64-portable
+          path: packaging/bin/*.zip
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Update the "latest" pre-release
+  # ──────────────────────────────────────────────────────────────────────────
+  publish-latest:
+    name: Publish latest pre-release
+    needs: [debian-amd64, windows-win64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+
+      - name: Update latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest (master)
+          prerelease: true
+          files: dist/**/*
+          body: |
+            Automated build from the latest commit on `master`.
+            Updated on every push.
