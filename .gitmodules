@@ -10,3 +10,6 @@
 [submodule "s3mc"]
 	path = s3mc
 	url = https://github.com/szymor/soulfu-3d-model-converter
+[submodule "wiki"]
+	path = wiki
+	url = https://github.com/szymor/soulfu.wiki.git
