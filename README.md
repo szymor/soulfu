@@ -23,6 +23,12 @@ Well, the game seems to be forgotten among developers. I decided to make some ef
 
 Having said that, I need to say that any help is really appreciated. Programmers, level designers, 2D/3D artists, translators, testers, etc. If you do not know where to start, just ask...
 
+> [!IMPORTANT]
+> If you REALLY want to contribute, create a pull request related to a **SINGLE feature** with **NO side effects**. Do not work on the branch requested to be pulled before resolving the pull request! Preferably, just create a separate feature branch for your implementation. Please read [the manual](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging) if in doubt.
+
+> [!CAUTION]
+> **Non-compliance** to the rule above may lead to **REJECTION of the pull request**!
+
 ## Building the game
 Clone the repository:
 ```
