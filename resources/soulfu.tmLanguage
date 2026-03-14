@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>src</string>
+	</array>
+	<key>name</key>
+	<string>SOULFU Script</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>comment</key>
+			<string>Comments</string>
+			<key>match</key>
+			<string>(?![\n\r])\s?//.*?$</string>
+			<key>name</key>
+			<string>comment.line.double-slash.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Storage Types</string>
+			<key>match</key>
+			<string>(?&lt;!\.)int\b|(?&lt;!\.)float\b|(?&lt;!\.)char\b|(?&lt;!\.)bool\b|(?&lt;!\.)#define\b</string>
+			<key>name</key>
+			<string>storage.type.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Strings</string>
+			<key>match</key>
+			<string>\".*"</string>
+			<key>name</key>
+			<string>string.quoted.double.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Statements</string>
+			<key>match</key>
+			<string>if|else|while|for|foreach|switch|until|do|return</string>
+			<key>name</key>
+			<string>keyword.operator.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Functions</string>
+			<key>match</key>
+			<string>\w+(?=\()</string>
+			<key>name</key>
+			<string>entity.name.function.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Numbers</string>
+			<key>match</key>
+			<string>(?&lt;=\s|,|\+|\-|\=|\&gt;|\&lt;|\(|\*|\\|\%|\/)[\d\.]+</string>
+			<key>name</key>
+			<string>constant.numeric.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Operator</string>
+			<key>match</key>
+			<string>\-|\+|\=|\&gt;|\&lt;|\||\&amp;|\%|\*|\\|\!|\/</string>
+			<key>name</key>
+			<string>keyword.operator.soulfu</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Constants</string>
+			<key>match</key>
+			<string>\b[A-Z]([A-Z\_\d])+([^a-z\s\)\",\-\.\:])</string>
+			<key>name</key>
+			<string>constant.language.soulfu</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.soulfu</string>
+	<key>uuid</key>
+	<string>19a3ef4d-6ac3-478a-ae86-9a527ac98fd7</string>
+</dict>
+</plist>
