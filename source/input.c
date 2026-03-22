@@ -40,7 +40,6 @@ unsigned char key_shift[MAX_ASCII];             // Convert an SDLK_ to ASCII cap
 unsigned short last_key_pressed = 0;            // The sdlk value of the last key pressed...
 
 
-
 #define MOUSE_TEXT_TIME 10                      // Number of ticks mouse text should show after taking off of character...
 #define MAX_MOUSE_BUTTON 4
 #define BUTTON0    0
@@ -73,7 +72,7 @@ unsigned char mouse_camera_active = FALSE;      //
 
 
 #define MAX_JOYSTICK 8
-#define MAX_JOYSTICK_BUTTON 16
+#define MAX_JOYSTICK_BUTTON 30
 int num_joystick;
 void* joystick_structure[MAX_JOYSTICK];         // Used for closing the joysticks...
 unsigned char joystick_button_pressed[MAX_JOYSTICK][MAX_JOYSTICK_BUTTON];
@@ -370,6 +369,8 @@ void input_setup(void)
         }
     }
 
+    input_setup_key_buffer();
+    input_setup_key_shift();
 
     SDL_JoystickEventState(SDL_ENABLE);
     num_joystick = SDL_NumJoysticks();
@@ -459,7 +460,8 @@ void input_read(void)
     unsigned short i, j, num_keys;
     SDL_Scancode key;
     const unsigned char* key_state;
-    int temp;
+    int temp, dpad_offset = 20;
+    int trigger_offset = 24, trigger_threshold = 1600;
 
 
 
@@ -575,8 +577,43 @@ void input_read(void)
                         {
                             joystick_position_xy[event.jaxis.which][event.jaxis.axis] = (event.jaxis.value-JOY_TOLERANCE)/(32768.0f-JOY_TOLERANCE);
                         }
+                    } else if (event.jaxis.axis == 2 || event.jaxis.axis == 5) {
+                        // For listen trigger left and trigger right in controller
+                        if(event.jaxis.value > trigger_threshold) {
+                            if(!joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset]) {
+                                joystick_button_pressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                                last_key_pressed = event.jaxis.axis + trigger_offset;
+                            }
+                        } else {
+                            if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset]) {
+                                joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = FALSE;
+                            }
+                        }
+                    } else if (event.jaxis.axis == 3 || event.jaxis.axis == 4) {
+                        // For listen right joystick
+                        if(event.jaxis.value < -JOY_TOLERANCE) {
+                            if(!joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3]) {
+                                joystick_button_pressed[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
+                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
+                                last_key_pressed = event.jaxis.axis + trigger_offset - 3;
+                            } else if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3]) {
+                                joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
+                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = FALSE;
+                            }
+                        } else if(event.jaxis.value > JOY_TOLERANCE) {
+                            if(!joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset]) {
+                                joystick_button_pressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                                last_key_pressed = event.jaxis.axis + trigger_offset;
+                            } else if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset]) {
+                                joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = FALSE;
+                            }
+                        }
                     }
-                }    
+                }
                 break;
             case SDL_JOYBUTTONUP:
                 if(event.jbutton.which < MAX_JOYSTICK)
@@ -595,6 +632,62 @@ void input_read(void)
                     {
                         joystick_button_pressed[event.jbutton.which][event.jbutton.button] = TRUE;
                         joystick_button_down[event.jbutton.which][event.jbutton.button] = TRUE;
+                        last_key_pressed = event.jbutton.button + 1;
+                    }
+                }
+                break;
+            case SDL_JOYHATMOTION:
+                if(event.jhat.which < MAX_JOYSTICK) {
+                    if(event.jhat.value & SDL_HAT_UP) {
+                        if(!joystick_button_down[event.jhat.which][dpad_offset + 0]) {
+                            joystick_button_pressed[event.jhat.which][dpad_offset + 0] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 0] = TRUE;
+                            last_key_pressed = dpad_offset + 0;
+                        }
+                    } else {
+                        if(joystick_button_down[event.jhat.which][dpad_offset + 0]) {
+                            joystick_button_unpressed[event.jhat.which][dpad_offset + 0] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 0] = FALSE;
+                        }
+                    }
+
+                    if(event.jhat.value & SDL_HAT_DOWN) {
+                        if(!joystick_button_down[event.jhat.which][dpad_offset + 1]) {
+                            joystick_button_pressed[event.jhat.which][dpad_offset + 1] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 1] = TRUE;
+                            last_key_pressed = dpad_offset + 1;
+                        }
+                    } else {
+                        if(joystick_button_down[event.jhat.which][dpad_offset + 1]) {
+                            joystick_button_unpressed[event.jhat.which][dpad_offset + 1] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 1] = FALSE;
+                        }
+                    }
+
+                    if(event.jhat.value & SDL_HAT_LEFT) {
+                        if(!joystick_button_down[event.jhat.which][dpad_offset + 2]) {
+                            joystick_button_pressed[event.jhat.which][dpad_offset + 2] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 2] = TRUE;
+                            last_key_pressed = dpad_offset + 2;
+                        }
+                    } else {
+                        if(joystick_button_down[event.jhat.which][dpad_offset + 2]) {
+                            joystick_button_unpressed[event.jhat.which][dpad_offset + 2] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 2] = FALSE;
+                        }
+                    }
+
+                    if(event.jhat.value & SDL_HAT_RIGHT) {
+                        if(!joystick_button_down[event.jhat.which][dpad_offset + 3]) {
+                            joystick_button_pressed[event.jhat.which][dpad_offset + 3] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 3] = TRUE;
+                            last_key_pressed = dpad_offset + 3;
+                        }
+                    } else {
+                        if(joystick_button_down[event.jhat.which][dpad_offset + 3]) {
+                            joystick_button_unpressed[event.jhat.which][dpad_offset + 3] = TRUE;
+                            joystick_button_down[event.jhat.which][dpad_offset + 3] = FALSE;
+                        }
                     }
                 }
                 break;
