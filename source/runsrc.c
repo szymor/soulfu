@@ -283,6 +283,7 @@ const char ff_map[MAX_FAST_FUNCTION][32] = {
 #define SYS_SAVE                    227
 #define SYS_LOAD                    228
 #define SYS_SCREENPARAMS            229
+#define SYS_INPUTREFRESH            230
 #define SYS_MODELCHECKHACK          255
 
 
@@ -1535,6 +1536,9 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                     case SYS_TOPWINDOW:
                         // Delay window ordering effect until after all windows have been drawn...
                         delay_promote();
+                        break;
+                    case SYS_INPUTREFRESH:
+                        input_setup();
                         break;
                     case SYS_SFXVOLUME:
                         master_sfx_volume = m;
