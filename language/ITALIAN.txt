@@ -27,15 +27,15 @@ Rete rotta
 Schermo :
 Colori :
 Gamma :
-Modalità :
+Modalitï¿½ :
 Finestra, Schermo intero
 Suono :
 Musica :
 Scala:
 Piccolo, Medio, Grande, Enorme
-Nota: è necessario riavviare per far funzionare
+Nota: ï¿½ necessario riavviare per far funzionare
        alcune modifiche...
-Velocità :
+Velocitï¿½ :
 Dispositivo :
 Nessuno, Tastiera, Joystk 1, Joystk 2, Joystk 3, Joystk 4
 Sinistra :
@@ -107,29 +107,29 @@ Hubbin
 107 Riservato
 Tastiera
 109 GANDALF ha sconfitto JIMBOBO
-110 GANDALF è stato sconfitto
+110 GANDALF ï¿½ stato sconfitto
 111 Gandalf ha guadagnato un livello
-112 Gandalf ha guadagnato un distintivo di virtù
+112 Gandalf ha guadagnato un distintivo di virtï¿½
 113 Gandalf si sente in colpa per averlo fatto...
-114 Gandalf si è divertito troppo...
-115 Gandalf si è addormentato...
-116 Gandalf è confuso
+114 Gandalf si ï¿½ divertito troppo...
+115 Gandalf si ï¿½ addormentato...
+116 Gandalf ï¿½ confuso
 117 Gandalf si sente male
-118 Gandalf è cieco
+118 Gandalf ï¿½ cieco
 119 Gandalf non ricorda nulla
 120 Gandalf si sente meglio
 121 Gandalf si sente potente
 122 Gandalf si sente stanco
 123 Non aveva un buon sapore...
 124 Gandalf ha ancora fame...
-125 Gandalf non ha più fame...
-126 Gandalf è svenuto!
+125 Gandalf non ha piï¿½ fame...
+126 Gandalf ï¿½ svenuto!
 127 Gandalf non riesce a leggere la strana scrittura...
 128 Gandalf ha completato il suo digiuno...
-129 Quell'oggetto non può essere equipaggiato...
-130 Quell'oggetto è troppo costoso...
-131 Quell'oggetto non può essere venduto...
-132 Gandalf non può mangiare carne...
+129 Quell'oggetto non puï¿½ essere equipaggiato...
+130 Quell'oggetto ï¿½ troppo costoso...
+131 Quell'oggetto non puï¿½ essere venduto...
+132 Gandalf non puï¿½ mangiare carne...
 133 Il cartello dice...
 134 Sigillato per una buona ragione
 135 Sala degli Imitatori
@@ -149,23 +149,23 @@ Tastiera
 149 Non guardare in alto
 150 Corri!
 151 Solo un senso di marcia
-152 In quest'area è obbligatorio l'elmetto
+152 In quest'area ï¿½ obbligatorio l'elmetto
 153 Controlli del cancello di inondazione
 154 Meccanismo a chiave sotto questo cartello
 155 Meccanismo a trappola situato sotto questo pannello
 156 Luogo di riposo della capsula del tempo
-157 Questo pannello ha bisogno di più peso
+157 Questo pannello ha bisogno di piï¿½ peso
 158 Guarda dietro la statua
 159 Tesoro sepolto
-160 Il tesoro è in cima al pilastro
+160 Il tesoro ï¿½ in cima al pilastro
 161 Intrappolato
 162 Non intrappolato
-163 Quell'oggetto è maledetto
+163 Quell'oggetto ï¿½ maledetto
 164 Gandalf ha fatto scattare una trappola
 165 Gandalf ha scassinato la serratura
 166 Gandalf ha trovato un segreto
-167 La porta è chiusa a chiave
-168 Il forziere è chiuso a chiave
+167 La porta ï¿½ chiusa a chiave
+168 Il forziere ï¿½ chiuso a chiave
 169 Riservato
 170 Riservato
 171 Riservato
@@ -182,7 +182,7 @@ Strumenti
 Grazie
 Ne vuoi ancora?
 Sii gentile!
-È gratis!
+ï¿½ gratis!
 Punteggi alti
 Difesa dai bordi
 Difesa dai colpi
@@ -202,7 +202,7 @@ Testa
 Corpo
 Gambe
 Equipaggiamento
-Virtù
+Virtï¿½
 Altoparlanti invertiti
 Veloce e brutto
 Ombre graziose
@@ -212,18 +212,18 @@ Linee dei personaggi
 Mappa Mip
 Z Bit :
 Test
-Com'è il video?
+Com'ï¿½ il video?
 Tempo rimasto: 
 Sembra buono
 Salva il gioco
 Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
 SIATE GENTILI!
 GRAZIE!
-Questo gioco è NICEWARE!  Per sbloccare
+Questo gioco ï¿½ NICEWARE!  Per sbloccare
 per sbloccare la versione completa, DEVI fare
 qualcosa di gentile per qualcun altro.
 Ecco come fare!  Basta digitare la frase
-qui sotto e il gioco è fatto...
+qui sotto e il gioco ï¿½ fatto...
 Ecco il trucco!  Dovete fare
 una buona azione ogni volta che si gioca
 gioco...
@@ -232,7 +232,7 @@ mentre lo fate!
  Giocatori in rete
 Esci dal gioco
 Iniziare il gioco
-Tabella dei punteggi più alti
+Tabella dei punteggi piï¿½ alti
 Nome
 Punteggio
 Classe
@@ -257,32 +257,32 @@ Muoversi
 257 Riservato
 258 Riservato
 259 Riservato
-"Tutti gli animali sono uguali, ma alcuni sono più uguali di altri." -George_Orwell
+"Tutti gli animali sono uguali, ma alcuni sono piï¿½ uguali di altri." -George_Orwell
 "I trucchi e i tradimenti sono la pratica degli sciocchi, che non hanno il senso di essere onesti." -Benjamin_Franklin
 "Chi esprime i voti non decide nulla.  Coloro che contano i voti decidono tutto." - Josef_Stalin
-"In tempi di inganno universale, dire la verità diventa un atto rivoluzionario." -Gorge Orwell
+"In tempi di inganno universale, dire la veritï¿½ diventa un atto rivoluzionario." -Gorge Orwell
 "Io ero mentalmente adatto a trasportare armi nucleari, ma non lo sono se vedo un UFO." -Maj._George_A._Filer,_III
-" Ho scritto, finché alla fine è diventato, per lunghezza e larghezza, la grandezza che vedete." -John_Bunyan
+" Ho scritto, finchï¿½ alla fine ï¿½ diventato, per lunghezza e larghezza, la grandezza che vedete." -John_Bunyan
 "Siamo tazze che vengono costantemente e silenziosamente riempite.  Il trucco sta nel saperci rovesciare e far uscire le cose belle." -Ray_Bradbury
-"La vita è come un rotolo di carta igienica: più si avvicina alla fine, più va veloce." -Andy_Rooney
-"La migliore cura per l'insonnia è dormire molto." -W._C._Fields
+"La vita ï¿½ come un rotolo di carta igienica: piï¿½ si avvicina alla fine, piï¿½ va veloce." -Andy_Rooney
+"La migliore cura per l'insonnia ï¿½ dormire molto." -W._C._Fields
 "Quando le persone brutte fanno facce strane, le persone strane vincono le gare." -Lerry
-"Il governo per essere duraturo dovrà essere giusto." -Ed_Leedskalnin
-"Gli uomini spesso diventano ciò che credono di essere." -Mahatma_Gandhi
-"Essere l'ultimo uomo sulla Luna è un onore molto dubbio." -Gene_Cernan
-"Il corpo dice ciò che le parole non possono dire."
+"Il governo per essere duraturo dovrï¿½ essere giusto." -Ed_Leedskalnin
+"Gli uomini spesso diventano ciï¿½ che credono di essere." -Mahatma_Gandhi
+"Essere l'ultimo uomo sulla Luna ï¿½ un onore molto dubbio." -Gene_Cernan
+"Il corpo dice ciï¿½ che le parole non possono dire."
 "Fidati di te stesso; ogni cuore vibra su quella corda di ferro." -Ralph_Waldo_Emerson
-"Fai sempre ciò che hai paura di fare." -Ralph_Waldo_Emerson
-"Non è auspicabile coltivare il rispetto per la legge, quanto per il diritto." -Henry_David_Thoreau
-"Se cinquant'anni fa mi avessi detto che avrei costruito le mie attività con i proventi delle campane a vento, ti avrei detto che eri pazzo." -Paolo_Soleri
+"Fai sempre ciï¿½ che hai paura di fare." -Ralph_Waldo_Emerson
+"Non ï¿½ auspicabile coltivare il rispetto per la legge, quanto per il diritto." -Henry_David_Thoreau
+"Se cinquant'anni fa mi avessi detto che avrei costruito le mie attivitï¿½ con i proventi delle campane a vento, ti avrei detto che eri pazzo." -Paolo_Soleri
 "Non ereditiamo la terra dai nostri genitori, la prendiamo in prestito dai nostri figli" - Proverbio kenyano
-"Segnatevi la mia parola: sta per arrivare una combinazione di aereo e automobile. Potete sorridere. Ma arriverà..." -Henry_Ford
-"Non puoi dipendere dai tuoi occhi quando la tua immaginazione è fuori fuoco." -Mark_Twain
+"Segnatevi la mia parola: sta per arrivare una combinazione di aereo e automobile. Potete sorridere. Ma arriverï¿½..." -Henry_Ford
+"Non puoi dipendere dai tuoi occhi quando la tua immaginazione ï¿½ fuori fuoco." -Mark_Twain
 "Se non tentiamo l'assurdo, non possiamo raggiungere l'impossibile." -Albert_Einstein
 "Ogni generazione ride delle vecchie mode, ma segue religiosamente le nuove." -Henry_David_Thoreau
-"I vestiti fanno l'uomo. Le persone nude hanno poca o nessuna influenza sulla società." -Mark_Twain
-"L'autoeducazione è, credo fermamente, l'unico tipo di educazione che esista." -Isaac_Asimov
-"La vera disciplina consiste nel dire di no alle opportunità sbagliate." -Peter_Drucker
+"I vestiti fanno l'uomo. Le persone nude hanno poca o nessuna influenza sulla societï¿½." -Mark_Twain
+"L'autoeducazione ï¿½, credo fermamente, l'unico tipo di educazione che esista." -Isaac_Asimov
+"La vera disciplina consiste nel dire di no alle opportunitï¿½ sbagliate." -Peter_Drucker
 "I veri pistoleri hanno sempre cercato di evitare di estrarre la pistola." - Michael Crichton
 "Vivi come vorresti aver vissuto quando starai morendo." -Christian_Gellert
 288 Riservato
@@ -309,21 +309,22 @@ Muoversi
 309 Riservato
 Tutte le vostre basi appartengono a noi!
 Iniziate ad allenarvi!
-Racecar scritto al contrario è Racecar!
+Racecar scritto al contrario ï¿½ Racecar!
 Prova a giocare in stile Ironman!
 L'alcol fa male!
 Le biblioteche sono divertenti!
-La televisione è una perdita di tempo!
+La televisione ï¿½ una perdita di tempo!
 I prestiti costano il doppio!
 State lontani dalle carte di credito!
-Siate più gentili con mamma e papà!
+Siate piï¿½ gentili con mamma e papï¿½!
 Fate pure!  Chiedile di uscire!
 Cambia sempre in meglio!
 I videogiochi fanno marcire il cervello!
-Non ci si può leccare il gomito!
+Non ci si puï¿½ leccare il gomito!
 Indossate la cintura di sicurezza e guidate piano!
 I gatti sono meglio dei cani!
 I cani sono meglio dei gatti!
 Imparate a SOGNARE LUCIDO!
-Mangiate più frutta!
-Sorridete di più!  Sorridete ora!
+Mangiate piï¿½ frutta!
+Sorridete di piï¿½!  Sorridete ora!
+Aggiorna

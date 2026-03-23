@@ -1,11 +1,11 @@
-Menú principal
+Menï¿½ principal
 Ajustes
 Reproductor 
-Actualización de
+Actualizaciï¿½n de
 Mensaje
 Mapa
-Estadísticas
-Técnicas
+Estadï¿½sticas
+Tï¿½cnicas
 Inventario
 Equipo
 Libro
@@ -15,11 +15,11 @@ Trampa
 Juego local
 Juego en red
 Controles
-Cómprame
+Cï¿½mprame
 Salir de
 Guardar cambios
 Continuar
-Volver atrás
+Volver atrï¿½s
 Comprar
 Vender
 Cerrar
@@ -30,23 +30,23 @@ Gamma :
 Modo :
 Ventana,Pantalla completa
 Sonido :
-Música :
+Mï¿½sica :
 Escala:
-Pequeño,Mediano,Grande,Enorme
-Nota: Tendrá que reiniciar para que
+Pequeï¿½o,Mediano,Grande,Enorme
+Nota: Tendrï¿½ que reiniciar para que
        algunos cambios funcionen...
 Velocidad :
 Dispositivo :
 Ninguno,Teclado,Joystk 1,Joystk 2,Joystk 3,Joystk 4
 Izquierda :
-Botón 1,Botón 2,Botón 3,Botón 4,Botón 5,Botón 6,Botón 7,Botón 8,Ninguno
+Botï¿½n 1,Botï¿½n 2,Botï¿½n 3,Botï¿½n 4,Botï¿½n 5,Botï¿½n 6,Botï¿½n 7,Botï¿½n 8,Ninguno
 Derecha :
-Cámara :
+Cï¿½mara :
 Hablar :
 Invent:
 Equip:
 Lento :
-Rápido :
+Rï¿½pido :
 Impactos
 Mana:
 Nivel:
@@ -60,7 +60,7 @@ Fuerza:
 Destreza:
 Inteligencia:
 Todos los derechos reservados
-Riñonera
+Riï¿½onera
 Cabeza
 Cuello
 Cuerpo
@@ -69,24 +69,24 @@ Pies
 Manos
 Izquierda
 Derecha
-Compasión:
+Compasiï¿½n:
 Dilligencia:
 Honor:
 Fe:
-Valentía:
-Compañerismo:
-Insignia de la Compasión
+Valentï¿½a:
+Compaï¿½erismo:
+Insignia de la Compasiï¿½n
 Insignia de la Dilligencia
 Insignia de Honor
 Insignia de la Fe
 Insignia del Valor
-Insignia del compañerismo
+Insignia del compaï¿½erismo
 Soldado
 Mago
 Sanador
 G'nome
 Elfo
-Místico
+Mï¿½stico
 D'warf
 Hubbin
 92 Reservado
@@ -106,33 +106,33 @@ Hubbin
 106 Reservado
 107 Reservado
 Teclado
-109 GANDALF derrotó a JIMBOBO
+109 GANDALF derrotï¿½ a JIMBOBO
 110 GANDALF fue derrotado
-111 Gandalf subió de nivel
-112 Gandalf ganó una insignia de virtud
+111 Gandalf subiï¿½ de nivel
+112 Gandalf ganï¿½ una insignia de virtud
 113 Gandalf se siente mal por hacer eso...
-114 Gandalf disfrutó demasiado con eso...
-115 Gandalf se quedó dormido...
-116 Gandalf está confuso
+114 Gandalf disfrutï¿½ demasiado con eso...
+115 Gandalf se quedï¿½ dormido...
+116 Gandalf estï¿½ confuso
 117 Gandalf se siente mal
-118 Gandalf está ciego
+118 Gandalf estï¿½ ciego
 119 Gandalf no recuerda nada
 120 Gandalf se siente mejor
 121 Gandalf se siente poderoso
 122 Gandalf se siente cansado
-123 Eso no sabía demasiado bien...
-124 Gandalf aún tiene hambre...
+123 Eso no sabï¿½a demasiado bien...
+124 Gandalf aï¿½n tiene hambre...
 125 Gandalf ya no tiene hambre...
-126 ¡Gandalf se ha desmayado!
-127 Gandalf no puede leer la extraña escritura...
+126 ï¿½Gandalf se ha desmayado!
+127 Gandalf no puede leer la extraï¿½a escritura...
 128 Gandalf ha completado su ayuno...
 129 Ese objeto no puede ser equipado...
 130 Ese objeto es demasiado caro...
 131 Ese objeto no se puede vender...
 132 Gandalf no puede comer carne...
 133 El cartel dice...
-134 Sellado por una buena razón
-135 Sala de los Mímicos
+134 Sellado por una buena razï¿½n
+135 Sala de los Mï¿½micos
 136 Sala de las Espadas
 137 Sala de las Estatuas
 138 Sala del Trono 
@@ -143,29 +143,29 @@ Teclado
 143 Bienvenido al Palacio de Ceniza
 144 Bienvenido al Palacio de Hielo
 145 Bienvenido al Palacio de las Sombras
-146 Cámara del Jefe
-147 Cuidado con el Dragón
+146 Cï¿½mara del Jefe
+147 Cuidado con el Dragï¿½n
 148 Peligro  Campo de minas
 149 No mires hacia arriba
-150 ¡Corre!
+150 ï¿½Corre!
 151 Un solo sentido
-152 Cascos requeridos en esta área
-153 Controles de la compuerta de inundación
-154 Mecanismo de llave bajo esta señal
+152 Cascos requeridos en esta ï¿½rea
+153 Controles de la compuerta de inundaciï¿½n
+154 Mecanismo de llave bajo esta seï¿½al
 155 Mecanismo de trampa situado bajo este panel
-156 Lugar de descanso de la cápsula del tiempo
-157 Este panel necesita más peso
-158 Mira detrás de la estatua
+156 Lugar de descanso de la cï¿½psula del tiempo
+157 Este panel necesita mï¿½s peso
+158 Mira detrï¿½s de la estatua
 159 Tesoro enterrado
-160 El tesoro está encima del pilar
+160 El tesoro estï¿½ encima del pilar
 161 Atrapado
 162 No atrapado
-163 Ese objeto está maldito
-164 Gandalf activó una trampa
-165 Gandalf forzó la cerradura
+163 Ese objeto estï¿½ maldito
+164 Gandalf activï¿½ una trampa
+165 Gandalf forzï¿½ la cerradura
 166 Gandalf ha encontrado un secreto
-167 La puerta está cerrada
-168 El cofre está cerrado
+167 La puerta estï¿½ cerrada
+168 El cofre estï¿½ cerrado
 169 Reservado
 170 Reservado
 171 Reservado
@@ -180,21 +180,21 @@ Teclado
 Cargar Juego
 Herramientas
 Gracias
-¿Quieres más?
-¡Sé amable!
-¡Es gratis!
+ï¿½Quieres mï¿½s?
+ï¿½Sï¿½ amable!
+ï¿½Es gratis!
 Puntuaciones altas
 Defensa de bordes
 Defensa Bash
 Defensa Fuego
 Defensa de Hielo
-Defensa Ácido
-Defensa Eléctrica
+Defensa ï¿½cido
+Defensa Elï¿½ctrica
 FIN DEL JUEGO
 RESPAWN LISTO
 Comprar  ($10)
 Comprar
-Artículos
+Artï¿½culos
 Trampa
 Armas
 Especial
@@ -204,28 +204,28 @@ Piernas
 Equipamiento
 Virtud
 Altavoces invertidos
-Rápido y Feo
+Rï¿½pido y Feo
 Sombras bonitas
 Agua bonita
-Líneas del terreno
-Líneas de personajes
+Lï¿½neas del terreno
+Lï¿½neas de personajes
 Mapa Mip
 Z Bit :
 Probando
-¿Cómo va el vídeo?
+ï¿½Cï¿½mo va el vï¿½deo?
 Tiempo restante: 
 Se ve bien
 Guardar Juego
 Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
-¡SE AMABLE!
-¡GRACIAS!
-¡Este juego es NICEWARE!  Para desbloquear
-la versión completa, DEBES hacer
+ï¿½SE AMABLE!
+ï¿½GRACIAS!
+ï¿½Este juego es NICEWARE!  Para desbloquear
+la versiï¿½n completa, DEBES hacer
 algo bueno por otra persona.
-Así de fácil.  Sólo tienes que escribir la frase
-de abajo y ya está...
-¡Aquí está el truco!  Tienes que hacer
-una buena acción cada vez que juegues al
+Asï¿½ de fï¿½cil.  Sï¿½lo tienes que escribir la frase
+de abajo y ya estï¿½...
+ï¿½Aquï¿½ estï¿½ el truco!  Tienes que hacer
+una buena acciï¿½n cada vez que juegues al
 juego...
 Y hablar a otros sobre SoulFu
 de paso.
@@ -234,17 +234,17 @@ Salir del juego
 Empezar partida
 Tabla de puntuaciones
 Nombre
-Puntuación
+Puntuaciï¿½n
 Clase
 Go Poof
 Y casi se pierde la esperanza...  Casi...
 Cant Save
-¿De verdad renunciar?
+ï¿½De verdad renunciar?
 Tienda Mouse
-Artículos:
+Artï¿½culos:
 ActionR:
-AcciónL:
-Cámara
+Acciï¿½nL:
+Cï¿½mara
 Mover 
 249 Reservado
 250 Reservado
@@ -257,34 +257,34 @@ Mover
 257 Reservado
 258 Reservado
 259 Reservado
-"Todos los animales son iguales, pero algunos son más iguales que otros."
-"Los trucos y la traición son la práctica de los tontos, que no tienen el sentido común de ser honestos." -Benjamin_Franklin
+"Todos los animales son iguales, pero algunos son mï¿½s iguales que otros."
+"Los trucos y la traiciï¿½n son la prï¿½ctica de los tontos, que no tienen el sentido comï¿½n de ser honestos." -Benjamin_Franklin
 "Los que emiten los votos no deciden nada.  Los que cuentan los votos lo deciden todo." -Josef_Stalin
-"En tiempos de engaño universal, decir la verdad se convierte en un acto revolucionario."
+"En tiempos de engaï¿½o universal, decir la verdad se convierte en un acto revolucionario."
 "Yo era mentalmente apto para llevar armas nucleares, pero no lo soy si veo un OVNI."
-"Lo escribí, hasta que al final llegó a ser, a lo largo y a lo ancho, lo grande que ves."
-"Somos copas, que se llenan constante y silenciosamente.  El truco está en saber cómo volcarnos y dejar salir las cosas bellas." -Ray_Bradbury
-"La vida es como un rollo de papel higiénico, cuanto más se acerca al final, más rápido se va." -Andy_Rooney
+"Lo escribï¿½, hasta que al final llegï¿½ a ser, a lo largo y a lo ancho, lo grande que ves."
+"Somos copas, que se llenan constante y silenciosamente.  El truco estï¿½ en saber cï¿½mo volcarnos y dejar salir las cosas bellas." -Ray_Bradbury
+"La vida es como un rollo de papel higiï¿½nico, cuanto mï¿½s se acerca al final, mï¿½s rï¿½pido se va." -Andy_Rooney
 "La mejor cura para el insomnio es dormir mucho."
 "Cuando la gente fea pone caras raras, la gente rara gana carreras." -Lerry
 "Para ser duradero, el gobierno tiene que ser justo."
 "Los hombres a menudo se convierten en lo que creen que son."
-"Ser el último hombre en la Luna es un honor muy dudoso." -Gene_Cernan
+"Ser el ï¿½ltimo hombre en la Luna es un honor muy dudoso." -Gene_Cernan
 "El cuerpo dice lo que las palabras no pueden." -Martha_Graham
-"Confía en ti mismo; cada corazón vibra con esa cuerda de hierro."
+"Confï¿½a en ti mismo; cada corazï¿½n vibra con esa cuerda de hierro."
 "Siempre haz lo que temes hacer." -Ralph_Waldo_Emerson
 "No es deseable cultivar el respeto por la ley, tanto como por el derecho."
-"Si me hubieras dicho hace cincuenta años que construiría mis actividades con las ganancias de las campanas de viento, te habría dicho que estabas loco."
+"Si me hubieras dicho hace cincuenta aï¿½os que construirï¿½a mis actividades con las ganancias de las campanas de viento, te habrï¿½a dicho que estabas loco."
 "No heredamos la tierra de nuestros padres, la tomamos prestada de nuestros hijos" -Kenyan_Proverb
-"Observa mi palabra: Una combinación de avión y automóvil está llegando. Puede que sonrías. Pero llegará..." -Henry_Ford
-"No puedes depender de tus ojos cuando tu imaginación está desenfocada." -Mark_Twain
+"Observa mi palabra: Una combinaciï¿½n de aviï¿½n y automï¿½vil estï¿½ llegando. Puede que sonrï¿½as. Pero llegarï¿½..." -Henry_Ford
+"No puedes depender de tus ojos cuando tu imaginaciï¿½n estï¿½ desenfocada." -Mark_Twain
 "A menos que intentemos lo absurdo, no podremos conseguir lo imposible."
-"Cada generación se ríe de las viejas modas, pero sigue religiosamente las nuevas." -Henry_David_Thoreau
+"Cada generaciï¿½n se rï¿½e de las viejas modas, pero sigue religiosamente las nuevas." -Henry_David_Thoreau
 "La ropa hace al hombre. La gente desnuda tiene poca o ninguna influencia en la sociedad." -Mark_Twain
-"Creo firmemente que la autoeducación es el único tipo de educación que existe."
+"Creo firmemente que la autoeducaciï¿½n es el ï¿½nico tipo de educaciï¿½n que existe."
 "La verdadera disciplina consiste en decir no a las oportunidades equivocadas." -Peter_Drucker
 "Los verdaderos pistoleros siempre intentaban evitar sacar sus pistolas." -Michael_Crichton
-"Vive como desearías haber vivido cuando estés muriendo." -Christian_Gellert
+"Vive como desearï¿½as haber vivido cuando estï¿½s muriendo." -Christian_Gellert
 288 Reservado
 289 Reservado
 290 Reservado
@@ -307,23 +307,24 @@ Mover
 307 Reservado
 308 Reservado
 309 Reservado
-¡Toda tu base nos pertenece!
-¡Comiencen a ejercitarse!
-¡Racecar deletreado al revés es Racecar!
+ï¿½Toda tu base nos pertenece!
+ï¿½Comiencen a ejercitarse!
+ï¿½Racecar deletreado al revï¿½s es Racecar!
 Intenta jugar al estilo Ironman.
-¡El alcohol es malo para ti!
-¡Las bibliotecas son divertidas!
-La televisión es una pérdida de tiempo.
-¡Los préstamos cuestan el doble!
-¡Aléjate de las tarjetas de crédito!
-¡Sé más amable con mamá y papá!
-¡Adelante!  ¡Invítala a salir!
-¡Cambia siempre a mejor!
-¡Los videojuegos te pudren el cerebro!
-¡No puedes chuparte el codo!
-¡Ponte el cinturón de seguridad y conduce DESPACIO!
-¡Los gatos son mejores que los perros!
-¡Los perros son mejores que los gatos!
-¡Aprende a SOÑAR LUCIDO!
-¡Come más fruta!
-¡Sonríe más!  ¡Sonríe AHORA!
+ï¿½El alcohol es malo para ti!
+ï¿½Las bibliotecas son divertidas!
+La televisiï¿½n es una pï¿½rdida de tiempo.
+ï¿½Los prï¿½stamos cuestan el doble!
+ï¿½Alï¿½jate de las tarjetas de crï¿½dito!
+ï¿½Sï¿½ mï¿½s amable con mamï¿½ y papï¿½!
+ï¿½Adelante!  ï¿½Invï¿½tala a salir!
+ï¿½Cambia siempre a mejor!
+ï¿½Los videojuegos te pudren el cerebro!
+ï¿½No puedes chuparte el codo!
+ï¿½Ponte el cinturï¿½n de seguridad y conduce DESPACIO!
+ï¿½Los gatos son mejores que los perros!
+ï¿½Los perros son mejores que los gatos!
+ï¿½Aprende a SOï¿½AR LUCIDO!
+ï¿½Come mï¿½s fruta!
+ï¿½Sonrï¿½e mï¿½s!  ï¿½Sonrï¿½e AHORA!
+Actualizar
