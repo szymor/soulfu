@@ -78,7 +78,7 @@ void* joystick_structure[MAX_JOYSTICK];         // Used for closing the joystick
 unsigned char joystick_button_pressed[MAX_JOYSTICK][MAX_JOYSTICK_BUTTON];
 unsigned char joystick_button_unpressed[MAX_JOYSTICK][MAX_JOYSTICK_BUTTON];
 unsigned char joystick_button_down[MAX_JOYSTICK][MAX_JOYSTICK_BUTTON];
-float joystick_position_xy[MAX_JOYSTICK][2];    // -1.0 to 1.0...
+float joystick_position_xy[MAX_JOYSTICK][5];    // -1.0 to 1.0...
 
 
 //-------------------------------------------------------------------------------------------
@@ -593,24 +593,28 @@ void input_read(void)
                         }
                     } else if (event.jaxis.axis == 3 || event.jaxis.axis == 4) {
                         // For listen right joystick
+                        joystick_position_xy[event.jaxis.which][event.jaxis.axis] = 0.0f;
                         if(event.jaxis.value < -JOY_TOLERANCE) {
-                            if(!joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3]) {
+                            joystick_position_xy[event.jaxis.which][event.jaxis.axis] = 1.0f;
+                            if(joystick_position_xy[event.jaxis.which][event.jaxis.axis]) {
                                 joystick_button_pressed[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
                                 joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
                                 last_key_pressed = event.jaxis.axis + trigger_offset - 3;
-                            } else if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3]) {
-                                joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
-                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = FALSE;
-                            }
+                            } 
                         } else if(event.jaxis.value > JOY_TOLERANCE) {
-                            if(!joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset]) {
+                            joystick_position_xy[event.jaxis.which][event.jaxis.axis] = 1.0f;
+                             if(joystick_position_xy[event.jaxis.which][event.jaxis.axis]) {
                                 joystick_button_pressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
                                 joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
                                 last_key_pressed = event.jaxis.axis + trigger_offset;
-                            } else if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset]) {
-                                joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
-                                joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = FALSE;
                             }
+                        }
+                        if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] && !joystick_position_xy[event.jaxis.which][event.jaxis.axis]) {
+                            joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = TRUE;
+                            joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset - 3] = FALSE;
+                        } else if(joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] && !joystick_position_xy[event.jaxis.which][event.jaxis.axis]) {
+                            joystick_button_unpressed[event.jaxis.which][event.jaxis.axis + trigger_offset] = TRUE;
+                            joystick_button_down[event.jaxis.which][event.jaxis.axis + trigger_offset] = FALSE;
                         }
                     }
                 }
