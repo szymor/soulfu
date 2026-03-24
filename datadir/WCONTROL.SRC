@@ -28,7 +28,7 @@ LoadBindings()
         key = FileReadByte(file, offset + i + 18)
       if(i > 4)
         key = FileReadByte(file, offset + i + 19)
-      SystemSet(SYS_PLAYERDEVICE, player, i, (key<<8))
+      SystemSet(SYS_PLAYERDEVICE, player, i, key)
       i++
 
   // Load mouse shop stuff...
@@ -61,7 +61,7 @@ SaveBindings()
   if((device>>8) > 1)
     i = 0
     while(i < 9)
-      key = SystemGet(SYS_PLAYERDEVICE, player, i) >> 8
+      key = SystemGet(SYS_PLAYERDEVICE, player, i)
       if(i < 5)
         FileWriteByte(file, offset + i + 18, key)
       if(i > 4)
@@ -116,19 +116,8 @@ Refresh()
     WindowString(WHITE, 0.0, 3.0, StringLanguage(246))
     WindowString(WHITE, 0.0, 2.0, StringLanguage(43))
     WindowString(WHITE, 0.0, 1.0, StringLanguage(41))
-  if((device>>8)==0 || (device>>8)==1)
-    // No device or Keyboard...  Do hidden minilists to make
-    // sure items don't get confused...
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-    WindowMiniList(0.0, 0.0, 0, 0, 0, NULL)
-  else
+
+  if((device>>8) > 1)
     // Joystick device...
     i = 0
     while(i < 4)
@@ -182,7 +171,11 @@ Refresh()
           StringAppend(String(0), "RJoyR", 16)
         if(current == 28)
           StringAppend(String(0), "RJoyD", 16)
-      else
+        if(current < 0 || current > 29)
+          StringAppend(String(0), "<", 16)
+          StringAppend(String(0), StringLanguage(331), 16)
+          StringAppend(String(0), ">", 16)
+      if(current == 0)
         StringAppend(String(0), "???", 16)
       WindowString(White, 9.0, i+1, String(0))
       i++

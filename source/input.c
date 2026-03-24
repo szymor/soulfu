@@ -624,8 +624,8 @@ void input_read(void)
                 {
                     if(event.jbutton.button < MAX_JOYSTICK_BUTTON)
                     {
-                        joystick_button_unpressed[event.jbutton.which][event.jbutton.button] = TRUE;
-                        joystick_button_down[event.jbutton.which][event.jbutton.button] = FALSE;
+                        joystick_button_unpressed[event.jbutton.which][event.jbutton.button+1] = TRUE;
+                        joystick_button_down[event.jbutton.which][event.jbutton.button+1] = FALSE;
                     }
                 }
                 break;
@@ -634,8 +634,8 @@ void input_read(void)
                 {
                     if(event.jbutton.button < MAX_JOYSTICK_BUTTON)
                     {
-                        joystick_button_pressed[event.jbutton.which][event.jbutton.button] = TRUE;
-                        joystick_button_down[event.jbutton.which][event.jbutton.button] = TRUE;
+                        joystick_button_pressed[event.jbutton.which][event.jbutton.button+1] = TRUE;
+                        joystick_button_down[event.jbutton.which][event.jbutton.button+1] = TRUE;
                         last_key_pressed = event.jbutton.button + 1;
                     }
                 }
