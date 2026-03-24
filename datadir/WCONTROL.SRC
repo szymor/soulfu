@@ -1,13 +1,4 @@
 #define device   self.stat01w
-#define binding0 self.stat02w
-#define binding1 self.stat03w
-#define binding2 self.stat04w
-#define binding3 self.stat05w
-#define binding4 self.stat06w
-#define binding5 self.stat07w
-#define binding6 self.stat08w
-#define binding7 self.stat09w
-#define binding8 self.stat10w
 #define player   self.stat11l
 #define mouse_shop self.stat11h
 
@@ -31,48 +22,14 @@ LoadBindings()
 
   // Load joystick buttons...
   if((device>>8) > 1)
-    binding0 = FileReadByte(file, 18+offset)<<8
-    binding1 = FileReadByte(file, 19+offset)<<8
-    binding2 = FileReadByte(file, 20+offset)<<8
-    binding3 = FileReadByte(file, 21+offset)<<8
-    binding4 = FileReadByte(file, 22+offset)<<8
-
-    // Camera controls a little later...
-    binding5 = FileReadByte(file, 24+offset)<<8
-    binding6 = FileReadByte(file, 25+offset)<<8
-    binding7 = FileReadByte(file, 26+offset)<<8
-    binding8 = FileReadByte(file, 27+offset)<<8
-
-    // Make sure they're within limits...
-    if(binding0 > 4096)
-      binding0 = 4096
-    if(binding1 > 4096)
-      binding1 = 4096
-    if(binding2 > 4096)
-      binding2 = 4096
-    if(binding3 > 4096)
-      binding3 = 4096
-    if(binding4 > 4096)
-      binding4 = 4096
-    if(binding5 > 4096)
-      binding5 = 4096
-    if(binding6 > 4096)
-      binding6 = 4096
-    if(binding7 > 4096)
-      binding7 = 4096
-    if(binding8 > 4096)
-      binding8 = 4096
-
-    SystemSet(SYS_PLAYERDEVICE, player, 0, (binding0>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 1, (binding1>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 2, (binding2>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 3, (binding3>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 4, (binding4>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 5, (binding5>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 6, (binding6>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 7, (binding7>>8))
-    SystemSet(SYS_PLAYERDEVICE, player, 8, (binding8>>8))
-
+    i = 0
+    while(i < 9)
+      if(i < 5)
+        key = FileReadByte(file, offset + i + 18)
+      if(i > 4)
+        key = FileReadByte(file, offset + i + 19)
+      SystemSet(SYS_PLAYERDEVICE, player, i, (key<<8))
+      i++
 
   // Load mouse shop stuff...
   mouse_shop = FileReadByte(file, offset+28)
@@ -102,17 +59,14 @@ SaveBindings()
 
   // Save joystick buttons...
   if((device>>8) > 1)
-    FileWriteByte(file, offset+18, binding0>>8)
-    FileWriteByte(file, offset+19, binding1>>8)
-    FileWriteByte(file, offset+20, binding2>>8)
-    FileWriteByte(file, offset+21, binding3>>8)
-    FileWriteByte(file, offset+22, binding4>>8)
-
-    // Camera controls a little later...
-    FileWriteByte(file, offset+24, binding5>>8)
-    FileWriteByte(file, offset+25, binding6>>8)
-    FileWriteByte(file, offset+26, binding7>>8)
-    FileWriteByte(file, offset+27, binding8>>8)
+    i = 0
+    while(i < 9)
+      key = SystemGet(SYS_PLAYERDEVICE, player, i) >> 8
+      if(i < 5)
+        FileWriteByte(file, offset + i + 18, key)
+      if(i > 4)
+        FileWriteByte(file, offset + i + 19, key)
+      i++
 
 
   // Save mouse shop stuff...
