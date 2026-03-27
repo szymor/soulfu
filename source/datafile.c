@@ -379,8 +379,13 @@ signed char sdf_load(const char *datafile)
 
 
   // Open the data file in binary mode
-  log_message("INFO:   Trying to open DATAFILE.SDF");
+  log_message("INFO:   Trying to open %s", datafile);
   openfile = fopen(datafile, "rb");
+  if(!openfile && strcmp(datafile, "datafile.sdf") != 0)
+  {
+    log_message("INFO:   Not found, trying local datafile.sdf");
+    openfile = fopen("datafile.sdf", "rb");
+  }
   if(openfile)
   {
     // Check how big our data file is...
