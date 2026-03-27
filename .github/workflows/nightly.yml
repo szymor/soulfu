@@ -4,13 +4,14 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
-  # Debian AMD64
+  # Debian + Linux AMD64
   # ──────────────────────────────────────────────────────────────────────────
   debian-amd64:
-    name: Debian package (amd64)
+    name: Linux packages (amd64)
     runs-on: ubuntu-latest
     container: debian:bookworm
     continue-on-error: true
@@ -43,17 +44,26 @@ jobs:
       - name: Build Debian package
         run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_deb-amd64.sh
 
-      - name: Upload artifact
+      - name: Build Linux tar.gz
+        run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_linux-amd64.sh
+
+      - name: Upload deb artifact
         uses: actions/upload-artifact@v4
         with:
           name: soulfu-debian-amd64
           path: packaging/bin/*.deb
 
+      - name: Upload tar.gz artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-linux-amd64
+          path: packaging/bin/*.tar.gz
+
   # ──────────────────────────────────────────────────────────────────────────
   # Debian ARM64
   # ──────────────────────────────────────────────────────────────────────────
   debian-arm64:
-    name: Debian package (arm64)
+    name: Linux packages (arm64)
     runs-on: ubuntu-22.04-arm
     container: debian:bookworm
     continue-on-error: true
@@ -86,11 +96,63 @@ jobs:
       - name: Build Debian package
         run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_deb-arm64.sh
 
-      - name: Upload artifact
+      - name: Build Linux tar.gz
+        run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_linux-arm64.sh
+
+      - name: Upload deb artifact
         uses: actions/upload-artifact@v4
         with:
           name: soulfu-debian-arm64
           path: packaging/bin/*.deb
+
+      - name: Upload tar.gz artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-linux-arm64
+          path: packaging/bin/*.tar.gz
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Linux i386 (tar.gz)
+  # ──────────────────────────────────────────────────────────────────────────
+  linux-i386:
+    name: Linux tar.gz (i386)
+    runs-on: ubuntu-latest
+    container: debian:bookworm
+    continue-on-error: true
+
+    steps:
+      - name: Install git
+        run: apt-get update && apt-get install -y git
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Mark workspace as safe for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Enable i386 architecture and install build dependencies
+        run: |
+          dpkg --add-architecture i386
+          apt-get update
+          apt-get install -y \
+            build-essential \
+            gcc-multilib \
+            libsdl2-dev:i386 \
+            libsdl2-net-dev:i386 \
+            libogg-dev:i386 \
+            libvorbis-dev:i386 \
+            libjpeg62-turbo-dev:i386 \
+            libgl-dev:i386
+
+      - name: Build Linux tar.gz
+        run: VERSION="0~git.$(git rev-parse --short HEAD)" bash packaging/build_linux-i386.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: soulfu-linux-i386
+          path: packaging/bin/*.tar.gz
 
   # ──────────────────────────────────────────────────────────────────────────
   # Windows 64-bit
@@ -186,7 +248,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   publish-latest:
     name: Publish latest pre-release
-    needs: [debian-amd64, debian-arm64, windows-win64]
+    needs: [debian-amd64, debian-arm64, linux-i386, windows-win64]
     if: always()
     runs-on: ubuntu-latest
     permissions:
