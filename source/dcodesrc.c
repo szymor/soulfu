@@ -3406,13 +3406,13 @@ void fast_run_script(unsigned char *file_start, unsigned int fast_function, unsi
 #ifdef SRC_BACKTRACE
     sprintf(backtrace_stack[backtrace_level], "%s ", ff_map[fast_function >> 1]);
 #endif
+    current_object_data = object_data;
+    current_object_item = 0;
     fast_run_offset = sdf_read_unsigned_short(file_start+fast_function);
     if(fast_run_offset != 0)
     {
         if(looking_for_fast_function) {fast_function_found = TRUE;}
         looking_for_fast_function = FALSE;
-        current_object_data = object_data;
-        current_object_item = 0;
         run_script(file_start+fast_run_offset, file_start, 0, NULL, 0, NULL);
         if(current_object_data != object_data)
         {
@@ -3427,13 +3427,13 @@ void fast_run_script(unsigned char *file_start, unsigned int fast_function, unsi
 #ifdef SRC_BACKTRACE
     sprintf(backtrace_stack[backtrace_level], "%s ", ff_map[fast_function >> 1]);
 #endif
+    current_object_data = object_data;
+    current_object_item = 0;
     fast_run_offset = sdf_read_unsigned_short(file_start+fast_function);
     if(fast_run_offset != 0)
     {
         if(looking_for_fast_function) {fast_function_found = TRUE;}
         looking_for_fast_function = FALSE;
-        current_object_data = object_data;
-        current_object_item = 0;
         run_script(file_start+fast_run_offset, file_start, 0, NULL, 0, NULL);
     }
 }

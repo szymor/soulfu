@@ -861,7 +861,7 @@ void emacs_paste(unsigned char* call_address)
 
 //-----------------------------------------------------------------------------------------------
 // Macro for window promotion...
-#define delay_promote() { promotion_buffer[promotion_count&15] = ((int) (current_object_data-main_window_data[0]))/WINDOW_SIZE;  promotion_count++; }
+#define delay_promote() { promotion_buffer[promotion_count&15] = (unsigned short)(((intptr_t) (current_object_data-main_window_data[0]))/WINDOW_SIZE);  promotion_count++; }
 
 
 //-----------------------------------------------------------------------------------------------
