@@ -108,7 +108,9 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
     unsigned char* bone_data;
     unsigned char* joint_data;
     unsigned char* character_rdy_file;
+    unsigned char* character_rdy_start;
     unsigned char* item_rdy_file;
+    unsigned char* item_rdy_start;
 
 
     // Find the RDY files for the character and the item...
@@ -131,6 +133,8 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
     {
         return FALSE;
     }
+    character_rdy_start = character_rdy_file;
+    item_rdy_start = item_rdy_file;
 
 
 
@@ -138,8 +142,8 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
     character_rdy_file+=6;
     character_rdy_file+=(ACTION_MAX<<1);
     character_rdy_file+=(MAX_DDD_SHADOW_TEXTURE);
-    base_model_data = rdy_read_ptr(character_rdy_file, character_rdy_file);
-    bone_data = rdy_read_ptr(character_rdy_file+16, character_rdy_file);
+    base_model_data = rdy_read_ptr(character_rdy_file, character_rdy_start);
+    bone_data = rdy_read_ptr(character_rdy_file+16, character_rdy_start);
     num_bone = *((unsigned short*) (base_model_data+6));
 
 
@@ -172,8 +176,8 @@ unsigned char item_find_random_xyz(unsigned short character_index, unsigned char
         item_rdy_file+=6;
         item_rdy_file+=(ACTION_MAX<<1);
         item_rdy_file+=(MAX_DDD_SHADOW_TEXTURE);
-        base_model_data = rdy_read_ptr(item_rdy_file, item_rdy_file);
-        bone_data = rdy_read_ptr(item_rdy_file+16, item_rdy_file);
+        base_model_data = rdy_read_ptr(item_rdy_file, item_rdy_start);
+        bone_data = rdy_read_ptr(item_rdy_file+16, item_rdy_start);
         num_joint = *((unsigned short*) (base_model_data+4));
         num_bone = *((unsigned short*) (base_model_data+6));
         if(num_bone > 0)
