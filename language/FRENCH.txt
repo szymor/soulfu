@@ -1,20 +1,20 @@
 Menu Principal
 Cadres
 Joueur 
-Progrès
+Progrï¿½s
 Message
 Carte
 Statistiques
 Techniques
 Inventaire
-Matériel
+Matï¿½riel
 Livre
 Coffre
 Serrure
-Piège
+Piï¿½ge
 Jeu Local
-Jeu du Réseau
-Contrôles
+Jeu du Rï¿½seau
+Contrï¿½les
 BUY ME
 Quittez
 Acceptez
@@ -23,20 +23,20 @@ Revenez
 Achat
 Vendez
 24 Close !!!BAD!!!
-Réseau Cassé
+Rï¿½seau Cassï¿½
 Dimensn:
 Couleur:
 Gamma  :
 Mode   :
-Fenêtre,Plein
+Fenï¿½tre,Plein
 Son    :
 Musique:
 Texte  :
 Petit,Moyen,Grand,Enorme
-Note:  Vous devez recommencer après que
+Note:  Vous devez recommencer aprï¿½s que
        vous fassiez des changements...
 Vitesse:
-Entrée :
+Entrï¿½e :
 Aucun,Clavier,Manette1,Manette2,Manette3,Manette4
 Gauche :
 Bouton 1,Bouton 2,Bouton 3,Bouton 4,Bouton 5,Bouton 6,Bouton 7,Bouton 8,Aucun
@@ -44,10 +44,10 @@ Droite :
 Camera :
 Parlez :
 Invent.:
-Matéri.:
+Matï¿½ri.:
 Lent   :
 Rapide :
-Dégât:
+Dï¿½gï¿½t:
 Magie:
 NVO:  
 Exp:
@@ -59,9 +59,9 @@ Ver:
 Arg:
 Def:
 Lier...
-Tous droits réservés
+Tous droits rï¿½servï¿½s
 Ceinture
-Tête
+Tï¿½te
 Cou
 Corps
 Dos
@@ -83,7 +83,7 @@ Insigne de Courage
 Insigne de Camaraderie
 Soldat
 Sorcier
-Guérisseuse
+Guï¿½risseuse
 G'nome
 Elfe
 Croyant
@@ -106,44 +106,44 @@ Hubbin
 106 Reserved
 107 Reserved
 Clavier
-109 GANDALFALFA a défait JIMBOBO!
-110 GANDALFALFA a été défait...
-111 GANDALFALFA a gagné un niveau!
-112 GANDALFALFA a gagné un Insigne de Vertu!
-113 GANDALFALFA baisse la tête...
+109 GANDALFALFA a dï¿½fait JIMBOBO!
+110 GANDALFALFA a ï¿½tï¿½ dï¿½fait...
+111 GANDALFALFA a gagnï¿½ un niveau!
+112 GANDALFALFA a gagnï¿½ un Insigne de Vertu!
+113 GANDALFALFA baisse la tï¿½te...
 114 GANDALFALFA sourit...
 115 GANDALFALFA s'est endormi...
 116 GANDALFALFA est confondu!
 117 GANDALFALFA se sent malade!
 118 GANDALFALFA est aveugle!
-119 C'est GANDALFALFA, l'amnésique!
+119 C'est GANDALFALFA, l'amnï¿½sique!
 120 GANDALFALFA se sent mieux!
 121 GANDALFALFA se sent puissant!
-122 GANDALFALFA se sent fatigué!
-123 Cela était dégoûtant...
+122 GANDALFALFA se sent fatiguï¿½!
+123 Cela ï¿½tait dï¿½goï¿½tant...
 124 GANDALFALFA a toujours faim...
 125 GANDALFALFA n'a plus faim...
-126 GANDALFALFA s’est évanoui!
-127 GANDALFALFA ne peut pas lire l'écriture étrange...
-128 GANDALFALFA a achevé son jeûne.
+126 GANDALFALFA sï¿½est ï¿½vanoui!
+127 GANDALFALFA ne peut pas lire l'ï¿½criture ï¿½trange...
+128 GANDALFALFA a achevï¿½ son jeï¿½ne.
 129 !!!BAD!!! FRENCH!!!  That item couldn't be equipped...
 130 !!!BAD!!! FRENCH!!!  TOO EXPENSIVE
 131 !!!BAD!!! FRENCH!!!  CANT BE SOLD
 132 GANDALFALFA ne peut pas manger la viande.
 133 Le panneau dit...
-134 Scellé Pour une Bonne Raison
-135 Halle des Contrefaçons
-136 Halle des Epées
+134 Scellï¿½ Pour une Bonne Raison
+135 Halle des Contrefaï¿½ons
+136 Halle des Epï¿½es
 137 Halle des Statues
-138 Salle de Trône
+138 Salle de Trï¿½ne
 139 Salle d'Enigme
-140 Salle de Trésor
+140 Salle de Trï¿½sor
 141 Tour de Balise
 142 Le Haut Tribunal
 143 Bienvenu au Palais de Cendre
 144 Bienvenu au Palais de Glace
 145 Bienvenu au Palais d'Ombre
-146 La Tanière de Patron
+146 La Taniï¿½re de Patron
 147 Se Garder du Dragon
 148 Attention: Champ de Mines
 149 Ne Regardez pas le Plafond
@@ -151,32 +151,32 @@ Clavier
 151 Une Voie Seulement
 152 Il y a un Besoin de Chapeaux Durs dans ce Secteur
 153 Console de la Vanne
-154 Mécanisme de la Clé est Sous ce Panneau
-155 Mécanisme du Piège est Sous ce Panneau
+154 Mï¿½canisme de la Clï¿½ est Sous ce Panneau
+155 Mï¿½canisme du Piï¿½ge est Sous ce Panneau
 156 Capsule de Temps
 157 Prenez du Poids!
-158 Regardez Derrière le Statue
-159 Trésor Enterré
-160 Le Trésor est sur le Pilier
-161 Pris au Piège
-162 Non Pris au Piège
+158 Regardez Derriï¿½re le Statue
+159 Trï¿½sor Enterrï¿½
+160 Le Trï¿½sor est sur le Pilier
+161 Pris au Piï¿½ge
+162 Non Pris au Piï¿½ge
 163 Cet article est maudit!
-164 GANDALFALFA a désarmé un piège!
+164 GANDALFALFA a dï¿½sarmï¿½ un piï¿½ge!
 165 GANDALFALFA a ouvert la serrure!
-166 GANDALFALFA a trouvé un secret!
-167 La porte est fermée à clé.
-168 Le coffre est fermé à clé.
-169 Réservé
-170 Réservé
-171 Réservé
-172 Réservé
-173 Réservé
-174 Réservé
-175 Réservé
-176 Réservé
-177 Réservé
-178 Réservé
-179 Réservé
+166 GANDALFALFA a trouvï¿½ un secret!
+167 La porte est fermï¿½e ï¿½ clï¿½.
+168 Le coffre est fermï¿½ ï¿½ clï¿½.
+169 Rï¿½servï¿½
+170 Rï¿½servï¿½
+171 Rï¿½servï¿½
+172 Rï¿½servï¿½
+173 Rï¿½servï¿½
+174 Rï¿½servï¿½
+175 Rï¿½servï¿½
+176 Rï¿½servï¿½
+177 Rï¿½servï¿½
+178 Rï¿½servï¿½
+179 Rï¿½servï¿½
 Charger le jeu
 Outils
 Remerciements
@@ -184,26 +184,26 @@ Vous en voulez encore ?
 Soyez sympas !
 C'est gratuit !
 Meilleurs scores
-Défense de l'arête
-Défense contre les coups
-Défense contre le feu
-Défense de glace
-Défense Acide
-Défense Électrique
-JEU TERMINÉ
-RESPAWN PRÊT
+Dï¿½fense de l'arï¿½te
+Dï¿½fense contre les coups
+Dï¿½fense contre le feu
+Dï¿½fense de glace
+Dï¿½fense Acide
+Dï¿½fense ï¿½lectrique
+JEU TERMINï¿½
+RESPAWN PRï¿½T
 Acheter  (10$)
 Boutique
 Articles
 Tricher
 Armes
-Spécial
-Tête
+Spï¿½cial
+Tï¿½te
 Corps
 Jambes
-Équipement
+ï¿½quipement
 Vertu
-Haut-parleurs inversés
+Haut-parleurs inversï¿½s
 Rapide et laid
 Jolies ombres
 Jolie eau
@@ -212,118 +212,120 @@ Lignes des personnages
 Mip Map
 Z Bit :
 Test
-Comment se passe la vidéo ?
+Comment se passe la vidï¿½o ?
 Temps restant : 
-Ça a l'air bien
+ï¿½a a l'air bien
 Sauvegarder le jeu
 Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
 !BE NICE !
 MERCI !
-Ce jeu est NICEWARE !  Pour débloquer
-la version complète, vous DEVEZ faire
+Ce jeu est NICEWARE !  Pour dï¿½bloquer
+la version complï¿½te, vous DEVEZ faire
 quelque chose de gentil pour quelqu'un d'autre.
 C'est la solution !  Tapez simplement la phrase
 ci-dessous et c'est parti...
-Mais voilà le piège !  Vous devez faire
-une bonne action à chaque fois que vous jouez
+Mais voilï¿½ le piï¿½ge !  Vous devez faire
+une bonne action ï¿½ chaque fois que vous jouez
 jeu...
-Et parler de SoulFu à d'autres personnes
-pendant que vous y êtes !
- Joueurs en réseau
+Et parler de SoulFu ï¿½ d'autres personnes
+pendant que vous y ï¿½tes !
+ Joueurs en rï¿½seau
 Quitter le jeu
-Démarrer le jeu
+Dï¿½marrer le jeu
 Tableau des meilleurs scores
 Nom
 Score
 Classe
 Faire pouf
-L'espoir a failli être perdu...  Presque...
+L'espoir a failli ï¿½tre perdu...  Presque...
 Ne peut pas sauver
-Vous avez vraiment arrêté ?
+Vous avez vraiment arrï¿½tï¿½ ?
 Boutique de la souris
 Articles :
 ActionR :
 ActionL :
-Caméra
-Déplacer 
-249 Réservé
-250 Réservé
-251 Réservé
-252 Réservé
-253 Réservé
-254 Réservé
-255 Réservé
-256 Réservé
-257 Réservé
-258 Réservé
-259 Réservé
-"Tous les animaux sont égaux, mais certains sont plus égaux que d'autres." -George_Orwell
-"Les ruses et la trahison sont la pratique des imbéciles, qui n'ont pas le sens de l'honnêteté." -Benjamin_Franklin
-"Ceux qui votent ne décident de rien.  Ceux qui comptent les votes décident de tout."- Joseph Staline
-"En ces temps de tromperie universelle, dire la vérité devient un acte révolutionnaire." -George_Orwell
-"J'étais mentalement apte à porter des armes nucléaires, mais je ne suis pas mentalement apte à voir un OVNI."
-"Je l'ai écrit, jusqu'à ce qu'enfin il devienne, en longueur et en largeur, la grandeur que vous voyez."- John_Bunyan
-"NNous sommes des coupes, que l'on remplit constamment et silencieusement.  L'astuce consiste à savoir comment nous faire basculer et laisser sortir les belles choses."- Ray_Bradbury
+Camï¿½ra
+Dï¿½placer 
+249 Rï¿½servï¿½
+250 Rï¿½servï¿½
+251 Rï¿½servï¿½
+252 Rï¿½servï¿½
+253 Rï¿½servï¿½
+254 Rï¿½servï¿½
+255 Rï¿½servï¿½
+256 Rï¿½servï¿½
+257 Rï¿½servï¿½
+258 Rï¿½servï¿½
+259 Rï¿½servï¿½
+"Tous les animaux sont ï¿½gaux, mais certains sont plus ï¿½gaux que d'autres." -George_Orwell
+"Les ruses et la trahison sont la pratique des imbï¿½ciles, qui n'ont pas le sens de l'honnï¿½tetï¿½." -Benjamin_Franklin
+"Ceux qui votent ne dï¿½cident de rien.  Ceux qui comptent les votes dï¿½cident de tout."- Joseph Staline
+"En ces temps de tromperie universelle, dire la vï¿½ritï¿½ devient un acte rï¿½volutionnaire." -George_Orwell
+"J'ï¿½tais mentalement apte ï¿½ porter des armes nuclï¿½aires, mais je ne suis pas mentalement apte ï¿½ voir un OVNI."
+"Je l'ai ï¿½crit, jusqu'ï¿½ ce qu'enfin il devienne, en longueur et en largeur, la grandeur que vous voyez."- John_Bunyan
+"NNous sommes des coupes, que l'on remplit constamment et silencieusement.  L'astuce consiste ï¿½ savoir comment nous faire basculer et laisser sortir les belles choses."- Ray_Bradbury
 "La vie est comme un rouleau de papier toilette, plus il se rapproche de la fin, plus il va vite."- Andy_Rooney
-"Le meilleur remède contre l'insomnie est de dormir beaucoup."- W._C._Fields
+"Le meilleur remï¿½de contre l'insomnie est de dormir beaucoup."- W._C._Fields
 "Lorsque les gens laids font des visages bizarres, les gens bizarres gagnent les courses."- Lerry
-"Pour être durable, un gouvernement doit être juste."Ed_Leedskalnin
-"Les hommes deviennent souvent ce qu'ils croient être." - Mahatma_Gandhi
-"Etre le dernier homme sur la Lune est un honneur très douteux."- Gene_Cernan
+"Pour ï¿½tre durable, un gouvernement doit ï¿½tre juste."Ed_Leedskalnin
+"Les hommes deviennent souvent ce qu'ils croient ï¿½tre." - Mahatma_Gandhi
+"Etre le dernier homme sur la Lune est un honneur trï¿½s douteux."- Gene_Cernan
 "Le corps dit ce que les mots ne peuvent pas dire." -Martha_Graham
 "Trust thyself ; every heart vibrates to that iron string."- Ralph_Waldo_Emerson
 "Faites toujours ce que vous avez peur de faire." -Ralph_Waldo_Emerson
-"Il n'est pas souhaitable de cultiver un respect pour la loi, mais plutôt pour le droit."- Henry_David_Thoreau
-"Si vous m'aviez dit il y a cinquante ans que je construirais mes activités avec le produit des cloches à vent, je vous aurais dit que vous étiez fou." -Paolo_Soleri
-"NNous n'héritons pas de la terre de nos parents, nous l'empruntons à nos enfants" -Proverbe kenyan
+"Il n'est pas souhaitable de cultiver un respect pour la loi, mais plutï¿½t pour le droit."- Henry_David_Thoreau
+"Si vous m'aviez dit il y a cinquante ans que je construirais mes activitï¿½s avec le produit des cloches ï¿½ vent, je vous aurais dit que vous ï¿½tiez fou." -Paolo_Soleri
+"NNous n'hï¿½ritons pas de la terre de nos parents, nous l'empruntons ï¿½ nos enfants" -Proverbe kenyan
 "Mark my word : Une combinaison d'avion et de voiture arrive. Vous pouvez sourire. Mais il viendra..." - Henry_Ford
 "Vous ne pouvez pas compter sur vos yeux lorsque votre imagination n'est pas au point."- Mark_Twain
-"Si nous ne tentons pas l'absurde, nous ne pourrons pas réaliser l'impossible."- Albert_Einstein
-"Chaque génération se moque des anciennes modes, mais suit religieusement les nouvelles."- Henry_David_Thoreau
-"Les vêtements font l'homme. Les personnes nues ont peu ou pas d'influence sur la société."- Mark_Twain
-"L'auto-éducation est, je le crois fermement, le seul type d'éducation qui existe."- Isaac_Asimov
-"La vraie discipline consiste à dire non aux mauvaises opportunités." -Peter_Drucker
-"Les vrais tireurs d'élite ont toujours essayé d'éviter de sortir leurs armes."- Michael_Crichton
-"Vivez comme vous souhaiteriez avoir vécu lorsque vous mourrez."- Christian_Gellert
-288 Réservé
-289 Réservé
-290 Réservé
-291 Réservé
-292 Réservé
-293 Réservé
-294 Réservé
-295 Réservé
-296 Réservé
-297 Réservé
-298 Réservé
-299 Réservé
-300 Réservé
-301 Réservé
-302 Réservé
-303 Réservé
-304 Réservé
-305 Réservé
-306 Réservé
-307 Réservé
-308 Réservé
-309 Réservé
+"Si nous ne tentons pas l'absurde, nous ne pourrons pas rï¿½aliser l'impossible."- Albert_Einstein
+"Chaque gï¿½nï¿½ration se moque des anciennes modes, mais suit religieusement les nouvelles."- Henry_David_Thoreau
+"Les vï¿½tements font l'homme. Les personnes nues ont peu ou pas d'influence sur la sociï¿½tï¿½."- Mark_Twain
+"L'auto-ï¿½ducation est, je le crois fermement, le seul type d'ï¿½ducation qui existe."- Isaac_Asimov
+"La vraie discipline consiste ï¿½ dire non aux mauvaises opportunitï¿½s." -Peter_Drucker
+"Les vrais tireurs d'ï¿½lite ont toujours essayï¿½ d'ï¿½viter de sortir leurs armes."- Michael_Crichton
+"Vivez comme vous souhaiteriez avoir vï¿½cu lorsque vous mourrez."- Christian_Gellert
+288 Rï¿½servï¿½
+289 Rï¿½servï¿½
+290 Rï¿½servï¿½
+291 Rï¿½servï¿½
+292 Rï¿½servï¿½
+293 Rï¿½servï¿½
+294 Rï¿½servï¿½
+295 Rï¿½servï¿½
+296 Rï¿½servï¿½
+297 Rï¿½servï¿½
+298 Rï¿½servï¿½
+299 Rï¿½servï¿½
+300 Rï¿½servï¿½
+301 Rï¿½servï¿½
+302 Rï¿½servï¿½
+303 Rï¿½servï¿½
+304 Rï¿½servï¿½
+305 Rï¿½servï¿½
+306 Rï¿½servï¿½
+307 Rï¿½servï¿½
+308 Rï¿½servï¿½
+309 Rï¿½servï¿½
 Toutes vos bases nous appartiennent !
-Commencez à faire de l'exercice !
-Racecar s'écrit à l'envers, c'est Racecar !
-Essayez de jouer à la manière d'un ironman !
-L'alcool est mauvais pour la santé !
-Les bibliothèques, c'est amusant !
-La télévision est une perte de temps !
-Les prêts coûtent deux fois plus cher !
-N'utilise pas les cartes de crédit !
+Commencez ï¿½ faire de l'exercice !
+Racecar s'ï¿½crit ï¿½ l'envers, c'est Racecar !
+Essayez de jouer ï¿½ la maniï¿½re d'un ironman !
+L'alcool est mauvais pour la santï¿½ !
+Les bibliothï¿½ques, c'est amusant !
+La tï¿½lï¿½vision est une perte de temps !
+Les prï¿½ts coï¿½tent deux fois plus cher !
+N'utilise pas les cartes de crï¿½dit !
 Sois plus gentil avec papa et maman !
-Vas-y !  Invite-la à sortir !
+Vas-y !  Invite-la ï¿½ sortir !
 Changez toujours pour le mieux !
-Les jeux vidéo pourrissent le cerveau !
-Tu ne peux pas te lécher le coude !
+Les jeux vidï¿½o pourrissent le cerveau !
+Tu ne peux pas te lï¿½cher le coude !
 Mets ta ceinture et conduis LENTEMENT !
 Les chats sont meilleurs que les chiens !
 Les chiens sont meilleurs que les chats !
-Apprends à faire des RÊVES LUCIDES !
+Apprends ï¿½ faire des Rï¿½VES LUCIDES !
 Mange plus de fruits !
 Souris davantage !  Souriez MAINTENANT !
+Actualiser
+vide
