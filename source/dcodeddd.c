@@ -1326,7 +1326,7 @@ void ddd_decode_base_model(unsigned char** olddata_spot, unsigned char** newdata
             }
         }
         global_base_old_joint_start = olddata;
-        global_base_data_size = ((unsigned int) tempdata)-((unsigned int) subbuffer);
+        global_base_data_size = (unsigned int)((uintptr_t)tempdata - (uintptr_t)subbuffer);
     }
 
 
@@ -1907,7 +1907,7 @@ signed char decode_ddd(unsigned char* index, unsigned char* filename)
     actualsize = newsize;
     #ifdef DEVTOOL
         // Allocate extra memory for the modeler...
-        if(newsize < (unsigned int) sdf_dev_size[SDF_FILE_IS_RDY])
+        if(newsize < (uintptr_t) sdf_dev_size[SDF_FILE_IS_RDY])
         {
             actualsize = sdf_dev_size[SDF_FILE_IS_RDY];
         }
