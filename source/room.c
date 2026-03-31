@@ -2393,7 +2393,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
     // Copy all of the vertices that are in the .SRF file...
 //log_message("INFO:   Copying SRF vertices");
     write = destination_buffer+96;
-    *((unsigned int*) (destination_buffer+SRF_VERTEX_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_VERTEX_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     read = srf_file + sdf_read_unsigned_int(srf_file+SRF_VERTEX_OFFSET);  read+=2;  // Already know how many...
     num_write = write;  write+=2;     // Need to come back and write final number of vertices
     vertex_data = write;
@@ -2437,7 +2437,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
 
     // Copy all of the tex vertices that are in the .SRF file...
 //log_message("INFO:   Copying SRF tex vertices");
-    *((unsigned int*) (destination_buffer+SRF_TEX_VERTEX_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_TEX_VERTEX_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     read = srf_file + sdf_read_unsigned_int(srf_file+SRF_TEX_VERTEX_OFFSET);  read+=2;  // Already know how many...
     num_write = write;  write+=2;     // Need to come back and write final number of tex vertices
     tex_vertex_data = write;
@@ -2480,7 +2480,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
     // Copy all of the triangles from the .SRF file...  32 bytes per triangle (so we can use same stripper from old DDD code)
     // THIS IS NOT FINAL TRIANGLE STRIP DATA, AND DOESN'T MATCH FORMAT!!!
 //log_message("INFO:   Copying SRF triangles");
-    *((unsigned int*) (destination_buffer+SRF_TRIANGLE_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_TRIANGLE_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     read = srf_file + sdf_read_unsigned_int(srf_file+SRF_TRIANGLE_OFFSET);
     num_write = write;  write+=2;     // Need to come back and write final number of triangles
     triangle_data = write;
@@ -2828,7 +2828,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
 
 
     // Fill in the texture data...
-    *((unsigned int*) (destination_buffer+SRF_TEXTURE_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_TEXTURE_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     read = srf_file + sdf_read_unsigned_int(srf_file+SRF_TEXTURE_OFFSET);
     texture_data = write;
     repeat(i, MAX_ROOM_TEXTURE)
@@ -2846,7 +2846,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
     // Now write the heightmap data...
 //log_message("INFO:   Building the heightmap...");
     heightmap_data = (signed short*) write;
-    *((unsigned int*) (destination_buffer+SRF_HEIGHTMAP_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_HEIGHTMAP_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     room_heightmap_clear(heightmap_data);
     write += (ROOM_HEIGHTMAP_SIZE*ROOM_HEIGHTMAP_SIZE*2);
 
@@ -2901,7 +2901,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
 
 
     // Copy waypoint information...
-    *((unsigned int*) (destination_buffer+SRF_WAYPOINT_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_WAYPOINT_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     read = srf_file + sdf_read_unsigned_int(srf_file+SRF_WAYPOINT_OFFSET);
     num_waypoint = *read;  read+=2;
     *(write) = num_waypoint;  write++;
@@ -2936,7 +2936,7 @@ unsigned char room_uncompress(unsigned char* srf_file, unsigned char* destinatio
 
 
     // Now generate all the volumetric edge line stuff (if we're doing pretty shadows)
-    *((unsigned int*) (destination_buffer+SRF_EDGE_LINE_OFFSET)) = ((unsigned int) write)-((unsigned int)destination_buffer);
+    *((unsigned int*) (destination_buffer+SRF_EDGE_LINE_OFFSET)) = (unsigned int)((uintptr_t)write - (uintptr_t)destination_buffer);
     *((unsigned short*) write) = 0;
     if(volumetric_shadows_on)
     {
