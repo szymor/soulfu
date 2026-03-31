@@ -28,6 +28,7 @@
 
 
 #define PITCH_DIVISIONS 25
+#define EPSILON 0.001f // Small epsilon for floating-point comparison in note deletion
 signed char tracker_adding_note;
 unsigned short tracker_adding_note_time;
 unsigned short tracker_adding_note_duration;
@@ -418,9 +419,9 @@ int tool_tracker(float tlx, float tly, float brx, float bry, unsigned char* mus_
                                                 y = tly+(note_pitch*divy);
 
                                                 // Check if mouse is inside the drawn image...
-                                                if(mouse_x > x && mouse_y > y)
+                                                if(mouse_x > x - EPSILON && mouse_y > y - EPSILON)
                                                 {
-                                                    if(mouse_x < x+(timx*duration) && mouse_y < y+divy)
+                                                    if(mouse_x < x+(timx*duration) + EPSILON && mouse_y < y+divy + EPSILON)
                                                     {
                                                         // Looks like this is the note to kill...
                                                         if(mouse_pressed[2])
