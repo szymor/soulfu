@@ -1538,7 +1538,19 @@ signed char run_script(unsigned char* address, unsigned char* file_start, unsign
                         delay_promote();
                         break;
                     case SYS_INPUTREFRESH:
-                        input_setup();
+                        input_setup_key_buffer();
+                        input_setup_key_shift();
+                        SDL_JoystickEventState(SDL_ENABLE);
+                        num_joystick = SDL_NumJoysticks();
+                        repeat(i, num_joystick)
+                        {
+                            if(i < MAX_JOYSTICK)
+                            {
+                                joystick_structure[i] = SDL_JoystickOpen(i);
+                                log_message("INFO:     %d...  %s", i, SDL_JoystickName(joystick_structure[i]));
+                            }
+                        }
+                        atexit(input_free_joysticks);
                         break;
                     case SYS_SFXVOLUME:
                         master_sfx_volume = m;
@@ -3927,7 +3939,12 @@ sprintf(DEBUG_STRING, "Autotrim length == %f", autotrim_length);
                         i = (get_number_of_bones((unsigned char*) j) == get_number_of_bones((unsigned char*) k));
                         break;
                     case SYS_LASTKEYPRESSED:
-                        i = last_key_pressed;
+                        if(j == 1) {
+                            i = last_key_pressed;
+                        } else if( j > 1) {
+                            i = last_btn_pressed;
+                        }
+                        last_btn_pressed = 0;
                         last_key_pressed = 0;
                         break;
                     case SYS_CURSORLASTPOS:
