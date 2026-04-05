@@ -40,12 +40,12 @@ Refresh()
     GoPoof(POOF_SELF)
 
   // Main window
-  WindowBorder(FALSE, -7.0, -35.5, 14, 2, BORDER_FULL)
+  WindowBorder(FALSE, -9.0, -35.5, 18, 2, BORDER_FULL)
   WindowBorder(FALSE, -9.0, -1.0, 18, 2, BORDER_FULL)
 
 
   // Button images
-  button_refresh = ButtonImage(button_refresh, 2.0, -34.5, 14.0, 2.0, StringLanguage(330))
+  button_refresh = ButtonImage(button_refresh, 0.0, -34.5, 18.0, 2.0, StringLanguage(330))
   button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, StringLanguage(20))
 
 
