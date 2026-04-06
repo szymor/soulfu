@@ -52,15 +52,21 @@ Refresh()
     WindowMegaImage(-16.0,-2.0,  0.0,-2.0,  0.0,2.0,  -16.0,2.0,  0.01,0.0,  1.0,1.0,  WHITE, ALPHA_TRANS+(255-timer), "FILE:TITLEL.RGB")
     WindowMegaImage(0.0,-2.0,  16.0,-2.0,  16.0,2.0,  0.0,2.0,  0.0,0.0,  0.99,1.0,  WHITE, ALPHA_TRANS+(255-timer), "FILE:TITLER.RGB")
     WindowMegaImage(3.0,0.0,  19.0,0.0,  19.0,4.0,  3.0,4.0,  0.0,0.0,  1.0,1.0,  DARK_RED, ALPHA_TRANS+fade, "FILE:=TITLEU.RGB")
+    WindowMegaImage(-14.0,2.0,  -1.0,2.0,  -1.0,4.0,  -14.0,4.0,  0.0,0.0,  1.0,1.0,  DARK_GREY, ALPHA_TRANS+fade, "FILE:TITLEDL.RGB")
+    WindowImage(-1.0, 1.5, 3.0, 3.0, "FILE:TITLELOGO.RGB", NULL, 0)
     timer = timer + SystemGet(SYS_MAINFRAMESKIP, 0, 0) * 7
   if(mode == 8)
     WindowMegaImage(-16.0,-2.0,  0.0,-2.0,  0.0,2.0,  -16.0,2.0,  0.01,0.0,  1.0,1.0,  WHITE, ALPHA_NONE, "FILE:TITLEL.RGB")
     WindowMegaImage(0.0,-2.0,  16.0,-2.0,  16.0,2.0,  0.0,2.0,  0.0,0.0,  0.99,1.0,  WHITE, ALPHA_NONE, "FILE:TITLER.RGB")
     WindowMegaImage(3.0,0.0,  19.0,0.0,  19.0,4.0,  3.0,4.0,  0.0,0.0,  1.0,1.0,  DARK_RED, ALPHA_TRANS+192, "FILE:=TITLEU.RGB")
+    WindowMegaImage(-14.0,2.0,  -1.0,2.0,  -1.0,4.0,  -14.0,4.0,  0.0,0.0,  1.0,1.0,  DARK_GREY, ALPHA_NONE, "FILE:TITLEDL.RGB")
+    WindowImage(-1.0, 1.5, 3.0, 3.0, "FILE:TITLELOGO.RGB", NULL, 0)
     timer = timer + SystemGet(SYS_MAINFRAMESKIP, 0, 0) * 3
   if(mode == 7)
     WindowMegaImage(-16.0,-2.0,  0.0,-2.0,  0.0,2.0,  -16.0,2.0,  0.01,0.0,  1.0,1.0,  WHITE, ALPHA_NONE, "FILE:TITLEL.RGB")
     WindowMegaImage(0.0,-2.0,  16.0,-2.0,  16.0,2.0,  0.0,2.0,  0.0,0.0,  0.99,1.0,  WHITE, ALPHA_NONE, "FILE:TITLER.RGB")
+    WindowMegaImage(-14.0,2.0,  -1.0,2.0,  -1.0,4.0,  -14.0,4.0,  0.0,0.0,  1.0,1.0,  DARK_GREY, ALPHA_NONE, "FILE:TITLEDL.RGB")
+    WindowImage(-1.0, 1.5, 3.0, 3.0, "FILE:TITLELOGO.RGB", NULL, 0)
     xadd = 0.5
     txadd = 0.03125
     x = 3.0
@@ -107,6 +113,8 @@ Refresh()
       yadd = yaddnext
       yaddnext = sin((timer<<1)+(i<<6)) * amp
       WindowMegaImage(x,y+yadd,  x+xadd,y+yaddnext,  x+xadd,y+4.0+yaddnext,  x,y+4.0+yadd,  tx,0.0,  tx+txadd,1.0,  DARK_RED, ALPHA_TRANS+fade, "FILE:=TITLEU.RGB")
+      WindowMegaImage(-14.0,2.0,  -1.0,2.0,  -1.0,4.0,  -14.0,4.0,  0.0,0.0,  1.0,1.0,  DARK_GREY, ALPHA_TRANS+fade, "FILE:TITLEDL.RGB")
+      WindowImage(-1.0, 1.5, 3.0, 3.0, "FILE:TITLELOGO.RGB", NULL, 0)
       tx = tx + txadd
       x = x + xadd
       i++
