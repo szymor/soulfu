@@ -12,7 +12,7 @@ Spawn()
 //-----------------------------------------------------------------------
 Refresh()
   int    self
-  float screenx, screeny, xadd, xpos
+  float screenx, xadd, xpos
 
   screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
   xadd = screenx / 2
@@ -30,22 +30,23 @@ Refresh()
     Spawn(WINDOW, xpos + xadd, 80.0, 1.0, "FILE:WCONTROL.RUN")
     Spawn(WINDOW, xpos, 210.0, 2.0, "FILE:WCONTROL.RUN")
     Spawn(WINDOW, xpos + xadd, 210.0, 3.0, "FILE:WCONTROL.RUN")
-    Spawn(WINDOW, xadd, 280.0, 1.0, "FILE:WCLOSER.RUN")
+    Spawn(WINDOW, screenx / 2, 280.0, 1.0, "FILE:WCLOSER.RUN")
     GoPoof(POOF_SELF)
   
   if(button_one == 250)
     ButtonSound()
     GoPoof(POOF_ALL_OTHER_WINDOWS)
-    Spawn(WINDOW, xadd, 150.0, 1.0, "FILE:WMAIN.RUN")
+    Spawn(WINDOW, screenx / 2, 150.0, 1.0, "FILE:WMAIN.RUN")
     GoPoof(POOF_SELF)
 
   // Main window
-  WindowBorder(FALSE, -9.0, -2.5, 18, 4, BORDER_FULL)
+  WindowBorder(FALSE, -9.0, -35.5, 18, 2, BORDER_FULL)
+  WindowBorder(FALSE, -9.0, -1.0, 18, 2, BORDER_FULL)
 
 
   // Button images
-  button_refresh = ButtonImage(button_refresh, 0.0, 0.0, 18.0, 2.0, StringLanguage(330))
-  button_one = ButtonImage(button_one, 0.0, 2.0, 18.0, 2.0, StringLanguage(20))
+  button_refresh = ButtonImage(button_refresh, 0.0, -34.5, 18.0, 2.0, StringLanguage(330))
+  button_one = ButtonImage(button_one, 0.0, 0.0, 18.0, 2.0, StringLanguage(20))
 
 
 //-----------------------------------------------------------------------
