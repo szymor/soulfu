@@ -259,9 +259,6 @@ Refresh()
   joystick_count = SystemGet(SYS_NUMJOYSTICK, 0, 0)
   if(joystick_count > 4)
     joystick_count = 4
-  if((device >> 8) > joystick_count + 1)
-    device = 0
-    SystemSet(SYS_PLAYERDEVICE, player, PLAYER_DEVICE_TYPE, 0)
   WindowString(WHITE, 0.0, 0.0, StringLanguage(39))
   old_device = device
   device = WindowMiniList(9.0, 0.0, 9, joystick_count+2, device, StringLanguage(40))
