@@ -143,11 +143,14 @@ Refresh()
   StringClear(String(0))
   StringAppend(String(0), StringLanguage(3), 256)
   StringAppendNumber(String(0), player+1, 256)
-  TitleBar(FALSE, 0.0, -5.5, String(0))
+  TitleBar(TRUE, 0.0, -5.5, String(0))
 
 
   // Main window
   WindowBorder(FALSE, -9.0, -5.5, 18, 11, BORDER_FULL)
+  option_string = StringLanguage(42)
+
+
 
 
   // Pick mode by device number...

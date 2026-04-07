@@ -1,25 +1,25 @@
-Menu gï¿½ï¿½wne
+Menu gÓówne
 Ustawienia
 Gracz 
 Aktualizowanie
-Wiadomoï¿½ï¿½
+WiadomoÕÑ
 Mapa
 Statystyki
 Techniki
 Przedmioty
 Ekwipunek
-Ksiï¿½ga
+KsiÒga
 Skrzynia
 Dziurka od klucza
-Puï¿½apka
+PuÓapka
 Gra lokalna
 Gra sieciowa
 Sterowanie
 Kup mnie
-Wyjï¿½cie
+WyjÕcie
 Zapisz zmiany
 Kontynuuj
-Wrï¿½ï¿½
+WróÑ
 Kup
 Sprzedaj
 Zamknij
@@ -28,15 +28,15 @@ Ekran  :
 Kolory :
 Gamma  :
 Tryb   :
-Okno,Peï¿½en ekran
-Dzwiï¿½k :
+Okno,PeÓen ekran
+DzwiÒk :
 Muzyka :
 Skala  :
-Maï¿½a,Normalna,Duï¿½a,Ogromna
-Uwaga: Zrestartuj grï¿½, ï¿½eby ustawienia
-       weszï¿½y w ï¿½ycie...
-Szybkoï¿½ï¿½   :
-Urzï¿½dzenie :
+MaÓa,Normalna,Du×a,Ogromna
+Uwaga: Zrestartuj grÒ, ×eby ustawienia
+       weszÓy w ×ycie...
+SzybkoÕÑ   :
+UrzÐdzenie :
 Brak,Klawiatura,Joystk 1,Joystk 2,Joystk 3,Joystk 4
 Lewo   :
 Przycisk 1,Przycisk 2,Przycisk 3,Przycisk 4,Przycisk 5,Przycisk 6,Przycisk 7,Przycisk 8,Brak
@@ -47,48 +47,48 @@ Przedm.:
 Ekwip. :
 Wolno  :
 Szybko :
-ï¿½ycie:
+Ùycie:
 Mana:
 Poziom:
-Doï¿½w.:
+DoÕw.:
 Mount:
-Siï¿½:
-Zrï¿½:
+SiÓ:
+ZrÒ:
 Int:
 Punkty:
-Siï¿½a:
-Zrï¿½cznoï¿½ï¿½:
+SiÓa:
+ZrÒcznoÕÑ:
 Inteligencja:
-Wszelkie prawa zastrzeï¿½one
+Wszelkie prawa zastrze×one
 Sakiewka
-Gï¿½owa
+GÓowa
 Szyja
-Tuï¿½ï¿½w
+TuÓów
 Plecy
 Stopy
-Dï¿½onie
+DÓonie
 Lewo
 Prawo
-Miï¿½osierdzie:
-Skrzï¿½tnoï¿½ï¿½:
+MiÓosierdzie:
+SkrzÒtnoÕÑ:
 Honor:
 Wiara:
 Odwaga:
-Solidarnoï¿½ï¿½:
-Odznaka Miï¿½osierdzia
-Odznaka Skrzï¿½tnoï¿½ï¿½i
+SolidarnoÕÑ:
+Odznaka MiÓosierdzia
+Odznaka SkrzÒtnoÕÑi
 Odznaka Honoru
 Odznaka Wiary
 Odznaka Odwagi
-Odznaka Solidarnoï¿½ï¿½i
-ï¿½oï¿½nierz
+Odznaka SolidarnoÕÑi
+ÙoÓnierz
 Czarodziej
 Uzdrowicielka
 Gnom
 Elf
 Mistyk
 Krasnolud
-ï¿½otrzyk
+Øotrzyk
 92 Reserved
 93 Reserved
 94 Reserved
@@ -177,11 +177,11 @@ Klawiatura
 177 Reserved
 178 Reserved
 179 Reserved
-Otwï¿½rz grï¿½
-Narzï¿½dzia
-Dziï¿½ki
-Chcesz wiï¿½cej?!
-Bï¿½dï¿½ miï¿½y!
+Otwórz grÒ
+NarzÒdzia
+DziÒki
+Chcesz wiÒcej?!
+BÐdÖ miÓy!
 Jest darmowa!
 Najlepsi
 Obrona przed ostrzem
@@ -189,7 +189,7 @@ Obrona przed obuchem
 Obrona przed ogniem
 Obrona przed lodem
 Obrona przed kwasem
-Obrona przed prï¿½dem
+Obrona przed prÐdem
 KONIEC GRY
 GRASZ?
 Kup  ($10)
@@ -198,12 +198,12 @@ Rzeczy
 Cheat
 Bronie
 Akcje
-Gï¿½owa
-Tuï¿½ï¿½w
+GÓowa
+TuÓów
 Nogi
 Ekwipunek
 Cnoty
-Zamieï¿½ gï¿½oï¿½niki
+ZamieÔ gÓoÕniki
 Szybko i brzydko
 Fajne cienie
 Fajna woda
@@ -215,38 +215,38 @@ Testowanie
 Jak obraz?
 Czas: 
 Jest OK
-Zapisz grï¿½
+Zapisz grÒ
 Slot 1,Slot 2,Slot 3,Slot 4,Slot 5,Slot 6,Slot 7,Slot 8,Slot 9,Slot 10,Slot 11,Slot 12
-!Bï¿½dï¿½ miï¿½y!
-Dziï¿½ki!
-Ta gra to NICEWARE!  By odblokowaï¿½
-peï¿½nï¿½ wersjï¿½, MUSISZ zrobiï¿½ coï¿½
-miï¿½ego dla kogoï¿½ innego. I juï¿½!
-Po prostu przepisz zdanie poniï¿½ej
-i moï¿½esz graï¿½...
-Jest haczyk! Musisz zrobiï¿½ dobry
-uczynek za kaï¿½dym razem, kiedy
-chcesz zagraï¿½...
-I powiedz innym o SoulFu, jeï¿½li
-jeszcze tego nie zrobiï¿½eï¿½!
+!BÐdÖ miÓy!
+DziÒki!
+Ta gra to NICEWARE!  By odblokowaÑ
+peÓnÐ wersjÒ, MUSISZ zrobiÑ coÕ
+miÓego dla kogoÕ innego. I ju×!
+Po prostu przepisz zdanie poni×ej
+i mo×esz graÑ...
+Jest haczyk! Musisz zrobiÑ dobry
+uczynek za ka×dym razem, kiedy
+chcesz zagraÑ...
+I powiedz innym o SoulFu, jeÕli
+jeszcze tego nie zrobiÓeÕ!
  graczy sieciowych
-Opuï¿½ï¿½ grï¿½
-Zacznij grï¿½
+OpuÕÑ grÒ
+Zacznij grÒ
 Tabela najlepszych
-Imiï¿½
+ImiÒ
 Wynik
 Klasa
 Puf!
-Nadzieja zostaï¿½a stracona...  Prawie...
-Nie moï¿½na
-Naprawdï¿½ wyjï¿½ï¿½?
+Nadzieja zostaÓa stracona...  Prawie...
+Nie mo×na
+NaprawdÒ wyjÕÑ?
 Mysz w sklepie
 Rzeczy:
 AkcjaP:
 AkcjaL:
 Kamera
 Ruch 
- pomocnikï¿½w
+ pomocników
 250 Reserved
 251 Reserved
 252 Reserved
@@ -256,7 +256,7 @@ Ruch
 256 Reserved
 257 Reserved
 258 Reserved
-Pomiï¿½ czoï¿½ï¿½wkï¿½
+PomiÔ czoÓówkÒ
 "Wszystkie zwierzeta sa rowne, ale niektore sa rowniejsze od innych." -George_Orwell
 "Sztuczki i zdrady to domena glupcow, ktorzy nie maja dosc rozumu, by byc uczciwymi." -Benjamin_Franklin
 "Niewazne, kto glosuje. Wazne, kto liczy glosy." -Jozef_Stalin
@@ -327,4 +327,3 @@ Psy sa lepsze od kotow!
 Naucz sie SNIC SWIADOMIE!
 Jedz wiecej owocow!
 Usmiechaj sie wiecej!  Usmiechnij sie TERAZ!
-OdÅ›wieÅ¼
