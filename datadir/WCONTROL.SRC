@@ -190,57 +190,26 @@ Refresh()
       WindowString(WHITE, 7.0, i+6, ":")
       i++
 
+    binding8 = WindowMiniList(9.0, 9.0, 9, 17, binding8, option_string)
+    binding7 = WindowMiniList(9.0, 8.0, 9, 17, binding7, option_string)
+    binding6 = WindowMiniList(9.0, 7.0, 9, 17, binding6, option_string)
+    binding5 = WindowMiniList(9.0, 6.0, 9, 17, binding5, option_string)
+    binding4 = WindowMiniList(9.0, 5.0, 9, 17, binding4, option_string)
+    binding3 = WindowMiniList(9.0, 4.0, 9, 17, binding3, option_string)
+    binding2 = WindowMiniList(9.0, 3.0, 9, 17, binding2, option_string)
+    binding1 = WindowMiniList(9.0, 2.0, 9, 17, binding1, option_string)
+    binding0 = WindowMiniList(9.0, 1.0, 9, 17, binding0, option_string)
 
-    i = 0
-    while(i < 9)
-      if(WindowImage(9.0, i+1, 9.0, 1.0, NULL, NULL, 0) == 255)
-        SystemGet(SYS_LASTKEYPRESSED, 0, 0)  // Clear out lastkey...
-        SystemSet(SYS_PLAYERDEVICE, player, i, 0)
-      i++
-    // Show current buttons
-    i = 0
-    while(i < 9)
-      current = SystemGet(SYS_PLAYERDEVICE, player, i)
-      StringClear(String(0))
-      if(current == 0)
-        lastkey = SystemGet(SYS_LASTKEYPRESSED, 0, 0)
-        if(lastkey != 0)
-          current = lastkey
-          SystemSet(SYS_PLAYERDEVICE, player, i, lastkey)
-      if(current)
-        if(current < 20)
-          StringAppend(String(0), "Btn", 16)
-          StringAppendNumber(String(0), current, 16)
-        if(current == 20)
-          StringAppend(String(0), "DPadU", 16)
-        if(current == 21)
-          StringAppend(String(0), "DPadD", 16)
-        if(current == 22)
-          StringAppend(String(0), "DPadL", 16)
-        if(current == 23)
-          StringAppend(String(0), "DPadR", 16)
-        if(current == 26)
-          StringAppend(String(0), "LTrigg", 16)
-        if(current == 29)
-          StringAppend(String(0), "RTrigg", 16)
-        if(current == 24)
-          StringAppend(String(0), "RJoyL", 16)
-        if(current == 25)
-          StringAppend(String(0), "RJoyU", 16)
-        if(current == 27)
-          StringAppend(String(0), "RJoyR", 16)
-        if(current == 28)
-          StringAppend(String(0), "RJoyD", 16)
-      else
-        StringAppend(String(0), "???", 16)
-      WindowString(White, 9.0, i+1, String(0))
-      i++
-  else
-    // Make sure we don't screw up the item number...
-    i = 0
-    while(i < 9)
-      WindowImage(9.0, i+1, 0.0, 0.0, NULL, NULL, 0)
-      i++
+    // Apply the joystick bindings...
+    SystemSet(SYS_PLAYERDEVICE, player, 0, (binding0>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 1, (binding1>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 2, (binding2>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 3, (binding3>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 4, (binding4>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 5, (binding5>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 6, (binding6>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 7, (binding7>>8))
+    SystemSet(SYS_PLAYERDEVICE, player, 8, (binding8>>8))
 
 
 
@@ -310,6 +279,8 @@ Refresh()
       WindowImage(9.0, i+1, 0.0, 0.0, NULL, NULL, 0)
       i++
 
+
+    
 
   // Input selection
   joystick_count = SystemGet(SYS_NUMJOYSTICK, 0, 0)
